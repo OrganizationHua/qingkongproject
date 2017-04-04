@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="home_tablayout_tilte">
+        <item>首页</item>
+        <item>助手</item>
+        <item>跟进</item>
+        <item>我的</item>
+    </string-array>
+</resources>

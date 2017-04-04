@@ -1,4 +1,4 @@
-package com.on.qingkong.app;
+package com.iwangcn.qingkong.app;
 
 import android.app.Application;
 
