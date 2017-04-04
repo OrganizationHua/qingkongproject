@@ -7,6 +7,18 @@ import android.app.Application;
  */
 
 public class MobileApplication extends Application {
+    private static MobileApplication instance;
+
+    public MobileApplication() {
+        instance = this;
+    }
+
+    public static MobileApplication getInstance() {
+        if (instance == null)
+            throw new IllegalStateException();
+        return instance;
+    }
+
     @Override
     public void onCreate() {
         super.onCreate();

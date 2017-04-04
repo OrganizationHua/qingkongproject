@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="padding_top">0dp</dimen>
+    <dimen name="top_title_height">48dp</dimen>
+    <!--我的基本信息高度-->
+    <dimen name="mine_item_height">55dp</dimen>
+    <dimen name="mine_item_margin_left">24dp</dimen>
 </resources>
 

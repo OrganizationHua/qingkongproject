@@ -1,4 +1,4 @@
-package com.on.qingkong;
+package com.iwangcn.qingkong;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;

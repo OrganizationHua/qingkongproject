@@ -6,7 +6,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 
-import com.on.qingkong.R;
+import com.iwangcn.qingkong.R;
 import com.iwangcn.qingkong.ui.base.BaseActivity;
 import com.iwangcn.qingkong.ui.fragment.HomeFragment;
 import com.iwangcn.qingkong.ui.fragment.MineFragment;
@@ -36,6 +36,10 @@ public class HomeActivity extends BaseActivity {
             @Override
             public Fragment getItem(int position) {
                 if (position == 1) {
+                    return new HomeFragment();
+                }else if (position == 2){
+                    return new HomeFragment();
+                }else if(position == 3){
                     return new MineFragment();
                 }
                 return new HomeFragment();

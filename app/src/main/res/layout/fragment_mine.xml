@@ -1,14 +1,301 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#0770bc"
+    android:orientation="vertical"
     android:paddingTop="@dimen/padding_top"
-    tools:context="com.iwangcn.qingkong.ui.fragment.MineFragment">
+    tools:context=".ui.fragment.MineFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/top_title_height"
+        android:background="#0770bc">
+
+        <TextView
+            style="@style/TextView.fragmentTopTitle"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:text="@string/mine" />
+    </RelativeLayout>
+
+
+    <com.iwangcn.qingkong.ui.view.BounceScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:background="@color/background_gray">
 
-</FrameLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingBottom="60dp"
+            android:background="@color/background_gray"
+            android:orientation="vertical">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/line_gray"></View>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@color/background_gray">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="15dp"
+                    android:text="@string/mine_information"
+                    android:textColor="@color/font_gray"
+                    android:textSize="13sp" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/line_gray"></View>
+
+            <LinearLayout
+                android:background="@android:color/white"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingLeft="@dimen/mine_item_margin_left">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/mine_item_height"
+                    android:gravity="center_vertical">
+
+                    <TextView
+                        style="@style/TextView.fragmentMineBlack"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/mine_name" />
+
+                    <TextView
+                        android:id="@+id/mine_name"
+                        style="@style/TextView.fragmentMineGray"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginRight="@dimen/mine_item_margin_left"
+                        tools:text="张三" />
+                </RelativeLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/line_gray"></View>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/mine_item_height"
+                    android:gravity="center_vertical">
+
+                    <TextView
+                        style="@style/TextView.fragmentMineBlack"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/mine_division" />
+
+                    <TextView
+                        android:id="@+id/mine_division"
+                        style="@style/TextView.fragmentMineGray"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginRight="@dimen/mine_item_margin_left"
+                        tools:text="科室" />
+                </RelativeLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/line_gray"></View>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/mine_item_height"
+                    android:gravity="center_vertical">
+
+                    <TextView
+                        style="@style/TextView.fragmentMineBlack"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/mine_team" />
+
+                    <TextView
+                        android:id="@+id/mine_team"
+                        style="@style/TextView.fragmentMineGray"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginRight="@dimen/mine_item_margin_left"
+                        tools:text="科室" />
+                </RelativeLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/line_gray"></View>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/mine_item_height"
+                    android:gravity="center_vertical">
+
+                    <TextView
+                        style="@style/TextView.fragmentMineBlack"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/mine_tel" />
+
+                    <TextView
+                        android:id="@+id/mine_tel"
+                        style="@style/TextView.fragmentMineBlack"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginRight="@dimen/mine_item_margin_left"
+                        tools:text="tel" />
+                </RelativeLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/line_gray"></View>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/mine_item_height"
+                    android:gravity="center_vertical">
+
+                    <TextView
+                        style="@style/TextView.fragmentMineBlack"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/mine_email" />
+
+                    <TextView
+                        android:id="@+id/mine_email"
+                        style="@style/TextView.fragmentMineBlack"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginRight="@dimen/mine_item_margin_left"
+                        tools:text="email" />
+                </RelativeLayout>
+            </LinearLayout>
+            <!--应用相关-->
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/line_gray"></View>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                >
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="15dp"
+                    android:text="@string/mine_app"
+                    android:textColor="@color/font_gray"
+                    android:textSize="13sp" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/line_gray"></View>
+
+            <LinearLayout
+                android:background="@android:color/white"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingLeft="@dimen/mine_item_margin_left">
+
+                <RelativeLayout
+                    android:id="@+id/mine_rel_set"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/mine_item_height"
+                    android:gravity="center_vertical">
+
+                    <TextView
+                        style="@style/TextView.fragmentMineBlack"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:text="@string/mine_system_set" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginRight="@dimen/mine_item_margin_left"
+                        android:src="@drawable/ic_launcher" />
+                </RelativeLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/line_gray"></View>
+
+                <RelativeLayout
+                    android:id="@+id/mine_rel_information"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/mine_item_height"
+                    android:gravity="center_vertical">
+
+                    <TextView
+                        style="@style/TextView.fragmentMineBlack"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:text="@string/mine_system_information" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginRight="@dimen/mine_item_margin_left"
+                        android:src="@drawable/ic_launcher" />
+                </RelativeLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/line_gray"></View>
+
+                <RelativeLayout
+                    android:id="@+id/mine_rel_loginOut"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/mine_item_height"
+                    android:gravity="center_vertical">
+
+                    <TextView
+                        style="@style/TextView.fragmentMineBlack"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:text="@string/mine_logout" />
+                </RelativeLayout>
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/line_gray"></View>
+        </LinearLayout>
+    </com.iwangcn.qingkong.ui.view.BounceScrollView>
+
+
+</LinearLayout>

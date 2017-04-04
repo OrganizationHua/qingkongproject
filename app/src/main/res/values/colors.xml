@@ -5,4 +5,9 @@
     <color name="colorAccent">#FF4081</color>
     <color name="background">#F7F7F7</color>
     <color name="tablayout">#EDEDED</color>
+
+    <color name="font_black">#333333</color>
+    <color name="font_gray">#a4a4a4</color>
+    <color name="background_gray">#f5f5f5</color>
+    <color name="line_gray">#dfdfdf</color>
 </resources>

@@ -5,7 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.on.qingkong.R;
+import com.iwangcn.qingkong.R;
 import com.iwangcn.qingkong.ui.base.BaseFragment;
 
 public class HomeFragment extends BaseFragment {

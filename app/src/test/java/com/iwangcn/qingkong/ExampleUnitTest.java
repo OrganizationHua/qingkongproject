@@ -1,4 +1,4 @@
-package com.on.qingkong;
+package com.iwangcn.qingkong;
 
 import org.junit.Test;
 

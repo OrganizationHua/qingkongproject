@@ -3,4 +3,20 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <!-- HomeActivity -->
+    <string name="home">首页</string>
+    <string name="head">头条</string>
+    <string name="follow_up">跟进</string>
+    <string name="mine">我的</string>
+
+    <string name="mine_information">基本信息</string>
+    <string name="mine_app">应用相关</string>
+    <string name="mine_name">姓名</string>
+    <string name="mine_division">科室</string>
+    <string name="mine_team">所在组</string>
+    <string name="mine_tel">电话</string>
+    <string name="mine_email">邮箱</string>
+    <string name="mine_system_set">系统设置</string>
+    <string name="mine_system_information">关于舆情信息</string>
+    <string name="mine_logout">退出登录</string>
 </resources>
