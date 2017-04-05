@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="60dp"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_gravity="center"
+        android:id="@+id/tab_btn_container"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center">
+
+        <ImageView
+            android:id="@+id/tab_btn_default"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:contentDescription="default_tab_image"
+            android:scaleType="centerInside"
+            android:src="@drawable/ic_launcher" />
+
+        <TextView
+
+            android:id="@+id/tab_unread_notify"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_marginRight="6dp"
+            android:layout_toRightOf="@id/tab_btn_default"
+            android:background="@drawable/home_shape_red_circle"
+            android:gravity="center"
+            android:text=""
+            android:textColor="@android:color/white"
+            android:textSize="0sp" />
+
+        <TextView
+            android:id="@+id/tab_btn_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="1dp"
+            android:layout_below="@id/tab_btn_default"
+            android:layout_centerHorizontal="true"
+            android:gravity="center"
+            android:text="聊天"
+            android:textColor="@drawable/tab_tv_selector"
+            android:textSize="13sp" />
+    </RelativeLayout>
+</LinearLayout>

@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#0770bc"
+    android:background="@drawable/bg_nav_bar"
     android:orientation="vertical"
     android:paddingTop="@dimen/padding_top"
     tools:context=".ui.fragment.HomeFragment">
@@ -10,7 +10,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/top_title_height"
-        android:background="#0770bc">
+        android:background="@drawable/bg_nav_bar">
 
         <TextView
             style="@style/TextView.fragmentTopTitle"

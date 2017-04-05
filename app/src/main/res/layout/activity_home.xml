@@ -13,12 +13,15 @@
         android:layout_height="0dp"
         android:layout_weight="1"
         android:scrollbars="none" />
-
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/line_gray"></View>
     <android.support.design.widget.TabLayout
         android:id="@+id/tabLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/tablayout"
+        android:layout_height="60dp"
+        android:background="@android:color/white"
         app:tabIndicatorHeight="0dp"
         app:tabMode="fixed"
         app:tabSelectedTextColor="@color/colorAccent"
