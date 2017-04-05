@@ -9,6 +9,7 @@
     <string name="follow_up">跟进</string>
     <string name="mine">我的</string>
 
+    <!-- 我的 -->
     <string name="mine_information">基本信息</string>
     <string name="mine_app">应用相关</string>
     <string name="mine_name">姓名</string>
@@ -20,5 +21,14 @@
     <string name="mine_system_information">关于舆情信息</string>
     <string name="mine_logout">退出登录</string>
     <string name="title_activity_settings">Settings</string>
-
+    <!-- 系统设置 -->
+    <string name="set_information">敏感信息提醒设置</string>
+    <string name="set_notify">当有新的敏感推送时提醒我</string>
+    <string name="set_notify_way">提醒方式设置</string>
+    <string name="set_sound">声音</string>
+    <string name="set_vibrator">震动</string>
+    <string name="set_modify_pw">修改密码</string>
+    <string name="set_pw_original">请输入原密码</string>
+    <string name="set_pw_new">请输入新密码</string>
+    <string name="set_pw_new_again">请确认新密码</string>
 </resources>
