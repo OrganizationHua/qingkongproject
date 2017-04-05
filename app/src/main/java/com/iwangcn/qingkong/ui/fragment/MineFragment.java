@@ -1,14 +1,16 @@
 package com.iwangcn.qingkong.ui.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.iwangcn.qingkong.R;
+import com.iwangcn.qingkong.ui.activity.SettingsActivity;
 import com.iwangcn.qingkong.ui.base.BaseFragment;
 import com.iwangcn.qingkong.ui.utils.ToastUtil;
-import com.iwangcn.qingkong.R;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -39,7 +41,8 @@ public class MineFragment extends BaseFragment  {
 
     @OnClick(R.id.mine_rel_set)//系统设置
     public void appSet() {
-        ToastUtil.showToast(getActivity(),"系统设置");
+        Intent intent=new Intent(getActivity(), SettingsActivity.class);
+        getActivity().startActivity(intent);
     }
     @OnClick(R.id.mine_rel_information)//APP信息
     public void appInformation() {
