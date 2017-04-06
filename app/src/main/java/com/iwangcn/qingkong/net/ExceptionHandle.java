@@ -11,7 +11,6 @@ import java.net.UnknownHostException;
 
 import retrofit2.adapter.rxjava.HttpException;
 
-import static com.otctec.net.ExceptionHandle.ERROR.tip_message;
 
 /**
  * Created by Tamic on 2016-08-12.

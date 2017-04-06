@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Qingkong</string>
+    <string name="app_name">晴空舆情</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
@@ -8,6 +8,7 @@
     <string name="head">头条</string>
     <string name="follow_up">跟进</string>
     <string name="mine">我的</string>
+    <string name="search_news">新闻搜索</string>
 
     <string name="mine_information">基本信息</string>
     <string name="mine_app">应用相关</string>

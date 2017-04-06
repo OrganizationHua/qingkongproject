@@ -17,6 +17,8 @@
             </intent-filter>
         </activity>
         <activity
+            android:windowSoftInputMode="adjustUnspecified|stateHidden"
+            android:configChanges="orientation|keyboardHidden|screenSize"
             android:name=".ui.activity.SettingsActivity"
             android:launchMode="singleTop"
             android:label="@string/title_activity_settings"></activity>
