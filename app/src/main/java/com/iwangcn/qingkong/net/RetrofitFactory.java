@@ -16,7 +16,6 @@ import rx.schedulers.Schedulers;
  */
 
 public class RetrofitFactory<T> {
-    private static RetrofitFactory mInstance;
     private RetrofitClient retrofitClient;
     public ApiService apiService;
     private ArrayMap<String, String> headers;
@@ -30,6 +29,7 @@ public class RetrofitFactory<T> {
     }
 
     public RetrofitFactory() {
+        retrofitClient = new RetrofitClient.Builder().build();
     }
 
     /**
