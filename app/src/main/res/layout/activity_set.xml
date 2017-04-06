@@ -11,11 +11,11 @@
         android:background="@color/background_gray">
 
         <LinearLayout
-            android:focusable="true"
-            android:focusableInTouchMode="true"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/background_gray"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
             android:orientation="vertical"
             android:paddingBottom="60dp">
 
@@ -67,6 +67,8 @@
                         android:id="@+id/mine_name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:thumb="@drawable/switch_thumb"
+                        android:track="@drawable/switch_track"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
                         android:layout_marginRight="@dimen/mine_item_margin_left" />
@@ -122,6 +124,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
+                        android:thumb="@drawable/switch_thumb"
+                        android:track="@drawable/switch_track"
                         android:layout_centerVertical="true"
                         android:layout_marginRight="@dimen/mine_item_margin_left" />
                 </RelativeLayout>
@@ -146,10 +150,12 @@
 
                     <Switch
                         android:layout_width="wrap_content"
-                        android:layout_height="10dp"
+                        android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
-                        android:layout_marginRight="@dimen/mine_item_margin_left" />
+                        android:layout_marginRight="@dimen/mine_item_margin_left"
+                        android:thumb="@drawable/switch_thumb"
+                        android:track="@drawable/switch_track" />
                 </RelativeLayout>
             </LinearLayout>
 
@@ -201,13 +207,13 @@
                         android:text="@string/set_pw_original" />
 
                     <EditText
-                        android:background="@android:color/transparent"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_marginLeft="14dp"
-                        android:maxLength="16"
                         android:layout_marginRight="@dimen/mine_item_margin_left"
-                        android:inputType="textPassword" />
+                        android:background="@android:color/transparent"
+                        android:inputType="textPassword"
+                        android:maxLength="16" />
                 </LinearLayout>
 
                 <View
@@ -228,14 +234,15 @@
                         android:text="@string/set_pw_new" />
 
                     <EditText
-                        android:background="@android:color/transparent"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_marginLeft="14dp"
-                        android:maxLength="16"
                         android:layout_marginRight="@dimen/mine_item_margin_left"
-                        android:inputType="textPassword" />
+                        android:background="@android:color/transparent"
+                        android:inputType="textPassword"
+                        android:maxLength="16" />
                 </LinearLayout>
+
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
@@ -254,13 +261,13 @@
                         android:text="@string/set_pw_new_again" />
 
                     <EditText
-                        android:background="@android:color/transparent"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_marginLeft="14dp"
-                        android:maxLength="16"
                         android:layout_marginRight="@dimen/mine_item_margin_left"
-                        android:inputType="textPassword" />
+                        android:background="@android:color/transparent"
+                        android:inputType="textPassword"
+                        android:maxLength="16" />
                 </LinearLayout>
             </LinearLayout>
 
