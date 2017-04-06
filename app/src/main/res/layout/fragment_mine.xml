@@ -241,7 +241,8 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
                         android:layout_marginRight="@dimen/mine_item_margin_left"
-                        android:src="@drawable/ic_launcher" />
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/mine_next_icon" />
                 </RelativeLayout>
 
                 <View
@@ -267,7 +268,8 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
                         android:layout_marginRight="@dimen/mine_item_margin_left"
-                        android:src="@drawable/ic_launcher" />
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/mine_next_icon" />
                 </RelativeLayout>
 
                 <View

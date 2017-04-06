@@ -9,6 +9,7 @@
     <string name="follow_up">跟进</string>
     <string name="mine">我的</string>
     <string name="search_news">新闻搜索</string>
+    <string name="msg_back_to_logout">再点一次退出应用</string>
 
     <string name="mine_information">基本信息</string>
     <string name="mine_app">应用相关</string>

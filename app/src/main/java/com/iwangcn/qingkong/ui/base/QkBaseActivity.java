@@ -1,6 +1,7 @@
 package com.iwangcn.qingkong.ui.base;
 
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -10,6 +11,7 @@ import com.iwangcn.qingkong.R;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * Created by matou0289 on 2016/10/20.
@@ -32,7 +34,6 @@ public abstract class QkBaseActivity extends BaseActivity {
 
     @BindView(R.id.base_tv_title)
     TextView mTvTitle;//标题
-
 
     private LayoutInflater inflater;
     private LinearLayout.LayoutParams layoutParams = null;
@@ -69,6 +70,19 @@ public abstract class QkBaseActivity extends BaseActivity {
     protected void setTitle(String title) {
         mTvTitle.setText(title);
     }
+    @OnClick(R.id.base_act_left_lin)//APP信息
+    public void goBack() {
+        onBackPressed();
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            onBackPressed();
+        }
+        return false;
+    }
+
 
     @Override
     protected void onDestroy() {

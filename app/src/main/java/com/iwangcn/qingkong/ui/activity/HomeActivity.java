@@ -1,12 +1,16 @@
 package com.iwangcn.qingkong.ui.activity;
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
+import android.view.KeyEvent;
 
 import com.iwangcn.qingkong.R;
 import com.iwangcn.qingkong.ui.adapter.TabLayoutAdapter;
 import com.iwangcn.qingkong.ui.base.BaseActivity;
+import com.iwangcn.qingkong.ui.utils.ToastUtil;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -54,5 +58,32 @@ public class HomeActivity extends BaseActivity {
             }
         });
     }
+    private final Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            if (msg.what == 10) {
+                isExit = false;
+            }
+        }
+    };
+    private boolean isExit = false;
 
+    private void exit() {
+        if (!isExit) {
+            isExit = true;
+            ToastUtil.showToast(getBaseContext(),getString(R.string.msg_back_to_logout));
+            // 利用handler延迟发送更改状态信息
+            mHandler.sendEmptyMessageDelayed(10, 2000);
+        } else {
+            moveTaskToBack(true);
+        }
+    }
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            exit();
+        }
+        return false;
+    }
 }
