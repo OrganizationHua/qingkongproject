@@ -11,6 +11,8 @@
     <string name="search_news">新闻搜索</string>
     <string name="msg_back_to_logout">再点一次退出应用</string>
 
+    <string name="collect">收藏</string>
+
     <string name="mine_information">基本信息</string>
     <string name="mine_app">应用相关</string>
     <string name="mine_name">姓名</string>

@@ -3,9 +3,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/bg_nav_bar"
-    android:orientation="vertical"
     android:focusable="true"
     android:focusableInTouchMode="true"
+    android:orientation="vertical"
     android:paddingTop="@dimen/padding_top"
     tools:context=".ui.fragment.HomeFragment">
 
@@ -60,16 +60,16 @@
 
             <EditText
                 android:id="@+id/homefragment_edit_search"
-                android:layout_marginLeft="9dp"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_centerVertical="true"
+                android:layout_marginLeft="9dp"
                 android:layout_toLeftOf="@+id/homeFragment_lin_search"
                 android:background="@android:color/transparent"
                 android:gravity="center_vertical"
                 android:hint="@string/search_news"
-                android:singleLine="true"
                 android:imeOptions="actionSearch"
+                android:singleLine="true"
                 android:textColor="@android:color/white"
                 android:textColorHint="@android:color/white"
                 android:textSize="13sp" />
@@ -97,16 +97,21 @@
         </RelativeLayout>
     </RelativeLayout>
 
-    <LinearLayout
+    <com.iwangcn.qingkong.ui.view.pullview.AbPullToRefreshView
         android:layout_width="match_parent"
+        android:background="@color/background_gray"
         android:layout_height="match_parent"
-        android:background="@android:color/white">
-
-        <TextView
+        >
+        <ListView
+            android:cacheColorHint="#00000000"
+            android:divider="@android:color/transparent"
+            android:dividerHeight="9dp"
+            android:listSelector="#00000000"
+            android:scrollbars="none"
+            android:id="@+id/home_list_news"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="@string/hello_blank_fragment" />
-    </LinearLayout>
+            android:layout_height="match_parent" />
+    </com.iwangcn.qingkong.ui.view.pullview.AbPullToRefreshView>
 
 
 </LinearLayout>

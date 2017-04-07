@@ -7,12 +7,18 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.iwangcn.qingkong.R;
+import com.iwangcn.qingkong.ui.adapter.NewsAdapter;
 import com.iwangcn.qingkong.ui.base.BaseFragment;
+import com.iwangcn.qingkong.ui.model.NewsModel;
 import com.iwangcn.qingkong.ui.utils.ToastUtil;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -22,6 +28,12 @@ public class HomeFragment extends BaseFragment {
     EditText mEditSearch;//输入框
     @BindView(R.id.home_rel_search_bg_mark)
     RelativeLayout mRelMark;//黑色蒙层
+    @BindView(R.id.home_list_news)
+    ListView mListView;//黑色蒙层
+
+    private NewsAdapter mNewsAdapter;
+    private List<NewsModel> mList;
+
     @Override
     protected int layoutResID() {
         return R.layout.fragment_home;
@@ -30,17 +42,34 @@ public class HomeFragment extends BaseFragment {
     @Override
     protected void initView(View view, Bundle savedInstanceState) {
         initEditText();
+        initData();
     }
 
-     @OnClick(R.id.homeFragment_lin_search)//搜索按钮
-    public void btnSearch() {
-        ToastUtil.showToast(getActivity(),mEditSearch.getText().toString().trim());
+    private void initData() {
+        mList=new ArrayList<>();
+        for (int i = 0; i < 15; i++) {
+            NewsModel model = new NewsModel();
+            model.setTitle("当地时间6日，国家主席习近平在美国佛罗里达州海湖庄园同美国总统特朗普举行中美元首会晤。两国元首进行了深入、友好、长时间的会晤");
+            model.setNumb("333条");
+            model.setTime("2014-9999");
+            mList.add(model);
+        }
+        mNewsAdapter = new NewsAdapter(getActivity());
+        mNewsAdapter.setDataList(mList);
+        mListView.setAdapter(mNewsAdapter);
     }
+
+    @OnClick(R.id.homeFragment_lin_search)//搜索按钮
+    public void btnSearch() {
+        ToastUtil.showToast(getActivity(), mEditSearch.getText().toString().trim());
+    }
+
     @OnClick(R.id.homeFragment_btn_collected)//收藏
     public void btnCollect() {
-        ToastUtil.showToast(getActivity(),"收藏");
+        ToastUtil.showToast(getActivity(), "收藏");
     }
-    private void initEditText(){
+
+    private void initEditText() {
         mEditSearch.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -49,9 +78,9 @@ public class HomeFragment extends BaseFragment {
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                if(charSequence.length()>0){
+                if (charSequence.length() > 0) {
                     mRelMark.setVisibility(View.GONE);
-                }else{
+                } else {
                     mRelMark.setVisibility(View.VISIBLE);
                 }
             }
@@ -64,9 +93,8 @@ public class HomeFragment extends BaseFragment {
         mEditSearch.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent) {
-                if(actionId == EditorInfo.IME_ACTION_SEARCH|| actionId == EditorInfo.IME_ACTION_UNSPECIFIED)
-                {
-                    ToastUtil.showToast(getActivity(),"搜索");
+                if (actionId == EditorInfo.IME_ACTION_SEARCH || actionId == EditorInfo.IME_ACTION_UNSPECIFIED) {
+                    ToastUtil.showToast(getActivity(), "搜索");
                 }
                 return false;
             }
