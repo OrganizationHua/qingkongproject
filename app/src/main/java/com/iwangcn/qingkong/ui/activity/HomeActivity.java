@@ -10,7 +10,7 @@ import android.view.KeyEvent;
 import com.iwangcn.qingkong.R;
 import com.iwangcn.qingkong.ui.adapter.TabLayoutAdapter;
 import com.iwangcn.qingkong.ui.base.BaseActivity;
-import com.iwangcn.qingkong.ui.utils.ToastUtil;
+import com.iwangcn.qingkong.utils.ToastUtil;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

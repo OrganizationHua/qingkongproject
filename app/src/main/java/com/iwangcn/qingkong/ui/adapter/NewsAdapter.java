@@ -13,7 +13,7 @@ import android.widget.TextView;
 
 import com.iwangcn.qingkong.R;
 import com.iwangcn.qingkong.ui.model.NewsModel;
-import com.iwangcn.qingkong.ui.utils.ToastUtil;
+import com.iwangcn.qingkong.utils.ToastUtil;
 import com.iwangcn.qingkong.ui.view.BessleAnimation.BesselAnimation;
 
 import java.util.ArrayList;

@@ -25,7 +25,7 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.iwangcn.qingkong.ui.utils.AbViewUtil;
+import com.iwangcn.qingkong.utils.AbViewUtil;
 
 
 // TODO: Auto-generated Javadoc

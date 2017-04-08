@@ -6,7 +6,7 @@ import android.widget.TextView;
 import com.iwangcn.qingkong.R;
 import com.iwangcn.qingkong.ui.activity.SettingsActivity;
 import com.iwangcn.qingkong.ui.base.BaseFragment;
-import com.iwangcn.qingkong.ui.utils.ToastUtil;
+import com.iwangcn.qingkong.utils.ToastUtil;
 
 import butterknife.BindView;
 import butterknife.OnClick;

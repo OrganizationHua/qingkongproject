@@ -1,4 +1,4 @@
-package com.iwangcn.qingkong.ui.utils;
+package com.iwangcn.qingkong.utils;
 
 import android.content.Context;
 import android.view.Gravity;
