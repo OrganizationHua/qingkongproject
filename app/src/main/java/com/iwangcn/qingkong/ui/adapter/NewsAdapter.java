@@ -1,5 +1,6 @@
 package com.iwangcn.qingkong.ui.adapter;
 
+import android.animation.Animator;
 import android.content.Context;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -7,11 +8,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.iwangcn.qingkong.R;
 import com.iwangcn.qingkong.ui.model.NewsModel;
 import com.iwangcn.qingkong.ui.utils.ToastUtil;
+import com.iwangcn.qingkong.ui.view.BessleAnimation.BesselAnimation;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,7 +29,8 @@ import butterknife.ButterKnife;
 public class NewsAdapter extends BaseAdapter {
     private List<NewsModel> mList;
     private Context mContext;
-
+    private RelativeLayout containerView;
+    private View collectView;
     public NewsAdapter(Context context) {
         this.mContext = context;
     }
@@ -34,6 +38,22 @@ public class NewsAdapter extends BaseAdapter {
     public void setDataList(List<NewsModel> dataList) {
         mList = dataList;
         notifyDataSetChanged();
+    }
+
+    public RelativeLayout getContainerView() {
+        return containerView;
+    }
+
+    public void setContainerView(RelativeLayout containerView) {
+        this.containerView = containerView;
+    }
+
+    public View getCollectView() {
+        return collectView;
+    }
+
+    public void setCollectView(View collectView) {
+        this.collectView = collectView;
     }
 
     @Override
@@ -79,6 +99,28 @@ public class NewsAdapter extends BaseAdapter {
             @Override
             public void onClick(View view) {
                 ToastUtil.showToast(mContext, "收藏按钮");
+                BesselAnimation besselAnimation=new BesselAnimation(mContext,containerView,view,collectView);
+                besselAnimation.startAnimation(new Animator.AnimatorListener() {
+                    @Override
+                    public void onAnimationStart(Animator animator) {
+
+                    }
+
+                    @Override
+                    public void onAnimationEnd(Animator animator) {
+
+                    }
+
+                    @Override
+                    public void onAnimationCancel(Animator animator) {
+
+                    }
+
+                    @Override
+                    public void onAnimationRepeat(Animator animator) {
+
+                    }
+                });
             }
         });
         return convertView;

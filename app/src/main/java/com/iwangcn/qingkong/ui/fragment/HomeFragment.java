@@ -7,6 +7,8 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -30,7 +32,15 @@ public class HomeFragment extends BaseFragment {
     RelativeLayout mRelMark;//黑色蒙层
     @BindView(R.id.home_list_news)
     ListView mListView;//黑色蒙层
+    @BindView(R.id.home_collect_icon)
+    ImageView mCollectIcon;//收藏ImageView
+    @BindView(R.id.rel_listView)
+    RelativeLayout mRellistView;//listView容器
 
+    @BindView(R.id.homeFragment_btn_collected)
+    LinearLayout mLin;//listView容器
+
+    //
     private NewsAdapter mNewsAdapter;
     private List<NewsModel> mList;
 
@@ -56,6 +66,8 @@ public class HomeFragment extends BaseFragment {
         }
         mNewsAdapter = new NewsAdapter(getActivity());
         mNewsAdapter.setDataList(mList);
+        mNewsAdapter.setCollectView(mLin);
+        mNewsAdapter.setContainerView(mRellistView);
         mListView.setAdapter(mNewsAdapter);
     }
 
