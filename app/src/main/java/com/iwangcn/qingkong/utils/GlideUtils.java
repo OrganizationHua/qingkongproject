@@ -30,7 +30,7 @@ public class GlideUtils {
 
     //默认加载
     public static void loadImageView(Context mContext, String path, ImageView mImageView) {
-        Glide.with(mContext).load(path).error(R.drawable.default_icon).into(mImageView);
+        Glide.with(mContext).load(path).placeholder(R.drawable.default_icon).error(R.drawable.default_icon).into(mImageView);
     }
 
     //加载指定大小

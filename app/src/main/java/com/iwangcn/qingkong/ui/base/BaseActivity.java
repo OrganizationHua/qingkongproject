@@ -12,7 +12,8 @@ import android.view.WindowManager;
  * Created by czh on 2017/4/4.
  */
 
-public class BaseActivity extends AppCompatActivity {
+public abstract class BaseActivity extends AppCompatActivity {
+   // public abstract int layoutChildResID();
     @Override
     public void onCreate(Bundle savedInstanceState, PersistableBundle persistentState) {
         super.onCreate(savedInstanceState, persistentState);

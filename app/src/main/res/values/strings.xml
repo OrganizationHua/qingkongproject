@@ -10,6 +10,12 @@
     <string name="mine">我的</string>
     <string name="search_news">新闻搜索</string>
     <string name="msg_back_to_logout">再点一次退出应用</string>
+    <string name="rule_password">0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ`¬!"£$%^*()~=#{}[];':,./?/*-_+&#060;&#062;&#064;&#038;</string>
+    <!--登录-->
+    <string name="login">登录</string>
+    <string name="input_userName">请输入用户名</string>
+    <string name="input_password">请输入密码</string>
+    <string name="copyright">©2016智慧网信</string>
 
     <string name="collect">收藏</string>
 

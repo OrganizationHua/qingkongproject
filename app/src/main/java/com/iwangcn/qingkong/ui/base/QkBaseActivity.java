@@ -19,7 +19,7 @@ import butterknife.OnClick;
 
 public abstract class QkBaseActivity extends BaseActivity {
 
-    public abstract int layoutResID();
+    public abstract int layoutChildResID();//不带top的资源ID
 
     public abstract void initView();
 
@@ -52,8 +52,8 @@ public abstract class QkBaseActivity extends BaseActivity {
     private void initSubView() {
         inflater = LayoutInflater.from(this);
         View view = null;
-        if (layoutResID() != 0) {
-            view = inflater.inflate(layoutResID(), null);
+        if (layoutChildResID() != 0) {
+            view = inflater.inflate(layoutChildResID(), null);
         }
         mLinSub = (LinearLayout) findViewById(R.id.hl_base_lin_sub);
         layoutParams = new LinearLayout.LayoutParams(
