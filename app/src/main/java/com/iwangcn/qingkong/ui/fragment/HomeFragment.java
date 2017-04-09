@@ -1,5 +1,6 @@
 package com.iwangcn.qingkong.ui.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -14,6 +15,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.iwangcn.qingkong.R;
+import com.iwangcn.qingkong.ui.activity.CollectActivity;
 import com.iwangcn.qingkong.ui.adapter.NewsAdapter;
 import com.iwangcn.qingkong.ui.base.BaseFragment;
 import com.iwangcn.qingkong.ui.model.NewsModel;
@@ -78,7 +80,8 @@ public class HomeFragment extends BaseFragment {
 
     @OnClick(R.id.homeFragment_btn_collected)//收藏
     public void btnCollect() {
-        ToastUtil.showToast(getActivity(), "收藏");
+        Intent intent=new Intent(getActivity(), CollectActivity.class);
+        startActivity(intent);
     }
 
     private void initEditText() {

@@ -43,8 +43,8 @@ public abstract class QkBaseActivity extends BaseActivity {
         super.onCreate(arg0);
         setContentView(R.layout.base_activity);
         //translucentStatusBar();
-        ButterKnife.bind(this);
         initSubView();
+        ButterKnife.bind(this);
         initView();
         initData();
     }
