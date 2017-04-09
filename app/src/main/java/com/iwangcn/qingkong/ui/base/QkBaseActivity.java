@@ -35,6 +35,10 @@ public abstract class QkBaseActivity extends BaseActivity {
     @BindView(R.id.base_tv_title)
     TextView mTvTitle;//标题
 
+    @BindView(R.id.base_tv_right)
+    TextView mTvRight;//右边文字
+
+
     private LayoutInflater inflater;
     private LinearLayout.LayoutParams layoutParams = null;
 
@@ -70,9 +74,16 @@ public abstract class QkBaseActivity extends BaseActivity {
     protected void setTitle(String title) {
         mTvTitle.setText(title);
     }
+
     @OnClick(R.id.base_act_left_lin)//APP信息
     public void goBack() {
         onBackPressed();
+    }
+
+    protected TextView setRightTitle(String title) {
+        mTvRight.setVisibility(View.VISIBLE);
+        mTvRight.setText(title);
+        return mTvTitle;
     }
 
     @Override

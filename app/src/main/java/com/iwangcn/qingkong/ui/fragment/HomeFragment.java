@@ -7,6 +7,7 @@ import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -16,6 +17,7 @@ import android.widget.TextView;
 
 import com.iwangcn.qingkong.R;
 import com.iwangcn.qingkong.ui.activity.CollectActivity;
+import com.iwangcn.qingkong.ui.activity.NewsDetailActivity;
 import com.iwangcn.qingkong.ui.adapter.NewsAdapter;
 import com.iwangcn.qingkong.ui.base.BaseFragment;
 import com.iwangcn.qingkong.ui.model.NewsModel;
@@ -38,14 +40,11 @@ public class HomeFragment extends BaseFragment {
     ImageView mCollectIcon;//收藏ImageView
     @BindView(R.id.rel_listView)
     RelativeLayout mRellistView;//listView容器
-
     @BindView(R.id.homeFragment_btn_collected)
     LinearLayout mLin;//listView容器
 
-    //
     private NewsAdapter mNewsAdapter;
     private List<NewsModel> mList;
-
     @Override
     protected int layoutResID() {
         return R.layout.fragment_home;
@@ -71,6 +70,13 @@ public class HomeFragment extends BaseFragment {
         mNewsAdapter.setCollectView(mLin);
         mNewsAdapter.setContainerView(mRellistView);
         mListView.setAdapter(mNewsAdapter);
+        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Intent intent=new Intent(getActivity(), NewsDetailActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     @OnClick(R.id.homeFragment_lin_search)//搜索按钮
