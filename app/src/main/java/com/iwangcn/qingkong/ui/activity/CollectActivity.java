@@ -31,7 +31,7 @@ public class CollectActivity extends QkBaseActivity {
 
     @Override
     public void initView() {
-        setTitle(getResources().getString(R.string.collect));
+        setTitle(getResources().getString(R.string.toutiao_collect));
     }
 
     public void initData() {

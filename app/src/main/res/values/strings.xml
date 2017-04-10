@@ -17,9 +17,15 @@
     <string name="input_password">请输入密码</string>
     <string name="copyright">©2016智慧网信</string>
 
+    <string name="toutiao_collect">头条收藏簿</string>
     <string name="collect">收藏</string>
     <string name="news_detail">消息详情</string>
     <string name="originalText">查看原文</string>
+    <string name="search_no_result">爬出还在路上抓取信息，未及时返回...</string>
+    <string name="search_helper_finish">谢谢，小助手已着手处理</string>
+    <string name="search_notify_helper">通知小助手尽快处理</string>
+    <string name="search_hot">大家都在搜:</string>
+
 
     <string name="mine_information">基本信息</string>
     <string name="mine_app">应用相关</string>

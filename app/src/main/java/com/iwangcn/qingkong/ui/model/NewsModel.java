@@ -8,6 +8,7 @@ public class NewsModel {
     private String title;
     private String time;
     private String numb;
+    private String event;
 
     public String getTitle() {
         return title;
@@ -31,5 +32,13 @@ public class NewsModel {
 
     public void setNumb(String numb) {
         this.numb = numb;
+    }
+
+    public String getEvent() {
+        return event;
+    }
+
+    public void setEvent(String event) {
+        this.event = event;
     }
 }

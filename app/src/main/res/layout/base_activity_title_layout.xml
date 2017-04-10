@@ -43,7 +43,7 @@
 
         <TextView
             android:text="@string/news_detail"
-            android:textColor="@color/home_bottom_blue"
+            android:textColor="@color/home_blue"
             android:textSize="13dp"
             android:visibility="gone"
             android:id="@+id/base_tv_right"

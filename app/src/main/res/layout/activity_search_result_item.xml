@@ -1,0 +1,78 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    android:orientation="vertical">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_alignParentBottom="true"
+        android:background="@color/line_gray"></View>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="9dp"
+        android:background="@color/background_gray"></View>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="24dp"
+        android:layout_marginRight="24dp"
+        android:orientation="vertical"
+        android:paddingBottom="20dp"
+        android:paddingTop="20dp">
+
+        <TextView
+            android:textColor="@color/font_black"
+            android:id="@+id/search_result_item_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:singleLine="true"
+            android:textSize="18sp"
+            tools:text="新闻标题" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="13dp"
+            android:layout_marginTop="13dp">
+
+            <TextView
+                android:id="@+id/search_result_item_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="12:23"
+                android:textColor="@color/font_gray"
+                android:textSize="11sp" />
+
+            <TextView
+                android:id="@+id/search_result_item_from"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:text="信息来源"
+                android:textColor="@color/font_gray"
+                android:textSize="11sp" />
+        </RelativeLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="标签控件" />
+
+        <TextView
+            android:id="@+id/search_result_item_event"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="13dp"
+            android:drawableLeft="@drawable/search_icon_from"
+            android:textColor="@color/home_blue"
+            android:textSize="12sp"
+            tools:text="习近平从严治党" />
+    </LinearLayout>
+
+</LinearLayout>
