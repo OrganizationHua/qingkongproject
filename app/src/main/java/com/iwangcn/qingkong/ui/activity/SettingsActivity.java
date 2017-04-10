@@ -9,7 +9,7 @@ import com.iwangcn.qingkong.ui.base.QkBaseActivity;
 public class SettingsActivity extends QkBaseActivity {
 
     @Override
-    public int layoutResID() {
+    public int layoutChildResID() {
         return R.layout.activity_set;
     }
 

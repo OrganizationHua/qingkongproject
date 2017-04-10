@@ -23,6 +23,7 @@
 
 
     <com.iwangcn.qingkong.ui.view.BounceScrollView
+        android:scrollbars="none"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/background_gray">
@@ -241,7 +242,8 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
                         android:layout_marginRight="@dimen/mine_item_margin_left"
-                        android:src="@drawable/ic_launcher" />
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/mine_next_icon" />
                 </RelativeLayout>
 
                 <View
@@ -267,7 +269,8 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
                         android:layout_marginRight="@dimen/mine_item_margin_left"
-                        android:src="@drawable/ic_launcher" />
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/mine_next_icon" />
                 </RelativeLayout>
 
                 <View

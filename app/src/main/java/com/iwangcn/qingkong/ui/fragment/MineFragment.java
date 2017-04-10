@@ -1,19 +1,14 @@
 package com.iwangcn.qingkong.ui.fragment;
 
 import android.content.Intent;
-import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.iwangcn.qingkong.R;
 import com.iwangcn.qingkong.ui.activity.SettingsActivity;
 import com.iwangcn.qingkong.ui.base.BaseFragment;
-import com.iwangcn.qingkong.ui.utils.ToastUtil;
+import com.iwangcn.qingkong.utils.ToastUtil;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
@@ -32,13 +27,9 @@ public class MineFragment extends BaseFragment  {
     TextView mTvEmail;//邮箱
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_mine, container, false);
-        ButterKnife.bind(this, view);
-        return view;
+    protected int layoutResID() {
+        return R.layout.fragment_mine;
     }
-
     @OnClick(R.id.mine_rel_set)//系统设置
     public void appSet() {
         Intent intent=new Intent(getActivity(), SettingsActivity.class);
