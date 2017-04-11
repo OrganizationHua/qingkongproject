@@ -69,6 +69,7 @@ public abstract class QkBaseActivity extends BaseActivity {
     }
 
     public void initData() {
+
     }
 
     protected void setTitle(String title) {
