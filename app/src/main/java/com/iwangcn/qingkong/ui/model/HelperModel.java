@@ -7,8 +7,7 @@ package com.iwangcn.qingkong.ui.model;
 public class HelperModel {
     private String title;
     private String time;
-    private String numb;
-    private String event;
+    private String from;
 
     public String getTitle() {
         return title;
@@ -26,19 +25,12 @@ public class HelperModel {
         this.time = time;
     }
 
-    public String getNumb() {
-        return numb;
+    public String getFrom() {
+        return from;
     }
 
-    public void setNumb(String numb) {
-        this.numb = numb;
+    public void setFrom(String from) {
+        this.from = from;
     }
 
-    public String getEvent() {
-        return event;
-    }
-
-    public void setEvent(String event) {
-        this.event = event;
-    }
 }

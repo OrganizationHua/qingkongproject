@@ -22,91 +22,27 @@
             android:background="@drawable/bg_nav_bar"
             android:gravity="center_vertical">
 
-            <ImageView
-                android:id="@+id/homefragment_logo"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="10dp"
-                android:src="@drawable/toutiao_icon_logo" />
 
             <TextView
                 android:id="@+id/homeFragment_tv_title"
                 style="@style/TextView.fragmentTopTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="4dp"
-                android:layout_toRightOf="@+id/homefragment_logo"
-                android:gravity="center"
-                android:text="@string/app_name" />
+                android:layout_centerHorizontal="true"
+                android:text="网信助手" />
 
-            <LinearLayout
-                android:id="@+id/homeFragment_btn_collected"
+
+            <ImageView
+                android:id="@+id/home_collect_icon"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_alignParentRight="true">
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="15dp"
+                android:src="@drawable/toutiao_btn_collected" />
 
-                <ImageView
-                    android:id="@+id/home_collect_icon"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="15dp"
-                    android:layout_marginRight="15dp"
-                    android:src="@drawable/toutiao_btn_collected" />
-            </LinearLayout>
 
-            <RelativeLayout
-                android:id="@+id/home_rel_search"
-                android:layout_width="match_parent"
-                android:layout_height="30dp"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="15dp"
-                android:layout_toLeftOf="@+id/homeFragment_btn_collected"
-                android:layout_toRightOf="@+id/homeFragment_tv_title"
-                android:background="@drawable/home_search_bg">
 
-                <EditText
-                    android:id="@+id/homefragment_edit_search"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="9dp"
-                    android:focusable="false"
-                    android:layout_toLeftOf="@+id/homeFragment_lin_search"
-                    android:background="@android:color/transparent"
-                    android:gravity="center_vertical"
-                    android:hint="@string/search_news"
-                    android:imeOptions="actionSearch"
-                    android:singleLine="true"
-                    android:textColor="@android:color/white"
-                    android:textColorHint="@android:color/white"
-                    android:textSize="13sp" />
-
-                <LinearLayout
-                    android:id="@+id/homeFragment_lin_search"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_alignParentRight="true"
-                    android:paddingLeft="5dp"
-                    android:paddingRight="9dp">
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:src="@drawable/toutiao_btn_search" />
-                </LinearLayout>
-
-                <RelativeLayout
-                    android:id="@+id/home_rel_search_bg_mark"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@drawable/home_search_bg_mask"></RelativeLayout>
-            </RelativeLayout>
         </RelativeLayout>
-
         <RelativeLayout
 
             android:layout_width="match_parent"

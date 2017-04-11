@@ -1,6 +1,5 @@
 package com.iwangcn.qingkong.ui.adapter;
 
-import android.animation.Animator;
 import android.content.Context;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -8,13 +7,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.iwangcn.qingkong.R;
 import com.iwangcn.qingkong.ui.model.HelperModel;
-import com.iwangcn.qingkong.ui.view.BessleAnimation.BesselAnimation;
 import com.iwangcn.qingkong.utils.ToastUtil;
+import com.zhy.view.flowlayout.FlowLayout;
+import com.zhy.view.flowlayout.TagAdapter;
+import com.zhy.view.flowlayout.TagFlowLayout;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,8 +29,7 @@ import butterknife.ButterKnife;
 public class HelperAdapter extends BaseAdapter {
     private List<HelperModel> mList;
     private Context mContext;
-    private RelativeLayout containerView;
-    private View collectView;
+
     public HelperAdapter(Context context) {
         this.mContext = context;
     }
@@ -40,21 +39,6 @@ public class HelperAdapter extends BaseAdapter {
         notifyDataSetChanged();
     }
 
-    public RelativeLayout getContainerView() {
-        return containerView;
-    }
-
-    public void setContainerView(RelativeLayout containerView) {
-        this.containerView = containerView;
-    }
-
-    public View getCollectView() {
-        return collectView;
-    }
-
-    public void setCollectView(View collectView) {
-        this.collectView = collectView;
-    }
 
     @Override
     public int getCount() {
@@ -79,65 +63,90 @@ public class HelperAdapter extends BaseAdapter {
         ViewHolder viewHolder;
         if (convertView == null) {
             convertView = LayoutInflater.from(mContext).inflate(
-                    R.layout.fragment_home_item, null);
+                    R.layout.fragment_helper_item, null);
             viewHolder = new ViewHolder(convertView);
             convertView.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
         HelperModel model = mList.get(position);
-        if (!TextUtils.isEmpty(model.getTitle())){
+        if (!TextUtils.isEmpty(model.getTitle())) {
             viewHolder.title.setText(model.getTitle());
         }
-        if (!TextUtils.isEmpty(model.getNumb())){
-            viewHolder.tvNumb.setText(model.getNumb());
-        }
-        if (!TextUtils.isEmpty(model.getTime())){
+
+        if (!TextUtils.isEmpty(model.getTime())) {
             viewHolder.tvTime.setText(model.getTime());
         }
-        viewHolder.linCollect.setOnClickListener(new View.OnClickListener() {
+        if (!TextUtils.isEmpty(model.getFrom())) {
+            viewHolder.tvFrom.setText(model.getFrom());
+        }
+        TagAdapter<String> tagAdapter = new TagAdapter<String>(initDatas()) {
             @Override
-            public void onClick(View view) {
-                ToastUtil.showToast(mContext, "收藏按钮");
-                BesselAnimation besselAnimation=new BesselAnimation(mContext,containerView,view,collectView);
-                besselAnimation.startAnimation(new Animator.AnimatorListener() {
-                    @Override
-                    public void onAnimationStart(Animator animator) {
+            public View getView(FlowLayout parent, int position, String o) {
 
-                    }
-
-                    @Override
-                    public void onAnimationEnd(Animator animator) {
-
-                    }
-
-                    @Override
-                    public void onAnimationCancel(Animator animator) {
-
-                    }
-
-                    @Override
-                    public void onAnimationRepeat(Animator animator) {
-
-                    }
-                });
+                TextView tv = (TextView) LayoutInflater.from(mContext).inflate(R.layout.tv,
+                        parent, false);
+                tv.setText(o);
+                return tv;
+            }
+        };
+        viewHolder.tagFlowLayout.setAdapter(tagAdapter);
+        viewHolder.btnFollow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ToastUtil.showToast(mContext, "已跟进");
+            }
+        });
+        viewHolder.btnNORealte.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ToastUtil.showToast(mContext, "与我无关");
+            }
+        });
+        viewHolder.tvScan.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ToastUtil.showToast(mContext, "已查看");
             }
         });
         return convertView;
     }
 
     static class ViewHolder {
-        @BindView(R.id.news_title)
+        @BindView(R.id.tv_title)
         public TextView title;//标题
-        @BindView(R.id.new_item_num)
-        public TextView tvNumb;//新闻数量
-        @BindView(R.id.new_item_time)
-        public TextView tvTime;//新闻数量
-        @BindView(R.id.homefragment_lin_collect)
-        public LinearLayout linCollect;//收藏
+
+        @BindView(R.id.tv_time)
+        public TextView tvTime;//时间
+
+        @BindView(R.id.tv_from)
+        public TextView tvFrom;//来源
+
+        @BindView(R.id.ll_follow)
+        public LinearLayout btnFollow;//跟进
+
+        @BindView(R.id.ll_no_relate)
+        public LinearLayout btnNORealte;//与我无关
+
+        @BindView(R.id.tv_scan)
+        public TextView tvScan;//查看新闻
+
+        @BindView(R.id.tag_flowlayout)
+        public TagFlowLayout tagFlowLayout;//标签
+
         public ViewHolder(View view) {
             ButterKnife.bind(this, view);
         }
     }
 
+    private List<String> initDatas() {
+        List<String> itemData = new ArrayList<String>(3);
+
+        for (int i = 0; i < 10; i++) {
+            itemData.add("规范");
+
+        }
+
+        return itemData;
+    }
 }
