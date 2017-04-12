@@ -41,6 +41,8 @@
         <activity android:name=".ui.activity.CollectActivity" />
         <activity android:name=".ui.activity.NewsDetailActivity"></activity>
         <activity android:name=".ui.activity.NewsSearchActivity"></activity>
+        <activity android:name=".ui.activity.ProcessedActivity"></activity>
+        <activity android:name=".ui.activity.FollowDetailActivity"></activity>
     </application>
 
 </manifest>

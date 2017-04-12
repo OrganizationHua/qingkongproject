@@ -39,7 +39,8 @@
         android:layout_centerVertical="true"
         android:gravity="center"
         android:paddingLeft="9dp"
-        android:paddingRight="9dp">
+        android:paddingRight="9dp"
+        android:orientation="horizontal">
 
         <TextView
             android:text="@string/news_detail"
@@ -49,6 +50,13 @@
             android:id="@+id/base_tv_right"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
+        <ImageView
+            android:id="@+id/base_img_right"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:src="@drawable/genjin_btn_filter_2"
+            android:visibility="gone"/>
     </LinearLayout>
     <View
         android:layout_alignParentBottom="true"

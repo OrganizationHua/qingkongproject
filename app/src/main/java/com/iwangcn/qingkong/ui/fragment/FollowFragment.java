@@ -9,6 +9,7 @@ import android.widget.ImageView;
 
 import com.iwangcn.qingkong.R;
 import com.iwangcn.qingkong.ui.activity.NewsSearchActivity;
+import com.iwangcn.qingkong.ui.activity.ProcessedActivity;
 import com.iwangcn.qingkong.ui.adapter.FollowTabAdapter;
 import com.iwangcn.qingkong.ui.base.BaseFragment;
 
@@ -42,13 +43,13 @@ public class FollowFragment extends BaseFragment {
 
     }
 
-    @OnClick(R.id.iv_processed)//搜索按钮
+    @OnClick(R.id.iv_processed)
     public void onProcessed() {
-        Intent intent = new Intent(getActivity(), NewsSearchActivity.class);
+        Intent intent = new Intent(getActivity(), ProcessedActivity.class);
         startActivity(intent);
     }
 
-    @OnClick(R.id.iv_sift)//搜索按钮
+    @OnClick(R.id.iv_sift)
     public void onSift() {
         Intent intent = new Intent(getActivity(), NewsSearchActivity.class);
         startActivity(intent);

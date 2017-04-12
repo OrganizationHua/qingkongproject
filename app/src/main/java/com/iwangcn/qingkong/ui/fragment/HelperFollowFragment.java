@@ -5,10 +5,11 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 
 import com.iwangcn.qingkong.R;
 import com.iwangcn.qingkong.ui.activity.NewsDetailActivity;
-import com.iwangcn.qingkong.ui.adapter.HelperAdapter;
+import com.iwangcn.qingkong.ui.adapter.HelperFollowAdapter;
 import com.iwangcn.qingkong.ui.base.BaseFragment;
 import com.iwangcn.qingkong.ui.model.HelperModel;
 
@@ -17,17 +18,20 @@ import java.util.List;
 
 import butterknife.BindView;
 
-public class HeadLineFragment extends BaseFragment {
+public class HelperFollowFragment extends BaseFragment {
 
     @BindView(R.id.home_list_news)
     ListView mListView;//黑色蒙层
 
-    private HelperAdapter mNewsAdapter;
+    @BindView(R.id.rel_listView)
+    RelativeLayout mRellistView;//listView容器
+
+    private HelperFollowAdapter mNewsAdapter;
     private List<HelperModel> mList;
 
     @Override
     protected int layoutResID() {
-        return R.layout.fragment_headline;
+        return R.layout.fragment_helper_fflow;
     }
 
     @Override
@@ -45,7 +49,7 @@ public class HeadLineFragment extends BaseFragment {
             model.setFrom("腾讯新闻");
             mList.add(model);
         }
-        mNewsAdapter = new HelperAdapter(getActivity());
+        mNewsAdapter = new HelperFollowAdapter(getActivity());
         mNewsAdapter.setDataList(mList);
 
         mListView.setAdapter(mNewsAdapter);
@@ -57,6 +61,7 @@ public class HeadLineFragment extends BaseFragment {
             }
         });
     }
+
 
 
 }
