@@ -15,12 +15,13 @@ import butterknife.OnClick;
  * 头条详情界面
  */
 public class ProcessedActivity extends QkBaseActivity {
-//    @BindView(R.id.iv_sift)
+    //    @BindView(R.id.iv_sift)
 //    ImageView iv_sift;
     @BindView(R.id.viewPager)
     ViewPager viewPager;
     @BindView(R.id.tabLayout)
     TabLayout mTabLayout;
+
     @Override
     public int layoutChildResID() {
         return R.layout.activity_processed;
@@ -30,7 +31,7 @@ public class ProcessedActivity extends QkBaseActivity {
     public void initView() {
         setTitle("已处理");
         setRightImg(R.drawable.genjin_btn_filter_2);
-        final FollowTabAdapter tabLayoutAdapter = new FollowTabAdapter(this,getSupportFragmentManager());
+        final FollowTabAdapter tabLayoutAdapter = new FollowTabAdapter(this, getSupportFragmentManager(), 2);
         viewPager.setAdapter(tabLayoutAdapter);
         mTabLayout.setupWithViewPager(viewPager);
 

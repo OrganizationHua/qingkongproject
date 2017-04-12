@@ -1,14 +1,11 @@
 package com.iwangcn.qingkong.ui.fragment;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 
 import com.iwangcn.qingkong.R;
-import com.iwangcn.qingkong.ui.activity.NewsDetailActivity;
 import com.iwangcn.qingkong.ui.adapter.HelperFollowAdapter;
 import com.iwangcn.qingkong.ui.base.BaseFragment;
 import com.iwangcn.qingkong.ui.model.HelperModel;
@@ -28,7 +25,14 @@ public class HelperFollowFragment extends BaseFragment {
 
     private HelperFollowAdapter mNewsAdapter;
     private List<HelperModel> mList;
-
+    private int type;
+    public static HelperFollowFragment newInstance(int type){
+        HelperFollowFragment myFragment = new HelperFollowFragment();
+        Bundle bundle = new Bundle();
+        bundle.putInt("type",type);
+        myFragment.setArguments(bundle);
+        return myFragment;
+    }
     @Override
     protected int layoutResID() {
         return R.layout.fragment_helper_fflow;
@@ -36,7 +40,8 @@ public class HelperFollowFragment extends BaseFragment {
 
     @Override
     protected void initView(View view, Bundle savedInstanceState) {
-
+        Bundle bundle = getArguments();
+        type = bundle.getInt("type");
         initData();
     }
 
@@ -49,17 +54,17 @@ public class HelperFollowFragment extends BaseFragment {
             model.setFrom("腾讯新闻");
             mList.add(model);
         }
-        mNewsAdapter = new HelperFollowAdapter(getActivity());
+        mNewsAdapter = new HelperFollowAdapter(getActivity(),type);
         mNewsAdapter.setDataList(mList);
 
         mListView.setAdapter(mNewsAdapter);
-        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Intent intent = new Intent(getActivity(), NewsDetailActivity.class);
-                startActivity(intent);
-            }
-        });
+//        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+//                Intent intent = new Intent(getActivity(), FollowDetailActivity.class);
+//                startActivity(intent);
+//            }
+//        });
     }
 
 

@@ -21,10 +21,11 @@ public class FollowTabAdapter extends FragmentPagerAdapter {
      */
     private static String[] mTitles = null;
     private Context mContext;
-
-    public FollowTabAdapter(Context context, FragmentManager fm) {
+    private int type;
+    public FollowTabAdapter(Context context, FragmentManager fm, int type) {
         super(fm);
         this.mContext = context;
+        this.type=type;
         mTitles = this.mContext.getResources().getStringArray(R.array.follow_tablayout_tilte);
     }
 
@@ -33,10 +34,10 @@ public class FollowTabAdapter extends FragmentPagerAdapter {
         BaseFragment baseFragment = null;
         switch (position) {
             case 0:
-                baseFragment = new HeadLineFollowFragment();
+                baseFragment = HeadLineFollowFragment.newInstance(type);
                 break;
             case 1:
-                baseFragment = new HelperFollowFragment();
+                baseFragment =  HelperFollowFragment.newInstance(type);
                 break;
             default:
                 baseFragment = new HeadLineFollowFragment();

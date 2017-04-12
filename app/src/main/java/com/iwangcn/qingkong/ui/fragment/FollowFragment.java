@@ -33,7 +33,7 @@ public class FollowFragment extends BaseFragment {
 
     @Override
     protected void initView(View view, Bundle savedInstanceState) {
-        final FollowTabAdapter tabLayoutAdapter = new FollowTabAdapter(getContext(), getChildFragmentManager());
+        final FollowTabAdapter tabLayoutAdapter = new FollowTabAdapter(getContext(), getChildFragmentManager(),1);
         viewPager.setAdapter(tabLayoutAdapter);
         mTabLayout.setupWithViewPager(viewPager);
     }

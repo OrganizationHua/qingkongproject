@@ -29,9 +29,10 @@ import butterknife.ButterKnife;
 public class HeadLineFollowAdapter extends BaseAdapter {
     private List<HelperModel> mList;
     private Context mContext;
-
-    public HeadLineFollowAdapter(Context context) {
+    private int type;
+    public HeadLineFollowAdapter(Context context,int type) {
         this.mContext = context;
+        this.type=type;
     }
 
     public void setDataList(List<HelperModel> dataList) {
@@ -68,6 +69,13 @@ public class HeadLineFollowAdapter extends BaseAdapter {
             convertView.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
+        }
+        if(type==1){
+            viewHolder.llReprocess.setVisibility(View.GONE);
+            viewHolder.llFragment.setVisibility(View.VISIBLE);
+        }else {
+            viewHolder.llReprocess.setVisibility(View.VISIBLE);
+            viewHolder.llFragment.setVisibility(View.GONE);
         }
         HelperModel model = mList.get(position);
         if (!TextUtils.isEmpty(model.getTitle())) {
@@ -136,6 +144,12 @@ public class HeadLineFollowAdapter extends BaseAdapter {
 
         @BindView(R.id.ll_processed_finished)
         public LinearLayout llFinish;//处理完成
+
+        @BindView(R.id.ll_reprocess)
+        public LinearLayout llReprocess;//
+
+        @BindView(R.id.ll_fragment)
+        public LinearLayout llFragment;//
 
         @BindView(R.id.tv_scan)
         public TextView tvScan;//查看新闻
