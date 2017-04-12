@@ -118,7 +118,7 @@
             >
 
         <LinearLayout
-                android:id="@+id/ll_follow"
+                android:id="@+id/ll_cancle_follow"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -132,14 +132,14 @@
             <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/zhushou_btn_followup"
+                    android:src="@drawable/genjin_btn_cancel"
                     />
 
             <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@null"
-                    android:text="跟进处理"
+                    android:text="取消跟进"
                     android:textSize="16sp"
                     />
         </LinearLayout>
@@ -152,7 +152,7 @@
                 ></View>
 
         <LinearLayout
-                android:id="@+id/ll_no_relate"
+                android:id="@+id/ll_set_top"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -166,7 +166,7 @@
             <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/zhushou_btn_close"
+                    android:src="@drawable/genjin_btn_top"
                     />
 
             <TextView
@@ -177,7 +177,38 @@
                     android:textSize="16sp"
                     />
         </LinearLayout>
+        <View
+            android:layout_width="1px"
+            android:layout_height="match_parent"
+            android:background="@color/line_gray"
+            ></View>
 
+        <LinearLayout
+            android:id="@+id/ll_processed_finished"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:clickable="true"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:paddingBottom="5dp"
+            android:paddingTop="5dp"
+            >
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/genjin_btn_done"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:text="处理完成"
+                android:textSize="16sp"
+                />
+        </LinearLayout>
     </LinearLayout>
 
     <View

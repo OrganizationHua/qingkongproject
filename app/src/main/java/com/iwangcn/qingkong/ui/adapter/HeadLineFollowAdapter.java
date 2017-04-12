@@ -91,22 +91,28 @@ public class HeadLineFollowAdapter extends BaseAdapter {
             }
         };
         viewHolder.tagFlowLayout.setAdapter(tagAdapter);
-        viewHolder.btnFollow.setOnClickListener(new View.OnClickListener() {
+        viewHolder.llCancle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ToastUtil.showToast(mContext, "已跟进");
+                ToastUtil.showToast(mContext, "取消跟进");
             }
         });
-        viewHolder.btnNORealte.setOnClickListener(new View.OnClickListener() {
+        viewHolder.llSet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ToastUtil.showToast(mContext, "与我无关");
+                ToastUtil.showToast(mContext, "置顶");
+            }
+        });
+        viewHolder.llFinish.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ToastUtil.showToast(mContext, "处理完成");
             }
         });
         viewHolder.tvScan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ToastUtil.showToast(mContext, "已查看");
+                ToastUtil.showToast(mContext, "查看原文");
             }
         });
         return convertView;
@@ -122,11 +128,14 @@ public class HeadLineFollowAdapter extends BaseAdapter {
         @BindView(R.id.tv_from)
         public TextView tvFrom;//来源
 
-        @BindView(R.id.ll_follow)
-        public LinearLayout btnFollow;//跟进
+        @BindView(R.id.ll_cancle_follow)
+        public LinearLayout llCancle;//取消跟进
 
-        @BindView(R.id.ll_no_relate)
-        public LinearLayout btnNORealte;//与我无关
+        @BindView(R.id.ll_set_top)
+        public LinearLayout llSet;//置顶
+
+        @BindView(R.id.ll_processed_finished)
+        public LinearLayout llFinish;//处理完成
 
         @BindView(R.id.tv_scan)
         public TextView tvScan;//查看新闻
