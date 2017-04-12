@@ -58,6 +58,7 @@
             </LinearLayout>
 
             <RelativeLayout
+                android:id="@+id/home_rel_search"
                 android:layout_width="match_parent"
                 android:layout_height="30dp"
                 android:layout_centerVertical="true"
@@ -72,6 +73,7 @@
                     android:layout_height="match_parent"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="9dp"
+                    android:focusable="false"
                     android:layout_toLeftOf="@+id/homeFragment_lin_search"
                     android:background="@android:color/transparent"
                     android:gravity="center_vertical"

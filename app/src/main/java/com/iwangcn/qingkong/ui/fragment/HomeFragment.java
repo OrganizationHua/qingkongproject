@@ -18,6 +18,7 @@ import android.widget.TextView;
 import com.iwangcn.qingkong.R;
 import com.iwangcn.qingkong.ui.activity.CollectActivity;
 import com.iwangcn.qingkong.ui.activity.NewsDetailActivity;
+import com.iwangcn.qingkong.ui.activity.NewsSearchActivity;
 import com.iwangcn.qingkong.ui.adapter.NewsAdapter;
 import com.iwangcn.qingkong.ui.base.BaseFragment;
 import com.iwangcn.qingkong.ui.model.NewsModel;
@@ -45,6 +46,7 @@ public class HomeFragment extends BaseFragment {
 
     private NewsAdapter mNewsAdapter;
     private List<NewsModel> mList;
+
     @Override
     protected int layoutResID() {
         return R.layout.fragment_home;
@@ -57,7 +59,7 @@ public class HomeFragment extends BaseFragment {
     }
 
     private void initData() {
-        mList=new ArrayList<>();
+        mList = new ArrayList<>();
         for (int i = 0; i < 15; i++) {
             NewsModel model = new NewsModel();
             model.setTitle("当地时间6日，国家主席习近平在美国佛罗里达州海湖庄园同美国总统特朗普举行中美元首会晤。两国元首进行了深入、友好、长时间的会晤");
@@ -73,20 +75,26 @@ public class HomeFragment extends BaseFragment {
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Intent intent=new Intent(getActivity(), NewsDetailActivity.class);
+                Intent intent = new Intent(getActivity(), NewsDetailActivity.class);
                 startActivity(intent);
             }
         });
     }
 
-    @OnClick(R.id.homeFragment_lin_search)//搜索按钮
+    @OnClick(R.id.home_rel_search)//搜索按钮
     public void btnSearch() {
-        ToastUtil.showToast(getActivity(), mEditSearch.getText().toString().trim());
+        Intent intent = new Intent(getActivity(), NewsSearchActivity.class);
+        startActivity(intent);
+    }
+    @OnClick(R.id.homefragment_edit_search)//搜索按钮
+    public void onEditSearch() {
+        Intent intent = new Intent(getActivity(), NewsSearchActivity.class);
+        startActivity(intent);
     }
 
     @OnClick(R.id.homeFragment_btn_collected)//收藏
     public void btnCollect() {
-        Intent intent=new Intent(getActivity(), CollectActivity.class);
+        Intent intent = new Intent(getActivity(), CollectActivity.class);
         startActivity(intent);
     }
 

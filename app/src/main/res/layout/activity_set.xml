@@ -7,9 +7,9 @@
 
     <com.iwangcn.qingkong.ui.view.BounceScrollView
         android:layout_width="match_parent"
-        android:scrollbars="none"
         android:layout_height="match_parent"
-        android:background="@color/background_gray">
+        android:background="@color/background_gray"
+        android:scrollbars="none">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -19,11 +19,6 @@
             android:focusableInTouchMode="true"
             android:orientation="vertical"
             android:paddingBottom="60dp">
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/line_gray"></View>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -42,7 +37,7 @@
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
+                android:layout_height="1px"
                 android:background="@color/line_gray"></View>
 
             <LinearLayout
@@ -65,21 +60,21 @@
                         android:text="@string/set_notify" />
 
                     <Switch
-                        android:id="@+id/mine_name"
+                        android:id="@+id/mine_switch_notify"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:thumb="@drawable/switch_thumb"
-                        android:track="@drawable/switch_track"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
-                        android:layout_marginRight="@dimen/mine_item_margin_left" />
+                        android:layout_marginRight="@dimen/mine_item_margin_left"
+                        android:thumb="@drawable/switch_thumb"
+                        android:track="@drawable/switch_track" />
                 </RelativeLayout>
 
             </LinearLayout>
             <!--应用相关-->
             <View
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
+                android:layout_height="1px"
                 android:background="@color/line_gray"></View>
 
             <LinearLayout
@@ -98,7 +93,7 @@
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
+                android:layout_height="1px"
                 android:background="@color/line_gray"></View>
 
             <LinearLayout
@@ -122,18 +117,19 @@
                         android:text="@string/set_sound" />
 
                     <Switch
+                        android:id="@+id/mine_switch_sound"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_height="34dp"
                         android:layout_alignParentRight="true"
-                        android:thumb="@drawable/switch_thumb"
-                        android:track="@drawable/switch_track"
                         android:layout_centerVertical="true"
-                        android:layout_marginRight="@dimen/mine_item_margin_left" />
+                        android:layout_marginRight="@dimen/mine_item_margin_left"
+                        android:thumb="@drawable/switch_thumb"
+                        android:track="@drawable/switch_track" />
                 </RelativeLayout>
 
                 <View
                     android:layout_width="match_parent"
-                    android:layout_height="1dp"
+                    android:layout_height="1px"
                     android:background="@color/line_gray"></View>
 
                 <RelativeLayout
@@ -150,6 +146,7 @@
                         android:text="@string/set_vibrator" />
 
                     <Switch
+                        android:id="@+id/mine_switch_vibrate"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
@@ -162,12 +159,8 @@
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
+                android:layout_height="1px"
                 android:background="@color/line_gray"></View> <!--修改密码-->
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/line_gray"></View>
             <!--修改密码-->
             <LinearLayout
                 android:layout_width="match_parent"
@@ -185,7 +178,7 @@
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
+                android:layout_height="1px"
                 android:background="@color/line_gray"></View>
 
             <LinearLayout
@@ -208,18 +201,24 @@
                         android:text="@string/set_pw_original" />
 
                     <EditText
+                        style="@style/TextView.fragmentMineBlack"
+                        android:id="@+id/set_ed_pw_original"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_marginLeft="14dp"
                         android:layout_marginRight="@dimen/mine_item_margin_left"
                         android:background="@android:color/transparent"
-                        android:inputType="textPassword"
-                        android:maxLength="16" />
+                        android:digits="@string/rule_password"
+                        android:hint="请输入原密码"
+                        android:inputType="numberPassword"
+                        android:maxLength="18"
+                        android:singleLine="true"
+                        android:textColorHint="@color/font_gray" />
                 </LinearLayout>
 
                 <View
                     android:layout_width="match_parent"
-                    android:layout_height="1dp"
+                    android:layout_height="1px"
                     android:background="@color/line_gray"></View>
 
                 <LinearLayout
@@ -235,18 +234,24 @@
                         android:text="@string/set_pw_new" />
 
                     <EditText
+                        style="@style/TextView.fragmentMineBlack"
+                        android:id="@+id/set_ed_pw_new"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_marginLeft="14dp"
                         android:layout_marginRight="@dimen/mine_item_margin_left"
                         android:background="@android:color/transparent"
-                        android:inputType="textPassword"
-                        android:maxLength="16" />
+                        android:digits="@string/rule_password"
+                        android:hint="请输入新密码"
+                        android:inputType="numberPassword"
+                        android:maxLength="18"
+                        android:singleLine="true"
+                        android:textColorHint="@color/font_gray" />
                 </LinearLayout>
 
                 <View
                     android:layout_width="match_parent"
-                    android:layout_height="1dp"
+                    android:layout_height="1px"
                     android:background="@color/line_gray"></View>
 
                 <LinearLayout
@@ -262,21 +267,40 @@
                         android:text="@string/set_pw_new_again" />
 
                     <EditText
+                        style="@style/TextView.fragmentMineBlack"
+                        android:id="@+id/set_ed_pw_new_again"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_marginLeft="14dp"
                         android:layout_marginRight="@dimen/mine_item_margin_left"
                         android:background="@android:color/transparent"
-                        android:inputType="textPassword"
-                        android:maxLength="16" />
+                        android:digits="@string/rule_password"
+                        android:hint="请再次输入原密码"
+                        android:inputType="numberPassword"
+                        android:maxLength="18"
+                        android:singleLine="true"
+                        android:textColorHint="@color/font_gray" />
                 </LinearLayout>
             </LinearLayout>
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
+                android:layout_height="1px"
                 android:background="@color/line_gray"></View>
 
+            <Button
+                android:id="@+id/set_btn_changePw"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginLeft="24dp"
+                android:layout_marginRight="24dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/set_button_save_select"
+                android:enabled="false"
+                android:gravity="center"
+                android:text="确认修改密码"
+                android:textColor="@android:color/white"
+                android:textSize="18sp" />
         </LinearLayout>
 
     </com.iwangcn.qingkong.ui.view.BounceScrollView>

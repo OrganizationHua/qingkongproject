@@ -83,17 +83,28 @@
         android:src="@drawable/login_logo" />
 
     <Button
-        android:layout_marginLeft="25dp"
-        android:layout_marginRight="25dp"
-        android:gravity="center"
+        android:id="@+id/login_btn"
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:layout_below="@+id/lin_middle_input"
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="25dp"
         android:layout_marginTop="45dp"
         android:background="@drawable/login_button_bg"
+        android:gravity="center"
         android:text="@string/login"
         android:textColor="@android:color/white"
         android:textSize="18sp" />
+
+    <TextView
+        android:layout_below="@+id/login_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="15dp"
+        android:text="@string/forget_pw"
+        android:textColor="@color/font_gray"
+        android:textSize="12sp"></TextView>
 
     <TextView
         android:layout_width="wrap_content"

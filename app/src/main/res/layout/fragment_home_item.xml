@@ -2,13 +2,15 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:background="@android:color/white"
     android:layout_height="match_parent"
+    android:background="@android:color/white"
     android:orientation="vertical">
+
     <LinearLayout
-        android:background="@color/background_gray"
         android:layout_width="match_parent"
-        android:layout_height="9dp"></LinearLayout>
+        android:layout_height="9dp"
+        android:background="@color/background_gray"></LinearLayout>
+
     <View
         android:layout_width="match_parent"
         android:layout_height="1px"
@@ -68,8 +70,7 @@
                     android:layout_alignParentRight="true"
                     android:layout_marginRight="15dp"
                     android:background="@drawable/home_fragment_collect_shape"
-                    android:gravity="center"
-                    >
+                    android:gravity="center">
 
                     <ImageView
                         android:layout_width="wrap_content"
@@ -78,10 +79,10 @@
                         android:src="@drawable/toutiao_icon_collect" />
 
                     <TextView
-                        android:layout_marginLeft="5dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="5dp"
                         android:text="@string/collect"
                         android:textColor="@color/home_collect_yelllow"
                         android:textSize="14dp" />
@@ -91,15 +92,14 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
-                    android:layout_toLeftOf="@+id/homefragment_lin_collect"
-                    >
+                    android:layout_toLeftOf="@+id/homefragment_lin_collect">
 
                     <TextView
                         android:id="@+id/new_item_num"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/home_bottom_gray"
                         android:gravity="center"
+                        android:textColor="@color/home_bottom_gray"
                         android:textSize="11sp"
                         tools:text="时间" />
 
@@ -122,6 +122,6 @@
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="1px"
+        android:layout_height="1dp"
         android:background="@color/line_gray"></View>
 </LinearLayout>
