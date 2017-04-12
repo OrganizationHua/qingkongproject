@@ -38,7 +38,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_marginRight="15dp"
-                android:src="@drawable/toutiao_btn_collected" />
+                android:src="@drawable/genjin_btn_filter" />
 
 
 
