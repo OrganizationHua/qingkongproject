@@ -125,8 +125,8 @@
                 android:clickable="true"
                 android:gravity="center"
                 android:orientation="horizontal"
-                android:paddingBottom="5dp"
-                android:paddingTop="5dp"
+                android:paddingBottom="10dp"
+                android:paddingTop="10dp"
                 >
 
             <ImageView
@@ -140,6 +140,7 @@
                     android:layout_height="wrap_content"
                     android:background="@null"
                     android:text="跟进处理"
+                    android:layout_marginLeft="5dp"
                     android:textSize="16sp"
                     />
         </LinearLayout>
@@ -159,8 +160,8 @@
                 android:clickable="true"
                 android:gravity="center"
                 android:orientation="horizontal"
-                android:paddingBottom="5dp"
-                android:paddingTop="5dp"
+                android:paddingBottom="10dp"
+                android:paddingTop="10dp"
                 >
 
             <ImageView
@@ -172,6 +173,7 @@
             <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
                     android:background="@null"
                     android:text="与我无关"
                     android:textSize="16sp"
