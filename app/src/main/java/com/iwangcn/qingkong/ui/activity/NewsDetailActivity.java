@@ -1,6 +1,9 @@
 package com.iwangcn.qingkong.ui.activity;
 
+import android.content.Context;
 import android.graphics.Bitmap;
+import android.view.LayoutInflater;
+import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -9,6 +12,12 @@ import android.widget.TextView;
 import com.iwangcn.qingkong.R;
 import com.iwangcn.qingkong.ui.base.QkBaseActivity;
 import com.iwangcn.qingkong.utils.ToastUtil;
+import com.zhy.view.flowlayout.FlowLayout;
+import com.zhy.view.flowlayout.TagAdapter;
+import com.zhy.view.flowlayout.TagFlowLayout;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -25,6 +34,11 @@ public class NewsDetailActivity extends QkBaseActivity {
     TextView mNewsTime;
     @BindView(R.id.news_webView)
     WebView mWebView;
+
+    @BindView(R.id.tag_flowlayout)
+    public TagFlowLayout tagFlowLayout;//标签
+
+    private Context mContext=this;
     @Override
     public int layoutChildResID() {
         return R.layout.activity_news_detail;
@@ -42,6 +56,7 @@ public class NewsDetailActivity extends QkBaseActivity {
         mNewsTitle.setText("新闻标题新闻标题新闻标题");
         mNewsFrom.setText("新闻来源");
         mNewsTime.setText("20170104"+"        "+"13:14");
+        initTabLayout();
     }
     private void initWebView(String url){
         WebSettings webSettings = this.mWebView.getSettings();
@@ -76,5 +91,24 @@ public class NewsDetailActivity extends QkBaseActivity {
     @OnClick(R.id.base_act_right_lin)//APP信息
     public void onBtnWebView() {
         ToastUtil.showToast(this, "查看原文");
+    }
+    private void initTabLayout(){
+        List<String> itemData = new ArrayList<String>(3);
+
+        for (int i = 0; i < 10; i++) {
+            itemData.add("规范");
+
+        }
+        TagAdapter<String> tagAdapter = new TagAdapter<String>(itemData) {
+            @Override
+            public View getView(FlowLayout parent, int position, String o) {
+
+                TextView tv = (TextView) LayoutInflater.from(mContext).inflate(R.layout.tv,
+                        parent, false);
+                tv.setText(o);
+                return tv;
+            }
+        };
+        tagFlowLayout.setAdapter(tagAdapter);
     }
 }

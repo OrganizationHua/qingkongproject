@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:zhy="http://schemas.android.com/apk/res-auto"
     android:background="@android:color/white"
     android:orientation="horizontal">
 
@@ -19,7 +20,7 @@
             android:layout_height="wrap_content"
             android:text="2017"
             android:textColor="@color/font_gray"
-            android:textSize="9dp" />
+            android:textSize="11dp" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -27,7 +28,7 @@
             android:layout_marginTop="5dp"
             android:text="02"
             android:textColor="@color/font_gray"
-            android:textSize="9dp" />
+            android:textSize="11dp" />
     </LinearLayout>
 
     <RelativeLayout
@@ -35,31 +36,51 @@
         android:layout_height="match_parent"
         android:gravity="center_horizontal">
 
-        <View
+        <LinearLayout
             android:layout_width="1dp"
             android:layout_height="match_parent"
             android:layout_centerHorizontal="true"
-            android:background="@color/home_blue"></View>
+            android:background="@color/home_blue"></LinearLayout>
 
         <ImageView
-            android:layout_width="22dp"
-            android:layout_height="10dp"
-            android:background="@color/home_blue" />
-
-        <ImageView
-            android:layout_width="22dp"
-            android:layout_height="10dp"
-            android:layout_alignParentBottom="true"
-            android:background="@color/home_blue" />
-
-        <ImageView
-            android:id="@+id/newsevent_item_blue_circle"
+            android:id="@+id/timeline_up"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:src="@drawable/news_event_shape_blue_circle" />
+            android:layout_centerHorizontal="true"
+            android:background="@android:color/white"
+            android:paddingTop="4dp"
+            android:src="@drawable/newsevent_time_up"
+            android:visibility="gone" />
 
         <ImageView
+            android:id="@+id/timeline_down"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:background="@android:color/white"
+            android:paddingBottom="4dp"
+            android:src="@drawable/newsevent_timedown"
+            android:visibility="gone" />
+
+        <LinearLayout
+            android:id="@+id/lin_blue_circle"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:layout_centerInParent="true">
+
+            <ImageView
+                android:id="@+id/newsevent_item_blue_circle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:src="@drawable/news_event_shape_blue_circle" />
+        </LinearLayout>
+
+
+        <ImageView
+            android:visibility="gone"
             android:id="@+id/newsevent_item_green_circle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -71,22 +92,21 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="25dp"
-        >
+        android:layout_marginLeft="25dp">
 
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_alignParentBottom="true"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="22dp"
             android:background="@color/line_gray"></View>
 
         <LinearLayout
-            android:layout_marginTop="15dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginRight="20dp"
+            android:layout_marginTop="22dp"
             android:orientation="vertical">
 
             <LinearLayout
@@ -110,51 +130,55 @@
                         android:textSize="18sp" />
                 </LinearLayout>
 
-                <RelativeLayout
+                <LinearLayout
+                    android:id="@+id/newsevent_lin_content"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="12dp"
-                    android:layout_marginTop="12dp"
-                    android:gravity="center_vertical">
+                    android:orientation="vertical">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp"
+                        android:layout_marginTop="10dp"
+                        android:gravity="center_vertical">
+
+                        <TextView
+                            android:id="@+id/newsevent_time"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:text="时间"
+                            android:textColor="@color/font_gray"
+                            android:textSize="11sp" />
+
+                        <TextView
+                            android:id="@+id/newsevent_from"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:text="来源"
+                            android:textColor="@color/font_gray"
+                            android:textSize="11sp" />
+                    </RelativeLayout>
 
                     <TextView
-                        android:id="@+id/newsevent_time"
-                        android:layout_width="wrap_content"
+                        android:id="@+id/newsevent_brief"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:text="时间"
+                        android:maxLines="2"
+                        android:text="新闻简介新闻简介新闻简介新闻简介新闻简介"
                         android:textColor="@color/font_gray"
-                        android:textSize="11sp" />
+                        android:textSize="14sp" />
 
-                    <TextView
-                        android:id="@+id/newsevent_from"
-                        android:layout_width="wrap_content"
+                    <com.zhy.view.flowlayout.TagFlowLayout
+                        android:id="@+id/tag_flowlayout"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:layout_centerVertical="true"
-                        android:text="来源"
-                        android:textColor="@color/font_gray"
-                        android:textSize="11sp" />
-                </RelativeLayout>
-
-                <TextView
-                    android:id="@+id/newsevent_brief"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:maxLines="2"
-                    android:text="新闻简介新闻简介新闻简介新闻简介新闻简介"
-                    android:textColor="@color/font_gray"
-                    android:textSize="14sp" />
-
-                <TextView
-                    android:id="@+id/newsevent_tag"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="14dp"
-                    android:maxLines="2"
-                    android:text="新闻标签aaa"
-                    android:textColor="@color/font_gray"
-                    android:textSize="12sp" />
+                        android:layout_marginTop="12dp"
+                        zhy:max_select="-1" />
+                </LinearLayout>
             </LinearLayout>
         </LinearLayout>
     </RelativeLayout>

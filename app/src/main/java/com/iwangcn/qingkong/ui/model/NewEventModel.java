@@ -6,4 +6,13 @@ package com.iwangcn.qingkong.ui.model;
  */
 
 public class NewEventModel {
+    private boolean isSelect;//是否被选中
+
+    public boolean isSelect() {
+        return isSelect;
+    }
+
+    public void setSelect(boolean select) {
+        isSelect = select;
+    }
 }
