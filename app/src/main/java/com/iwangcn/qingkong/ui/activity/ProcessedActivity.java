@@ -15,8 +15,7 @@ import butterknife.OnClick;
  * 头条详情界面
  */
 public class ProcessedActivity extends QkBaseActivity {
-    //    @BindView(R.id.iv_sift)
-//    ImageView iv_sift;
+
     @BindView(R.id.viewPager)
     ViewPager viewPager;
     @BindView(R.id.tabLayout)
