@@ -1,0 +1,123 @@
+/*
+ * Copyright 2017 Google Inc. All rights reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package com.iwangcn.qingkong.ui.activity;
+
+import com.google.android.flexbox.AlignItems;
+import com.google.android.flexbox.FlexDirection;
+import com.google.android.flexbox.FlexWrap;
+import com.google.android.flexbox.FlexboxLayout;
+import com.google.android.flexbox.FlexboxLayoutManager;
+
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
+
+import com.iwangcn.qingkong.R;
+import com.iwangcn.qingkong.ui.base.QkBaseActivity;
+import com.iwangcn.qingkong.ui.view.TagWidget.OnRecyclerItemClickListener;
+import com.iwangcn.qingkong.ui.view.TagWidget.RecycleViewItemTouchCallback;
+import com.iwangcn.qingkong.ui.view.TagWidget.RecycleViewTagAdapter;
+import com.iwangcn.qingkong.utils.VibratorUtil;
+
+import java.util.List;
+
+/**
+ * Launcher Activity for the cat gallery demo app that demonstrates the usage of the
+ * {@link FlexboxLayoutManager} that handles various sizes of views aligned nicely regardless of
+ * the device width like the Google Photo app without loading all the images on the memory.
+ * Thus compared to using the {@link FlexboxLayout}, it's much less likely to abuse the memory,
+ * which some times leads to the OutOfMemoryError.
+ */
+public class TagEditActivity extends QkBaseActivity implements RecycleViewItemTouchCallback.OnDragListener {
+
+    private List<String> results = RecycleViewTagAdapter.results;
+
+    @Override
+    public int layoutChildResID() {
+        return R.layout.activity_tag;
+    }
+
+    @Override
+    public void initView() {
+        setTitle("筛选");
+        initRecommend();
+        initDiy();
+    }
+
+    private void initRecommend() {
+
+        RecyclerView recycle_recommend = (RecyclerView) findViewById(R.id.recycle_recommend);
+        FlexboxLayoutManager recommendLayoutManager = new FlexboxLayoutManager();
+        recommendLayoutManager.setFlexWrap(FlexWrap.WRAP);
+        recommendLayoutManager.setFlexDirection(FlexDirection.ROW);
+        recommendLayoutManager.setAlignItems(AlignItems.STRETCH);
+        recycle_recommend.setLayoutManager(recommendLayoutManager);
+        final RecycleViewTagAdapter adapter = new RecycleViewTagAdapter(this);
+        recycle_recommend.setAdapter(adapter);
+
+        final ItemTouchHelper recommendItemTouchHelper = new ItemTouchHelper(
+                new RecycleViewItemTouchCallback(adapter).setOnDragListener(this));
+        recommendItemTouchHelper.attachToRecyclerView(recycle_recommend);
+
+        recycle_recommend.addOnItemTouchListener(new OnRecyclerItemClickListener(recycle_recommend) {
+            @Override
+            public void onLongClick(RecyclerView.ViewHolder vh) {
+                recommendItemTouchHelper.startDrag(vh);
+                VibratorUtil.Vibrate(TagEditActivity.this, 300);   //震动70ms
+            }
+
+            @Override
+            public void onItemClick(RecyclerView.ViewHolder vh) {
+
+            }
+        });
+    }
+
+    private void initDiy() {
+
+        RecyclerView recycle_diy = (RecyclerView) findViewById(R.id.recycle_diy);
+        FlexboxLayoutManager diyLayoutManager = new FlexboxLayoutManager();
+        diyLayoutManager.setFlexWrap(FlexWrap.WRAP);
+        diyLayoutManager.setFlexDirection(FlexDirection.ROW);
+        diyLayoutManager.setAlignItems(AlignItems.STRETCH);
+        recycle_diy.setLayoutManager(diyLayoutManager);
+        final RecycleViewTagAdapter diyAdapter = new RecycleViewTagAdapter(this);
+        recycle_diy.setAdapter(diyAdapter);
+
+        final ItemTouchHelper diyItemTouchHelper = new ItemTouchHelper(
+                new RecycleViewItemTouchCallback(diyAdapter).setOnDragListener(this));
+        diyItemTouchHelper.attachToRecyclerView(recycle_diy);
+
+        recycle_diy.addOnItemTouchListener(new OnRecyclerItemClickListener(recycle_diy) {
+            @Override
+            public void onLongClick(RecyclerView.ViewHolder vh) {
+                diyAdapter.isEditing = true;
+                diyAdapter.notifyDataSetChanged();
+
+            }
+
+            @Override
+            public void onItemClick(RecyclerView.ViewHolder vh) {
+
+            }
+        });
+    }
+
+    @Override
+    public void onFinishDrag() {
+
+    }
+}
