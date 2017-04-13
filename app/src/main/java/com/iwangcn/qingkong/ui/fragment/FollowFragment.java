@@ -8,9 +8,8 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.iwangcn.qingkong.R;
-import com.iwangcn.qingkong.ui.activity.NewsSearchActivity;
-import com.iwangcn.qingkong.ui.activity.TagEditActivity;
 import com.iwangcn.qingkong.ui.activity.ProcessedActivity;
+import com.iwangcn.qingkong.ui.activity.TagEditActivity;
 import com.iwangcn.qingkong.ui.adapter.FollowTabAdapter;
 import com.iwangcn.qingkong.ui.base.BaseFragment;
 
