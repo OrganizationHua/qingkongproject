@@ -54,7 +54,7 @@ public class SettingsActivity extends QkBaseActivity {
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                if (charSequence.toString().length() > 6) {
+                if (charSequence.toString().length() >= 6) {
                     mButtonpw.setEnabled(true);
                 } else {
                     mButtonpw.setEnabled(false);
@@ -105,13 +105,14 @@ public class SettingsActivity extends QkBaseActivity {
             return;
         }
         if (strOriginalPw.length() < 6 || strNewPw.length() < 6 || strAgainPw.length() < 6) {
-            ToastUtil.showToast(this, "输入密码不能为空");
+            ToastUtil.showToast(this, "密码不能少于6位");
             return;
         }
-        if (strNewPw.endsWith(strAgainPw)) {
+        if (!strNewPw.endsWith(strAgainPw)) {
             ToastUtil.showToast(this, "两次密码输入不一致");
             return;
         }
+        ToastUtil.showToast(this, "修改密码成功");
     }
 
 }

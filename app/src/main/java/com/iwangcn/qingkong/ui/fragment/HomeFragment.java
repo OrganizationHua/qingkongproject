@@ -17,7 +17,7 @@ import android.widget.TextView;
 
 import com.iwangcn.qingkong.R;
 import com.iwangcn.qingkong.ui.activity.CollectActivity;
-import com.iwangcn.qingkong.ui.activity.NewsDetailActivity;
+import com.iwangcn.qingkong.ui.activity.NewsEventActivity;
 import com.iwangcn.qingkong.ui.activity.NewsSearchActivity;
 import com.iwangcn.qingkong.ui.adapter.NewsAdapter;
 import com.iwangcn.qingkong.ui.base.BaseFragment;
@@ -75,7 +75,7 @@ public class HomeFragment extends BaseFragment {
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Intent intent = new Intent(getActivity(), NewsDetailActivity.class);
+                Intent intent = new Intent(getActivity(), NewsEventActivity.class);
                 startActivity(intent);
             }
         });

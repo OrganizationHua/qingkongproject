@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -37,7 +38,8 @@ public abstract class QkBaseActivity extends BaseActivity {
 
     @BindView(R.id.base_tv_right)
     TextView mTvRight;//右边文字
-
+    @BindView(R.id.base_img_right)
+    ImageView mImgRight;//右边图片
 
     private LayoutInflater inflater;
     private LinearLayout.LayoutParams layoutParams = null;
@@ -86,7 +88,11 @@ public abstract class QkBaseActivity extends BaseActivity {
         mTvRight.setText(title);
         return mTvTitle;
     }
-
+    protected ImageView setRightImg(int resId) {
+        mImgRight.setVisibility(View.VISIBLE);
+        mImgRight.setBackgroundResource(resId);
+        return mImgRight;
+    }
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
