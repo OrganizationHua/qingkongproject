@@ -1,0 +1,86 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/rel_listView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/bg_nav_bar"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:orientation="vertical"
+        android:paddingTop="@dimen/padding_top"
+        tools:context=".ui.fragment.FollowFragment"
+        >
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            >
+
+        <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/top_title_height"
+                android:gravity="center_vertical"
+                >
+
+
+            <TextView
+                    android:id="@+id/tv_title"
+                    style="@style/TextView.fragmentTopTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:text="舆情跟进"
+                    />
+
+            <ImageView
+                    android:id="@+id/iv_processed"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="20dp"
+                    android:layout_toLeftOf="@+id/iv_sift"
+                    android:src="@drawable/genjin_btn_followed"
+                    />
+
+            <ImageView
+                    android:id="@+id/iv_sift"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="15dp"
+                    android:src="@drawable/genjin_btn_filter"
+                    />
+        </RelativeLayout>
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                >
+
+            <android.support.design.widget.TabLayout
+                    android:id="@+id/tabLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="44dp"
+                    android:background="@android:color/white"
+                    app:tabIndicatorColor="@color/colorPrimary"
+                    app:tabIndicatorHeight="2dp"
+                    app:tabMode="fixed"
+                    app:tabSelectedTextColor="@color/colorPrimary"
+                    app:tabTextAppearance="@style/TextAppearance.AppCompat.Small"
+                    app:tabTextColor="@color/font_gray"
+                    />
+
+            <android.support.v4.view.ViewPager
+                    android:id="@+id/viewPager"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:background="@android:color/white"
+                    android:scrollbars="none"
+                    />
+
+        </LinearLayout>
+    </LinearLayout>
+</RelativeLayout>

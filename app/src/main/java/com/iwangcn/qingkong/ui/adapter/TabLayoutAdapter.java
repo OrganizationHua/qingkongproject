@@ -11,6 +11,8 @@ import android.widget.TextView;
 
 import com.iwangcn.qingkong.R;
 import com.iwangcn.qingkong.ui.base.BaseFragment;
+import com.iwangcn.qingkong.ui.fragment.FollowFragment;
+import com.iwangcn.qingkong.ui.fragment.HelperFragment;
 import com.iwangcn.qingkong.ui.fragment.HomeFragment;
 import com.iwangcn.qingkong.ui.fragment.MineFragment;
 
@@ -43,10 +45,10 @@ public class TabLayoutAdapter extends FragmentPagerAdapter {
                 baseFragment = new HomeFragment();
                 break;
             case 1:
-                baseFragment = new HomeFragment();
+                baseFragment = new HelperFragment();
                 break;
             case 2:
-                baseFragment = new HomeFragment();
+                baseFragment = new FollowFragment();
                 break;
             case 3:
                 baseFragment = new MineFragment();

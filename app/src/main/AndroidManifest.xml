@@ -43,6 +43,9 @@
         <activity android:name=".ui.activity.NewsDetailActivity" />
         <activity android:name=".ui.activity.NewsSearchActivity" />
         <activity android:name=".ui.activity.NewsEventActivity"></activity>
+        <activity android:name=".ui.activity.ProcessedActivity"></activity>
+        <activity android:name=".ui.activity.FollowDetailActivity"></activity>
+
     </application>
 
 </manifest>

@@ -21,10 +21,9 @@ import okhttp3.Response;
  */
 public class HeaderInterceptor implements Interceptor {
     private ArrayMap<String, String> headers;
-    private String url;
-
-    public HeaderInterceptor(ArrayMap<String, String> headers) {
+    public HeaderInterceptor addHeaders(ArrayMap<String, String> headers) {
         this.headers = headers;
+        return this;
     }
 
     @Override

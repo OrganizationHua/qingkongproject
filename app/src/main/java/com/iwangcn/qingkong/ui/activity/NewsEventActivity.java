@@ -11,7 +11,6 @@ import com.iwangcn.qingkong.ui.adapter.NewsEventAdapter;
 import com.iwangcn.qingkong.ui.base.BaseActivity;
 import com.iwangcn.qingkong.ui.model.NewEventModel;
 import com.iwangcn.qingkong.utils.ToastUtil;
-import com.wingsofts.byeburgernavigationview.ByeBurgerBehavior;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,12 +39,6 @@ public class NewsEventActivity extends BaseActivity {
         ButterKnife.bind(this);
         initRecycleView();
 
-        findViewById(R.id.test).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                ByeBurgerBehavior.from(mCoordinatorChild).hide();
-            }
-        });
         mCoordinator.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
