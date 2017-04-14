@@ -16,20 +16,20 @@
 
 package com.iwangcn.qingkong.ui.activity;
 
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
+
 import com.google.android.flexbox.AlignItems;
 import com.google.android.flexbox.FlexDirection;
 import com.google.android.flexbox.FlexWrap;
 import com.google.android.flexbox.FlexboxLayout;
 import com.google.android.flexbox.FlexboxLayoutManager;
-
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.helper.ItemTouchHelper;
-
 import com.iwangcn.qingkong.R;
 import com.iwangcn.qingkong.ui.base.QkBaseActivity;
 import com.iwangcn.qingkong.ui.view.TagWidget.OnRecyclerItemClickListener;
 import com.iwangcn.qingkong.ui.view.TagWidget.RecycleViewItemTouchCallback;
 import com.iwangcn.qingkong.ui.view.TagWidget.RecycleViewTagAdapter;
+import com.iwangcn.qingkong.utils.ToastUtil;
 import com.iwangcn.qingkong.utils.VibratorUtil;
 
 import java.util.List;
@@ -92,7 +92,10 @@ public class TagEditActivity extends QkBaseActivity implements RecycleViewItemTo
 
             @Override
             public void onItemClick(RecyclerView.ViewHolder vh) {
-
+                  if (vh.getLayoutPosition()==adapter.getThreeContentItemCount()+adapter.getThreeTitlePosition()){
+                      ToastUtil.showToast(TagEditActivity.this,"last");
+                      adapter.notifyItemInserted(vh.getLayoutPosition()+1);
+                  }
             }
         });
     }

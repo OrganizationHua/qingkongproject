@@ -13,7 +13,7 @@ public abstract class BaseMultipleItemAdapter extends RecyclerView.Adapter<Recyc
     public static final int ITEM_TYPE_THREE_TITLE = 5;
     public static final int ITEM_TYPE_THREE_CONTENT = 6;
 
-
+    public static final int ITEM_TYPE_LAST = 7;
     protected LayoutInflater mLayoutInflater;
     protected Context mContext;
     protected int mHeaderCount;//头部View个数
@@ -37,6 +37,8 @@ public abstract class BaseMultipleItemAdapter extends RecyclerView.Adapter<Recyc
             return onCreateHeaderView(parent);
         } else if (viewType == ITEM_TYPE_THREE_CONTENT) {
             return onCreateContentView(parent);
+        }else if (viewType == ITEM_TYPE_LAST) {
+            return onCreateLastView(parent);
         }
         return null;
     }
@@ -53,8 +55,10 @@ public abstract class BaseMultipleItemAdapter extends RecyclerView.Adapter<Recyc
             return ITEM_TYPE_TWO_CONTENT;
         } else if (position == getThreeTitlePosition()) {
             return ITEM_TYPE_THREE_TITLE;
-        } else if (position > getThreeTitlePosition() && position <= getThreeTitlePosition() + getThreeContentItemCount()) {
+        } else if (position > getThreeTitlePosition() && position <getThreeTitlePosition() + getThreeContentItemCount()) {
             return ITEM_TYPE_THREE_CONTENT;
+        }else if(position==getThreeTitlePosition()+getThreeContentItemCount()){
+            return ITEM_TYPE_LAST;
         }
         return 0;
     }
@@ -67,6 +71,8 @@ public abstract class BaseMultipleItemAdapter extends RecyclerView.Adapter<Recyc
     public abstract RecyclerView.ViewHolder onCreateHeaderView(ViewGroup parent);//创建头部View
 
     public abstract RecyclerView.ViewHolder onCreateContentView(ViewGroup parent);//创建中间内容View
+
+    public abstract RecyclerView.ViewHolder onCreateLastView(ViewGroup parent);//创建中间内容View
 
     public abstract int getOneContentItemCount();//获取中间内容个数
 

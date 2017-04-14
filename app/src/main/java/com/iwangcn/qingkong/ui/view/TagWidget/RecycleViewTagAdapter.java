@@ -80,7 +80,7 @@ public class RecycleViewTagAdapter extends BaseMultipleItemAdapter implements Re
                 ((FlexboxViewHolder) holder).bindTo("你好", false);
             } else if (position > getTwoTitlePosition() && position < getThreeTitlePosition()) {
                 ((FlexboxViewHolder) holder).bindTo("你好", isEditing);
-            } else if (position > getThreeTitlePosition() && position <= getThreeTitlePosition() + getThreeContentItemCount()) {
+            } else if (position > getThreeTitlePosition() && position <getThreeTitlePosition() + getThreeContentItemCount()) {
                 ((FlexboxViewHolder) holder).bindTo("你好", false);
             }
         }
@@ -99,6 +99,12 @@ public class RecycleViewTagAdapter extends BaseMultipleItemAdapter implements Re
     @Override
     public RecyclerView.ViewHolder onCreateContentView(ViewGroup parent) {
         return new FlexboxViewHolder(mLayoutInflater.inflate(R.layout.viewholder_content, parent, false));
+    }
+
+    @Override
+    public RecyclerView.ViewHolder onCreateLastView(ViewGroup parent) {
+        return new LastViewHolder(mLayoutInflater.inflate(R.layout.viewholder_last, parent, false));
+
     }
 
     @Override
