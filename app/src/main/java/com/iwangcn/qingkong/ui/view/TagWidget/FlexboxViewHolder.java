@@ -27,21 +27,21 @@ import com.iwangcn.qingkong.R;
  */
 class FlexboxViewHolder extends RecyclerView.ViewHolder {
 
-    private TextView mImageView;
+    private TextView mTextView;
 
     FlexboxViewHolder(View itemView) {
         super(itemView);
-        mImageView = (TextView) itemView.findViewById(R.id.imageview);
+        mTextView = (TextView) itemView.findViewById(R.id.textview);
+
     }
 
     void bindTo(String string, boolean isEditing) {
-        mImageView.setText(string);
+        mTextView.setText(string);
         if (isEditing) {
-            mImageView.setBackgroundResource(R.drawable.normal_tag_seclected);
+            mTextView.setBackgroundResource(R.drawable.normal_tag_seclected);
         } else {
-            mImageView.setBackgroundResource(R.drawable.normal_bg);
+            mTextView.setBackgroundResource(R.drawable.normal_bg);
         }
-
 //        ViewGroup.LayoutParams lp = mImageView.getLayoutParams();
 //        if (lp instanceof FlexboxLayoutManager.LayoutParams) {
 //            FlexboxLayoutManager.LayoutParams flexboxLp = (FlexboxLayoutManager.LayoutParams) lp;

@@ -54,7 +54,7 @@ public class TagEditActivity extends QkBaseActivity implements RecycleViewItemTo
     public void initView() {
         setTitle("筛选");
         initRecommend();
-        initDiy();
+//        initDiy();
     }
 
     private void initRecommend() {
@@ -75,37 +75,18 @@ public class TagEditActivity extends QkBaseActivity implements RecycleViewItemTo
         recycle_recommend.addOnItemTouchListener(new OnRecyclerItemClickListener(recycle_recommend) {
             @Override
             public void onLongClick(RecyclerView.ViewHolder vh) {
-                recommendItemTouchHelper.startDrag(vh);
-                VibratorUtil.Vibrate(TagEditActivity.this, 300);   //震动70ms
-            }
-
-            @Override
-            public void onItemClick(RecyclerView.ViewHolder vh) {
-
-            }
-        });
-    }
-
-    private void initDiy() {
-
-        RecyclerView recycle_diy = (RecyclerView) findViewById(R.id.recycle_diy);
-        FlexboxLayoutManager diyLayoutManager = new FlexboxLayoutManager();
-        diyLayoutManager.setFlexWrap(FlexWrap.WRAP);
-        diyLayoutManager.setFlexDirection(FlexDirection.ROW);
-        diyLayoutManager.setAlignItems(AlignItems.STRETCH);
-        recycle_diy.setLayoutManager(diyLayoutManager);
-        final RecycleViewTagAdapter diyAdapter = new RecycleViewTagAdapter(this);
-        recycle_diy.setAdapter(diyAdapter);
-
-        final ItemTouchHelper diyItemTouchHelper = new ItemTouchHelper(
-                new RecycleViewItemTouchCallback(diyAdapter).setOnDragListener(this));
-        diyItemTouchHelper.attachToRecyclerView(recycle_diy);
-
-        recycle_diy.addOnItemTouchListener(new OnRecyclerItemClickListener(recycle_diy) {
-            @Override
-            public void onLongClick(RecyclerView.ViewHolder vh) {
-                diyAdapter.isEditing = true;
-                diyAdapter.notifyDataSetChanged();
+                int pos = vh.getLayoutPosition();
+                if (pos > adapter.getOneTitlePosition() && pos < adapter.getTwoTitlePosition()) {
+                    recommendItemTouchHelper.startDrag(vh);
+                    VibratorUtil.Vibrate(TagEditActivity.this, 100);
+                } else if (pos > adapter.getTwoTitlePosition() && pos <adapter.getThreeTitlePosition()) {
+                    if (adapter.isEditing) return;
+                    adapter.isEditing = true;
+                    adapter.notifyItemRangeChanged(adapter.getTwoTitlePosition()+1, adapter.getThreeTitlePosition()-1);
+                } else if (pos == (adapter.getThreeTitlePosition()+adapter.getThreeContentItemCount())) {
+//                    adapter.isShowAdd = true;
+//                    adapter.notifyItemRemoved(pos);
+                }
 
             }
 
@@ -115,6 +96,36 @@ public class TagEditActivity extends QkBaseActivity implements RecycleViewItemTo
             }
         });
     }
+
+//    private void initDiy() {
+//
+//        RecyclerView recycle_diy = (RecyclerView) findViewById(R.id.recycle_diy);
+//        FlexboxLayoutManager diyLayoutManager = new FlexboxLayoutManager();
+//        diyLayoutManager.setFlexWrap(FlexWrap.WRAP);
+//        diyLayoutManager.setFlexDirection(FlexDirection.ROW);
+//        diyLayoutManager.setAlignItems(AlignItems.STRETCH);
+//        recycle_diy.setLayoutManager(diyLayoutManager);
+//        final RecycleViewTagAdapter diyAdapter = new RecycleViewTagAdapter(this);
+//        recycle_diy.setAdapter(diyAdapter);
+//
+//        final ItemTouchHelper diyItemTouchHelper = new ItemTouchHelper(
+//                new RecycleViewItemTouchCallback(diyAdapter).setOnDragListener(this));
+//        diyItemTouchHelper.attachToRecyclerView(recycle_diy);
+//
+//        recycle_diy.addOnItemTouchListener(new OnRecyclerItemClickListener(recycle_diy) {
+//            @Override
+//            public void onLongClick(RecyclerView.ViewHolder vh) {
+//                diyAdapter.isEditing = true;
+//                diyAdapter.notifyDataSetChanged();
+//
+//            }
+//
+//            @Override
+//            public void onItemClick(RecyclerView.ViewHolder vh) {
+//
+//            }
+//        });
+//    }
 
     @Override
     public void onFinishDrag() {
