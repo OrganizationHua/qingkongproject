@@ -7,6 +7,7 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 
+import com.google.android.flexbox.FlexboxLayoutManager;
 import com.iwangcn.qingkong.R;
 
 /**
@@ -34,7 +35,7 @@ public class RecycleViewItemTouchCallback extends ItemTouchHelper.Callback {
 
     @Override
     public int getMovementFlags(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder) {
-        if (recyclerView.getLayoutManager() instanceof GridLayoutManager) {
+      if (recyclerView.getLayoutManager() instanceof GridLayoutManager||recyclerView.getLayoutManager() instanceof FlexboxLayoutManager) {
             final int dragFlags = ItemTouchHelper.UP | ItemTouchHelper.DOWN | ItemTouchHelper.LEFT
                     | ItemTouchHelper.RIGHT;
             final int swipeFlags = 0;

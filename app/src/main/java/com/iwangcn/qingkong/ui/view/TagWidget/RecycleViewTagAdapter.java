@@ -130,14 +130,15 @@ public class RecycleViewTagAdapter extends BaseMultipleItemAdapter implements Re
         if (toPosition == 0) return;
         if (fromPosition < toPosition) {
             for (int i = fromPosition; i < toPosition; i++) {
-                Collections.swap(results1, i, i + 1);
+                Collections.swap(results1, i-1, i);
             }
         } else {
             for (int i = fromPosition; i > toPosition; i--) {
 
-                Collections.swap(results1, i, i - 1);
+                Collections.swap(results1, i-1, i - 2);
             }
         }
+//        Collections.swap(results1,fromPosition,toPosition);
         notifyItemMoved(fromPosition, toPosition);
     }
 
