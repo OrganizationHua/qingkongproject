@@ -74,11 +74,11 @@ public class TagEditActivity extends QkBaseActivity implements RecycleViewItemTo
                 if (pos > adapter.getOneTitlePosition() && pos < adapter.getTwoTitlePosition()) {
                     recommendItemTouchHelper.startDrag(vh);
                     VibratorUtil.Vibrate(TagEditActivity.this, 100);
-                } else if (pos > adapter.getTwoTitlePosition() && pos <adapter.getThreeTitlePosition()) {
+                } else if (pos > adapter.getTwoTitlePosition() && pos < adapter.getThreeTitlePosition()) {
                     if (adapter.isEditing) return;
                     adapter.isEditing = true;
-                    adapter.notifyItemRangeChanged(adapter.getTwoTitlePosition()+1, adapter.getThreeTitlePosition()-1);
-                } else if (pos == (adapter.getThreeTitlePosition()+adapter.getThreeContentItemCount())) {
+                    adapter.notifyItemRangeChanged(adapter.getTwoTitlePosition() + 1, adapter.getThreeTitlePosition() - 1);
+                } else if (pos == (adapter.getThreeTitlePosition() + adapter.getThreeContentItemCount())) {
 //                    adapter.isShowAdd = true;
 //                    adapter.notifyItemRemoved(pos);
                 }
@@ -87,12 +87,14 @@ public class TagEditActivity extends QkBaseActivity implements RecycleViewItemTo
 
             @Override
             public void onItemClick(RecyclerView.ViewHolder vh) {
-                  if (vh.getLayoutPosition()==adapter.getThreeContentItemCount()+adapter.getThreeTitlePosition()){
-                      ToastUtil.showToast(TagEditActivity.this,"last");
-                      adapter.results3.add("新增");
-                      adapter.notifyItemInserted(vh.getLayoutPosition());
-                      adapter.notifyItemRangeChanged(vh.getLayoutPosition()+1,adapter.getItemCount()-vh.getLayoutPosition());
-                  }
+                if (vh.getLayoutPosition() == adapter.getThreeContentItemCount() + adapter.getThreeTitlePosition()) {
+                    ToastUtil.showToast(TagEditActivity.this, "last");
+                    adapter.isAdd = true;
+                    adapter.notifyItemChanged(vh.getLayoutPosition());
+//                      adapter.results3.add("新增");
+//                      adapter.notifyItemInserted(vh.getLayoutPosition());
+//                      adapter.notifyItemRangeChanged(vh.getLayoutPosition()+1,adapter.getItemCount()-vh.getLayoutPosition());
+                }
             }
         });
     }
