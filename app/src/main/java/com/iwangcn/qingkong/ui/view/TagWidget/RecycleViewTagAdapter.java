@@ -68,7 +68,7 @@ public class RecycleViewTagAdapter extends BaseMultipleItemAdapter implements Re
                 ((FlexboxViewHolder) holder).bindTo(results1.get(position - getOneTitlePosition() - 1), false);
             } else if (position > getTwoTitlePosition() && position < getThreeTitlePosition()) {
                 ((FlexboxViewHolder) holder).bindTo(results2.get(position - getTwoTitlePosition() - 1), false);
-            } else if (position > getThreeTitlePosition() && position < getThreeTitlePosition() + getThreeContentItemCount()) {
+            } else if (position > getThreeTitlePosition() && position < getThreeTitlePosition() + getThreeContentItemCount() + 1) {
                 ((FlexboxViewHolder) holder).bindTo(results3.get(position - getThreeTitlePosition() - 1), isEditing);
             }
         } else if (holder instanceof LastViewHolder) {

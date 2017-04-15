@@ -81,13 +81,13 @@ public class TagEditActivity extends QkBaseActivity implements RecycleViewItemTo
                     recommendItemTouchHelper.startDrag(vh);
                     VibratorUtil.Vibrate(TagEditActivity.this, 100);
                 } else if (pos > adapter.getTwoTitlePosition() && pos < adapter.getThreeTitlePosition()) {
+//                    if (adapter.isEditing) return;
+//                    adapter.isEditing = true;
+//                    adapter.notifyItemRangeChanged(adapter.getTwoTitlePosition() + 1, adapter.getTwoContentItemCount());
+                } else if (pos > adapter.getThreeTitlePosition() && pos < (adapter.getThreeTitlePosition() + adapter.getThreeContentItemCount() + 1)) {
                     if (adapter.isEditing) return;
                     adapter.isEditing = true;
-                    adapter.notifyItemRangeChanged(adapter.getTwoTitlePosition() + 1, adapter.getThreeTitlePosition() - 1);
-                } else if (pos > adapter.getThreeTitlePosition() && pos < (adapter.getThreeTitlePosition() + adapter.getThreeContentItemCount())) {
-                    if (adapter.isEditing) return;
-                    adapter.isEditing = true;
-                    adapter.notifyItemRangeChanged(adapter.getThreeTitlePosition() + 1, adapter.getThreeTitlePosition() + adapter.getThreeContentItemCount() - 1);
+                    adapter.notifyItemRangeChanged(adapter.getThreeTitlePosition() + 1, adapter.getThreeContentItemCount());
                 }
 
             }
@@ -95,7 +95,7 @@ public class TagEditActivity extends QkBaseActivity implements RecycleViewItemTo
             @Override
             public void onItemClick(RecyclerView.ViewHolder vh) {
                 int pos = vh.getLayoutPosition();
-                if (pos == adapter.getThreeContentItemCount() + adapter.getThreeTitlePosition()) {
+                if (pos == adapter.getThreeContentItemCount() + adapter.getThreeTitlePosition() + 1) {
                     ToastUtil.showToast(TagEditActivity.this, "last");
                     adapter.isAdd = true;
                     adapter.notifyItemChanged(vh.getLayoutPosition());
@@ -104,8 +104,8 @@ public class TagEditActivity extends QkBaseActivity implements RecycleViewItemTo
 //                      adapter.notifyItemInserted(vh.getLayoutPosition());
 //                      adapter.notifyItemRangeChanged(vh.getLayoutPosition()+1,adapter.getItemCount()-vh.getLayoutPosition());
                 }
-                if (adapter.isEditing&&pos > adapter.getThreeTitlePosition() && pos < adapter.getThreeTitlePosition() + adapter.getThreeContentItemCount()) {
-                    adapter.results3.remove(pos - adapter.getThreeTitlePosition());
+                if (adapter.isEditing && pos > adapter.getThreeTitlePosition() && pos < adapter.getThreeTitlePosition() + adapter.getThreeContentItemCount() + 1) {
+                    adapter.results3.remove(pos - adapter.getThreeTitlePosition() - 1);
                     adapter.notifyItemRemoved(pos);
                 }
             }
