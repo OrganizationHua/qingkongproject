@@ -32,8 +32,6 @@ import com.iwangcn.qingkong.ui.view.TagWidget.RecycleViewTagAdapter;
 import com.iwangcn.qingkong.utils.ToastUtil;
 import com.iwangcn.qingkong.utils.VibratorUtil;
 
-import java.util.List;
-
 /**
  * Launcher Activity for the cat gallery demo app that demonstrates the usage of the
  * {@link FlexboxLayoutManager} that handles various sizes of views aligned nicely regardless of
@@ -42,8 +40,6 @@ import java.util.List;
  * which some times leads to the OutOfMemoryError.
  */
 public class TagEditActivity extends QkBaseActivity implements RecycleViewItemTouchCallback.OnDragListener {
-
-    private List<String> results = RecycleViewTagAdapter.results;
 
     @Override
     public int layoutChildResID() {
@@ -54,7 +50,6 @@ public class TagEditActivity extends QkBaseActivity implements RecycleViewItemTo
     public void initView() {
         setTitle("筛选");
         initRecommend();
-//        initDiy();
     }
 
     private void initRecommend() {
@@ -94,41 +89,14 @@ public class TagEditActivity extends QkBaseActivity implements RecycleViewItemTo
             public void onItemClick(RecyclerView.ViewHolder vh) {
                   if (vh.getLayoutPosition()==adapter.getThreeContentItemCount()+adapter.getThreeTitlePosition()){
                       ToastUtil.showToast(TagEditActivity.this,"last");
-                      adapter.notifyItemInserted(vh.getLayoutPosition()+1);
+                      adapter.results3.add("新增");
+                      adapter.notifyItemInserted(vh.getLayoutPosition());
+                      adapter.notifyItemRangeChanged(vh.getLayoutPosition()+1,adapter.getItemCount()-vh.getLayoutPosition());
                   }
             }
         });
     }
 
-//    private void initDiy() {
-//
-//        RecyclerView recycle_diy = (RecyclerView) findViewById(R.id.recycle_diy);
-//        FlexboxLayoutManager diyLayoutManager = new FlexboxLayoutManager();
-//        diyLayoutManager.setFlexWrap(FlexWrap.WRAP);
-//        diyLayoutManager.setFlexDirection(FlexDirection.ROW);
-//        diyLayoutManager.setAlignItems(AlignItems.STRETCH);
-//        recycle_diy.setLayoutManager(diyLayoutManager);
-//        final RecycleViewTagAdapter diyAdapter = new RecycleViewTagAdapter(this);
-//        recycle_diy.setAdapter(diyAdapter);
-//
-//        final ItemTouchHelper diyItemTouchHelper = new ItemTouchHelper(
-//                new RecycleViewItemTouchCallback(diyAdapter).setOnDragListener(this));
-//        diyItemTouchHelper.attachToRecyclerView(recycle_diy);
-//
-//        recycle_diy.addOnItemTouchListener(new OnRecyclerItemClickListener(recycle_diy) {
-//            @Override
-//            public void onLongClick(RecyclerView.ViewHolder vh) {
-//                diyAdapter.isEditing = true;
-//                diyAdapter.notifyDataSetChanged();
-//
-//            }
-//
-//            @Override
-//            public void onItemClick(RecyclerView.ViewHolder vh) {
-//
-//            }
-//        });
-//    }
 
     @Override
     public void onFinishDrag() {
