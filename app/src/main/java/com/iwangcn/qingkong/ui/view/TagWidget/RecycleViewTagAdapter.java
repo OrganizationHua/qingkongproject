@@ -56,7 +56,7 @@ public class RecycleViewTagAdapter extends BaseMultipleItemAdapter implements Re
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof HeaderViewHolder) {
             if (position == getOneTitlePosition()) {
-                ((HeaderViewHolder) holder).bindTo("推荐标签");
+                ((HeaderViewHolder) holder).bindTo("来源");
             } else if (position == getTwoTitlePosition()) {
                 ((HeaderViewHolder) holder).bindTo("业务标签");
             } else if (position == getThreeTitlePosition()) {
@@ -67,9 +67,9 @@ public class RecycleViewTagAdapter extends BaseMultipleItemAdapter implements Re
             if (position > getOneTitlePosition() && position < getTwoTitlePosition()) {
                 ((FlexboxViewHolder) holder).bindTo(results1.get(position - getOneTitlePosition() - 1), false);
             } else if (position > getTwoTitlePosition() && position < getThreeTitlePosition()) {
-                ((FlexboxViewHolder) holder).bindTo(results2.get(position - getTwoTitlePosition() - 1), isEditing);
+                ((FlexboxViewHolder) holder).bindTo(results2.get(position - getTwoTitlePosition() - 1), false);
             } else if (position > getThreeTitlePosition() && position < getThreeTitlePosition() + getThreeContentItemCount()) {
-                ((FlexboxViewHolder) holder).bindTo(results3.get(position - getThreeTitlePosition() - 1), false);
+                ((FlexboxViewHolder) holder).bindTo(results3.get(position - getThreeTitlePosition() - 1), isEditing);
             }
         } else if (holder instanceof LastViewHolder) {
             ((LastViewHolder) holder).bindTo(isAdd);

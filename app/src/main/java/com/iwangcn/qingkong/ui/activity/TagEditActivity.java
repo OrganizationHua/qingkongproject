@@ -78,9 +78,10 @@ public class TagEditActivity extends QkBaseActivity implements RecycleViewItemTo
                     if (adapter.isEditing) return;
                     adapter.isEditing = true;
                     adapter.notifyItemRangeChanged(adapter.getTwoTitlePosition() + 1, adapter.getThreeTitlePosition() - 1);
-                } else if (pos == (adapter.getThreeTitlePosition() + adapter.getThreeContentItemCount())) {
-//                    adapter.isShowAdd = true;
-//                    adapter.notifyItemRemoved(pos);
+                } else if (pos > adapter.getThreeTitlePosition() && pos < (adapter.getThreeTitlePosition() + adapter.getThreeContentItemCount())) {
+                    if (adapter.isEditing) return;
+                    adapter.isEditing = true;
+                    adapter.notifyItemRangeChanged(adapter.getThreeTitlePosition() + 1, adapter.getThreeTitlePosition() + adapter.getThreeContentItemCount() - 1);
                 }
 
             }
