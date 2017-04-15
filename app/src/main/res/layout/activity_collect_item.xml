@@ -69,23 +69,23 @@
                     android:layout_alignParentBottom="true"
                     android:layout_alignParentRight="true"
                     android:layout_marginRight="15dp"
-                    android:background="@drawable/home_fragment_collect_shape"
+                    android:background="@drawable/home_fragment_uncollect_shape"
                     android:gravity="center">
 
                     <ImageView
-
+                        
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
-                        android:src="@drawable/toutiao_icon_collect" />
+                        android:src="@drawable/toutiao_icon_uncollect" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:layout_marginLeft="5dp"
-                        android:text="@string/collect"
-                        android:textColor="@color/home_collect_yelllow"
+                        android:text="@string/cancle"
+                        android:textColor="@color/home_bottom_gray"
                         android:textSize="14dp" />
                 </LinearLayout>
 

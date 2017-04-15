@@ -5,6 +5,7 @@ import android.widget.TextView;
 
 import com.iwangcn.qingkong.R;
 import com.iwangcn.qingkong.ui.activity.SettingsActivity;
+import com.iwangcn.qingkong.ui.activity.UpdateActivity;
 import com.iwangcn.qingkong.ui.base.BaseFragment;
 import com.iwangcn.qingkong.utils.ToastUtil;
 
@@ -14,7 +15,7 @@ import butterknife.OnClick;
 /**
  * 我的
  */
-public class MineFragment extends BaseFragment  {
+public class MineFragment extends BaseFragment {
     @BindView(R.id.mine_name)
     TextView mTvName;//姓名
     @BindView(R.id.mine_division)
@@ -30,17 +31,21 @@ public class MineFragment extends BaseFragment  {
     protected int layoutResID() {
         return R.layout.fragment_mine;
     }
+
     @OnClick(R.id.mine_rel_set)//系统设置
     public void appSet() {
-        Intent intent=new Intent(getActivity(), SettingsActivity.class);
+        Intent intent = new Intent(getActivity(), SettingsActivity.class);
         getActivity().startActivity(intent);
     }
+
     @OnClick(R.id.mine_rel_information)//APP信息
     public void appInformation() {
-        ToastUtil.showToast(getActivity(),"APP信息");
+        Intent intent = new Intent(getActivity(), UpdateActivity.class);
+        startActivity(intent);
     }
+
     @OnClick(R.id.mine_rel_loginOut)//退出登录
     public void loginOut() {
-        ToastUtil.showToast(getActivity(),"退出登录");
+        ToastUtil.showToast(getActivity(), "退出登录");
     }
 }
