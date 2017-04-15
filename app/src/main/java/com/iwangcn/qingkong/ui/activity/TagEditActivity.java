@@ -18,6 +18,7 @@ package com.iwangcn.qingkong.ui.activity;
 
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
+import android.widget.LinearLayout;
 
 import com.google.android.flexbox.AlignItems;
 import com.google.android.flexbox.FlexDirection;
@@ -40,6 +41,8 @@ import com.iwangcn.qingkong.utils.VibratorUtil;
  * which some times leads to the OutOfMemoryError.
  */
 public class TagEditActivity extends QkBaseActivity implements RecycleViewItemTouchCallback.OnDragListener {
+    private RecyclerView recycle_recommend;
+    private LinearLayout ll_sure;
 
     @Override
     public int layoutChildResID() {
@@ -49,12 +52,14 @@ public class TagEditActivity extends QkBaseActivity implements RecycleViewItemTo
     @Override
     public void initView() {
         setTitle("筛选");
+        setRightTitle("编辑");
         initRecommend();
     }
 
     private void initRecommend() {
 
-        RecyclerView recycle_recommend = (RecyclerView) findViewById(R.id.recycle_recommend);
+        recycle_recommend = (RecyclerView) findViewById(R.id.recycle_recommend);
+        ll_sure = (LinearLayout) findViewById(R.id.ll_sure);
         FlexboxLayoutManager recommendLayoutManager = new FlexboxLayoutManager();
         recommendLayoutManager.setFlexWrap(FlexWrap.WRAP);
         recommendLayoutManager.setFlexDirection(FlexDirection.ROW);
@@ -70,6 +75,7 @@ public class TagEditActivity extends QkBaseActivity implements RecycleViewItemTo
         recycle_recommend.addOnItemTouchListener(new OnRecyclerItemClickListener(recycle_recommend) {
             @Override
             public void onLongClick(RecyclerView.ViewHolder vh) {
+
                 int pos = vh.getLayoutPosition();
                 if (pos > adapter.getOneTitlePosition() && pos < adapter.getTwoTitlePosition()) {
                     recommendItemTouchHelper.startDrag(vh);
@@ -88,13 +94,19 @@ public class TagEditActivity extends QkBaseActivity implements RecycleViewItemTo
 
             @Override
             public void onItemClick(RecyclerView.ViewHolder vh) {
-                if (vh.getLayoutPosition() == adapter.getThreeContentItemCount() + adapter.getThreeTitlePosition()) {
+                int pos = vh.getLayoutPosition();
+                if (pos == adapter.getThreeContentItemCount() + adapter.getThreeTitlePosition()) {
                     ToastUtil.showToast(TagEditActivity.this, "last");
                     adapter.isAdd = true;
                     adapter.notifyItemChanged(vh.getLayoutPosition());
+
 //                      adapter.results3.add("新增");
 //                      adapter.notifyItemInserted(vh.getLayoutPosition());
 //                      adapter.notifyItemRangeChanged(vh.getLayoutPosition()+1,adapter.getItemCount()-vh.getLayoutPosition());
+                }
+                if (adapter.isEditing&&pos > adapter.getThreeTitlePosition() && pos < adapter.getThreeTitlePosition() + adapter.getThreeContentItemCount()) {
+                    adapter.results3.remove(pos - adapter.getThreeTitlePosition());
+                    adapter.notifyItemRemoved(pos);
                 }
             }
         });
