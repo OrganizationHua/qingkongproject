@@ -125,7 +125,7 @@
                         android:layout_height="wrap_content"
                         android:gravity="center_vertical"
                         android:maxLines="2"
-                        android:text="新闻新闻新闻新闻新闻新闻新闻新闻新闻新闻新闻新闻新闻新闻新闻新闻"
+                        android:text="新闻闻新闻新闻新闻新闻新闻新闻新闻"
                         android:textColor="@color/font_black"
                         android:textSize="18sp" />
                 </LinearLayout>
