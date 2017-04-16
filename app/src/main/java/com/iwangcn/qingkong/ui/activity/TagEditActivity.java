@@ -18,6 +18,7 @@ package com.iwangcn.qingkong.ui.activity;
 
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
+import android.widget.LinearLayout;
 
 import com.google.android.flexbox.AlignItems;
 import com.google.android.flexbox.FlexDirection;
@@ -32,8 +33,6 @@ import com.iwangcn.qingkong.ui.view.TagWidget.RecycleViewTagAdapter;
 import com.iwangcn.qingkong.utils.ToastUtil;
 import com.iwangcn.qingkong.utils.VibratorUtil;
 
-import java.util.List;
-
 /**
  * Launcher Activity for the cat gallery demo app that demonstrates the usage of the
  * {@link FlexboxLayoutManager} that handles various sizes of views aligned nicely regardless of
@@ -42,8 +41,8 @@ import java.util.List;
  * which some times leads to the OutOfMemoryError.
  */
 public class TagEditActivity extends QkBaseActivity implements RecycleViewItemTouchCallback.OnDragListener {
-
-    private List<String> results = RecycleViewTagAdapter.results;
+    private RecyclerView recycle_recommend;
+    private LinearLayout ll_sure;
 
     @Override
     public int layoutChildResID() {
@@ -53,13 +52,14 @@ public class TagEditActivity extends QkBaseActivity implements RecycleViewItemTo
     @Override
     public void initView() {
         setTitle("筛选");
+        setRightTitle("编辑");
         initRecommend();
-//        initDiy();
     }
 
     private void initRecommend() {
 
-        RecyclerView recycle_recommend = (RecyclerView) findViewById(R.id.recycle_recommend);
+        recycle_recommend = (RecyclerView) findViewById(R.id.recycle_recommend);
+        ll_sure = (LinearLayout) findViewById(R.id.ll_sure);
         FlexboxLayoutManager recommendLayoutManager = new FlexboxLayoutManager();
         recommendLayoutManager.setFlexWrap(FlexWrap.WRAP);
         recommendLayoutManager.setFlexDirection(FlexDirection.ROW);
@@ -75,60 +75,43 @@ public class TagEditActivity extends QkBaseActivity implements RecycleViewItemTo
         recycle_recommend.addOnItemTouchListener(new OnRecyclerItemClickListener(recycle_recommend) {
             @Override
             public void onLongClick(RecyclerView.ViewHolder vh) {
+
                 int pos = vh.getLayoutPosition();
                 if (pos > adapter.getOneTitlePosition() && pos < adapter.getTwoTitlePosition()) {
                     recommendItemTouchHelper.startDrag(vh);
                     VibratorUtil.Vibrate(TagEditActivity.this, 100);
-                } else if (pos > adapter.getTwoTitlePosition() && pos <adapter.getThreeTitlePosition()) {
+                } else if (pos > adapter.getTwoTitlePosition() && pos < adapter.getThreeTitlePosition()) {
+//                    if (adapter.isEditing) return;
+//                    adapter.isEditing = true;
+//                    adapter.notifyItemRangeChanged(adapter.getTwoTitlePosition() + 1, adapter.getTwoContentItemCount());
+                } else if (pos > adapter.getThreeTitlePosition() && pos < (adapter.getThreeTitlePosition() + adapter.getThreeContentItemCount() + 1)) {
                     if (adapter.isEditing) return;
                     adapter.isEditing = true;
-                    adapter.notifyItemRangeChanged(adapter.getTwoTitlePosition()+1, adapter.getThreeTitlePosition()-1);
-                } else if (pos == (adapter.getThreeTitlePosition()+adapter.getThreeContentItemCount())) {
-//                    adapter.isShowAdd = true;
-//                    adapter.notifyItemRemoved(pos);
+                    adapter.notifyItemRangeChanged(adapter.getThreeTitlePosition() + 1, adapter.getThreeContentItemCount());
                 }
 
             }
 
             @Override
             public void onItemClick(RecyclerView.ViewHolder vh) {
-                  if (vh.getLayoutPosition()==adapter.getThreeContentItemCount()+adapter.getThreeTitlePosition()){
-                      ToastUtil.showToast(TagEditActivity.this,"last");
-                      adapter.notifyItemInserted(vh.getLayoutPosition()+1);
-                  }
+                int pos = vh.getLayoutPosition();
+                if (pos == adapter.getThreeContentItemCount() + adapter.getThreeTitlePosition() + 1) {
+                    ToastUtil.showToast(TagEditActivity.this, "last");
+                    adapter.isAdd = true;
+                    adapter.notifyItemChanged(vh.getLayoutPosition());
+
+//                      adapter.results3.add("新增");
+//                      adapter.notifyItemInserted(vh.getLayoutPosition());
+//                      adapter.notifyItemRangeChanged(vh.getLayoutPosition()+1,adapter.getItemCount()-vh.getLayoutPosition());
+                }
+                if (adapter.isEditing && pos > adapter.getThreeTitlePosition() && pos < adapter.getThreeTitlePosition() + adapter.getThreeContentItemCount() + 1) {
+                    adapter.results3.remove(pos - adapter.getThreeTitlePosition() - 1);
+                    adapter.notifyItemRemoved(pos);
+                }
             }
         });
     }
 
-//    private void initDiy() {
-//
-//        RecyclerView recycle_diy = (RecyclerView) findViewById(R.id.recycle_diy);
-//        FlexboxLayoutManager diyLayoutManager = new FlexboxLayoutManager();
-//        diyLayoutManager.setFlexWrap(FlexWrap.WRAP);
-//        diyLayoutManager.setFlexDirection(FlexDirection.ROW);
-//        diyLayoutManager.setAlignItems(AlignItems.STRETCH);
-//        recycle_diy.setLayoutManager(diyLayoutManager);
-//        final RecycleViewTagAdapter diyAdapter = new RecycleViewTagAdapter(this);
-//        recycle_diy.setAdapter(diyAdapter);
-//
-//        final ItemTouchHelper diyItemTouchHelper = new ItemTouchHelper(
-//                new RecycleViewItemTouchCallback(diyAdapter).setOnDragListener(this));
-//        diyItemTouchHelper.attachToRecyclerView(recycle_diy);
-//
-//        recycle_diy.addOnItemTouchListener(new OnRecyclerItemClickListener(recycle_diy) {
-//            @Override
-//            public void onLongClick(RecyclerView.ViewHolder vh) {
-//                diyAdapter.isEditing = true;
-//                diyAdapter.notifyDataSetChanged();
-//
-//            }
-//
-//            @Override
-//            public void onItemClick(RecyclerView.ViewHolder vh) {
-//
-//            }
-//        });
-//    }
 
     @Override
     public void onFinishDrag() {

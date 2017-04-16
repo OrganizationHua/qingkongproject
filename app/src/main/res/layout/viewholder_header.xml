@@ -13,13 +13,12 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-<TextView
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/textview"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"
-        android:background="@drawable/normal_bg"
-        android:textSize="14sp"
-        />
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/textview"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/tag_height"
+    android:layout_marginBottom="10dp"
+    android:layout_marginTop="10dp"
+    android:background="@drawable/normal_bg"
+    android:gravity="left"
+    android:textSize="14sp" />

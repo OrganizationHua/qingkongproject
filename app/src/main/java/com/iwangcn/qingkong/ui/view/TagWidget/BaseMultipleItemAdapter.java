@@ -55,9 +55,9 @@ public abstract class BaseMultipleItemAdapter extends RecyclerView.Adapter<Recyc
             return ITEM_TYPE_TWO_CONTENT;
         } else if (position == getThreeTitlePosition()) {
             return ITEM_TYPE_THREE_TITLE;
-        } else if (position > getThreeTitlePosition() && position <getThreeTitlePosition() + getThreeContentItemCount()) {
+        } else if (position > getThreeTitlePosition() && position <getThreeTitlePosition() + getThreeContentItemCount()+1) {
             return ITEM_TYPE_THREE_CONTENT;
-        }else if(position==getThreeTitlePosition()+getThreeContentItemCount()){
+        }else if(position==getThreeTitlePosition()+getThreeContentItemCount()+1){
             return ITEM_TYPE_LAST;
         }
         return 0;
@@ -65,7 +65,7 @@ public abstract class BaseMultipleItemAdapter extends RecyclerView.Adapter<Recyc
 
     @Override
     public int getItemCount() {
-        return getThreeTitlePosition() + getThreeContentItemCount() + 1;
+        return getThreeTitlePosition() + getThreeContentItemCount() + 1+1;
     }
 
     public abstract RecyclerView.ViewHolder onCreateHeaderView(ViewGroup parent);//创建头部View
