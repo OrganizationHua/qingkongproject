@@ -126,8 +126,8 @@ public class NewsSearchActivity extends BaseActivity {
         for (int i = 0; i < 10; i++) {
             NewsInfo model = new NewsInfo();
             model.setTitle("新闻搜索历史记录");
-            model.setPubtime("12:31");
-            model.setPubtime("今日头条");
+            model.setPubtime(22222);
+            model.setPubtime(1111);
             model.setContent("事件来源");
             mListResult.add(model);
         }

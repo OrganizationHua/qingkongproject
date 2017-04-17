@@ -92,9 +92,9 @@ public class NewsAdapter extends BaseAdapter {
         if (!TextUtils.isEmpty(model.getNumb())){
             viewHolder.tvNumb.setText(model.getNumb());
         }
-        if (!TextUtils.isEmpty(model.getPubtime())){
-            viewHolder.tvTime.setText(model.getPubtime());
-        }
+//        if (!TextUtils.isEmpty(model.getPubtime())){
+//            viewHolder.tvTime.setText(model.getPubtime());
+//        }
         viewHolder.linCollect.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

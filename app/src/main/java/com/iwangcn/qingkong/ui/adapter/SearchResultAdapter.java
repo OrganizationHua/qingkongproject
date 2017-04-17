@@ -67,9 +67,9 @@ public class SearchResultAdapter extends BaseAdapter {
         if (!TextUtils.isEmpty(bean.getTitle())) {
             viewHolder.title.setText(bean.getTitle());
         }
-        if (!TextUtils.isEmpty(bean.getPubtime())) {
-            viewHolder.time.setText(bean.getPubtime());
-        }
+//        if (!TextUtils.isEmpty(bean.getPubtime())) {
+//            viewHolder.time.setText(bean.getPubtime());
+//        }
         if (!TextUtils.isEmpty(bean.getNumb())) {
             viewHolder.from.setText(bean.getNumb());
         }

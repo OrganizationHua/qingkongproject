@@ -5,7 +5,8 @@ package com.iwangcn.qingkong.net;
  */
 
 public interface NetConst {
-    String STATUS_SUCCESS="0";
-    String STATUS_FAILURE="1";
-    String CODE_SUCCESS="0";
+    String STATUS_SUCCESS = "0";
+    String STATUS_FAILURE = "1";
+    String CODE_SUCCESS = "0";
+    String URL_LOGIN = "login";//登录
 }
