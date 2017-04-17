@@ -17,6 +17,6 @@
 
     <!--home-->
     <color name="home_blue">#0a83c9</color>
-    <color name="home_bottom_gray">#aaaaaa</color>
+    <color name="home_gray">#aaaaaa</color>
     <color name="home_collect_yelllow">#e6be4c</color>
 </resources>

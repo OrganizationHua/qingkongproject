@@ -56,6 +56,6 @@ public class NewsEventActivity extends QkBaseActivity {
                 Intent intent = new Intent(mContext, NewsDetailActivity.class);
                 mContext.startActivity(intent);
             }
-        });
+        });;
     }
 }

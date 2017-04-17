@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.iwangcn.qingkong.R;
@@ -41,6 +42,15 @@ public abstract class QkBaseActivity extends BaseActivity {
     @BindView(R.id.base_img_right)
     ImageView mImgRight;//右边图片
 
+    @BindView(R.id.systemFailNetRoootRel)
+    RelativeLayout mRelFailNet;//网络加载失败
+
+    @BindView(R.id.systemNoNetRoootRel)
+    RelativeLayout mRelNoNet;//当前无网络
+
+    @BindView(R.id.systemFailLin)
+    LinearLayout mLinRefresh;//当前无网络
+
     private LayoutInflater inflater;
     private LinearLayout.LayoutParams layoutParams = null;
 
@@ -54,6 +64,7 @@ public abstract class QkBaseActivity extends BaseActivity {
         initView();
         initData();
     }
+
 
     private void initSubView() {
         inflater = LayoutInflater.from(this);
@@ -88,11 +99,13 @@ public abstract class QkBaseActivity extends BaseActivity {
         mTvRight.setText(title);
         return mTvTitle;
     }
+
     protected ImageView setRightImg(int resId) {
         mImgRight.setVisibility(View.VISIBLE);
         mImgRight.setBackgroundResource(resId);
         return mImgRight;
     }
+
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
@@ -101,8 +114,42 @@ public abstract class QkBaseActivity extends BaseActivity {
         return false;
     }
 
+    /**
+     * 根据网络显示当前界面
+     *
+     * @param isNetWork
+     */
+    protected void setHasNetWork(boolean isNetWork) {
+        if (isNetWork) {
+            mRelFailNet.setVisibility(View.GONE);
+        } else {
+            mRelFailNet.setVisibility(View.VISIBLE);
+        }
+
+    }
+
+    /**
+     * 加载失败重新刷新
+     *
+     * @param isFailNetWork
+     * @param failRefreshListener
+     */
+    protected void setFailNetWork(boolean isFailNetWork, final View.OnClickListener failRefreshListener) {
+        if (isFailNetWork) {
+            mRelFailNet.setVisibility(View.VISIBLE);
+            mLinRefresh.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    failRefreshListener.onClick(view);
+                }
+            });
+        } else {
+            mRelFailNet.setVisibility(View.GONE);
+        }
+    }
 
     @Override
+
     protected void onDestroy() {
         super.onDestroy();
     }

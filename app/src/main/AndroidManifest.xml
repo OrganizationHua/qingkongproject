@@ -25,6 +25,7 @@
         android:theme="@style/AppTheme">
 
         <!-- HomeActivity -->
+        <!-- LoginActivity -->
         <activity android:name=".ui.activity.HomeActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -38,7 +39,7 @@
             android:label="@string/title_activity_settings"
             android:launchMode="singleTop"
             android:windowSoftInputMode="adjustUnspecified|stateHidden" />
-        <!-- <activity android:name=".ui.activity.LoginActivity"></activity> -->
+        <!--<activity android:name=".ui.activity.HomeActivity"></activity>-->
         <activity android:name=".ui.activity.CollectActivity" />
         <activity android:name=".ui.activity.NewsDetailActivity" />
         <activity android:name=".ui.activity.NewsSearchActivity" />

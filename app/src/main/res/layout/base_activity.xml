@@ -6,13 +6,27 @@
     android:background="@android:color/white"
     android:orientation="vertical">
     <!--android:paddingTop="@dimen/padding_top"-->
-    <LinearLayout
-        android:id="@+id/hl_base_lin_sub"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+    <include layout="@layout/base_activity_title_layout" />
 
-        <include layout="@layout/base_activity_title_layout" />
-    </LinearLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:id="@+id/hl_base_lin_sub"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"></LinearLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <include layout="@layout/system_fail_network" />
+
+            <include layout="@layout/system_no_network" />
+
+        </RelativeLayout>
+    </RelativeLayout>
 
 </LinearLayout>
