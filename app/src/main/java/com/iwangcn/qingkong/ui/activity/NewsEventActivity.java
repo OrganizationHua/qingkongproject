@@ -9,7 +9,7 @@ import android.widget.ListView;
 import com.iwangcn.qingkong.R;
 import com.iwangcn.qingkong.ui.adapter.NewsEventAdapter;
 import com.iwangcn.qingkong.ui.base.QkBaseActivity;
-import com.iwangcn.qingkong.ui.model.NewEventModel;
+import com.iwangcn.qingkong.ui.model.EventInfo;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,7 +24,7 @@ public class NewsEventActivity extends QkBaseActivity {
     ListView mRecyclerView;
     private Context mContext = this;
     private NewsEventAdapter mEventAdapter;
-    private List<NewEventModel> mList = new ArrayList<>();
+    private List<EventInfo> mList = new ArrayList<>();
 
     @Override
     public int layoutChildResID() {
@@ -40,7 +40,7 @@ public class NewsEventActivity extends QkBaseActivity {
     private void initListView() {
         mEventAdapter = new NewsEventAdapter(this);
         for (int i = 0; i < 30; i++) {
-            NewEventModel model = new NewEventModel();
+            EventInfo model = new EventInfo();
             if (i == 0) {
                 model.setSelect(true);
             } else {

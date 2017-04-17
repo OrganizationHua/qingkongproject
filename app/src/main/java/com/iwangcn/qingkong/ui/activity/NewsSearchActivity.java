@@ -14,7 +14,7 @@ import com.iwangcn.qingkong.dao.model.SearchModel;
 import com.iwangcn.qingkong.ui.adapter.SearchHistoryAdapter;
 import com.iwangcn.qingkong.ui.adapter.SearchResultAdapter;
 import com.iwangcn.qingkong.ui.base.BaseActivity;
-import com.iwangcn.qingkong.ui.model.NewsModel;
+import com.iwangcn.qingkong.ui.model.NewsInfo;
 import com.iwangcn.qingkong.ui.view.ClearEditText;
 
 import java.util.ArrayList;
@@ -42,7 +42,7 @@ public class NewsSearchActivity extends BaseActivity {
     ListView mListViewHot;//大家都在搜
 
     private List<SearchModel> mListHistory = new ArrayList<SearchModel>();
-    private List<NewsModel> mListResult = new ArrayList<NewsModel>();
+    private List<NewsInfo> mListResult = new ArrayList<NewsInfo>();
     private SearchHistoryAdapter mAdapterHistory;//历史搜索
     private SearchResultAdapter mAdapterResult;//搜索结果
 
@@ -124,11 +124,11 @@ public class NewsSearchActivity extends BaseActivity {
      */
     private void initListSerchResult() {
         for (int i = 0; i < 10; i++) {
-            NewsModel model = new NewsModel();
+            NewsInfo model = new NewsInfo();
             model.setTitle("新闻搜索历史记录");
-            model.setTime("12:31");
-            model.setTime("今日头条");
-            model.setEvent("事件来源");
+            model.setPubtime("12:31");
+            model.setPubtime("今日头条");
+            model.setContent("事件来源");
             mListResult.add(model);
         }
         mAdapterResult = new SearchResultAdapter(this);

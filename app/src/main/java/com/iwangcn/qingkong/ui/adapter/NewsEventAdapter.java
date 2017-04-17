@@ -11,7 +11,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.iwangcn.qingkong.R;
-import com.iwangcn.qingkong.ui.model.NewEventModel;
+import com.iwangcn.qingkong.ui.model.EventInfo;
 import com.zhy.view.flowlayout.FlowLayout;
 import com.zhy.view.flowlayout.TagAdapter;
 import com.zhy.view.flowlayout.TagFlowLayout;
@@ -28,14 +28,14 @@ import butterknife.ButterKnife;
  */
 
 public class NewsEventAdapter extends BaseAdapter {
-    private List<NewEventModel> mList;
+    private List<EventInfo> mList;
     private Context mContext;
 
     public NewsEventAdapter(Context context) {
         this.mContext = context;
     }
 
-    public void setDataList(List<NewEventModel> dataList) {
+    public void setDataList(List<EventInfo> dataList) {
         mList = dataList;
         notifyDataSetChanged();
     }
@@ -43,7 +43,7 @@ public class NewsEventAdapter extends BaseAdapter {
     @Override
     public int getCount() {
         if (mList == null) {
-            mList = new ArrayList<NewEventModel>();
+            mList = new ArrayList<EventInfo>();
         }
         return mList.size();
     }
@@ -70,7 +70,7 @@ public class NewsEventAdapter extends BaseAdapter {
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
-         NewEventModel model = mList.get(position);
+         EventInfo model = mList.get(position);
         if (position == 0) {
             viewHolder.imgIconUp.setVisibility(View.VISIBLE);
         } else {

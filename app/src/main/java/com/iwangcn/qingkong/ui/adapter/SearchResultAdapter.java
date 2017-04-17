@@ -9,7 +9,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.iwangcn.qingkong.R;
-import com.iwangcn.qingkong.ui.model.NewsModel;
+import com.iwangcn.qingkong.ui.model.NewsInfo;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,13 +20,13 @@ import java.util.List;
  */
 public class SearchResultAdapter extends BaseAdapter {
     private LayoutInflater inflater;
-    private List<NewsModel> mList;
+    private List<NewsInfo> mList;
 
     public SearchResultAdapter(Context context) {
         inflater = LayoutInflater.from(context);
     }
 
-    public void setDataList(List<NewsModel> dataList) {
+    public void setDataList(List<NewsInfo> dataList) {
         mList = dataList;
         notifyDataSetChanged();
     }
@@ -34,7 +34,7 @@ public class SearchResultAdapter extends BaseAdapter {
     @Override
     public int getCount() {
         if (mList == null) {
-            mList = new ArrayList<NewsModel>();
+            mList = new ArrayList<NewsInfo>();
         }
         return mList.size();
     }
@@ -63,18 +63,18 @@ public class SearchResultAdapter extends BaseAdapter {
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
-        NewsModel bean = mList.get(position);
+        NewsInfo bean = mList.get(position);
         if (!TextUtils.isEmpty(bean.getTitle())) {
             viewHolder.title.setText(bean.getTitle());
         }
-        if (!TextUtils.isEmpty(bean.getTime())) {
-            viewHolder.time.setText(bean.getTime());
+        if (!TextUtils.isEmpty(bean.getPubtime())) {
+            viewHolder.time.setText(bean.getPubtime());
         }
         if (!TextUtils.isEmpty(bean.getNumb())) {
             viewHolder.from.setText(bean.getNumb());
         }
-        if (!TextUtils.isEmpty(bean.getEvent())) {
-            viewHolder.tvEvent.setText(bean.getEvent());
+        if (!TextUtils.isEmpty(bean.getContent())) {
+            viewHolder.tvEvent.setText(bean.getContent());
         }
         return convertView;
     }

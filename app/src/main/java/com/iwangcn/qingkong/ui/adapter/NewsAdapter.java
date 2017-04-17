@@ -12,7 +12,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.iwangcn.qingkong.R;
-import com.iwangcn.qingkong.ui.model.NewsModel;
+import com.iwangcn.qingkong.ui.model.NewsInfo;
 import com.iwangcn.qingkong.utils.ToastUtil;
 import com.iwangcn.qingkong.ui.view.BessleAnimation.BesselAnimation;
 
@@ -27,7 +27,7 @@ import butterknife.ButterKnife;
  * demo Adapter Created by zhchen on 15/8/5
  */
 public class NewsAdapter extends BaseAdapter {
-    private List<NewsModel> mList;
+    private List<NewsInfo> mList;
     private Context mContext;
     private RelativeLayout containerView;
     private View collectView;
@@ -35,7 +35,7 @@ public class NewsAdapter extends BaseAdapter {
         this.mContext = context;
     }
 
-    public void setDataList(List<NewsModel> dataList) {
+    public void setDataList(List<NewsInfo> dataList) {
         mList = dataList;
         notifyDataSetChanged();
     }
@@ -59,7 +59,7 @@ public class NewsAdapter extends BaseAdapter {
     @Override
     public int getCount() {
         if (mList == null) {
-            mList = new ArrayList<NewsModel>();
+            mList = new ArrayList<NewsInfo>();
         }
         return mList.size();
     }
@@ -85,15 +85,15 @@ public class NewsAdapter extends BaseAdapter {
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
-        NewsModel model = mList.get(position);
+        NewsInfo model = mList.get(position);
         if (!TextUtils.isEmpty(model.getTitle())){
             viewHolder.title.setText(model.getTitle());
         }
         if (!TextUtils.isEmpty(model.getNumb())){
             viewHolder.tvNumb.setText(model.getNumb());
         }
-        if (!TextUtils.isEmpty(model.getTime())){
-            viewHolder.tvTime.setText(model.getTime());
+        if (!TextUtils.isEmpty(model.getPubtime())){
+            viewHolder.tvTime.setText(model.getPubtime());
         }
         viewHolder.linCollect.setOnClickListener(new View.OnClickListener() {
             @Override

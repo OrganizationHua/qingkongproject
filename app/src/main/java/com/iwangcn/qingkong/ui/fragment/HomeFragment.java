@@ -21,7 +21,7 @@ import com.iwangcn.qingkong.ui.activity.NewsEventActivity;
 import com.iwangcn.qingkong.ui.activity.NewsSearchActivity;
 import com.iwangcn.qingkong.ui.adapter.NewsAdapter;
 import com.iwangcn.qingkong.ui.base.BaseFragment;
-import com.iwangcn.qingkong.ui.model.NewsModel;
+import com.iwangcn.qingkong.ui.model.NewsInfo;
 import com.iwangcn.qingkong.utils.ToastUtil;
 
 import java.util.ArrayList;
@@ -45,7 +45,7 @@ public class HomeFragment extends BaseFragment {
     LinearLayout mLin;//listView容器
 
     private NewsAdapter mNewsAdapter;
-    private List<NewsModel> mList;
+    private List<NewsInfo> mList;
 
     @Override
     protected int layoutResID() {
@@ -61,10 +61,10 @@ public class HomeFragment extends BaseFragment {
     private void initData() {
         mList = new ArrayList<>();
         for (int i = 0; i < 15; i++) {
-            NewsModel model = new NewsModel();
+            NewsInfo model = new NewsInfo();
             model.setTitle("当地时间6日，国家主席习近平在美国佛罗里达州海湖庄园同美国总统特朗普举行中美元首会晤。两国元首进行了深入、友好、长时间的会晤");
             model.setNumb("333条");
-            model.setTime("2014-9999");
+            model.setPubtime("2014-9999");
             mList.add(model);
         }
         mNewsAdapter = new NewsAdapter(getActivity());

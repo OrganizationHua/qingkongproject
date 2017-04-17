@@ -11,7 +11,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.iwangcn.qingkong.R;
-import com.iwangcn.qingkong.ui.model.NewsModel;
+import com.iwangcn.qingkong.ui.model.NewsInfo;
 import com.iwangcn.qingkong.utils.ToastUtil;
 
 import java.util.ArrayList;
@@ -25,14 +25,14 @@ import butterknife.ButterKnife;
  * demo Adapter Created by zhchen on 15/8/5
  */
 public class CollectAdapter extends BaseAdapter {
-    private List<NewsModel> mList;
+    private List<NewsInfo> mList;
     private Context mContext;
 
     public CollectAdapter(Context context) {
         this.mContext = context;
     }
 
-    public void setDataList(List<NewsModel> dataList) {
+    public void setDataList(List<NewsInfo> dataList) {
         mList = dataList;
         notifyDataSetChanged();
     }
@@ -42,7 +42,7 @@ public class CollectAdapter extends BaseAdapter {
     @Override
     public int getCount() {
         if (mList == null) {
-            mList = new ArrayList<NewsModel>();
+            mList = new ArrayList<NewsInfo>();
         }
         return mList.size();
     }
@@ -69,15 +69,15 @@ public class CollectAdapter extends BaseAdapter {
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
-        NewsModel model = mList.get(position);
+        NewsInfo model = mList.get(position);
         if (!TextUtils.isEmpty(model.getTitle())) {
             viewHolder.title.setText(model.getTitle());
         }
         if (!TextUtils.isEmpty(model.getNumb())) {
             viewHolder.tvNumb.setText(model.getNumb());
         }
-        if (!TextUtils.isEmpty(model.getTime())) {
-            viewHolder.tvTime.setText(model.getTime());
+        if (!TextUtils.isEmpty(model.getPubtime())) {
+            viewHolder.tvTime.setText(model.getPubtime());
         }
         viewHolder.linCollect.setOnClickListener(new View.OnClickListener() {
             @Override
