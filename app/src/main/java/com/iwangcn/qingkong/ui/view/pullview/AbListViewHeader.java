@@ -144,6 +144,8 @@ public class AbListViewHeader extends LinearLayout {
 		
 		//style="?android:attr/progressBarStyleSmall" 默认的样式
 		headerProgressBar = new ProgressBar(context,null,android.R.attr.progressBarStyle);
+		headerProgressBar.setIndeterminate(true);
+	   headerProgressBar.setIndeterminateDrawable(context.getResources().getDrawable(R.drawable.pull_wait_indicate));
 		headerProgressBar.setVisibility(View.GONE);
 		
 		LinearLayout.LayoutParams layoutParamsWW = new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
