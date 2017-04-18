@@ -1,11 +1,13 @@
 package com.iwangcn.qingkong.ui.model;
 
+import com.iwangcn.qingkong.net.BaseBean;
+
 /**
  * 新闻NewsInfo
  * Created by czh on 2017/4/7.
  */
 
-public class NewsInfo {
+public class NewsInfo extends BaseBean {
 
     private long autoId;
     private String title;

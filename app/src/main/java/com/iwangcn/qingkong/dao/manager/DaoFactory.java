@@ -3,16 +3,19 @@ package com.iwangcn.qingkong.dao.manager;
 import android.content.Context;
 
 import com.iwangcn.qingkong.app.MobileApplication;
+import com.iwangcn.qingkong.dao.imp.EventInfoDao;
 import com.iwangcn.qingkong.dao.imp.SearchDao;
 import com.iwangcn.qingkong.dao.model.SearchModel;
+import com.iwangcn.qingkong.ui.model.EventInfo;
 
 public class DaoFactory {
     private static final String TAG = DaoFactory.class.getSimpleName();
 
     public enum DaoType {
-        SEAR_DAO
+        SEAR_DAO,EVENT_INFO
     }
     private static SearchDao mSearchDao;
+    private static EventInfoDao mEventInfoDao;
     private static Context mContext= MobileApplication.getInstance();
     public static AbstractDao createInstance(DaoType type) {
         AbstractDao dao = null;
@@ -27,6 +30,16 @@ public class DaoFactory {
                 }
                 dao = mSearchDao;
                 break;
+            case EVENT_INFO:
+                if (mEventInfoDao == null) {
+                    synchronized (DaoFactory.class) {
+                        if (mEventInfoDao == null) {
+                            mEventInfoDao = new EventInfoDao(mContext);
+                        }
+                    }
+                }
+                dao = mEventInfoDao;
+                break;
             default:
                 break;
         }
@@ -39,7 +52,7 @@ public class DaoFactory {
     }
 
     public static String[] getTableCreateSql() {
-        return new String[]{SearchModel.CREATE_SQL};
+        return new String[]{SearchModel.CREATE_SQL, EventInfo.CREATE_SQL};
     }
 
     public static AbstractDao getDao(DaoType type) {

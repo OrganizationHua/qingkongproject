@@ -3,8 +3,10 @@ package com.iwangcn.qingkong.ui.activity;
 import android.content.Context;
 
 import com.iwangcn.qingkong.R;
+import com.iwangcn.qingkong.net.NetworkUtil;
 import com.iwangcn.qingkong.ui.base.QkBaseActivity;
 import com.iwangcn.qingkong.ui.view.MyCommonDialog;
+import com.iwangcn.qingkong.utils.ToastUtil;
 
 import butterknife.OnClick;
 
@@ -28,19 +30,23 @@ public class UpdateActivity extends QkBaseActivity {
 
     @OnClick(R.id.btn_update)//升级
     public void onBtnUpdate() {
-        final MyCommonDialog dialog = new MyCommonDialog(this);
-        dialog.setContent("确定升级？");
-        dialog.setOnDialogClick(new MyCommonDialog.DialogInterface() {
-            @Override
-            public void onCancle() {
+        if (NetworkUtil.isWifi(this)) {
+            ToastUtil.showToast(this, "正在升级");
+        } else {
+            final MyCommonDialog dialog = new MyCommonDialog(this);
+            dialog.setContent(getString(R.string.updata_tips));
+            dialog.setOnDialogClick(new MyCommonDialog.DialogInterface() {
+                @Override
+                public void onCancle() {
 
-            }
+                }
 
-            @Override
-            public void onConfirm() {
-                dialog.dismiss();
-            }
-        });
-        dialog.show();
+                @Override
+                public void onConfirm() {
+                    dialog.dismiss();
+                }
+            });
+            dialog.show();
+        }
     }
 }

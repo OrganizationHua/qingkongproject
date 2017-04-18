@@ -1,11 +1,13 @@
 package com.iwangcn.qingkong.ui.model;
 
+import com.iwangcn.qingkong.net.BaseBean;
+
 /**
  * 用户模型
  * Created by czh on 2017/4/17.
  */
 
-public class UserInfo {
+public class UserInfo extends BaseBean {
     private long autoId;
     private String name;//账号
     private String nickName;//昵称

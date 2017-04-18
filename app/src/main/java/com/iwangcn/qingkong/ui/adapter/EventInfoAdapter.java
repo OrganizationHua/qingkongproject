@@ -12,7 +12,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.iwangcn.qingkong.R;
-import com.iwangcn.qingkong.ui.model.NewsInfo;
+import com.iwangcn.qingkong.ui.model.EventInfo;
 import com.iwangcn.qingkong.utils.ToastUtil;
 import com.iwangcn.qingkong.ui.view.BessleAnimation.BesselAnimation;
 
@@ -24,18 +24,20 @@ import butterknife.ButterKnife;
 
 
 /**
+ * 时间Adapter
  * demo Adapter Created by zhchen on 15/8/5
  */
-public class NewsAdapter extends BaseAdapter {
-    private List<NewsInfo> mList;
+public class EventInfoAdapter extends BaseAdapter {
+    private List<EventInfo> mList;
     private Context mContext;
     private RelativeLayout containerView;
     private View collectView;
-    public NewsAdapter(Context context) {
+
+    public EventInfoAdapter(Context context) {
         this.mContext = context;
     }
 
-    public void setDataList(List<NewsInfo> dataList) {
+    public void setDataList(List<EventInfo> dataList) {
         mList = dataList;
         notifyDataSetChanged();
     }
@@ -59,7 +61,7 @@ public class NewsAdapter extends BaseAdapter {
     @Override
     public int getCount() {
         if (mList == null) {
-            mList = new ArrayList<NewsInfo>();
+            mList = new ArrayList<EventInfo>();
         }
         return mList.size();
     }
@@ -85,12 +87,12 @@ public class NewsAdapter extends BaseAdapter {
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
-        NewsInfo model = mList.get(position);
-        if (!TextUtils.isEmpty(model.getTitle())){
-            viewHolder.title.setText(model.getTitle());
+        EventInfo model = mList.get(position);
+        if (!TextUtils.isEmpty(model.getName())) {
+            viewHolder.title.setText(model.getName());
         }
-        if (!TextUtils.isEmpty(model.getNumb())){
-            viewHolder.tvNumb.setText(model.getNumb());
+        if (!TextUtils.isEmpty(model.getCreateUid())) {
+            viewHolder.tvNumb.setText(model.getCreateUid());
         }
 //        if (!TextUtils.isEmpty(model.getPubtime())){
 //            viewHolder.tvTime.setText(model.getPubtime());
@@ -99,7 +101,7 @@ public class NewsAdapter extends BaseAdapter {
             @Override
             public void onClick(View view) {
                 ToastUtil.showToast(mContext, "收藏按钮");
-                BesselAnimation besselAnimation=new BesselAnimation(mContext,containerView,view,collectView);
+                BesselAnimation besselAnimation = new BesselAnimation(mContext, containerView, view, collectView);
                 besselAnimation.startAnimation(new Animator.AnimatorListener() {
                     @Override
                     public void onAnimationStart(Animator animator) {
@@ -135,6 +137,7 @@ public class NewsAdapter extends BaseAdapter {
         public TextView tvTime;//新闻数量
         @BindView(R.id.homefragment_lin_collect)
         public LinearLayout linCollect;//收藏
+
         public ViewHolder(View view) {
             ButterKnife.bind(this, view);
         }
