@@ -3,6 +3,7 @@ package com.iwangcn.qingkong.ui.fragment;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.KeyEvent;
@@ -69,8 +70,13 @@ public class HomeFragment extends BaseFragment implements AbPullToRefreshView.On
         initData();
     }
 
-    private void initData() {
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         EventBus.getDefault().register(this);
+    }
+
+    private void initData() {
         mAbPullToRefreshView.setOnHeaderRefreshListener(this);
         mAbPullToRefreshView.setOnFooterLoadListener(this);
         mHomeEvent = new HomeEvent(getActivity());
