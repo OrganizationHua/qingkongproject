@@ -10,10 +10,15 @@ import android.widget.EditText;
 import android.widget.Switch;
 
 import com.iwangcn.qingkong.R;
+import com.iwangcn.qingkong.business.Event;
+import com.iwangcn.qingkong.business.MineEvent;
 import com.iwangcn.qingkong.sp.SpConstant;
 import com.iwangcn.qingkong.sp.SpUtils;
 import com.iwangcn.qingkong.ui.base.QkBaseActivity;
 import com.iwangcn.qingkong.utils.ToastUtil;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -36,7 +41,8 @@ public class SettingsActivity extends QkBaseActivity {
     Switch mSwitchSound;//声音开关
     @BindView(R.id.mine_switch_vibrate)
     Switch mSwitchVibrate;//震动开关
-    private Context mContext=this;
+    private Context mContext = this;
+
     @Override
     public int layoutChildResID() {
         return R.layout.activity_set;
@@ -44,6 +50,7 @@ public class SettingsActivity extends QkBaseActivity {
 
     @Override
     public void initView() {
+        EventBus.getDefault().register(this);
         setTitle(getResources().getString(R.string.mine_system_set));
         setSwitch();
         mEdAgainPw.addTextChangedListener(new TextWatcher() {
@@ -78,19 +85,19 @@ public class SettingsActivity extends QkBaseActivity {
         mSwitchNotify.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                SpUtils.put(mContext,SpConstant.IS_NOTIFY,b);
+                SpUtils.put(mContext, SpConstant.IS_NOTIFY, b);
             }
         });
         mSwitchSound.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                SpUtils.put(mContext,SpConstant.IS_SOUND,b);
+                SpUtils.put(mContext, SpConstant.IS_SOUND, b);
             }
         });
         mSwitchVibrate.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                SpUtils.put(mContext,SpConstant.IS_VIBRATE,b);
+                SpUtils.put(mContext, SpConstant.IS_VIBRATE, b);
             }
         });
     }
@@ -113,6 +120,23 @@ public class SettingsActivity extends QkBaseActivity {
             return;
         }
         ToastUtil.showToast(this, "修改密码成功");
+        MineEvent mineEvent = new MineEvent(this);
+        mineEvent.updatePwd(strOriginalPw, strNewPw);
     }
 
+    @Subscribe
+    public void onEventMainThread(Event event) {
+        if (event instanceof MineEvent) {
+            if (event.getId() == ((MineEvent) event).updatePaw) {
+                String strResult = (String) event.getObject();
+                ToastUtil.showToast(this, strResult);
+            }
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+    }
 }

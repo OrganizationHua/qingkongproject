@@ -15,28 +15,14 @@ public class UserManager {
     private static UserManager instance;
     private static UserInfo userInfo;
 
-    private UserManager() {
-
-    }
-
-    public static UserManager getInstance() {
-        if (instance == null) {
-            synchronized (UserManager.class) {
-                if (instance == null) {
-                    instance = new UserManager();
-                }
-            }
-        }
-        return instance;
-    }
-
-    public void saveUserInfo(UserInfo userInfo) {
-        setUserInfo(userInfo);
+    public static void setUserName(UserInfo userInfo) {
+        UserManager.userInfo=userInfo;
         SpUtils.put(MobileApplication.getInstance(), SpConstant.USER_INFO, new Gson().toJson(userInfo));
         SpUtils.put(MobileApplication.getInstance(), SpConstant.IS_LOGIN, false);
+        SpUtils.put(MobileApplication.getInstance(), SpConstant.CACHE_USERNAME, userInfo.getName());
     }
 
-    public  UserInfo getUserInfo() {
+    public static UserInfo getUserInfo() {
         if (userInfo == null) {
             String strUserInfo = (String) SpUtils.get(MobileApplication.getInstance(), SpConstant.USER_INFO, "");
             userInfo = new Gson().fromJson(strUserInfo, UserInfo.class);
@@ -45,7 +31,12 @@ public class UserManager {
         return userInfo;
     }
 
-    public static void setUserInfo(UserInfo userInfo) {
-        UserManager.userInfo = userInfo;
+    /**
+     * 清除用户信息
+     */
+    public static void clearUserInfo() {
+        userInfo = null;
+        SpUtils.put(MobileApplication.getInstance(), SpConstant.USER_INFO, "");
     }
+
 }

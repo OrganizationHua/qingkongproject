@@ -23,17 +23,17 @@
 
 
     <com.iwangcn.qingkong.ui.view.BounceScrollView
-        android:scrollbars="none"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/background_gray">
+        android:background="@color/background_gray"
+        android:scrollbars="none">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:paddingBottom="60dp"
             android:background="@color/background_gray"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:paddingBottom="60dp">
 
             <View
                 android:layout_width="match_parent"
@@ -61,9 +61,9 @@
                 android:background="@color/line_gray"></View>
 
             <LinearLayout
-                android:background="@android:color/white"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@android:color/white"
                 android:orientation="vertical"
                 android:paddingLeft="@dimen/mine_item_margin_left">
 
@@ -200,8 +200,8 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
-                >
+                android:layout_height="50dp">
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -218,9 +218,9 @@
                 android:background="@color/line_gray"></View>
 
             <LinearLayout
-                android:background="@android:color/white"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@android:color/white"
                 android:orientation="vertical"
                 android:paddingLeft="@dimen/mine_item_margin_left">
 
@@ -241,8 +241,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
-                        android:layout_marginRight="@dimen/mine_item_margin_left"
                         android:layout_centerVertical="true"
+                        android:layout_marginRight="@dimen/mine_item_margin_left"
                         android:src="@drawable/mine_next_icon" />
                 </RelativeLayout>
 
@@ -257,20 +257,38 @@
                     android:layout_height="@dimen/mine_item_height"
                     android:gravity="center_vertical">
 
-                    <TextView
-                        style="@style/TextView.fragmentMineBlack"
+                    <RelativeLayout
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:text="@string/mine_system_information" />
+                        android:layout_height="match_parent">
+
+                        <TextView
+                            android:id="@+id/tv_mine_system_information"
+                            style="@style/TextView.fragmentMineBlack"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:text="@string/mine_system_information" />
+
+                        <ImageView
+                            android:id="@+id/min_version_img_circle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignTop="@+id/tv_mine_system_information"
+                            android:layout_toRightOf="@+id/tv_mine_system_information"
+                            android:src="@drawable/home_shape_red_circle"
+                            android:visibility="gone" />
+                    </RelativeLayout>
+
 
                     <ImageView
+                        android:id="@+id/min_version_img_next"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
-                        android:layout_marginRight="@dimen/mine_item_margin_left"
                         android:layout_centerVertical="true"
-                        android:src="@drawable/mine_next_icon" />
+                        android:layout_marginRight="@dimen/mine_item_margin_left"
+                        android:src="@drawable/mine_next_icon"
+                        android:visibility="gone" />
                 </RelativeLayout>
 
                 <View

@@ -11,6 +11,8 @@ import com.iwangcn.qingkong.net.ExceptionHandle;
 import com.iwangcn.qingkong.net.NetConst;
 import com.iwangcn.qingkong.net.RetrofitInstance;
 import com.iwangcn.qingkong.providers.UserManager;
+import com.iwangcn.qingkong.sp.SpConstant;
+import com.iwangcn.qingkong.sp.SpUtils;
 import com.iwangcn.qingkong.ui.base.BaseActivity;
 import com.iwangcn.qingkong.ui.model.UserInfo;
 import com.iwangcn.qingkong.utils.ToastUtil;
@@ -32,6 +34,13 @@ public class LoginActivity extends BaseActivity implements NetConst {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
+        initData();
+    }
+
+    private void initData() {
+        //默认保存用户名
+        String defaultName = (String) SpUtils.get(this, SpConstant.CACHE_USERNAME, "");
+        mEdUserName.setText(defaultName);
         intentHome();
     }
 
@@ -60,7 +69,7 @@ public class LoginActivity extends BaseActivity implements NetConst {
 
             @Override
             public void onNext(Object o) {
-                UserManager.getInstance().setUserInfo((UserInfo) o);
+                UserManager.setUserName((UserInfo) o);
                 intentHome();
             }
         });

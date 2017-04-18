@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -97,6 +98,7 @@ public class EventInfoAdapter extends BaseAdapter {
 //        if (!TextUtils.isEmpty(model.getPubtime())){
 //            viewHolder.tvTime.setText(model.getPubtime());
 //        }
+        viewHolder.imgNote.setVisibility(View.VISIBLE);
         viewHolder.linCollect.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -137,6 +139,9 @@ public class EventInfoAdapter extends BaseAdapter {
         public TextView tvTime;//新闻数量
         @BindView(R.id.homefragment_lin_collect)
         public LinearLayout linCollect;//收藏
+        @BindView(R.id.home_fragment_item_note)
+        public ImageView imgNote;//收藏
+
 
         public ViewHolder(View view) {
             ButterKnife.bind(this, view);
