@@ -1,10 +1,10 @@
 package com.iwangcn.qingkong.net;
 
-import android.app.ProgressDialog;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 
-import com.iwangcn.qingkong.R;
+import com.iwangcn.qingkong.utils.ProgressLoading;
 
 
 /**
@@ -12,13 +12,13 @@ import com.iwangcn.qingkong.R;
  */
 public class ProgressDialogHelper {
 
-    private ProgressDialog pd;
+    private Dialog pd;
     private Context context;
     private boolean cancelable;
     private CancelListener cancelListener;
 
     public ProgressDialogHelper(Context context, CancelListener cancelListener,
-                                 boolean cancelable) {
+                                boolean cancelable) {
         super();
         this.context = context;
         this.cancelListener = cancelListener;
@@ -27,7 +27,7 @@ public class ProgressDialogHelper {
 
     public void showProgressDialog() {
         if (context != null && pd == null) {
-            pd = new ProgressDialog(context, R.style.Widget_AppCompat_ProgressBar);
+            pd = new ProgressLoading(context).createLoadingDialog("正在加载中");
             pd.setCancelable(cancelable);
             if (cancelable) {
                 pd.setOnCancelListener(new DialogInterface.OnCancelListener() {
@@ -54,7 +54,9 @@ public class ProgressDialogHelper {
 
     public void dismissProgressDialog() {
         if (pd != null) {
-            pd.dismiss();
+            if (pd.isShowing()) {
+                pd.dismiss();
+            }
             pd = null;
         }
     }

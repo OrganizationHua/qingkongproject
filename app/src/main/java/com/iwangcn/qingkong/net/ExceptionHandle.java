@@ -30,7 +30,7 @@ public class ExceptionHandle {
         ResponeThrowable ex;
         if (e instanceof HttpException) {
             HttpException httpException = (HttpException) e;
-            ex = new ResponeThrowable(NetConst.STATUS_FAILURE, ERROR.tip_message, ERROR.HTTP_ERROR, ERROR.tip_message);
+            ex = new ResponeThrowable(ERROR.HTTP_ERROR, ERROR.tip_message);
             switch (httpException.code()) {
                 case UNAUTHORIZED:
                 case FORBIDDEN:
@@ -41,35 +41,35 @@ public class ExceptionHandle {
                 case BAD_GATEWAY:
                 case SERVICE_UNAVAILABLE:
                 default:
-                    ex.errorCodeMessage = "网络服务不给力,请重试";
+                    ex.codeMessage = "网络服务不给力,请重试";
                     break;
             }
             return ex;
         } else if (e instanceof ServerException) {//服务端异常
             ServerException resultException = (ServerException) e;
-            ex = new ResponeThrowable(resultException.status, resultException.statusMsg, resultException.code, resultException.errorCodeMessage);
+            ex = new ResponeThrowable(resultException.code, resultException.codeMessage);
             return ex;
         } else if (e instanceof JSONException
                 || e instanceof ParseException) {
-            ex = new ResponeThrowable(NetConst.STATUS_FAILURE, ERROR.tip_message, ERROR.PARSE_ERROR, ERROR.tip_message);
+            ex = new ResponeThrowable(ERROR.PARSE_ERROR, ERROR.tip_message);
             return ex;
         } else if (e instanceof ConnectException) {
-            ex = new ResponeThrowable(NetConst.STATUS_FAILURE, ERROR.tip_message, ERROR.NETWORD_ERROR, ERROR.tip_message);
+            ex = new ResponeThrowable(ERROR.NETWORD_ERROR, ERROR.tip_message);
             return ex;
         } else if (e instanceof javax.net.ssl.SSLHandshakeException) {
-            ex = new ResponeThrowable(NetConst.STATUS_FAILURE, ERROR.tip_message, ERROR.SSL_ERROR, ERROR.tip_message);
+            ex = new ResponeThrowable(ERROR.SSL_ERROR, ERROR.tip_message);
             return ex;
         } else if (e instanceof ConnectTimeoutException || e instanceof SocketTimeoutException) {
-            ex = new ResponeThrowable(NetConst.STATUS_FAILURE, ERROR.tip_message, ERROR.TIMEOUT_ERROR, ERROR.tip_message);
+            ex = new ResponeThrowable(ERROR.TIMEOUT_ERROR, ERROR.tip_message);
             return ex;
         } else if (e instanceof ClassCastException) {
-            ex = new ResponeThrowable(NetConst.STATUS_FAILURE, ERROR.tip_message, ERROR.CLASS_ERROR, ERROR.tip_message);
+            ex = new ResponeThrowable(ERROR.CLASS_ERROR, ERROR.tip_message);
             return ex;
         } else if (e instanceof UnknownHostException) {
-            ex = new ResponeThrowable(NetConst.STATUS_FAILURE, ERROR.tip_message, ERROR.NO_ADDRESS_ERROR, ERROR.tip_message);
+            ex = new ResponeThrowable(ERROR.NO_ADDRESS_ERROR, ERROR.tip_message);
             return ex;
         } else {//未知错误 rx等
-            ex = new ResponeThrowable(NetConst.STATUS_FAILURE, ERROR.tip_message, ERROR.UNKNOWN, ERROR.tip_message);
+            ex = new ResponeThrowable(ERROR.UNKNOWN, ERROR.tip_message);
             return ex;
         }
     }
@@ -121,20 +121,20 @@ public class ExceptionHandle {
     }
 
     public static class ResponeThrowable extends RuntimeException {
-        public String status;//通信异常
-        public String statusMsg;//通信异常信息
-        public String errorCode;//业务接口异常
-        public String errorCodeMessage;//业务接口错误提示
+        public String code;
+        public String codeMessage;
 
-        public ResponeThrowable(String status, String statusMsg, String code, String errorCodeMessage) {
-            this.status = status;
-            this.statusMsg = statusMsg;
-            this.errorCode = code;
-            this.errorCodeMessage = errorCodeMessage;
+        public ResponeThrowable(String code, String codeMessage) {
+            this.code = code;
+            this.codeMessage = codeMessage;
         }
 
+        @Override
         public String toString() {
-            return "requestCode: " + status + "  statusMsg:  " + statusMsg + "  responseCode:  " + errorCode + "  errorMessage:  " + errorCodeMessage;
+            return "ResponeThrowable{" +
+                    "code='" + code + '\'' +
+                    ", codeMessage='" + codeMessage + '\'' +
+                    '}';
         }
     }
 
@@ -142,16 +142,13 @@ public class ExceptionHandle {
      * 自定义接口级异常
      */
     public static class ServerException extends RuntimeException {
-        public String status;
-        public String statusMsg;
         public String code;
-        public String errorCodeMessage;
+        public String codeMessage;
 
-        public ServerException(String status, String statusMsg, String code, String errorCodeMessage) {
-            this.status = status;
-            this.statusMsg = statusMsg;
+        public ServerException(String code, String codeMessage) {
+
             this.code = code;
-            this.errorCodeMessage = errorCodeMessage;
+            this.codeMessage = codeMessage;
         }
     }
 

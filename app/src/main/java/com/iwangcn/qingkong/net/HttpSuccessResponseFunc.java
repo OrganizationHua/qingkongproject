@@ -1,5 +1,7 @@
 package com.iwangcn.qingkong.net;
 
+import android.text.TextUtils;
+
 import com.alibaba.fastjson.JSON;
 
 import rx.functions.Func1;
@@ -18,13 +20,12 @@ public class HttpSuccessResponseFunc<T> implements Func1<NetResponse<T>, T> {
 
     @Override
     public T call(NetResponse<T> response) {
-        if (response.getResult().isStatusOk() && response.getResult().isCodeOk()) {
+        if (TextUtils.equals("200",response.getCode())) {
 
-            return JSON.parseObject(response.getResult().getData().toString(), clazz);
+            return JSON.parseObject(response.getData().toString(), clazz);
 
         } else {
-            throw new ExceptionHandle.ServerException(response.getStatus(), response.getMsg(),
-                    response.getResult().getCode(), response.getResult().getErrObject().getErrorMessage());
+            throw new ExceptionHandle.ServerException(response.getCode(), response.getMessage());
         }
 
     }

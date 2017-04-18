@@ -1,7 +1,6 @@
 package com.iwangcn.qingkong.net;
 
 import android.content.Context;
-import android.text.TextUtils;
 import android.widget.Toast;
 
 import com.iwangcn.qingkong.R;
@@ -50,17 +49,13 @@ public abstract class BaseSubscriber<T> extends Subscriber<T> implements CancelL
     public void onError(Throwable e) {
         dismissProgressDialog();
         if (e instanceof ExceptionHandle.ResponeThrowable) {
-            if (TextUtils.equals(NetConst.STATUS_SUCCESS, ((ExceptionHandle.ResponeThrowable) e).status)) {//通信正常时展示业务接口错误信息
-                ((ExceptionHandle.ResponeThrowable) e).statusMsg = ((ExceptionHandle.ResponeThrowable) e).errorCodeMessage;
-                if (!handleErrorCode(((ExceptionHandle.ResponeThrowable) e).errorCode, ((ExceptionHandle.ResponeThrowable) e).errorCodeMessage)) {
-                    onError((ExceptionHandle.ResponeThrowable) e);
-                }
-            } else {//当status==1时，没必要展示业务接口错误信息
-                ((ExceptionHandle.ResponeThrowable) e).errorCodeMessage = ((ExceptionHandle.ResponeThrowable) e).statusMsg;
+
+            if (!handleErrorCode(((ExceptionHandle.ResponeThrowable) e).code, ((ExceptionHandle.ResponeThrowable) e).codeMessage)) {
                 onError((ExceptionHandle.ResponeThrowable) e);
             }
+
         } else {//有可能是rx NullPointExceptionE错误
-            onError(new ExceptionHandle.ResponeThrowable(NetConst.STATUS_FAILURE, ExceptionHandle.ERROR.tip_message, ExceptionHandle.ERROR.UNKNOWN, ExceptionHandle.ERROR.tip_message));
+            onError(new ExceptionHandle.ResponeThrowable(ExceptionHandle.ERROR.UNKNOWN, ExceptionHandle.ERROR.tip_message));
         }
     }
 
