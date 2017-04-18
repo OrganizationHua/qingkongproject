@@ -20,6 +20,7 @@ public class LastViewHolder extends RecyclerView.ViewHolder {
     void bindTo(boolean isAdd) {
         if (isAdd) {
             mEiditView.setVisibility(View.VISIBLE);
+            mEiditView.requestFocus();
         } else {
             mEiditView.setVisibility(View.GONE);
         }

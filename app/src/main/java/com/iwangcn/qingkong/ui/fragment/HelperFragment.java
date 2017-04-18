@@ -9,8 +9,8 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 
 import com.iwangcn.qingkong.R;
-import com.iwangcn.qingkong.ui.activity.CollectActivity;
 import com.iwangcn.qingkong.ui.activity.NewsDetailActivity;
+import com.iwangcn.qingkong.ui.activity.TagEditActivity;
 import com.iwangcn.qingkong.ui.adapter.HelperAdapter;
 import com.iwangcn.qingkong.ui.base.BaseFragment;
 import com.iwangcn.qingkong.ui.model.HelperModel;
@@ -68,7 +68,7 @@ public class HelperFragment extends BaseFragment {
 
     @OnClick(R.id.home_collect_icon)//收藏
     public void btnCollect() {
-        Intent intent = new Intent(getActivity(), CollectActivity.class);
+        Intent intent = new Intent(getActivity(), TagEditActivity.class);
         startActivity(intent);
     }
 

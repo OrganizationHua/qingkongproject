@@ -131,7 +131,7 @@ public class RecycleViewTagAdapter extends BaseMultipleItemAdapter implements Re
 
     @Override
     public void onMove(int fromPosition, int toPosition) {
-        if (toPosition == 0) return;
+        if (toPosition == 0 || toPosition >= getTwoTitlePosition()) return;
         if (fromPosition < toPosition) {
             for (int i = fromPosition; i < toPosition; i++) {
                 Collections.swap(results1, i - 1, i);

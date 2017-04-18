@@ -16,22 +16,24 @@
 
 package com.iwangcn.qingkong.ui.activity;
 
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.helper.ItemTouchHelper;
-import android.widget.LinearLayout;
-
 import com.google.android.flexbox.AlignItems;
 import com.google.android.flexbox.FlexDirection;
 import com.google.android.flexbox.FlexWrap;
 import com.google.android.flexbox.FlexboxLayout;
 import com.google.android.flexbox.FlexboxLayoutManager;
+
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
+import android.widget.LinearLayout;
+
 import com.iwangcn.qingkong.R;
 import com.iwangcn.qingkong.ui.base.QkBaseActivity;
 import com.iwangcn.qingkong.ui.view.TagWidget.OnRecyclerItemClickListener;
 import com.iwangcn.qingkong.ui.view.TagWidget.RecycleViewItemTouchCallback;
 import com.iwangcn.qingkong.ui.view.TagWidget.RecycleViewTagAdapter;
-import com.iwangcn.qingkong.utils.ToastUtil;
 import com.iwangcn.qingkong.utils.VibratorUtil;
+
+import butterknife.OnClick;
 
 /**
  * Launcher Activity for the cat gallery demo app that demonstrates the usage of the
@@ -43,6 +45,7 @@ import com.iwangcn.qingkong.utils.VibratorUtil;
 public class TagEditActivity extends QkBaseActivity implements RecycleViewItemTouchCallback.OnDragListener {
     private RecyclerView recycle_recommend;
     private LinearLayout ll_sure;
+    private boolean isActivated = false;//界面是否激活
 
     @Override
     public int layoutChildResID() {
@@ -54,6 +57,24 @@ public class TagEditActivity extends QkBaseActivity implements RecycleViewItemTo
         setTitle("筛选");
         setRightTitle("编辑");
         initRecommend();
+    }
+
+    @OnClick(R.id.base_tv_right)
+    public void onClickRightButton() {
+        switchActivated();
+
+    }
+
+    private void switchActivated() {
+        if (isActivated) {
+            isActivated = false;
+            setRightTitle("编辑");
+//            ll_sure.setVisibility(View.GONE);
+        } else {
+            isActivated = true;
+            setRightTitle("完成");
+//            ll_sure.setVisibility(View.VISIBLE);
+        }
     }
 
     private void initRecommend() {
@@ -75,9 +96,12 @@ public class TagEditActivity extends QkBaseActivity implements RecycleViewItemTo
         recycle_recommend.addOnItemTouchListener(new OnRecyclerItemClickListener(recycle_recommend) {
             @Override
             public void onLongClick(RecyclerView.ViewHolder vh) {
+                /*激活界面*/
+                isActivated = true;
+                setRightTitle("完成");
 
                 int pos = vh.getLayoutPosition();
-                if (pos > adapter.getOneTitlePosition() && pos < adapter.getTwoTitlePosition()) {
+                if (pos > adapter.getOneTitlePosition() && pos < adapter.getTwoTitlePosition()) {//
                     recommendItemTouchHelper.startDrag(vh);
                     VibratorUtil.Vibrate(TagEditActivity.this, 100);
                 } else if (pos > adapter.getTwoTitlePosition() && pos < adapter.getThreeTitlePosition()) {
@@ -95,8 +119,8 @@ public class TagEditActivity extends QkBaseActivity implements RecycleViewItemTo
             @Override
             public void onItemClick(RecyclerView.ViewHolder vh) {
                 int pos = vh.getLayoutPosition();
-                if (pos == adapter.getThreeContentItemCount() + adapter.getThreeTitlePosition() + 1) {
-                    ToastUtil.showToast(TagEditActivity.this, "last");
+                if (pos == adapter.getThreeContentItemCount() + adapter.getThreeTitlePosition() + 1) {//点击加号时
+//                    ToastUtil.showToast(TagEditActivity.this, "last");
                     adapter.isAdd = true;
                     adapter.notifyItemChanged(vh.getLayoutPosition());
 
@@ -104,7 +128,7 @@ public class TagEditActivity extends QkBaseActivity implements RecycleViewItemTo
 //                      adapter.notifyItemInserted(vh.getLayoutPosition());
 //                      adapter.notifyItemRangeChanged(vh.getLayoutPosition()+1,adapter.getItemCount()-vh.getLayoutPosition());
                 }
-                if (adapter.isEditing && pos > adapter.getThreeTitlePosition() && pos < adapter.getThreeTitlePosition() + adapter.getThreeContentItemCount() + 1) {
+                if (adapter.isEditing && pos > adapter.getThreeTitlePosition() && pos < adapter.getThreeTitlePosition() + adapter.getThreeContentItemCount() + 1) {//点击自定义标签item时
                     adapter.results3.remove(pos - adapter.getThreeTitlePosition() - 1);
                     adapter.notifyItemRemoved(pos);
                 }
