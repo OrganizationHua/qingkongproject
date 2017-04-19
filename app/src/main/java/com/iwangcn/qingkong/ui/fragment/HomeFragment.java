@@ -157,33 +157,35 @@ public class HomeFragment extends BaseFragment implements AbPullToRefreshView.On
             }
         });
     }
+
     @Subscribe
     public void onEventMainThread(Event event) {
         if (event instanceof HomeEvent) {
             mAbPullToRefreshView.onHeaderRefreshFinish();
             List<EventInfo> list = (List<EventInfo>) event.getObject();
-            if(event.isMore()){
+            if (event.isMore()) {
                 mAbPullToRefreshView.onFooterLoadFinish();
                 if (list.size() < NetConst.page) {//如果小于10条表示加载完成不能加载更多
                     mAbPullToRefreshView.setLoadMoreEnable(false);
-                }else {
-                    mAbPullToRefreshView.onHeaderRefreshFinish();
-                    mList.clear();
                 }
-                mList.addAll(list);
-                mAdapter.setDataList(mList);
+            } else {
+                mAbPullToRefreshView.onHeaderRefreshFinish();
+                mList.clear();
             }
+            mList.addAll(list);
+            mAdapter.setDataList(mList);
         }
     }
 
     @Override
     public void onFooterLoad(AbPullToRefreshView view) {
-        mHomeEvent.getRefreshEventList();
+        mHomeEvent.getMoreEvent();
     }
 
     @Override
     public void onHeaderRefresh(AbPullToRefreshView view) {
-        mHomeEvent.getMoreEvent();
+        mAbPullToRefreshView.setLoadMoreEnable(true);
+        mHomeEvent.getRefreshEventList();
     }
 
     @Override

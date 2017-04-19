@@ -1,21 +1,20 @@
 package com.iwangcn.qingkong.ui.adapter;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.iwangcn.qingkong.R;
 import com.iwangcn.qingkong.ui.model.NewsInfo;
-import com.iwangcn.qingkong.utils.ToastUtil;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.iwangcn.qingkong.ui.view.MyCommonDialog;
+import com.nhaarman.listviewanimations.ArrayAdapter;
+import com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.undo.UndoAdapter;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -24,42 +23,35 @@ import butterknife.ButterKnife;
 /**
  * demo Adapter Created by zhchen on 15/8/5
  */
-public class CollectAdapter extends BaseAdapter {
-    private List<NewsInfo> mList;
+public class CollectAdapter extends ArrayAdapter implements UndoAdapter{
+
+    public interface OnClickCancleCollectListener {
+        public void onClickCancleCollect(int position);
+    }
+
     private Context mContext;
+    private OnClickCancleCollectListener listener;
 
     public CollectAdapter(Context context) {
         this.mContext = context;
     }
 
-    public void setDataList(List<NewsInfo> dataList) {
-        mList = dataList;
-        notifyDataSetChanged();
-    }
-    {
-
-    }
-    @Override
-    public int getCount() {
-        if (mList == null) {
-            mList = new ArrayList<NewsInfo>();
-        }
-        return mList.size();
+    public void setCancleCollcetListener(OnClickCancleCollectListener listener) {
+        this.listener = listener;
     }
 
     @Override
-    public Object getItem(int i) {
-        return null;
+    public long getItemId(final int position) {
+        return getItem(position).hashCode();
     }
 
     @Override
-    public long getItemId(int position) {
-        return position;
+    public boolean hasStableIds() {
+        return true;
     }
 
-
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
         ViewHolder viewHolder;
         if (convertView == null) {
             convertView = LayoutInflater.from(mContext).inflate(
@@ -69,7 +61,7 @@ public class CollectAdapter extends BaseAdapter {
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
-        NewsInfo model = mList.get(position);
+        final NewsInfo model = (NewsInfo) getItem(position);
         if (!TextUtils.isEmpty(model.getTitle())) {
             viewHolder.title.setText(model.getTitle());
         }
@@ -82,12 +74,44 @@ public class CollectAdapter extends BaseAdapter {
         viewHolder.linCollect.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ToastUtil.showToast(mContext, "取消收藏");
+                final MyCommonDialog dialog = new MyCommonDialog(mContext);
+                dialog.setContent("确认取消？");
+                dialog.setOnDialogClick(new MyCommonDialog.DialogInterface() {
+                    @Override
+                    public void onCancle() {
+
+                    }
+
+                    @Override
+                    public void onConfirm() {
+                        dialog.dismiss();
+                        if (listener != null) {
+                            listener.onClickCancleCollect(position);
+                        }
+                    }
+                });
+                dialog.show();
             }
         });
         return convertView;
     }
 
+
+    @NonNull
+    @Override
+    public View getUndoView(final int position, final View convertView, @NonNull final ViewGroup parent) {
+        View view = convertView;
+        if (view == null) {
+            view = LayoutInflater.from(mContext).inflate(R.layout.undo_row, parent, false);
+        }
+        return view;
+    }
+
+    @NonNull
+    @Override
+    public View getUndoClickView(@NonNull final View view) {
+        return view.findViewById(R.id.undo_row_undobutton);
+    }
     class ViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.news_title)
         public TextView title;//标题
@@ -103,5 +127,4 @@ public class CollectAdapter extends BaseAdapter {
             ButterKnife.bind(this, itemView);
         }
     }
-
 }

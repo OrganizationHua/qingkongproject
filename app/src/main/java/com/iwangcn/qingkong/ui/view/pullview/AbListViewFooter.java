@@ -25,6 +25,7 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.iwangcn.qingkong.R;
 import com.iwangcn.qingkong.utils.AbViewUtil;
 
 
@@ -115,6 +116,8 @@ public class AbListViewFooter extends LinearLayout {
 		AbViewUtil.setPadding(footerView, 0, 10, 0, 10);
 		
 		footerProgressBar = new ProgressBar(context,null,android.R.attr.progressBarStyle);
+		footerProgressBar.setIndeterminate(true);
+		footerProgressBar.setIndeterminateDrawable(context.getResources().getDrawable(R.drawable.pull_wait_indicate));
 		footerProgressBar.setVisibility(View.GONE);
 		
 		LinearLayout.LayoutParams layoutParamsWW = new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);

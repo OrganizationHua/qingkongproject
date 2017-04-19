@@ -31,7 +31,7 @@ public class HomeEvent extends Event implements NetConst {
     }
 
     private void getNewsEventList(int index,HashMap paratems) {
-        RetrofitInstance.getInstance().post(URL_EVENT, paratems, UserInfo.class, new BaseSubscriber(true) {
+        RetrofitInstance.getInstance().post(URL_EVENT, paratems, UserInfo.class, new BaseSubscriber(false) {
             @Override
             public void onError(ExceptionHandle.ResponeThrowable e) {
 
