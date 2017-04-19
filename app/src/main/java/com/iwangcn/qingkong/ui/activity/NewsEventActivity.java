@@ -10,6 +10,7 @@ import com.iwangcn.qingkong.R;
 import com.iwangcn.qingkong.ui.adapter.NewsEventAdapter;
 import com.iwangcn.qingkong.ui.base.QkBaseActivity;
 import com.iwangcn.qingkong.ui.model.EventInfo;
+import com.nhaarman.listviewanimations.appearance.simple.ScaleInAnimationAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,9 +22,9 @@ import butterknife.BindView;
  */
 public class NewsEventActivity extends QkBaseActivity {
     @BindView(R.id.newsEvent_recycler_view)
-    ListView mRecyclerView;
+    ListView mListView;
     private Context mContext = this;
-    private NewsEventAdapter mEventAdapter;
+    private NewsEventAdapter mAdapter;
     private List<EventInfo> mList = new ArrayList<>();
 
     @Override
@@ -38,7 +39,7 @@ public class NewsEventActivity extends QkBaseActivity {
     }
 
     private void initListView() {
-        mEventAdapter = new NewsEventAdapter(this);
+        mAdapter = new NewsEventAdapter(this);
         for (int i = 0; i < 30; i++) {
             EventInfo model = new EventInfo();
             if (i == 0) {
@@ -48,14 +49,17 @@ public class NewsEventActivity extends QkBaseActivity {
             }
             mList.add(model);
         }
-        mEventAdapter.setDataList(mList);
-        mRecyclerView.setAdapter(mEventAdapter);
-        mRecyclerView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        mAdapter.setDataList(mList);
+        ScaleInAnimationAdapter mAnimAdapter = new ScaleInAnimationAdapter(mAdapter);
+        mAnimAdapter.setAbsListView(mListView);
+        mListView.setAdapter(mAnimAdapter);
+        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Intent intent = new Intent(mContext, NewsDetailActivity.class);
                 mContext.startActivity(intent);
             }
-        });;
+        });
+        ;
     }
 }
