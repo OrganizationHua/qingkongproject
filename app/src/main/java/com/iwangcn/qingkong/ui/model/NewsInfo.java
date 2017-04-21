@@ -2,12 +2,14 @@ package com.iwangcn.qingkong.ui.model;
 
 import com.iwangcn.qingkong.net.BaseBean;
 
+import java.io.Serializable;
+
 /**
  * 新闻NewsInfo
  * Created by czh on 2017/4/7.
  */
 
-public class NewsInfo extends BaseBean {
+public class NewsInfo extends BaseBean implements Serializable{
 
     private long autoId;
     private String title;

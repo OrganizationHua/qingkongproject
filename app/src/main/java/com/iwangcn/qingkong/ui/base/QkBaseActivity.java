@@ -29,7 +29,7 @@ public abstract class QkBaseActivity extends BaseActivity {
     LinearLayout mLinSub;//子布局
 
     @BindView(R.id.base_act_left_lin)
-    LinearLayout mLinTopLeft;//左边布局titleTop
+    protected LinearLayout mLinTopLeft;//左边布局titleTop
 
     @BindView(R.id.base_act_right_lin)
     LinearLayout mLinTopRight;//右边titleTop

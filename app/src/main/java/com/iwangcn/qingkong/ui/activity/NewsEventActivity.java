@@ -1,9 +1,8 @@
 package com.iwangcn.qingkong.ui.activity;
 
-import android.content.Context;
+import android.app.Activity;
 import android.content.Intent;
 import android.view.View;
-import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
@@ -24,9 +23,10 @@ import butterknife.BindView;
 public class NewsEventActivity extends QkBaseActivity {
     @BindView(R.id.newsEvent_recycler_view)
     ListView mListView;
-    private Context mContext = this;
+    private Activity mContext = this;
     private NewsEventAdapter mAdapter;
     private List<EventInfo> mList = new ArrayList<>();
+    private final int REQUEST_CODE = 10;
 
     @Override
     public int layoutChildResID() {
@@ -58,30 +58,32 @@ public class NewsEventActivity extends QkBaseActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Intent intent = new Intent(mContext, NewsDetailActivity.class);
-                mContext.startActivity(intent);
-            }
-        });
-        mListView.setOnScrollListener(new AbsListView.OnScrollListener() {
-            @Override
-            public void onScrollStateChanged(AbsListView absListView, int i) {
-                  onScrollListener(i);
-            }
-
-            @Override
-            public void onScroll(AbsListView view, int firstVisibleItem,
-                                 int visibleItemCount, int totalItemCount) {
-
+                mContext.startActivityForResult(intent,REQUEST_CODE);
             }
         });
     }
-    private void onScrollListener(int firstVisibleItem){
-        for(int i=0;i<mList.size();i++){
-            if(i==firstVisibleItem){
-                mList.get(i).setSelect(true);
-            }else{
-                mList.get(i).setSelect(false);
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK) {
+            if (requestCode == REQUEST_CODE) {
+                int position = data.getIntExtra("position", 0);
+                mListView.setSelection(position);
+                for (int i=0;i<mList.size();i++){
+                    if(i==position){
+                        mList.get(i).setSelect(true);
+                    }else{
+                        mList.get(i).setSelect(false);
+                    }
+                }
+                mAdapter.setDataList(mList);
+                mListView.setSelection(position);
             }
+
         }
-        mAdapter.setDataList(mList);
     }
 }
+
+
