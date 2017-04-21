@@ -1,13 +1,16 @@
 package com.iwangcn.qingkong.ui.activity;
 
 import android.content.Context;
+import android.widget.TextView;
 
 import com.iwangcn.qingkong.R;
 import com.iwangcn.qingkong.net.NetworkUtil;
 import com.iwangcn.qingkong.ui.base.QkBaseActivity;
 import com.iwangcn.qingkong.ui.view.MyCommonDialog;
+import com.iwangcn.qingkong.utils.AbAppUtil;
 import com.iwangcn.qingkong.utils.UpdateAppUtils;
 
+import butterknife.BindView;
 import butterknife.OnClick;
 
 /**
@@ -16,6 +19,8 @@ import butterknife.OnClick;
  */
 
 public class UpdateActivity extends QkBaseActivity {
+    @BindView(R.id.update_current_version)
+    TextView mTvCurrent;
     private Context mContext = this;
 
     @Override
@@ -26,6 +31,7 @@ public class UpdateActivity extends QkBaseActivity {
     @Override
     public void initView() {
         setTitle(getString(R.string.updata_version));
+        mTvCurrent.setText(AbAppUtil.getPackageInfo(this).versionName);
     }
 
     @OnClick(R.id.btn_update)//升级

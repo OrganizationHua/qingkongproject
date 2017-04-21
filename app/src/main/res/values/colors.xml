@@ -10,6 +10,8 @@
     <color name="font_black">#333333</color>
     <!--灰色字体-->
     <color name="font_gray">#a4a4a4</color>
+    <!--灰色字体-->
+    <color name="font_gray_666">#666</color>
     <!--背景色-->
     <color name="background_gray">#f5f5f5</color>
     <!--分割线颜色-->

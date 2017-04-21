@@ -3,6 +3,7 @@ package com.iwangcn.qingkong.ui.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.view.View;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
@@ -60,6 +61,27 @@ public class NewsEventActivity extends QkBaseActivity {
                 mContext.startActivity(intent);
             }
         });
-        ;
+        mListView.setOnScrollListener(new AbsListView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(AbsListView absListView, int i) {
+                  onScrollListener(i);
+            }
+
+            @Override
+            public void onScroll(AbsListView view, int firstVisibleItem,
+                                 int visibleItemCount, int totalItemCount) {
+
+            }
+        });
+    }
+    private void onScrollListener(int firstVisibleItem){
+        for(int i=0;i<mList.size();i++){
+            if(i==firstVisibleItem){
+                mList.get(i).setSelect(true);
+            }else{
+                mList.get(i).setSelect(false);
+            }
+        }
+        mAdapter.setDataList(mList);
     }
 }

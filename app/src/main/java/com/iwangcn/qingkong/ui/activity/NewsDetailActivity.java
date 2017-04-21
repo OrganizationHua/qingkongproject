@@ -7,10 +7,14 @@ import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.iwangcn.qingkong.R;
 import com.iwangcn.qingkong.ui.base.QkBaseActivity;
+import com.iwangcn.qingkong.ui.view.TagWidget.TagModel;
+import com.iwangcn.qingkong.utils.AbAppUtil;
+import com.iwangcn.qingkong.utils.PopupWindowUtil;
 import com.iwangcn.qingkong.utils.ToastUtil;
 import com.zhy.view.flowlayout.FlowLayout;
 import com.zhy.view.flowlayout.TagAdapter;
@@ -29,16 +33,20 @@ public class NewsDetailActivity extends QkBaseActivity {
     @BindView(R.id.news_title)
     TextView mNewsTitle;
     @BindView(R.id.news_from)
-    TextView mNewsFrom;
+    TextView mNewsFrom;//来源
     @BindView(R.id.news_time)
-    TextView mNewsTime;
+    TextView mNewsTime;//新闻事件
     @BindView(R.id.news_webView)
     WebView mWebView;
 
     @BindView(R.id.tag_flowlayout)
     public TagFlowLayout tagFlowLayout;//标签
 
-    private Context mContext=this;
+    @BindView(R.id.activity_news_detail)
+    public RelativeLayout tagFlowLayout2;//标签
+
+    private Context mContext = this;
+
     @Override
     public int layoutChildResID() {
         return R.layout.activity_news_detail;
@@ -55,10 +63,11 @@ public class NewsDetailActivity extends QkBaseActivity {
     public void initData() {
         mNewsTitle.setText("新闻标题新闻标题新闻标题");
         mNewsFrom.setText("新闻来源");
-        mNewsTime.setText("20170104"+"        "+"13:14");
+        mNewsTime.setText("20170104" + "        " + "13:14");
         initTabLayout();
     }
-    private void initWebView(String url){
+
+    private void initWebView(String url) {
         WebSettings webSettings = this.mWebView.getSettings();
         webSettings.setJavaScriptCanOpenWindowsAutomatically(true);//设置js可以直接打开窗口，如window.open()，默认为false
         webSettings.setJavaScriptEnabled(true);//是否允许执行js，默认为false。设置true时，会提醒可能造成XSS漏洞
@@ -80,6 +89,7 @@ public class NewsDetailActivity extends QkBaseActivity {
                 super.onPageStarted(view, url, favicon);
 
             }
+
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
                 //  重写此方法表明点击网页里面的链接还是在当前的webview里跳转，不跳到浏览器那边
                 view.loadUrl(url);
@@ -88,11 +98,14 @@ public class NewsDetailActivity extends QkBaseActivity {
         });
         this.mWebView.loadUrl(url);
     }
+
     @OnClick(R.id.base_act_right_lin)//APP信息
-    public void onBtnWebView() {
-        ToastUtil.showToast(this, "查看原文");
+    public void onBtnWebView(View view) {
+        String url = "https://www.baidu.com";
+        AbAppUtil.openBrowser(this, url);
     }
-    private void initTabLayout(){
+
+    private void initTabLayout() {
         List<String> itemData = new ArrayList<String>(3);
 
         for (int i = 0; i < 10; i++) {
@@ -110,5 +123,64 @@ public class NewsDetailActivity extends QkBaseActivity {
             }
         };
         tagFlowLayout.setAdapter(tagAdapter);
+    }
+
+    @OnClick(R.id.news_detail_wrong_lin)//我要报错
+    public void onBtnWrong(View v) {
+        List<TagModel> listData = new ArrayList<TagModel>(3);
+        for (int i = 0; i < 5; i++) {
+            TagModel model = new TagModel();
+            if (i % 2 == 0) {
+                model.setTag(i + "个标签");
+            } else {
+                model.setTag("新闻");
+            }
+
+            model.setSelect(false);
+            listData.add(model);
+
+        }
+        showPopupWindow(v, 1, listData);
+        ToastUtil.showToast(this, "我要报错");
+
+    }
+
+    // 右上角弹窗
+    private void showPopupWindow(View parent, int direct, final List<TagModel> listData) {
+        PopupWindowUtil.showPopupWindow(this, parent, mRelMak, direct, listData, new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ToastUtil.showToast(mContext, "选中了" + checkSelectTags(listData).size() + "条数据");
+            }
+        });
+    }
+
+    private List<TagModel> checkSelectTags(List<TagModel> listData) {
+        List<TagModel> list = new ArrayList<>();
+        for (TagModel model : listData) {
+            if (model.isSelect()) {
+                list.add(model);
+            }
+        }
+        return list;
+    }
+
+    @OnClick(R.id.news_detail_follow_lin)//跟进
+    public void onBtnFollow(View v) {
+        ToastUtil.showToast(this, "已跟进");
+        List<TagModel> listData = new ArrayList<TagModel>(3);
+        for (int i = 0; i < 5; i++) {
+            TagModel model = new TagModel();
+            if (i % 2 == 0) {
+                model.setTag(i + "个标签");
+            } else {
+                model.setTag("新闻");
+            }
+
+            model.setSelect(true);
+            listData.add(model);
+
+        }
+        showPopupWindow(v, 0, listData);
     }
 }

@@ -51,6 +51,9 @@ public abstract class QkBaseActivity extends BaseActivity {
     @BindView(R.id.systemFailLin)
     LinearLayout mLinRefresh;//当前无网络
 
+    @BindView(R.id.base_root_mark_rel)
+    public RelativeLayout mRelMak;
+
     private LayoutInflater inflater;
     private LinearLayout.LayoutParams layoutParams = null;
 

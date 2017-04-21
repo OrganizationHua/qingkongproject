@@ -17,7 +17,11 @@ package com.iwangcn.qingkong.utils;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.content.res.Resources;
+import android.net.Uri;
 import android.util.DisplayMetrics;
 import android.view.inputmethod.InputMethodManager;
 
@@ -80,4 +84,35 @@ public class AbAppUtil {
 		}
 	}
 
+	/**
+	 * 获取包信息.
+	 *
+	 * @param context the context
+	 */
+	public static PackageInfo getPackageInfo(Context context) {
+		PackageInfo info = null;
+		try {
+			String packageName = context.getPackageName();
+			info = context.getPackageManager().getPackageInfo(packageName, PackageManager.GET_ACTIVITIES);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return info;
+	}
+
+	/**
+	 * 打开浏览器
+	 * @param context
+	 * @param url
+     */
+	public static void openBrowser (Context context,String url){
+		//从其他浏览器打开
+		Intent intent = new Intent();
+		intent.setAction(Intent.ACTION_VIEW);
+		Uri content_url = Uri.parse(url);
+		intent.setData(content_url);
+		if (intent.resolveActivity(context.getPackageManager()) != null) {
+			context.startActivity(intent);
+		}
+	}
 }
