@@ -1,5 +1,6 @@
 package com.iwangcn.qingkong.ui.activity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -13,6 +14,8 @@ import com.iwangcn.qingkong.ui.base.BaseActivity;
 
 public class SplashActivity extends BaseActivity {
     private int SPLASH_SCREEN_DELAY_MILLISECOND = 2000;
+    Handler mHandler = new Handler();
+    private Context mContext = this;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,35 +26,58 @@ public class SplashActivity extends BaseActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_splash);
-        init();
+        isFirstLogin();
+    }
+
+    private void isFirstLogin() {
+        boolean isFirst = (boolean) SpUtils.get(this, SpConstant.IS_FIRST_LOING, false);
+        if (!isFirst) {
+            pageDelay(1);
+        } else {
+            init();
+        }
     }
 
     private void init() {
         boolean isLogin = (boolean) SpUtils.get(this, SpConstant.IS_LOGIN, false);
         if (isLogin) {
-            pageDelay(new Runnable() {
-                @Override
-                public void run() {
-                    Intent intent = new Intent(SplashActivity.this, HomeActivity.class);
-                    SplashActivity.this.startActivity(intent);
-                    SplashActivity.this.overridePendingTransition(R.anim.slide_in_right, 0);
-                    SplashActivity.this.finish();
-                }
-            });
+            pageDelay(2);
         } else {
-            pageDelay(new Runnable() {
-                @Override
-                public void run() {
-                    Intent intent = new Intent(SplashActivity.this, LoginActivity.class);
-                    SplashActivity.this.startActivity(intent);
-                    SplashActivity.this.overridePendingTransition(R.anim.slide_in_right, 0);
-                    SplashActivity.this.finish();
-                }
-            });
+            pageDelay(3);
         }
     }
 
-    private void pageDelay(Runnable runnable) {
-        new Handler().postDelayed(runnable,SPLASH_SCREEN_DELAY_MILLISECOND);
+    private void pageDelay(final int enterrId) {
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                Intent intent = null;
+                switch (enterrId) {
+                    case 1:
+                        intent = new Intent(mContext, BGABannerActivity.class);
+                        startActivity(intent);
+                        finish();
+                        break;
+                    case 2:
+                        intent = new Intent(mContext, HomeActivity.class);
+                        SplashActivity.this.startActivity(intent);
+                        SplashActivity.this.overridePendingTransition(R.anim.slide_in_right, 0);
+                        SplashActivity.this.finish();
+                        break;
+                    case 3:
+                        intent = new Intent(mContext, LoginActivity.class);
+                        SplashActivity.this.startActivity(intent);
+                        SplashActivity.this.overridePendingTransition(R.anim.slide_in_right, 0);
+                        SplashActivity.this.finish();
+                        break;
+                }
+            }
+        }, SPLASH_SCREEN_DELAY_MILLISECOND);
+        mHandler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+
+            }
+        }, SPLASH_SCREEN_DELAY_MILLISECOND);
     }
 }
