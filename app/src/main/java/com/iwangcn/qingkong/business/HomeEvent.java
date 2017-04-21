@@ -30,7 +30,7 @@ public class HomeEvent extends Event implements NetConst {
         mDao = (EventInfoDao) DaoFactory.getDao(DaoFactory.DaoType.EVENT_INFO);
     }
 
-    private void getNewsEventList(int index,HashMap paratems) {
+    private void getNewsEventList(int index, HashMap paratems) {
         RetrofitInstance.getInstance().post(URL_EVENT, paratems, UserInfo.class, new BaseSubscriber(false) {
             @Override
             public void onError(ExceptionHandle.ResponeThrowable e) {
@@ -58,9 +58,24 @@ public class HomeEvent extends Event implements NetConst {
 
     public List<EventInfo> getCacheNews() {
         List mList = new ArrayList<>();
-        mList= mDao.getList();
+        long currentTime=System.currentTimeMillis();
+        long test=1492773512791l;
+        mList = mDao.getList();
         for (int i = 0; i < 15; i++) {
             EventInfo model = new EventInfo();
+
+            if(i==0){
+                model.setUpdateTime(System.currentTimeMillis());
+            }else if(i==1){
+                model.setUpdateTime(1492708630000l);
+            }else if(i==2||i==3){
+                model.setUpdateTime(1492622230000l);
+            }else if(i==4){
+                model.setUpdateTime(1492535830000l);
+            }else{
+                model.setUpdateTime(1489857430000l);
+            }
+            model.setCreateUid("2223条");
             model.setName("当地时间6日，国家主席习近平在美国佛罗里达州海湖庄园同美国总统特朗普举行中美元首会晤");
             mList.add(model);
         }

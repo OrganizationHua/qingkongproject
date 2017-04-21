@@ -630,5 +630,58 @@ public class AbDateUtil {
     public static void main(String[] args) {
 		System.out.println(formatDateStr2Desc("2012-3-2 12:2:20","MM月dd日  HH:mm"));
 	}
+	public static String formatDateStrGetDay(long milliseconds) {
 
+		String strDate=getStringByFormat(milliseconds,"yyyy-MM-dd HH:mm:ss");
+		String outFormat="yyyy-MM-dd";
+		DateFormat df = new SimpleDateFormat(dateFormatYMDHMS);
+		Calendar c1 = Calendar.getInstance();
+		Calendar c2 = Calendar.getInstance();
+		try {
+			c2.setTime(df.parse(strDate));
+			c1.setTime(new Date());
+			int d = getOffectDay(c1.getTimeInMillis(), c2.getTimeInMillis());
+			if(d==0){
+				int h = getOffectHour(c1.getTimeInMillis(), c2.getTimeInMillis());
+				if(h>0){
+					return "今天";
+					//return h + "小时前";
+				}else if(h<0){
+					//return Math.abs(h) + "小时后";
+				}else if(h==0){
+					int m = getOffectMinutes(c1.getTimeInMillis(), c2.getTimeInMillis());
+					if(m>0){
+						return m + "分钟前";
+					}else if(m<0){
+						//return Math.abs(m) + "分钟后";
+					}else{
+						return "刚刚";
+					}
+				}
+
+			}else if(d>0){
+				if(d == 1){
+					return "昨天";
+				}else if(d==2){
+					return "前天";
+				}
+			}else if(d<0){
+				if(d == -1){
+					//return "明天"+getStringByFormat(strDate,outFormat);
+				}else if(d== -2){
+					//return "后天"+getStringByFormat(strDate,outFormat);
+				}else{
+					//return Math.abs(d) + "天后"+getStringByFormat(strDate,outFormat);
+				}
+			}
+
+			String out = getStringByFormat(strDate,outFormat);
+			if(!TextUtils.isEmpty(out)){
+				return out;
+			}
+		} catch (Exception e) {
+		}
+
+		return strDate;
+	}
 }

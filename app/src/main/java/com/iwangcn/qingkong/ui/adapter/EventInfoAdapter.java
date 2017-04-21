@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.iwangcn.qingkong.R;
 import com.iwangcn.qingkong.ui.model.EventInfo;
+import com.iwangcn.qingkong.utils.AbDateUtil;
 import com.iwangcn.qingkong.utils.ToastUtil;
 import com.iwangcn.qingkong.ui.view.BessleAnimation.BesselAnimation;
 
@@ -95,9 +96,8 @@ public class EventInfoAdapter extends BaseAdapter {
         if (!TextUtils.isEmpty(model.getCreateUid())) {
             viewHolder.tvNumb.setText(model.getCreateUid());
         }
-//        if (!TextUtils.isEmpty(model.getPubtime())){
-//            viewHolder.tvTime.setText(model.getPubtime());
-//        }
+
+        viewHolder.tvTime.setText(AbDateUtil.formatDateStrGetDay(model.getUpdateTime()));
         viewHolder.imgNote.setVisibility(View.VISIBLE);
         viewHolder.linCollect.setOnClickListener(new View.OnClickListener() {
             @Override
