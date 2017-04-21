@@ -141,7 +141,7 @@ public class NewsEventAdapter extends BaseAdapter {
         public LinearLayout linBlueCircl;//小蓝点点击范围
 
         @BindView(R.id.tag_flowlayout)
-        public TagFlowLayout tagFlowLayout;//小蓝点点击范围
+        public TagFlowLayout tagFlowLayout;
 
         public ViewHolder(View view) {
             super(view);

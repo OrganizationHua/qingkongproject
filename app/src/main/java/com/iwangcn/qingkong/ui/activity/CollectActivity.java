@@ -1,5 +1,7 @@
 package com.iwangcn.qingkong.ui.activity;
 
+import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,6 +31,7 @@ public class CollectActivity extends QkBaseActivity {
 
     private CollectAdapter collectAdapter;
     private List<NewsInfo> mList;
+    private Context mContext = this;
 
     @Override
     public int layoutChildResID() {
@@ -75,11 +78,9 @@ public class CollectActivity extends QkBaseActivity {
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-
+                Intent intent = new Intent(mContext, NewsEventActivity.class);
+                startActivity(intent);
             }
         });
-
     }
-
-
 }

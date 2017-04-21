@@ -10,6 +10,9 @@ import android.widget.TextView;
 
 import com.iwangcn.qingkong.R;
 import com.iwangcn.qingkong.ui.model.NewsInfo;
+import com.zhy.view.flowlayout.FlowLayout;
+import com.zhy.view.flowlayout.TagAdapter;
+import com.zhy.view.flowlayout.TagFlowLayout;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,8 +24,10 @@ import java.util.List;
 public class SearchResultAdapter extends BaseAdapter {
     private LayoutInflater inflater;
     private List<NewsInfo> mList;
+    private Context mContext;
 
     public SearchResultAdapter(Context context) {
+        this.mContext = context;
         inflater = LayoutInflater.from(context);
     }
 
@@ -59,6 +64,7 @@ public class SearchResultAdapter extends BaseAdapter {
             viewHolder.time = (TextView) convertView.findViewById(R.id.search_result_item_time);
             viewHolder.from = (TextView) convertView.findViewById(R.id.search_result_item_from);
             viewHolder.tvEvent = (TextView) convertView.findViewById(R.id.search_result_item_event);
+            viewHolder.tagFlowLayout = (TagFlowLayout) convertView.findViewById(R.id.search_tag_flowlayout);
             convertView.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
@@ -76,6 +82,17 @@ public class SearchResultAdapter extends BaseAdapter {
         if (!TextUtils.isEmpty(bean.getContent())) {
             viewHolder.tvEvent.setText(bean.getContent());
         }
+        TagAdapter<String> tagAdapter = new TagAdapter<String>(initDatas()) {
+            @Override
+            public View getView(FlowLayout parent, int position, String o) {
+
+                TextView tv = (TextView) LayoutInflater.from(mContext).inflate(R.layout.tv,
+                        parent, false);
+                tv.setText(o);
+                return tv;
+            }
+        };
+        viewHolder.tagFlowLayout.setAdapter(tagAdapter);
         return convertView;
     }
 
@@ -84,5 +101,16 @@ public class SearchResultAdapter extends BaseAdapter {
         public TextView time;
         public TextView from;
         public TextView tvEvent;
+        public TagFlowLayout tagFlowLayout;
+    }
+
+    private List<String> initDatas() {
+        List<String> itemData = new ArrayList<String>(3);
+
+        for (int i = 0; i < 5; i++) {
+            itemData.add("新闻标签");
+
+        }
+        return itemData;
     }
 }

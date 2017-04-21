@@ -6,16 +6,13 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.KeyEvent;
 import android.view.View;
-import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import com.iwangcn.qingkong.R;
 import com.iwangcn.qingkong.business.Event;
@@ -28,7 +25,6 @@ import com.iwangcn.qingkong.ui.adapter.EventInfoAdapter;
 import com.iwangcn.qingkong.ui.base.BaseFragment;
 import com.iwangcn.qingkong.ui.model.EventInfo;
 import com.iwangcn.qingkong.ui.view.pullview.AbPullToRefreshView;
-import com.iwangcn.qingkong.utils.ToastUtil;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -145,15 +141,6 @@ public class HomeFragment extends BaseFragment implements AbPullToRefreshView.On
             @Override
             public void afterTextChanged(Editable editable) {
 
-            }
-        });
-        mEditSearch.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent) {
-                if (actionId == EditorInfo.IME_ACTION_SEARCH || actionId == EditorInfo.IME_ACTION_UNSPECIFIED) {
-                    ToastUtil.showToast(getActivity(), "搜索");
-                }
-                return false;
             }
         });
     }

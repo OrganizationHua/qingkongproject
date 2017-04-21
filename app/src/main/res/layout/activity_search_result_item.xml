@@ -2,6 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:zhy="http://schemas.android.com/apk/res-auto"
     android:background="@android:color/white"
     android:orientation="vertical">
 
@@ -59,10 +60,12 @@
                 android:textSize="11sp" />
         </RelativeLayout>
 
-        <TextView
-            android:layout_width="wrap_content"
+        <com.zhy.view.flowlayout.TagFlowLayout
+            android:id="@+id/search_tag_flowlayout"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="标签控件" />
+            android:layout_marginTop="12dp"
+            zhy:max_select="-1" />
 
         <TextView
             android:id="@+id/search_result_item_event"

@@ -1,13 +1,17 @@
 package com.iwangcn.qingkong.ui.activity;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.iwangcn.qingkong.R;
 import com.iwangcn.qingkong.dao.model.SearchModel;
@@ -16,6 +20,10 @@ import com.iwangcn.qingkong.ui.adapter.SearchResultAdapter;
 import com.iwangcn.qingkong.ui.base.BaseActivity;
 import com.iwangcn.qingkong.ui.model.NewsInfo;
 import com.iwangcn.qingkong.ui.view.ClearEditText;
+import com.iwangcn.qingkong.utils.AbAppUtil;
+import com.iwangcn.qingkong.utils.ToastUtil;
+import com.nhaarman.listviewanimations.appearance.simple.SwingBottomInAnimationAdapter;
+import com.nhaarman.listviewanimations.appearance.simple.SwingLeftInAnimationAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,7 +37,7 @@ import butterknife.OnClick;
  */
 public class NewsSearchActivity extends BaseActivity {
     @BindView(R.id.edit_search)
-    ClearEditText mClearEditText;
+    ClearEditText mClearEditText;//搜索框
     @BindView(R.id.search_no_result_sum)
     LinearLayout mLinNoResult;//搜索无结果
     @BindView(R.id.search_btn_no_result)
@@ -43,8 +51,10 @@ public class NewsSearchActivity extends BaseActivity {
 
     private List<SearchModel> mListHistory = new ArrayList<SearchModel>();
     private List<NewsInfo> mListResult = new ArrayList<NewsInfo>();
+    private List<SearchModel> mListHot = new ArrayList<SearchModel>();
     private SearchHistoryAdapter mAdapterHistory;//历史搜索
     private SearchResultAdapter mAdapterResult;//搜索结果
+    private Context mContext = this;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,37 +94,67 @@ public class NewsSearchActivity extends BaseActivity {
      * 历史搜索历史
      */
     private void initData() {
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 5; i++) {
             SearchModel model = new SearchModel();
             model.setContent("新闻搜索历史记录");
             mListHistory.add(model);
         }
         mAdapterHistory = new SearchHistoryAdapter(this);
         mAdapterHistory.setDataList(mListHistory);
-        mListViewHistory.setAdapter(mAdapterHistory);
+        SwingLeftInAnimationAdapter animAdapter = new SwingLeftInAnimationAdapter(mAdapterHistory);
+        animAdapter.setAbsListView(mListViewHistory);
+        assert animAdapter.getViewAnimator() != null;
+        animAdapter.getViewAnimator().setInitialDelayMillis(300);
+        mListViewHistory.setAdapter(animAdapter);
         mListViewHistory.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                setClearEditText(mListHistory.get(position).getContent());
             }
         });
         initListViewHot();
+        mClearEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent) {
+                if (actionId == EditorInfo.IME_ACTION_SEARCH || actionId == EditorInfo.IME_ACTION_UNSPECIFIED) {
+                    ToastUtil.showToast(mContext, "搜索");
+                    AbAppUtil.closeSoftInput(mContext);
+                }
+                return false;
+            }
+        });
+    }
+
+    private void setClearEditText(String str) {
+        mClearEditText.setText(str);
+    }
+
+    private String getEditText() {
+        return mClearEditText.getText().toString().trim();
     }
 
     /**
      * 大家都在搜
      */
     private void initListViewHot() {
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 5; i++) {
             SearchModel model = new SearchModel();
-            model.setContent("新闻搜索历史记录");
-            mListHistory.add(model);
+            model.setContent("大家都在搜");
+            mListHot.add(model);
         }
         mAdapterHistory = new SearchHistoryAdapter(this);
-        mAdapterHistory.setDataList(mListHistory);
-        mListViewHot.setAdapter(mAdapterHistory);
+        mAdapterHistory.setDataList(mListHot);
+        SwingBottomInAnimationAdapter animAdapter = new SwingBottomInAnimationAdapter(mAdapterHistory);
+        animAdapter.setAbsListView(mListViewHot);
+        assert animAdapter.getViewAnimator() != null;
+        animAdapter.getViewAnimator().setInitialDelayMillis(300);
+        mListViewHot.setAdapter(animAdapter);
         mListViewHot.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                ToastUtil.showToast(mContext, "开始搜索");
+                setClearEditText(mListHot.get(position).getContent());
+                AbAppUtil.closeSoftInput(mContext);
             }
         });
     }
@@ -133,7 +173,11 @@ public class NewsSearchActivity extends BaseActivity {
         }
         mAdapterResult = new SearchResultAdapter(this);
         mAdapterResult.setDataList(mListResult);
-        mListViewResult.setAdapter(mAdapterResult);
+        SwingLeftInAnimationAdapter animAdapter = new SwingLeftInAnimationAdapter(mAdapterResult);
+        animAdapter.setAbsListView(mListViewResult);
+        assert animAdapter.getViewAnimator() != null;
+        animAdapter.getViewAnimator().setInitialDelayMillis(300);
+        mListViewResult.setAdapter(animAdapter);
         mListViewResult.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -147,6 +191,7 @@ public class NewsSearchActivity extends BaseActivity {
         mLinNoResult.setVisibility(View.GONE);
         mListViewResult.setVisibility(View.VISIBLE);
         initListSerchResult();
+        AbAppUtil.closeSoftInput(mContext);
     }
 
     @OnClick(R.id.search_btn_no_result)//搜索按钮
