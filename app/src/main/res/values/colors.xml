@@ -21,4 +21,72 @@
     <color name="home_blue">#0a83c9</color>
     <color name="home_gray">#aaaaaa</color>
     <color name="home_collect_yelllow">#e6be4c</color>
+
+    <!--常用颜色-->
+    <color name="black">#000000</color>
+    <color name="white">#FFFFFF</color>
+    <color name="reder">#5E0D00</color>
+    <color name="darkred">#ffcc3300</color>
+    <color name="red">#FF0000</color>
+    <color name="midred">#fb4747</color>
+    <color name="green">#00FF00</color>
+    <color name="blue">#0000FF</color>
+    <color name="light_grey">#AAAAAA</color>
+    <color name="yellow">#c0ffff00</color>
+    <color name="line_divider">#eeeeee</color>
+    <color name="activity_background">#f1f6f8</color>
+    <color name="color_font">#4e4e4e</color>
+    <!--蓝色-->
+    <color name="blue1">#0654c9</color>
+    <color name="blue2">#0077b7</color>
+    <color name="blue3">#0099ff</color>
+    <color name="blue30">#388cee</color>
+    <color name="blue4">#3399FF</color>
+    <color name="blue5">#0099FF</color>
+    <color name="lightblue">#FF339CF5</color>
+    <color name="blue6">#00aaFF</color>
+    <color name="blue7">#00BFFF</color>
+    <color name="blue8">#63B8FF</color>
+    <color name="blue9">#49c7ff</color>
+    <color name="blue10">#BFEFFF</color>
+    <!--绿色-->
+    <color name="green1">#238E23</color>
+    <color name="green3">#21f771</color>
+    <color name="green4">#6af78e</color>
+    <color name="green9">#f5faff</color>
+
+    <!--灰色-->
+    <color name="grey">#666666</color>
+    <color name="midgrey">#ff888888</color>
+    <color name="low_grey">#999999</color>
+    <color name="grey3">#c3c3c3</color>
+    <color name="grey4">#dddddd</color>
+    <color name="grey5">#f0f0f0</color>
+
+    <!--黑-->
+    <color name="black1">#b0000000</color>
+    <color name="black2">#60000000</color>
+    <color name="black3">#33333333</color>
+    <color name="black4">#55555555</color>
+    <color name="black5">#99555555</color>
+    <color name="black6">#444</color>
+    <color name="black7">#666666</color>
+    <color name="black8">#787878</color>
+    <color name="black9">#888888</color>
+
+    <!--透明-->
+    <color name="transparent">#00000000</color>
+
+    <!--橘色橙色其他-->
+    <color name="orange1">#ff8400</color>
+    <color name="orange2">#FF7F00</color>
+    <color name="orange3">#ff5900</color>
+    <color name="orange4">#ff7300</color>
+    <color name="orange5">#FF7F00</color>
+    <color name="orange6">#FFB266</color>
+
+    <!--黄色-->
+    <color name="yellow1">#CCCCCC00</color>
+    <color name="yellow2">#efbf00</color>
+    <color name="yellow3">#FFDCB9</color>
 </resources>

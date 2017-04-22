@@ -1,39 +1,23 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:focusable="true"
-    android:focusableInTouchMode="true"
-    android:orientation="vertical"
-    android:id="@+id/rel_listView"
-    >
-
-    <LinearLayout
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:background="@color/background"
+        android:id="@+id/rel_listView"
+        >
 
-
-        <RelativeLayout
-
+    <com.iwangcn.qingkong.ui.view.freshwidget.ReloadRefreshLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <com.iwangcn.qingkong.ui.view.pullview.AbPullToRefreshView
+            android:layout_height="match_parent"
+            android:background="@color/background"
+            app:reloadenable_loadmore="true"
+            >
+        <android.support.v7.widget.RecyclerView
+                android:id="@+id/home_list_news"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@color/background_gray">
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="2dp"
+                />
+    </com.iwangcn.qingkong.ui.view.freshwidget.ReloadRefreshLayout>
 
-                <ListView
-                    android:id="@+id/home_list_news"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:cacheColorHint="#00000000"
-                    android:divider="@android:color/transparent"
-                    android:dividerHeight="0dp"
-                    android:listSelector="#00000000"
-                    android:scrollbars="none" />
-            </com.iwangcn.qingkong.ui.view.pullview.AbPullToRefreshView>
-
-        </RelativeLayout>
-    </LinearLayout>
 </RelativeLayout>

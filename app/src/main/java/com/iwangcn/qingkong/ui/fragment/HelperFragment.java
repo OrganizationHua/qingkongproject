@@ -2,18 +2,20 @@ package com.iwangcn.qingkong.ui.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.RelativeLayout;
 
 import com.iwangcn.qingkong.R;
 import com.iwangcn.qingkong.ui.activity.NewsDetailActivity;
 import com.iwangcn.qingkong.ui.activity.TagEditActivity;
-import com.iwangcn.qingkong.ui.adapter.HelperAdapter;
+import com.iwangcn.qingkong.ui.adapter.BaseRecyclerViewAdapter;
+import com.iwangcn.qingkong.ui.adapter.HelperRecyclerAdapter;
 import com.iwangcn.qingkong.ui.base.BaseFragment;
 import com.iwangcn.qingkong.ui.model.HelperModel;
+import com.iwangcn.qingkong.ui.view.RecycleViewDivider;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,13 +26,13 @@ import butterknife.OnClick;
 public class HelperFragment extends BaseFragment {
 
     @BindView(R.id.home_list_news)
-    ListView mListView;//黑色蒙层
+    RecyclerView mListView;//黑色蒙层
     @BindView(R.id.home_collect_icon)
     ImageView mCollectIcon;//收藏ImageView
     @BindView(R.id.rel_listView)
     RelativeLayout mRellistView;//listView容器
 
-    private HelperAdapter mNewsAdapter;
+    private HelperRecyclerAdapter mNewsAdapter;
     private List<HelperModel> mList;
 
     @Override
@@ -53,13 +55,13 @@ public class HelperFragment extends BaseFragment {
             model.setFrom("腾讯新闻");
             mList.add(model);
         }
-        mNewsAdapter = new HelperAdapter(getActivity());
-        mNewsAdapter.setDataList(mList);
-
+        mNewsAdapter = new HelperRecyclerAdapter(getActivity(), mList);
+        mListView.setLayoutManager(new LinearLayoutManager(getActivity(),LinearLayoutManager.VERTICAL,false));
+        mListView.addItemDecoration(new RecycleViewDivider(getActivity(), LinearLayoutManager.VERTICAL,R.drawable.divider_shape));
         mListView.setAdapter(mNewsAdapter);
-        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        mNewsAdapter.setOnItemClickListener(new BaseRecyclerViewAdapter.OnRecyclerItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+            public void onItemClickListener(RecyclerView.ViewHolder viewHolder) {
                 Intent intent = new Intent(getActivity(), NewsDetailActivity.class);
                 startActivity(intent);
             }

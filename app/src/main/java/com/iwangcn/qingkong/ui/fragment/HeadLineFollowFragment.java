@@ -2,15 +2,17 @@ package com.iwangcn.qingkong.ui.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ListView;
 
 import com.iwangcn.qingkong.R;
-import com.iwangcn.qingkong.ui.activity.FollowDetailActivity;
-import com.iwangcn.qingkong.ui.adapter.HeadLineFollowAdapter;
+import com.iwangcn.qingkong.ui.activity.NewsDetailActivity;
+import com.iwangcn.qingkong.ui.adapter.BaseRecyclerViewAdapter;
+import com.iwangcn.qingkong.ui.adapter.HeadLineFollowRecyclerAdapter;
 import com.iwangcn.qingkong.ui.base.BaseFragment;
 import com.iwangcn.qingkong.ui.model.HelperModel;
+import com.iwangcn.qingkong.ui.view.RecycleViewDivider;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,9 +22,9 @@ import butterknife.BindView;
 public class HeadLineFollowFragment extends BaseFragment {
 
     @BindView(R.id.home_list_news)
-    ListView mListView;//黑色蒙层
+    RecyclerView mListView;//黑色蒙层
 
-    private HeadLineFollowAdapter mNewsAdapter;
+    private HeadLineFollowRecyclerAdapter mNewsAdapter;
     private List<HelperModel> mList;
     private int type;
     public static HeadLineFollowFragment newInstance(int type){
@@ -53,14 +55,15 @@ public class HeadLineFollowFragment extends BaseFragment {
             model.setFrom("腾讯新闻");
             mList.add(model);
         }
-        mNewsAdapter = new HeadLineFollowAdapter(getActivity(),type);
-        mNewsAdapter.setDataList(mList);
+        mNewsAdapter = new HeadLineFollowRecyclerAdapter(getActivity(),mList,type);
 
+        mListView.setLayoutManager(new LinearLayoutManager(getActivity(),LinearLayoutManager.VERTICAL,false));
+        mListView.addItemDecoration(new RecycleViewDivider(getActivity(), LinearLayoutManager.VERTICAL,R.drawable.divider_shape));
         mListView.setAdapter(mNewsAdapter);
-        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        mNewsAdapter.setOnItemClickListener(new BaseRecyclerViewAdapter.OnRecyclerItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Intent intent = new Intent(getActivity(), FollowDetailActivity.class);
+            public void onItemClickListener(RecyclerView.ViewHolder viewHolder) {
+                Intent intent = new Intent(getActivity(), NewsDetailActivity.class);
                 startActivity(intent);
             }
         });
