@@ -62,7 +62,7 @@ public class MobileApplication extends Application {
 
         @Override
         public void onActivityResumed(Activity activity) {
-
+            setCurrentActivity(activity);//防止没有走onActivityCreated 生命周期时
         }
 
         @Override

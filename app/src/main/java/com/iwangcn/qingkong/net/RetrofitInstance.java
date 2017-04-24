@@ -1,6 +1,7 @@
 package com.iwangcn.qingkong.net;
 
 
+import android.support.v4.BuildConfig;
 import android.support.v4.util.ArrayMap;
 import android.text.TextUtils;
 
@@ -84,12 +85,17 @@ public class RetrofitInstance<T> {
     }
 
     private void buildOkHttpBuilder() {
+
         okHttpClientBuilder = okHttpClient.newBuilder()
                 .addInterceptor(headerInterceptor)
                 .connectTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS)
                 .writeTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS)
                 .readTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS);
-
+        if (BuildConfig.DEBUG) {
+            HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
+            logging.setLevel(HttpLoggingInterceptor.Level.BODY);
+            okHttpClientBuilder.addInterceptor(logging);
+        }
     }
 
     private void buildRetrofitBuilder() {

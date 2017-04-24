@@ -9,7 +9,7 @@ public interface NetConfig {
     /**
      * 服务器地址
      */
-    String SERVER_URL = "https://172.168.1.1";
+    String SERVER_URL = "http://47.92.70.233:18080/api/";
 
 
 }
