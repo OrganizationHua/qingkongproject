@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.iwangcn.qingkong.R;
 import com.iwangcn.qingkong.ui.model.EventInfo;
+import com.iwangcn.qingkong.utils.AbViewUtil;
 import com.zhy.view.flowlayout.FlowLayout;
 import com.zhy.view.flowlayout.TagAdapter;
 import com.zhy.view.flowlayout.TagFlowLayout;
@@ -84,23 +85,29 @@ public class NewsEventAdapter extends BaseAdapter {
         if (model.isSelect()) {
             viewHolder.imgBlueCircle.setVisibility(View.GONE);
             viewHolder.imgGreenCircl.setVisibility(View.VISIBLE);
-            viewHolder.linContent.setVisibility(View.VISIBLE);
+            AbViewUtil.expand(viewHolder.linContent);
         } else {
             viewHolder.imgBlueCircle.setVisibility(View.VISIBLE);
             viewHolder.imgGreenCircl.setVisibility(View.GONE);
-            viewHolder.linContent.setVisibility(View.GONE);
+            AbViewUtil.collapse(viewHolder.linContent);
         }
         viewHolder.linBlueCircl.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                for (int i = 0; i <mList.size()-1; i++) {
-                    if(i==position){
-                        mList.get(i).setSelect(true);
-                    }else{
-                        mList.get(i).setSelect(false);
+                if(mList.get(position).isSelect()){
+                    return;
+                }else {
+                    //把之前选中的取消
+                    for (int i = 0; i <mList.size()-1; i++) {
+                        if(mList.get(i).isSelect()){
+                            mList.get(i).setSelect(false);
+                            break;
+                        }
                     }
+                    //选中当前的
+                    mList.get(position).setSelect(true);
+                    notifyDataSetChanged();
                 }
-                notifyDataSetChanged();
             }
         });
         TagAdapter<String> tagAdapter = new TagAdapter<String>(initDatas()) {
