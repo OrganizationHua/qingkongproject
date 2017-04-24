@@ -2,7 +2,6 @@ package com.iwangcn.qingkong.ui.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.widget.EditText;
 
 import com.iwangcn.qingkong.R;
@@ -15,7 +14,6 @@ import com.iwangcn.qingkong.sp.SpConstant;
 import com.iwangcn.qingkong.sp.SpUtils;
 import com.iwangcn.qingkong.ui.base.BaseActivity;
 import com.iwangcn.qingkong.ui.model.UserInfo;
-import com.iwangcn.qingkong.utils.ToastUtil;
 
 import java.util.HashMap;
 
@@ -41,35 +39,39 @@ public class LoginActivity extends BaseActivity implements NetConst {
         //默认保存用户名
         String defaultName = (String) SpUtils.get(this, SpConstant.CACHE_USERNAME, "");
         mEdUserName.setText(defaultName);
-        intentHome();
+
     }
 
     @OnClick(R.id.login_btn)//APP信息
     public void onBtLogin() {
         String strUserName = mEdUserName.getText().toString().trim();
         String strPw = mEdPw.getText().toString().trim();
-        if (TextUtils.isEmpty(strUserName) || TextUtils.isEmpty(strPw)) {
-            ToastUtil.showToast(this, "用户名和密码不能为空");
-            return;
-        }
-        if (strPw.length() < 6) {
-            ToastUtil.showToast(this, "密码不能少于6位");
-            return;
-        }
-        login();
+//        if (TextUtils.isEmpty(strUserName) || TextUtils.isEmpty(strPw)) {
+//            ToastUtil.showToast(this, "用户名和密码不能为空");
+//            return;
+//        }
+//        if (strPw.length() < 6) {
+//            ToastUtil.showToast(this, "密码不能少于6位");
+//            return;
+//        }
+        login(strUserName, strPw);
     }
 
-    public void login() {
+    public void login(String userName, String strPw) {
         HashMap paratems = new HashMap();
-        RetrofitInstance.getInstance().post(URL_LOGIN, paratems, UserInfo.class, new BaseSubscriber(true) {
+//        paratems.put("uname",userName);
+//        paratems.put("pwd",strPw);
+        paratems.put("username", "test");
+        paratems.put("pwd", "1");
+        RetrofitInstance.getInstance().post(URL_LOGIN, paratems, UserInfo.class, new BaseSubscriber<UserInfo>(true) {
             @Override
             public void onError(ExceptionHandle.ResponeThrowable e) {
 
             }
 
             @Override
-            public void onNext(Object o) {
-                UserManager.setUserName((UserInfo) o);
+            public void onNext(UserInfo o) {
+                UserManager.setUserName(o);
                 intentHome();
             }
         });

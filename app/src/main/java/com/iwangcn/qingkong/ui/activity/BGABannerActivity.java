@@ -26,6 +26,7 @@ public class BGABannerActivity extends BaseActivity {
     private BGABanner mContentBanner;
     private Context context = this;
     private Button mBtnEnter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,20 +35,21 @@ public class BGABannerActivity extends BaseActivity {
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_bgabanner);
         mContentBanner = (BGABanner) findViewById(R.id.banner_guide_content);
-        mBtnEnter= (Button) findViewById(R.id.btn_guide_enter);
+        mBtnEnter = (Button) findViewById(R.id.btn_guide_enter);
         init();
     }
 
     private void init() {
         final List<View> views = new ArrayList<>();
         views.add(BGABannerUtil.getItemImageView(this, R.drawable.ic_guide_1));
-        views.add(BGABannerUtil.getItemImageView(this, R.drawable.default_icon));
-        views.add(BGABannerUtil.getItemImageView(this, R.drawable.ic_guide_1));
+        views.add(BGABannerUtil.getItemImageView(this, R.drawable.ic_guide_2));
+        views.add(BGABannerUtil.getItemImageView(this, R.drawable.ic_guide_3));
+        views.add(BGABannerUtil.getItemImageView(this, R.drawable.ic_guide_4));
         mContentBanner.setData(views);
         mContentBanner.setEnterSkipViewIdAndDelegate(R.id.btn_guide_enter, R.id.tv_guide_skip, new BGABanner.GuideDelegate() {
             @Override
             public void onClickEnterOrSkip() {
-                SpUtils.put(context, SpConstant.IS_FIRST_LOING,true);
+                SpUtils.put(context, SpConstant.IS_FIRST_LOING, true);
                 startActivity(new Intent(context, LoginActivity.class));
                 finish();
             }
@@ -62,7 +64,7 @@ public class BGABannerActivity extends BaseActivity {
             public void onPageSelected(int position) {
                 if (position == views.size() - 1) {
                     mBtnEnter.setVisibility(View.VISIBLE);
-                }else{
+                } else {
                     mBtnEnter.setVisibility(View.GONE);
                 }
             }

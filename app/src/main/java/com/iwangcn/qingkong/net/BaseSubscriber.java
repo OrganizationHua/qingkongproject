@@ -1,10 +1,10 @@
 package com.iwangcn.qingkong.net;
 
 import android.content.Context;
-import android.widget.Toast;
 
 import com.iwangcn.qingkong.R;
 import com.iwangcn.qingkong.app.MobileApplication;
+import com.iwangcn.qingkong.utils.ToastUtil;
 
 import rx.Subscriber;
 
@@ -35,7 +35,7 @@ public abstract class BaseSubscriber<T> extends Subscriber<T> implements CancelL
         super.onStart();
         // if  NetworkAvailable no !   must to call onCompleted
         if (!NetworkUtil.isNetworkAvailable(context)) {
-            Toast.makeText(context, R.string.no_network, Toast.LENGTH_SHORT).show();
+            ToastUtil.showToast(context,R.string.no_network);
             onCompleted();
         } else {
             if (context != null) {
