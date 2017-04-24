@@ -13,6 +13,7 @@ public interface NetConst {
 
     String URL_LOGIN = "login";//登录
     String URL_EVENT = "event/index";//首页事件
+    String URL_EVENT_HELP = "aide/index";//助手事件
     String URL_UPDATE_PWD = "user/updatePwd";//修改密码
     String URL_CHECK_VERSION = "user/checkVersion";//1.1.1	查询是新版本
 
