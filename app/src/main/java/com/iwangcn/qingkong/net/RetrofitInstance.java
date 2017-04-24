@@ -1,9 +1,10 @@
 package com.iwangcn.qingkong.net;
 
 
-import android.support.v4.BuildConfig;
 import android.support.v4.util.ArrayMap;
 import android.text.TextUtils;
+
+import com.iwangcn.qingkong.BuildConfig;
 
 import java.util.Map;
 import java.util.concurrent.TimeUnit;

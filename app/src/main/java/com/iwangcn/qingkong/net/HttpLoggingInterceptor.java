@@ -15,6 +15,10 @@
  */
 package com.iwangcn.qingkong.net;
 
+import android.util.Log;
+
+import com.iwangcn.qingkong.BuildConfig;
+
 import java.io.EOFException;
 import java.io.IOException;
 import java.nio.charset.Charset;
@@ -109,6 +113,7 @@ public final class HttpLoggingInterceptor implements Interceptor {
     Logger DEFAULT = new Logger() {
       @Override public void log(String message) {
         Platform.get().log(INFO, message, null);
+          Log.e(BuildConfig.APPLICATION_ID,message);
       }
     };
   }
@@ -157,14 +162,12 @@ public final class HttpLoggingInterceptor implements Interceptor {
       requestStartMessage += " (" + requestBody.contentLength() + "-byte body)";
     }
     logger.log(requestStartMessage);
-
     if (logHeaders) {
       if (hasRequestBody) {
         // Request body headers are only present when installed as a network interceptor. Force
         // them to be included (when available) so there values are known.
         if (requestBody.contentType() != null) {
-          logger.log("Content-Type: " + requestBody.contentType());
-        }
+          logger.log("Content-Type: " + requestBody.contentType());}
         if (requestBody.contentLength() != -1) {
           logger.log("Content-Length: " + requestBody.contentLength());
         }
