@@ -29,7 +29,7 @@ public interface ApiService {
      */
     @FormUrlEncoded
     @POST("{interface}")
-    Observable<NetResponse<BaseBean>> post(
+    Observable<NetResponse> post(
             @Path(value = "interface", encoded = true) String interfaceName,
             @FieldMap Map<String, String> maps);
 

@@ -19,7 +19,7 @@ public class NetResponse<T> implements Serializable {
 
     private String message;
 
-    private T data;
+    private String data;
 
     public String getCode() {
         return code;
@@ -37,11 +37,11 @@ public class NetResponse<T> implements Serializable {
         this.message = message;
     }
 
-    public T getData() {
+    public String getData() {
         return data;
     }
 
-    public void setData(T data) {
+    public void setData(String data) {
         this.data = data;
     }
 }

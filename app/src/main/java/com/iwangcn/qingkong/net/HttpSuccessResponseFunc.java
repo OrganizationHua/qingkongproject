@@ -24,6 +24,7 @@ public class HttpSuccessResponseFunc<T> implements Func1<NetResponse<T>, T> {
 
             return JSON.parseObject(response.getData().toString(), clazz);
 
+
         } else {
             throw new ExceptionHandle.ServerException(response.getCode(), response.getMessage());
         }

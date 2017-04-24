@@ -35,7 +35,7 @@ public abstract class BaseSubscriber<T> extends Subscriber<T> implements CancelL
         super.onStart();
         // if  NetworkAvailable no !   must to call onCompleted
         if (!NetworkUtil.isNetworkAvailable(context)) {
-            Toast.makeText(context, R.string.no_network, Toast.LENGTH_SHORT);
+            Toast.makeText(context, R.string.no_network, Toast.LENGTH_SHORT).show();
             onCompleted();
         } else {
             if (context != null) {
