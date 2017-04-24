@@ -44,7 +44,7 @@ public interface ApiService {
      * @author fjg
      */
     @GET("{interface}")
-    Observable<NetResponse<BaseBean>> get(
+    Observable<NetResponse> get(
             @Path(value = "interface", encoded = true) String interfaceName,
             @QueryMap Map<String, String> maps);
 }
