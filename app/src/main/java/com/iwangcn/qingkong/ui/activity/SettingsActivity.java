@@ -82,10 +82,23 @@ public class SettingsActivity extends QkBaseActivity {
         mSwitchNotify.setChecked(isNotify);
         mSwitchSound.setChecked(isSound);
         mSwitchVibrate.setChecked(isVibrate);
+        if(!isNotify){
+            mSwitchSound.setEnabled(false);
+            mSwitchVibrate.setEnabled(false);
+        }
         mSwitchNotify.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 SpUtils.put(mContext, SpConstant.IS_NOTIFY, b);
+                if (b == true) {
+                    mSwitchSound.setEnabled(true);
+                    mSwitchVibrate.setEnabled(true);
+                } else {
+                    mSwitchSound.setChecked(false);
+                    mSwitchVibrate.setChecked(false);
+                    mSwitchSound.setEnabled(false);
+                    mSwitchVibrate.setEnabled(false);
+                }
             }
         });
         mSwitchSound.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
