@@ -20,8 +20,11 @@ public class HttpSuccessResponseFunc<T> implements Func1<NetResponse, NetRespons
 
     @Override
     public NetResponse<T> call(NetResponse response) {
+        if (response.getCode() == null) {
+            response.setCode("0");
+        }
         if (response.getMessage() == null)
-            response.setMessage("");
+            response.setMessage("数据异常");
         if (TextUtils.equals("200", response.getCode())) {
             if (response.getData() != null) {
                 try {
