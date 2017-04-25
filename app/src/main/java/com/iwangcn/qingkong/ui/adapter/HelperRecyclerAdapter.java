@@ -9,7 +9,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.iwangcn.qingkong.R;
-import com.iwangcn.qingkong.ui.model.HelperModel;
+import com.iwangcn.qingkong.ui.model.HelperInfo;
 import com.iwangcn.qingkong.utils.ToastUtil;
 import com.zhy.view.flowlayout.FlowLayout;
 import com.zhy.view.flowlayout.TagAdapter;
@@ -24,8 +24,8 @@ import butterknife.BindView;
  * Created by RF on 2017/4/22.
  */
 
-public class HelperRecyclerAdapter extends BaseRecyclerViewAdapter<HelperModel> {
-    public HelperRecyclerAdapter(Context context, List<HelperModel> list) {
+public class HelperRecyclerAdapter extends BaseRecyclerViewAdapter<HelperInfo> {
+    public HelperRecyclerAdapter(Context context, List<HelperInfo> list) {
         super(context, list);
     }
 
@@ -35,17 +35,17 @@ public class HelperRecyclerAdapter extends BaseRecyclerViewAdapter<HelperModel> 
     }
 
     @Override
-    public void bindData(RecyclerView.ViewHolder viewholder, HelperModel helperModel) {
+    public void bindData(RecyclerView.ViewHolder viewholder, HelperInfo helperInfo) {
         HelperViewHolder holder = (HelperViewHolder) viewholder;
-        if (!TextUtils.isEmpty(helperModel.getTitle())) {
-            holder.title.setText(helperModel.getTitle());
+        if (!TextUtils.isEmpty(helperInfo.getTitle())) {
+            holder.title.setText(helperInfo.getTitle());
         }
 
-        if (!TextUtils.isEmpty(helperModel.getTime())) {
-            holder.tvTime.setText(helperModel.getTime());
+        if (!TextUtils.isEmpty(helperInfo.getPubtime()+"")) {
+            holder.tvTime.setText(helperInfo.getPubtime()+"");
         }
-        if (!TextUtils.isEmpty(helperModel.getFrom())) {
-            holder.tvFrom.setText(helperModel.getFrom());
+        if (!TextUtils.isEmpty(helperInfo.getSource())) {
+            holder.tvFrom.setText(helperInfo.getSource());
         }
         TagAdapter<String> tagAdapter = new TagAdapter<String>(initDatas()) {
             @Override
