@@ -25,7 +25,11 @@ public class HttpSuccessResponseFunc<T> implements Func1<NetResponse, NetRespons
                 try {
                     response.setDataObject(JSON.parseObject(response.getData().toString(), clazz));
                 } catch (Exception e) {
-                    response.setDataList(JSON.parseArray(response.getData().toString(), clazz));
+                    try {
+                        response.setDataList(JSON.parseArray(response.getData().toString(), clazz));
+                    } catch (Exception e1) {
+                        throw new ExceptionHandle.ServerException(response.getCode(), response.getMessage());
+                    }
                 }
             }
             return response;
