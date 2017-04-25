@@ -11,7 +11,7 @@ import rx.functions.Func1;
  * 接口响应成功
  */
 
-public class HttpSuccessResponseFunc<T> implements Func1<NetResponse<T>, T> {
+public class HttpSuccessResponseFunc<T> implements Func1<NetResponse, NetResponse> {
     private Class<T> clazz;
 
     public HttpSuccessResponseFunc(Class clazz) {
@@ -19,14 +19,17 @@ public class HttpSuccessResponseFunc<T> implements Func1<NetResponse<T>, T> {
     }
 
     @Override
-    public T call(NetResponse<T> response) {
-        if (TextUtils.equals("200",response.getCode())) {
-            try {
-                return JSON.parseObject(response.getData().toString(), clazz);
-            }catch (Exception e){
-                e.printStackTrace();
-                return null;
+    public NetResponse<T> call(NetResponse response) {
+        if (TextUtils.equals("200", response.getCode())) {
+            if (response.getData() != null) {
+                try {
+                    response.setDataObject(JSON.parseObject(response.getData().toString(), clazz));
+                } catch (Exception e) {
+                    response.setDataList(JSON.parseArray(response.getData().toString(), clazz));
+                }
             }
+            return response;
+
 
         } else {
             throw new ExceptionHandle.ServerException(response.getCode(), response.getMessage());

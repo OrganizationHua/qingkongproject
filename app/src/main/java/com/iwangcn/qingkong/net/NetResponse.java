@@ -1,6 +1,7 @@
 package com.iwangcn.qingkong.net;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * Created by RF on 2017/1/11.
@@ -20,6 +21,24 @@ public class NetResponse<T> implements Serializable {
     private String message;
 
     private String data;
+    private T dataObject;
+    private List<T> dataList;
+
+    public T getDataObject() {
+        return dataObject;
+    }
+
+    public void setDataObject(T dataObject) {
+        this.dataObject = dataObject;
+    }
+
+    public List<T> getDataList() {
+        return dataList;
+    }
+
+    public void setDataList(List<T> dataList) {
+        this.dataList = dataList;
+    }
 
     public String getCode() {
         return code;

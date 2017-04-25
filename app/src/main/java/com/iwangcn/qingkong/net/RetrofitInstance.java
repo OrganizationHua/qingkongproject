@@ -146,12 +146,12 @@ public class RetrofitInstance<T> {
     /**
      * 数据流转换器
      */
-    public Observable.Transformer<NetResponse<T>, T> transformer(final Class<T> clazz) {
+    public Observable.Transformer<NetResponse, T> transformer(final Class<T> clazz) {
 
-        return new Observable.Transformer<NetResponse<T>, T>() {
+        return new Observable.Transformer<NetResponse, T>() {
             @Override
-            public Observable<T> call(Observable<NetResponse<T>> netResponseObservable) {
-                return netResponseObservable.map(new HttpSuccessResponseFunc<T>(clazz)).onErrorResumeNext(new HttpFailResponseFunc<T>());
+            public Observable<T> call(Observable<NetResponse> netResponseObservable) {
+                return netResponseObservable.map(new HttpSuccessResponseFunc<T>(clazz)).onErrorResumeNext(new HttpFailResponseFunc());
 
             }
         };

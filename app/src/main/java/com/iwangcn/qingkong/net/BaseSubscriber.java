@@ -1,6 +1,7 @@
 package com.iwangcn.qingkong.net;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.iwangcn.qingkong.R;
 import com.iwangcn.qingkong.app.MobileApplication;
@@ -47,6 +48,7 @@ public abstract class BaseSubscriber<T> extends Subscriber<T> implements CancelL
 
     @Override
     public void onError(Throwable e) {
+        Log.e("Tag::::",e.getMessage());
         dismissProgressDialog();
         if (e instanceof ExceptionHandle.ResponeThrowable) {
 

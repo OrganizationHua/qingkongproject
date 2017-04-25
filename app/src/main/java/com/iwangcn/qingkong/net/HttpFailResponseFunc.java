@@ -8,9 +8,9 @@ import rx.functions.Func1;
  * 接口响应失败
  */
 
-public class HttpFailResponseFunc<T> implements Func1<Throwable, Observable<T>> {
+public class HttpFailResponseFunc<T> implements Func1<Throwable, Observable<NetResponse<T>>> {
     @Override
-    public Observable<T> call(Throwable t) {
+    public Observable<NetResponse<T>> call(Throwable t) {
         return Observable.error(ExceptionHandle.handleException(t));
     }
 }

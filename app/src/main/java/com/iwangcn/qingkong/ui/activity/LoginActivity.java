@@ -8,6 +8,7 @@ import com.iwangcn.qingkong.R;
 import com.iwangcn.qingkong.net.BaseSubscriber;
 import com.iwangcn.qingkong.net.ExceptionHandle;
 import com.iwangcn.qingkong.net.NetConst;
+import com.iwangcn.qingkong.net.NetResponse;
 import com.iwangcn.qingkong.net.RetrofitInstance;
 import com.iwangcn.qingkong.providers.UserManager;
 import com.iwangcn.qingkong.sp.SpConstant;
@@ -63,15 +64,14 @@ public class LoginActivity extends BaseActivity implements NetConst {
 //        paratems.put("pwd",strPw);
         paratems.put("username", "test");
         paratems.put("pwd", "1");
-        RetrofitInstance.getInstance().post(URL_LOGIN, paratems, UserInfo.class, new BaseSubscriber<UserInfo>(true) {
+        RetrofitInstance.getInstance().post(URL_LOGIN, paratems, UserInfo.class, new BaseSubscriber<NetResponse<UserInfo>>(true) {
             @Override
             public void onError(ExceptionHandle.ResponeThrowable e) {
-
             }
 
             @Override
-            public void onNext(UserInfo o) {
-                UserManager.setUserName(o);
+            public void onNext(NetResponse<UserInfo> o) {
+                UserManager.setUserName(o.getDataObject());
                 intentHome();
             }
         });

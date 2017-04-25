@@ -7,6 +7,7 @@ import com.iwangcn.qingkong.dao.manager.DaoFactory;
 import com.iwangcn.qingkong.net.BaseSubscriber;
 import com.iwangcn.qingkong.net.ExceptionHandle;
 import com.iwangcn.qingkong.net.NetConst;
+import com.iwangcn.qingkong.net.NetResponse;
 import com.iwangcn.qingkong.net.RetrofitInstance;
 import com.iwangcn.qingkong.providers.UserManager;
 import com.iwangcn.qingkong.ui.model.EventInfo;
@@ -49,7 +50,7 @@ public class HomeEvent extends Event implements NetConst {
         paratems.put("keyword", keyword);
         paratems.put("pageno", indexPage);
         RetrofitInstance.getInstance().post(URL_EVENT, paratems, EventInfoVo.class, new BaseSubscriber
-                <List<EventInfoVo>>(false) {
+                <NetResponse<EventInfoVo>>(false) {
             @Override
             public void onError(ExceptionHandle.ResponeThrowable e) {
                 Logger.e(e.toString());
@@ -58,8 +59,8 @@ public class HomeEvent extends Event implements NetConst {
 
             @Override
 
-            public void onNext(List<EventInfoVo> o) {
-                Logger.e(o.toString());
+            public void onNext(NetResponse<EventInfoVo> o) {
+                Logger.e(o.getDataList().size()+"");
             }
         });
     }
