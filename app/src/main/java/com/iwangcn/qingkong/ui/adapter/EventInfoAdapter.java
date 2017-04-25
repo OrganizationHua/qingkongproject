@@ -97,13 +97,14 @@ public class EventInfoAdapter extends BaseAdapter {
         }
         final EventInfoVo infoVo = mList.get(position);
         if (infoVo != null) {
-            viewHolder.tvNumb.setText(infoVo.getInfoCount() + "条数据");
+
             EventInfo model = infoVo.getEventInfo();
+            viewHolder.tvNumb.setText(model.getNewsNum() + "条数据");
             if (model != null) {
                 if (!TextUtils.isEmpty(model.getName())) {
                     viewHolder.title.setText(model.getName());
                 }
-                viewHolder.tvTime.setText(AbDateUtil.formatDateStrGetDay(model.getUpdateTime2()));
+                viewHolder.tvTime.setText(AbDateUtil.formatDateStrGetDay(model.getUpdateTime()));
             }
             if (model.getStatus() == 1) {
                 viewHolder.imgNote.setVisibility(View.VISIBLE);

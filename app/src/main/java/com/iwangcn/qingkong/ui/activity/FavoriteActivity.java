@@ -10,10 +10,15 @@ import android.widget.AdapterView;
 import com.iwangcn.qingkong.R;
 import com.iwangcn.qingkong.business.Event;
 import com.iwangcn.qingkong.business.FavoriteEvent;
+import com.iwangcn.qingkong.business.LoadFailEvent;
+import com.iwangcn.qingkong.net.BaseSubscriber;
+import com.iwangcn.qingkong.net.ExceptionHandle;
+import com.iwangcn.qingkong.net.NetConst;
 import com.iwangcn.qingkong.ui.adapter.FacoriteAdapter;
 import com.iwangcn.qingkong.ui.base.QkBaseActivity;
 import com.iwangcn.qingkong.ui.model.FavoriteInfo;
 import com.iwangcn.qingkong.ui.view.pullview.AbPullToRefreshView;
+import com.iwangcn.qingkong.utils.ToastUtil;
 import com.nhaarman.listviewanimations.appearance.simple.SwingLeftInAnimationAdapter;
 import com.nhaarman.listviewanimations.itemmanipulation.DynamicListView;
 import com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.OnDismissCallback;
@@ -53,6 +58,8 @@ public class FavoriteActivity extends QkBaseActivity implements AbPullToRefreshV
         EventBus.getDefault().register(this);
         mBusEvent = new FavoriteEvent(this);
         setTitle(getResources().getString(R.string.toutiao_collect));
+        mAbPullToRefreshView.setOnHeaderRefreshListener(this);
+        mAbPullToRefreshView.setOnFooterLoadListener(this);
     }
 
     public void initData() {
@@ -66,17 +73,30 @@ public class FavoriteActivity extends QkBaseActivity implements AbPullToRefreshV
         mListView.setAdapter(animAdapter);
         mAdapter.setCancleCollcetListener(new FacoriteAdapter.OnClickCancleCollectListener() {
             @Override
-            public void onClickCancleCollect(int position) {
-                mListView.enableSwipeToDismiss(new OnDismissCallback() {
+            public void onClickCancleCollect(final int position) {
+                FavoriteInfo info = (FavoriteInfo) mAdapter.getItem(position);
+                mBusEvent.removeFavoritet(String.valueOf(info.getEventId()), new BaseSubscriber(true) {
                     @Override
-                    public void onDismiss(@NonNull ViewGroup listView, @NonNull int[] reverseSortedPositions) {
-                        for (int position : reverseSortedPositions) {
-                            mAdapter.remove(position);
-                        }
+                    public void onError(ExceptionHandle.ResponeThrowable e) {
+                        ToastUtil.showToast(mContext,"取消失败");
+                    }
+
+                    @Override
+                    public void onNext(Object o) {
+                        //动画更新
+                        mListView.enableSwipeToDismiss(new OnDismissCallback() {
+                            @Override
+                            public void onDismiss(@NonNull ViewGroup listView, @NonNull int[] reverseSortedPositions) {
+                                for (int position : reverseSortedPositions) {
+                                    mAdapter.remove(position);
+                                }
+                            }
+                        });
+                        mListView.dismiss(position);
+                        mListView.disableSwipeToDismiss();
                     }
                 });
-                mListView.dismiss(position);
-                mListView.disableSwipeToDismiss();
+
             }
         });
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -88,9 +108,28 @@ public class FavoriteActivity extends QkBaseActivity implements AbPullToRefreshV
         });
         mBusEvent.getRefreshEventList();
     }
+
     @Subscribe
     public void onEventMainThread(Event event) {
+        if (event instanceof FavoriteEvent) {
+            mAbPullToRefreshView.onHeaderRefreshFinish();
+            List<FavoriteInfo> list = (List<FavoriteInfo>) event.getObject();
+            if (list.size() < NetConst.page) {//如果小于page条表示加载完成不能加载更多
+                mAbPullToRefreshView.setLoadMoreEnable(false);
+            }
+            if (event.isMore()) {
+                mAbPullToRefreshView.onFooterLoadFinish();
+            } else {
+                mAbPullToRefreshView.onHeaderRefreshFinish();
+                mAdapter.clear();
+            }
+            mAdapter.addAll(list);
+        } else if (event instanceof LoadFailEvent) {
+            mAbPullToRefreshView.onHeaderRefreshFinish();
+            mAbPullToRefreshView.onFooterLoadFinish();
+        }
     }
+
     @Override
     public void onFooterLoad(AbPullToRefreshView view) {
         mBusEvent.getMoreEvent();

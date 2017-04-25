@@ -72,7 +72,7 @@ public class EventInfoDao extends AbstractNcDao {
                     .getColumnIndex(EventInfo.COLUMN_NAME[EventInfo.DISC])));
             mEventInfo.setStime(mCursor.getLong(mCursor
                     .getColumnIndex(EventInfo.COLUMN_NAME[EventInfo.STIME])));
-            mEventInfo.setEtime2(mCursor.getLong(mCursor
+            mEventInfo.setEtime(mCursor.getLong(mCursor
                     .getColumnIndex(EventInfo.COLUMN_NAME[EventInfo.ETIME])));
             mEventInfo.setPicUrl(mCursor.getString(mCursor
                     .getColumnIndex(EventInfo.COLUMN_NAME[EventInfo.PICURL])));
@@ -86,9 +86,9 @@ public class EventInfoDao extends AbstractNcDao {
                     .getColumnIndex(EventInfo.COLUMN_NAME[EventInfo.STATUS])));
             mEventInfo.setCreateUid(mCursor.getString(mCursor
                     .getColumnIndex(EventInfo.COLUMN_NAME[EventInfo.CREATEUID])));
-            mEventInfo.setInsertTime2(mCursor.getLong(mCursor
+            mEventInfo.setInsertTime(mCursor.getLong(mCursor
                     .getColumnIndex(EventInfo.COLUMN_NAME[EventInfo.INSERTTIME])));
-            mEventInfo.setUpdateTime2(mCursor.getLong(mCursor
+            mEventInfo.setUpdateTime(mCursor.getLong(mCursor
                     .getColumnIndex(EventInfo.COLUMN_NAME[EventInfo.UPDATETIME])));
 
         } catch (Exception e) {
@@ -104,7 +104,7 @@ public class EventInfoDao extends AbstractNcDao {
         mValues.put(EventInfo.COLUMN_NAME[EventInfo.NAME], model.getName());
         mValues.put(EventInfo.COLUMN_NAME[EventInfo.DISC], model.getDisc());
         mValues.put(EventInfo.COLUMN_NAME[EventInfo.STIME], model.getStime());
-        mValues.put(EventInfo.COLUMN_NAME[EventInfo.ETIME], model.getEtime2());
+        mValues.put(EventInfo.COLUMN_NAME[EventInfo.ETIME], model.getEtime());
         mValues.put(EventInfo.COLUMN_NAME[EventInfo.PICURL], model.getPicUrl());
         mValues.put(EventInfo.COLUMN_NAME[EventInfo.LOCATION], model.getLocation());
         mValues.put(EventInfo.COLUMN_NAME[EventInfo.ENTITY], model.getEntity());
@@ -112,8 +112,8 @@ public class EventInfoDao extends AbstractNcDao {
         mValues.put(EventInfo.COLUMN_NAME[EventInfo.CLASSIFICATION], model.getClassification());
         mValues.put(EventInfo.COLUMN_NAME[EventInfo.STATUS], model.getStatus());
         mValues.put(EventInfo.COLUMN_NAME[EventInfo.CREATEUID], model.getCreateUid());
-        mValues.put(EventInfo.COLUMN_NAME[EventInfo.INSERTTIME], model.getInsertTime2());
-        mValues.put(EventInfo.COLUMN_NAME[EventInfo.UPDATETIME], model.getUpdateTime2());
+        mValues.put(EventInfo.COLUMN_NAME[EventInfo.INSERTTIME], model.getInsertTime());
+        mValues.put(EventInfo.COLUMN_NAME[EventInfo.UPDATETIME], model.getUpdateTime());
         return mValues;
     }
 
