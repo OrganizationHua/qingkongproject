@@ -67,24 +67,20 @@ public class FacoriteAdapter extends ArrayAdapter implements UndoAdapter {
         }
         final FavoriteInfo favoriteInfo = (FavoriteInfo) getItem(position);
         if (favoriteInfo != null) {
-            EventInfo model = favoriteInfo.getEventInfo();
+            EventInfo model = favoriteInfo.getEvent();
             if (model != null) {
                 if (!TextUtils.isEmpty(model.getName())) {
                     viewHolder.title.setText(model.getName());
                 }
                 //条数
-//                if (!TextUtils.isEmpty(favoriteInfo.g)) {
-//                    viewHolder.tvNumb.setText(model.getNumb());
-//                }
+                viewHolder.tvNumb.setText(model.getNewsNum() + "条数据");
                 //时间
-                viewHolder.tvTime.setText(AbDateUtil.formatDateStrGetDay(model.getUpdateTime2()));
+                viewHolder.tvTime.setText(AbDateUtil.formatDateStrGetDay(model.getUpdateTime()));
                 if (TextUtils.isEmpty(model.getPicUrl())) {
                     GlideUtils.loadImageView(mContext, model.getPicUrl(), viewHolder.imgIcon);
                 }
             }
         }
-
-
         viewHolder.linCollect.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

@@ -6,10 +6,10 @@ import com.iwangcn.qingkong.net.BaseBean;
 import com.iwangcn.qingkong.net.BaseSubscriber;
 import com.iwangcn.qingkong.net.ExceptionHandle;
 import com.iwangcn.qingkong.net.NetConst;
+import com.iwangcn.qingkong.net.NetResponse;
 import com.iwangcn.qingkong.net.RetrofitInstance;
 import com.iwangcn.qingkong.providers.UserManager;
 import com.iwangcn.qingkong.ui.model.FavoriteInfo;
-import com.orhanobut.logger.Logger;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -35,22 +35,22 @@ public class FavoriteEvent extends Event implements NetConst {
 
 
     private void getFavoriteList(int indexPage) {
-        FavoriteEvent homeEvent = new FavoriteEvent();
         HashMap paratems = new HashMap();
         paratems.put(USER_ID, UserManager.getUserInfo().getAutoId());
         paratems.put("pageno", indexPage);
         RetrofitInstance.getInstance().post(URL_EVENT_FAVORITE, paratems, FavoriteInfo.class, new BaseSubscriber
-                <List<FavoriteInfo>>(false) {
+                <NetResponse<List<FavoriteInfo>>>(false) {
             @Override
             public void onError(ExceptionHandle.ResponeThrowable e) {
-                Logger.e(e.toString());
                 EventBus.getDefault().post(new LoadFailEvent());
             }
 
             @Override
 
-            public void onNext(List<FavoriteInfo> o) {
-                Logger.e(o.toString());
+            public void onNext(NetResponse<List<FavoriteInfo>> o) {
+                FavoriteEvent favoriteEvent=new FavoriteEvent();
+                favoriteEvent.setObject(o.getDataList());
+                EventBus.getDefault().post(favoriteEvent);
             }
         });
     }
@@ -82,23 +82,11 @@ public class FavoriteEvent extends Event implements NetConst {
      *
      * @param fId
      */
-    private void removeFavoritet(String fId,BaseSubscriber baseSubscriber) {
+    public void removeFavoritet(String fId,BaseSubscriber baseSubscriber) {
         HashMap paratems = new HashMap();
         paratems.put(USER_ID, UserManager.getUserInfo().getAutoId());
         paratems.put("fId", fId);
-        RetrofitInstance.getInstance().post(URL_EVENT_REMOVE, paratems, BaseBean.class, new BaseSubscriber
-                <BaseBean>(false) {
-            @Override
-            public void onError(ExceptionHandle.ResponeThrowable e) {
-                postResult(false);
-            }
-
-            @Override
-
-            public void onNext(BaseBean o) {
-                postResult(true);
-            }
-        });
+        RetrofitInstance.getInstance().post(URL_EVENT_REMOVE, paratems, BaseBean.class, baseSubscriber);
     }
 
     private void postResult(boolean isSuccess) {

@@ -1,15 +1,17 @@
 package com.iwangcn.qingkong.ui.model;
 
+import com.iwangcn.qingkong.net.BaseBean;
+
 /**
  * 收藏model
  * Created by czh on 2017/4/19.
  */
 
-public class FavoriteInfo {
+public class FavoriteInfo extends BaseBean{
     private long autoId;
     private long userId;//用户id
     private long eventId;//事件id
-    private EventInfo EventInfo;  //事件对象
+    private EventInfo event;  //事件对象
     private int status;//状态
     private long updateTime;
 
@@ -37,12 +39,12 @@ public class FavoriteInfo {
         this.eventId = eventId;
     }
 
-    public com.iwangcn.qingkong.ui.model.EventInfo getEventInfo() {
-        return EventInfo;
+    public com.iwangcn.qingkong.ui.model.EventInfo getEvent() {
+        return event;
     }
 
-    public void setEventInfo(com.iwangcn.qingkong.ui.model.EventInfo eventInfo) {
-        EventInfo = eventInfo;
+    public void setEvent(com.iwangcn.qingkong.ui.model.EventInfo event) {
+        this.event = event;
     }
 
     public int getStatus() {

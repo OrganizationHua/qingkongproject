@@ -19,8 +19,8 @@ public class EventInfo extends BaseBean implements BaseColumns, Serializable {
     private long autoId;
     private String name;//名称
     private String disc;//    简介
-    private long stime2;//开始关注时间
-    private long etime2;//截止关注时间
+    private long stime;//开始关注时间
+    private long etime;//截止关注时间
     private String picUrl;//事件图片
     private String location;//区域
     private String entity;// 涉事人物、主题
@@ -28,8 +28,8 @@ public class EventInfo extends BaseBean implements BaseColumns, Serializable {
     private String classification;//分类
     private int status;//状态
     private String createUid;//创建事件的用户id
-    private long insertTime2;
-    private long updateTime2;
+    private long insertTime;
+    private long updateTime;
     private String strStime;
     private String strEtime;
     private String strInsertTime;
@@ -52,7 +52,7 @@ public class EventInfo extends BaseBean implements BaseColumns, Serializable {
     public static final int UPDATETIME = 14;
 
     public static final String COLUMN_NAME[] = {_ID, "autoId", "name", "disc",
-            "stime", "etime2", "picUrl", "location", "entity", "keyword", "classification", "status", "createUid", "insertTime2", "updateTime2"};
+            "stime", "etime", "picUrl", "location", "entity", "keyword", "classification", "status", "createUid", "insertTime", "updateTime"};
     public static final String CREATE_SQL = "CREATE TABLE " + TABLE_NAME + "("
             + COLUMN_NAME[ID] + " INTEGER PRIMARY KEY," + COLUMN_NAME[AUTOID]
             + " TEXT," + COLUMN_NAME[NAME] + " TEXT," + COLUMN_NAME[DISC]
@@ -96,19 +96,19 @@ public class EventInfo extends BaseBean implements BaseColumns, Serializable {
     }
 
     public long getStime() {
-        return stime2;
+        return stime;
     }
 
     public void setStime(long stime) {
-        this.stime2 = stime;
+        this.stime = stime;
     }
 
-    public long getEtime2() {
-        return etime2;
+    public long getEtime() {
+        return etime;
     }
 
-    public void setEtime2(long etime2) {
-        this.etime2 = etime2;
+    public void setEtime(long etime) {
+        this.etime = etime;
     }
 
     public String getPicUrl() {
@@ -159,20 +159,20 @@ public class EventInfo extends BaseBean implements BaseColumns, Serializable {
         this.createUid = createUid;
     }
 
-    public long getInsertTime2() {
-        return insertTime2;
+    public long getInsertTime() {
+        return insertTime;
     }
 
-    public void setInsertTime2(long insertTime2) {
-        this.insertTime2 = insertTime2;
+    public void setInsertTime(long insertTime) {
+        this.insertTime = insertTime;
     }
 
-    public long getUpdateTime2() {
-        return updateTime2;
+    public long getUpdateTime() {
+        return updateTime;
     }
 
-    public void setUpdateTime2(long updateTime2) {
-        this.updateTime2 = updateTime2;
+    public void setUpdateTime(long updateTime) {
+        this.updateTime = updateTime;
     }
 
     public int getNewsNum() {
