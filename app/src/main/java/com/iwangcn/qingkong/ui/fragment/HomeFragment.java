@@ -17,6 +17,7 @@ import android.widget.RelativeLayout;
 import com.iwangcn.qingkong.R;
 import com.iwangcn.qingkong.business.Event;
 import com.iwangcn.qingkong.business.HomeEvent;
+import com.iwangcn.qingkong.business.LoadFailEvent;
 import com.iwangcn.qingkong.net.NetConst;
 import com.iwangcn.qingkong.ui.activity.CollectActivity;
 import com.iwangcn.qingkong.ui.activity.NewsEventActivity;
@@ -161,6 +162,9 @@ public class HomeFragment extends BaseFragment implements AbPullToRefreshView.On
             }
             mList.addAll(list);
             mAdapter.setDataList(mList);
+        }else if(event instanceof LoadFailEvent){
+            mAbPullToRefreshView.onHeaderRefreshFinish();
+            mAbPullToRefreshView.onFooterLoadFinish();
         }
     }
 

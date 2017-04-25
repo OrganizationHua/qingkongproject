@@ -97,7 +97,7 @@ public class EventInfoAdapter extends BaseAdapter {
             viewHolder.tvNumb.setText(model.getCreateUid());
         }
 
-        viewHolder.tvTime.setText(AbDateUtil.formatDateStrGetDay(model.getUpdateTime()));
+        viewHolder.tvTime.setText(AbDateUtil.formatDateStrGetDay(model.getUpdateTime2()));
         viewHolder.imgNote.setVisibility(View.VISIBLE);
         viewHolder.linCollect.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -21,9 +21,12 @@ public class HttpSuccessResponseFunc<T> implements Func1<NetResponse<T>, T> {
     @Override
     public T call(NetResponse<T> response) {
         if (TextUtils.equals("200",response.getCode())) {
-
-            return JSON.parseObject(response.getData().toString(), clazz);
-
+            try {
+                return JSON.parseObject(response.getData().toString(), clazz);
+            }catch (Exception e){
+                e.printStackTrace();
+                return null;
+            }
 
         } else {
             throw new ExceptionHandle.ServerException(response.getCode(), response.getMessage());
