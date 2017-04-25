@@ -1,9 +1,8 @@
 package com.iwangcn.qingkong.ui.activity;
 
 import android.content.Context;
-import android.text.Editable;
 import android.text.TextUtils;
-import android.text.TextWatcher;
+import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
@@ -26,7 +25,7 @@ import butterknife.OnClick;
 /**
  * 系统设置
  */
-public class SettingsActivity extends QkBaseActivity {
+public class SettingsActivity extends QkBaseActivity implements View.OnFocusChangeListener {
     @BindView(R.id.set_ed_pw_original)
     EditText mEdOriginal;
     @BindView(R.id.set_ed_pw_new)
@@ -53,26 +52,9 @@ public class SettingsActivity extends QkBaseActivity {
         EventBus.getDefault().register(this);
         setTitle(getResources().getString(R.string.mine_system_set));
         setSwitch();
-        mEdAgainPw.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                if (charSequence.toString().length() >= 6) {
-                    mButtonpw.setEnabled(true);
-                } else {
-                    mButtonpw.setEnabled(false);
-                }
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-
-            }
-        });
+        mEdOriginal.setOnFocusChangeListener(this);
+        mEdNewPw.setOnFocusChangeListener(this);
+        mEdAgainPw.setOnFocusChangeListener(this);
     }
 
     private void setSwitch() {
@@ -82,7 +64,7 @@ public class SettingsActivity extends QkBaseActivity {
         mSwitchNotify.setChecked(isNotify);
         mSwitchSound.setChecked(isSound);
         mSwitchVibrate.setChecked(isVibrate);
-        if(!isNotify){
+        if (!isNotify) {
             mSwitchSound.setEnabled(false);
             mSwitchVibrate.setEnabled(false);
         }
@@ -151,5 +133,21 @@ public class SettingsActivity extends QkBaseActivity {
     protected void onDestroy() {
         super.onDestroy();
         EventBus.getDefault().unregister(this);
+    }
+
+    @Override
+    public void onFocusChange(View view, boolean b) {
+        if (b) {
+            mButtonpw.setEnabled(true);
+        } else {
+            String strOriginalPw = mEdOriginal.getText().toString().trim();
+            String strNewPw = mEdNewPw.getText().toString().trim();
+            String strAgainPw = mEdAgainPw.getText().toString().trim();
+            if (TextUtils.isEmpty(strOriginalPw) || TextUtils.isEmpty(strNewPw) || TextUtils.isEmpty(strAgainPw)) {
+                mButtonpw.setEnabled(false);
+            } else {
+                mButtonpw.setEnabled(true);
+            }
+        }
     }
 }

@@ -13,6 +13,7 @@ import com.iwangcn.qingkong.business.Event;
 import com.iwangcn.qingkong.business.MineEvent;
 import com.iwangcn.qingkong.providers.Global;
 import com.iwangcn.qingkong.providers.UserManager;
+import com.iwangcn.qingkong.ui.activity.LoginActivity;
 import com.iwangcn.qingkong.ui.activity.SettingsActivity;
 import com.iwangcn.qingkong.ui.activity.UpdateActivity;
 import com.iwangcn.qingkong.ui.base.BaseFragment;
@@ -69,10 +70,16 @@ public class MineFragment extends BaseFragment {
                 mTvName.setText(userInfo.getName());
             }
             if (!TextUtils.isEmpty(userInfo.getTelephone())) {
-                mTvName.setText(userInfo.getTelephone());
+                mTvTel.setText(userInfo.getTelephone());
             }
             if (!TextUtils.isEmpty(userInfo.getEmail())) {
-                mTvName.setText(userInfo.getEmail());
+                mTvEmail.setText(userInfo.getEmail());
+            }
+            if (!TextUtils.isEmpty(userInfo.getUserGroup())) {
+                mTvTeam.setText(userInfo.getUserGroup());
+            }
+            if (!TextUtils.isEmpty(userInfo.getGroupNum())) {
+                mTvDivision.setText(userInfo.getGroupNum());
             }
         }
         if (!Global.isNewVersion) {//当前是否是最新版
@@ -114,7 +121,9 @@ public class MineFragment extends BaseFragment {
             public void onConfirm() {
                 UserManager.clearUserInfo();
                 dialog.dismiss();
-                System.exit(0);
+                Intent intent = new Intent(getActivity(), LoginActivity.class);
+                getActivity().startActivity(intent);
+                getActivity().finish();
             }
         });
         dialog.show();

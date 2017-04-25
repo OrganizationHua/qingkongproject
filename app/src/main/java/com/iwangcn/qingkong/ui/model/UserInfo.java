@@ -17,6 +17,10 @@ public class UserInfo extends BaseBean {
     private int type;//0表示超级管理员，1表示主管，2表示业务人员，3表示客户
     private int status;//状态
     private long updateTime;//更新时间
+    private String customerAgent;
+    private String userGroup;
+    private String groupNum;
+    private String post;
 
     public long getAutoId() {
         return autoId;
@@ -88,5 +92,37 @@ public class UserInfo extends BaseBean {
 
     public void setUpdateTime(long updateTime) {
         this.updateTime = updateTime;
+    }
+
+    public String getCustomerAgent() {
+        return customerAgent;
+    }
+
+    public void setCustomerAgent(String customerAgent) {
+        this.customerAgent = customerAgent;
+    }
+
+    public String getUserGroup() {
+        return userGroup;
+    }
+
+    public void setUserGroup(String userGroup) {
+        this.userGroup = userGroup;
+    }
+
+    public String getGroupNum() {
+        return groupNum;
+    }
+
+    public void setGroupNum(String groupNum) {
+        this.groupNum = groupNum;
+    }
+
+    public String getPost() {
+        return post;
+    }
+
+    public void setPost(String post) {
+        this.post = post;
     }
 }
