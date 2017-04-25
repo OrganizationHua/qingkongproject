@@ -30,6 +30,7 @@ import com.iwangcn.qingkong.ui.view.pullview.AbPullToRefreshView;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -53,7 +54,7 @@ public class HomeFragment extends BaseFragment implements AbPullToRefreshView.On
     AbPullToRefreshView mAbPullToRefreshView;
 
     private EventInfoAdapter mAdapter;
-    private List<EventInfoVo> mList;
+    private List<EventInfoVo> mList=new ArrayList<>();
     private HomeEvent mHomeEvent;
 
     @Override
@@ -80,6 +81,8 @@ public class HomeFragment extends BaseFragment implements AbPullToRefreshView.On
         mAdapter = new EventInfoAdapter(getActivity());
         mAdapter.setCollectView(mLin);
         mAdapter.setContainerView(mRellistView);
+        mAdapter.setDataList(mList);
+        mListView.setAdapter(mAdapter);
         new AsyncTask<Object, Object, List<EventInfoVo>>() {
 
             @Override
@@ -89,9 +92,10 @@ public class HomeFragment extends BaseFragment implements AbPullToRefreshView.On
 
             @Override
             protected void onPostExecute(List<EventInfoVo> eventInfos) {
-                mList = eventInfos;
-                mAdapter.setDataList(mList);
-                mListView.setAdapter(mAdapter);
+                if(eventInfos!=null){
+                    mList = eventInfos;
+                    mAdapter.setDataList(mList);
+                }
             }
         }.execute();
         mHomeEvent.getRefreshEventList();
