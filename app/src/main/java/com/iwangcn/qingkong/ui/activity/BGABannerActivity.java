@@ -49,7 +49,7 @@ public class BGABannerActivity extends BaseActivity {
         mContentBanner.setEnterSkipViewIdAndDelegate(R.id.btn_guide_enter, R.id.tv_guide_skip, new BGABanner.GuideDelegate() {
             @Override
             public void onClickEnterOrSkip() {
-                SpUtils.put(context, SpConstant.IS_FIRST_LOING, true);
+                SpUtils.put(context, SpConstant.IS_FIRST_START, true);
                 startActivity(new Intent(context, LoginActivity.class));
                 finish();
             }

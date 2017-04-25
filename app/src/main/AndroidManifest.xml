@@ -41,7 +41,7 @@
             android:windowSoftInputMode="adjustUnspecified|stateHidden" />
         <activity android:name=".ui.activity.HomeActivity" />
         <activity android:name=".ui.activity.LoginActivity" />
-        <activity android:name=".ui.activity.CollectActivity" />
+        <activity android:name=".ui.activity.FavoriteActivity" />
         <activity android:name=".ui.activity.NewsDetailActivity" />
         <activity android:name=".ui.activity.NewsSearchActivity" />
         <activity android:name=".ui.activity.NewsEventActivity" />

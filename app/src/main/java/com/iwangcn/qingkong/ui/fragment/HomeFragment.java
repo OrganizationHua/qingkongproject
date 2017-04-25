@@ -19,12 +19,12 @@ import com.iwangcn.qingkong.business.Event;
 import com.iwangcn.qingkong.business.HomeEvent;
 import com.iwangcn.qingkong.business.LoadFailEvent;
 import com.iwangcn.qingkong.net.NetConst;
-import com.iwangcn.qingkong.ui.activity.CollectActivity;
+import com.iwangcn.qingkong.ui.activity.FavoriteActivity;
 import com.iwangcn.qingkong.ui.activity.NewsEventActivity;
 import com.iwangcn.qingkong.ui.activity.NewsSearchActivity;
 import com.iwangcn.qingkong.ui.adapter.EventInfoAdapter;
 import com.iwangcn.qingkong.ui.base.BaseFragment;
-import com.iwangcn.qingkong.ui.model.EventInfo;
+import com.iwangcn.qingkong.ui.model.EventInfoVo;
 import com.iwangcn.qingkong.ui.view.pullview.AbPullToRefreshView;
 
 import org.greenrobot.eventbus.EventBus;
@@ -53,7 +53,7 @@ public class HomeFragment extends BaseFragment implements AbPullToRefreshView.On
     AbPullToRefreshView mAbPullToRefreshView;
 
     private EventInfoAdapter mAdapter;
-    private List<EventInfo> mList;
+    private List<EventInfoVo> mList;
     private HomeEvent mHomeEvent;
 
     @Override
@@ -80,15 +80,15 @@ public class HomeFragment extends BaseFragment implements AbPullToRefreshView.On
         mAdapter = new EventInfoAdapter(getActivity());
         mAdapter.setCollectView(mLin);
         mAdapter.setContainerView(mRellistView);
-        new AsyncTask<Object, Object, List<EventInfo>>() {
+        new AsyncTask<Object, Object, List<EventInfoVo>>() {
 
             @Override
-            protected List<EventInfo> doInBackground(Object... strings) {
+            protected List<EventInfoVo> doInBackground(Object... strings) {
                 return mHomeEvent.getCacheNews();
             }
 
             @Override
-            protected void onPostExecute(List<EventInfo> eventInfos) {
+            protected void onPostExecute(List<EventInfoVo> eventInfos) {
                 mList = eventInfos;
                 mAdapter.setDataList(mList);
                 mListView.setAdapter(mAdapter);
@@ -119,7 +119,7 @@ public class HomeFragment extends BaseFragment implements AbPullToRefreshView.On
 
     @OnClick(R.id.homeFragment_btn_collected)//收藏
     public void btnCollect() {
-        Intent intent = new Intent(getActivity(), CollectActivity.class);
+        Intent intent = new Intent(getActivity(), FavoriteActivity.class);
         startActivity(intent);
     }
 
@@ -150,7 +150,7 @@ public class HomeFragment extends BaseFragment implements AbPullToRefreshView.On
     public void onEventMainThread(Event event) {
         if (event instanceof HomeEvent) {
             mAbPullToRefreshView.onHeaderRefreshFinish();
-            List<EventInfo> list = (List<EventInfo>) event.getObject();
+            List<EventInfoVo> list = (List<EventInfoVo>) event.getObject();
             if (event.isMore()) {
                 mAbPullToRefreshView.onFooterLoadFinish();
                 if (list.size() < NetConst.page) {//如果小于10条表示加载完成不能加载更多
@@ -162,7 +162,7 @@ public class HomeFragment extends BaseFragment implements AbPullToRefreshView.On
             }
             mList.addAll(list);
             mAdapter.setDataList(mList);
-        }else if(event instanceof LoadFailEvent){
+        } else if (event instanceof LoadFailEvent) {
             mAbPullToRefreshView.onHeaderRefreshFinish();
             mAbPullToRefreshView.onFooterLoadFinish();
         }

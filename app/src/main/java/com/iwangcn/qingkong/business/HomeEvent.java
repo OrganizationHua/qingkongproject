@@ -28,6 +28,7 @@ public class HomeEvent extends Event implements NetConst {
     private Context mContext;
     private EventInfoDao mDao;
     private int indexPage = 1;//当前页数
+
     public HomeEvent() {
 
     }
@@ -42,7 +43,7 @@ public class HomeEvent extends Event implements NetConst {
     }
 
     private void getNewsEventList(int indexPage, String keyword) {
-        HomeEvent homeEvent=new HomeEvent();
+        HomeEvent homeEvent = new HomeEvent();
         HashMap paratems = new HashMap();
         paratems.put(USER_ID, UserManager.getUserInfo().getAutoId());
         paratems.put("keyword", keyword);
@@ -73,12 +74,13 @@ public class HomeEvent extends Event implements NetConst {
         getNewsEventList(indexPage);
     }
 
-    public List<EventInfo> getCacheNews() {
+    public List<EventInfoVo> getCacheNews() {
         List mList = new ArrayList<>();
         long currentTime = System.currentTimeMillis();
         long test = 1492773512791l;
         mList = mDao.getList();
         for (int i = 0; i < 15; i++) {
+            EventInfoVo infoVo = new EventInfoVo();
             EventInfo model = new EventInfo();
 
             if (i == 0) {
@@ -94,7 +96,9 @@ public class HomeEvent extends Event implements NetConst {
             }
             model.setCreateUid("2223条");
             model.setName("当地时间6日，国家主席习近平在美国佛罗里达州海湖庄园同美国总统特朗普举行中美元首会晤");
-            mList.add(model);
+            infoVo.setEventInfo(model);
+            infoVo.setInfoCount(3333);
+            mList.add(infoVo);
         }
 
         return mList;

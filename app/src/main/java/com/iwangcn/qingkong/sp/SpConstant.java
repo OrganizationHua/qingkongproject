@@ -7,7 +7,7 @@ public interface SpConstant {
     public final String USER_INFO = "user_info";//是否允许震动
     public final String IS_LOGIN = "isLogin";//是否已经登录
     public final String CACHE_USERNAME = "cache_username";//缓存用户信息
-    public final String IS_FIRST_LOING = "is_first_login";//是否第一次登陆
+    public final String IS_FIRST_START = "is_first_login";//是否第一次登陆
 
 }
 

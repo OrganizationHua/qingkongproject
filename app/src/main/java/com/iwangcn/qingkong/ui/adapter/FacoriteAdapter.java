@@ -7,12 +7,16 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.iwangcn.qingkong.R;
-import com.iwangcn.qingkong.ui.model.NewsInfo;
+import com.iwangcn.qingkong.ui.model.EventInfo;
+import com.iwangcn.qingkong.ui.model.FavoriteInfo;
 import com.iwangcn.qingkong.ui.view.MyCommonDialog;
+import com.iwangcn.qingkong.utils.AbDateUtil;
+import com.iwangcn.qingkong.utils.GlideUtils;
 import com.nhaarman.listviewanimations.ArrayAdapter;
 import com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.undo.UndoAdapter;
 
@@ -21,9 +25,9 @@ import butterknife.ButterKnife;
 
 
 /**
- * demo Adapter Created by zhchen on 15/8/5
+ * 收藏Adapter
  */
-public class CollectAdapter extends ArrayAdapter implements UndoAdapter{
+public class FacoriteAdapter extends ArrayAdapter implements UndoAdapter {
 
     public interface OnClickCancleCollectListener {
         public void onClickCancleCollect(int position);
@@ -32,7 +36,7 @@ public class CollectAdapter extends ArrayAdapter implements UndoAdapter{
     private Context mContext;
     private OnClickCancleCollectListener listener;
 
-    public CollectAdapter(Context context) {
+    public FacoriteAdapter(Context context) {
         this.mContext = context;
     }
 
@@ -61,16 +65,26 @@ public class CollectAdapter extends ArrayAdapter implements UndoAdapter{
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
-        final NewsInfo model = (NewsInfo) getItem(position);
-        if (!TextUtils.isEmpty(model.getTitle())) {
-            viewHolder.title.setText(model.getTitle());
+        final FavoriteInfo favoriteInfo = (FavoriteInfo) getItem(position);
+        if (favoriteInfo != null) {
+            EventInfo model = favoriteInfo.getEventInfo();
+            if (model != null) {
+                if (!TextUtils.isEmpty(model.getName())) {
+                    viewHolder.title.setText(model.getName());
+                }
+                //条数
+//                if (!TextUtils.isEmpty(favoriteInfo.g)) {
+//                    viewHolder.tvNumb.setText(model.getNumb());
+//                }
+                //时间
+                viewHolder.tvTime.setText(AbDateUtil.formatDateStrGetDay(model.getUpdateTime2()));
+                if (TextUtils.isEmpty(model.getPicUrl())) {
+                    GlideUtils.loadImageView(mContext, model.getPicUrl(), viewHolder.imgIcon);
+                }
+            }
         }
-        if (!TextUtils.isEmpty(model.getNumb())) {
-            viewHolder.tvNumb.setText(model.getNumb());
-        }
-//        if (!TextUtils.isEmpty(model.getPubtime())) {
-//            viewHolder.tvTime.setText(model.getPubtime());
-//        }
+
+
         viewHolder.linCollect.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -112,6 +126,7 @@ public class CollectAdapter extends ArrayAdapter implements UndoAdapter{
     public View getUndoClickView(@NonNull final View view) {
         return view.findViewById(R.id.undo_row_undobutton);
     }
+
     class ViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.news_title)
         public TextView title;//标题
@@ -121,6 +136,8 @@ public class CollectAdapter extends ArrayAdapter implements UndoAdapter{
         public TextView tvTime;//新闻数量
         @BindView(R.id.homefragment_lin_collect)
         public LinearLayout linCollect;//取消收藏
+        @BindView(R.id.home_fragment_item_icon)
+        public ImageView imgIcon;//取消收藏
 
         public ViewHolder(View itemView) {
             super(itemView);

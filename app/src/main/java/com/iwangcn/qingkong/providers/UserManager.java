@@ -18,7 +18,7 @@ public class UserManager {
     public static void setUserName(UserInfo userInfo) {
         UserManager.userInfo=userInfo;
         SpUtils.put(MobileApplication.getInstance(), SpConstant.USER_INFO, new Gson().toJson(userInfo));
-        SpUtils.put(MobileApplication.getInstance(), SpConstant.IS_LOGIN, false);
+        SpUtils.put(MobileApplication.getInstance(), SpConstant.IS_LOGIN, true);
         SpUtils.put(MobileApplication.getInstance(), SpConstant.CACHE_USERNAME, userInfo.getName());
     }
 

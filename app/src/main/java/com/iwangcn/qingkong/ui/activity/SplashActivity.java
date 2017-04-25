@@ -26,19 +26,25 @@ public class SplashActivity extends BaseActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_splash);
-        isFirstLogin();
+        isFirstStart();
     }
 
-    private void isFirstLogin() {
-        boolean isFirst = (boolean) SpUtils.get(this, SpConstant.IS_FIRST_LOING, false);
+    /**
+     * 如果是第一次启动
+     */
+    private void isFirstStart() {
+        boolean isFirst = (boolean) SpUtils.get(this, SpConstant.IS_FIRST_START, false);
         if (!isFirst) {
             pageDelay(1);
         } else {
-            init();
+            isHasLogin();
         }
     }
 
-    private void init() {
+    /**
+     * 是否已经登录成功过
+     */
+    private void isHasLogin() {
         boolean isLogin = (boolean) SpUtils.get(this, SpConstant.IS_LOGIN, false);
         if (isLogin) {
             pageDelay(2);

@@ -14,9 +14,11 @@ import android.widget.TextView;
 
 import com.iwangcn.qingkong.R;
 import com.iwangcn.qingkong.ui.model.EventInfo;
-import com.iwangcn.qingkong.utils.AbDateUtil;
-import com.iwangcn.qingkong.utils.ToastUtil;
+import com.iwangcn.qingkong.ui.model.EventInfoVo;
 import com.iwangcn.qingkong.ui.view.BessleAnimation.BesselAnimation;
+import com.iwangcn.qingkong.utils.AbDateUtil;
+import com.iwangcn.qingkong.utils.GlideUtils;
+import com.iwangcn.qingkong.utils.ToastUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,7 +32,7 @@ import butterknife.ButterKnife;
  * demo Adapter Created by zhchen on 15/8/5
  */
 public class EventInfoAdapter extends BaseAdapter {
-    private List<EventInfo> mList;
+    private List<EventInfoVo> mList;
     private Context mContext;
     private RelativeLayout containerView;
     private View collectView;
@@ -39,7 +41,7 @@ public class EventInfoAdapter extends BaseAdapter {
         this.mContext = context;
     }
 
-    public void setDataList(List<EventInfo> dataList) {
+    public void setDataList(List<EventInfoVo> dataList) {
         mList = dataList;
         notifyDataSetChanged();
     }
@@ -63,7 +65,7 @@ public class EventInfoAdapter extends BaseAdapter {
     @Override
     public int getCount() {
         if (mList == null) {
-            mList = new ArrayList<EventInfo>();
+            mList = new ArrayList<EventInfoVo>();
         }
         return mList.size();
     }
@@ -89,16 +91,25 @@ public class EventInfoAdapter extends BaseAdapter {
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
-        EventInfo model = mList.get(position);
-        if (!TextUtils.isEmpty(model.getName())) {
-            viewHolder.title.setText(model.getName());
+        EventInfoVo infoVo = mList.get(position);
+        if (infoVo != null) {
+            viewHolder.tvNumb.setText(infoVo.getInfoCount() + "条数据");
+            EventInfo model = infoVo.getEventInfo();
+            if (model != null) {
+                if (!TextUtils.isEmpty(model.getName())) {
+                    viewHolder.title.setText(model.getName());
+                }
+                viewHolder.tvTime.setText(AbDateUtil.formatDateStrGetDay(model.getUpdateTime2()));
+            }
+            if (model.getStatus() == 1) {
+                viewHolder.imgNote.setVisibility(View.VISIBLE);
+            } else {
+                viewHolder.imgNote.setVisibility(View.GONE);
+            }
+            if (TextUtils.isEmpty(model.getPicUrl())) {
+                GlideUtils.loadImageView(mContext, model.getPicUrl(), viewHolder.imgIcon);
+            }
         }
-        if (!TextUtils.isEmpty(model.getCreateUid())) {
-            viewHolder.tvNumb.setText(model.getCreateUid());
-        }
-
-        viewHolder.tvTime.setText(AbDateUtil.formatDateStrGetDay(model.getUpdateTime2()));
-        viewHolder.imgNote.setVisibility(View.VISIBLE);
         viewHolder.linCollect.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -141,6 +152,8 @@ public class EventInfoAdapter extends BaseAdapter {
         public LinearLayout linCollect;//收藏
         @BindView(R.id.home_fragment_item_note)
         public ImageView imgNote;//收藏
+        @BindView(R.id.home_fragment_item_icon)
+        public ImageView imgIcon;//pic
 
 
         public ViewHolder(View view) {
