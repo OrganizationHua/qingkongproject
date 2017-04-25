@@ -21,6 +21,8 @@ public class HttpSuccessResponseFunc<T> implements Func1<NetResponse, NetRespons
     @Override
     public NetResponse<T> call(NetResponse response) {
         if (TextUtils.equals("200", response.getCode())) {
+            if (response.getMessage() == null)
+                response.setMessage("");
             if (response.getData() != null) {
                 try {
                     response.setDataObject(JSON.parseObject(response.getData().toString(), clazz));
