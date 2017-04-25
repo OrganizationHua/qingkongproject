@@ -27,7 +27,6 @@ public class UserManager {
             String strUserInfo = (String) SpUtils.get(MobileApplication.getInstance(), SpConstant.USER_INFO, "");
             userInfo = new Gson().fromJson(strUserInfo, UserInfo.class);
         }
-
         return userInfo;
     }
 

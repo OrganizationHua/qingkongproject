@@ -36,6 +36,9 @@ public class Event {
     public void setIsSuccess(int status) {
         this.isSuccess = status == 1 ? true : false;
     }
+    public void setIsSuccess(boolean isSuccess){
+        this.isSuccess=isSuccess;
+    }
 
     public boolean isMore() {
         return isMore;

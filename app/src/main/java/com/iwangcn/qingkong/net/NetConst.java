@@ -16,7 +16,6 @@ public interface NetConst {
 
     String URL_UPDATE_PWD = "user/updatePwd";//修改密码
     String URL_CHECK_VERSION = "user/checkVersion";//1.1.1	查询是新版本
-
     /**
      * 助手模块
      */
@@ -41,6 +40,10 @@ public interface NetConst {
     String URL_EVENT_AIDE_DETAIL = "followup/aide/detail";//2.4.13助手跟进--助手跟进详情
     String URL_EVENT_AIDE_SUBMIT = "followup/aide/submitMessage";//2.4.14 助手跟进--提交留言
     String URL_EVENT_AIDE_MESSAGELIST = "followup/aide/messageList";//2.4.15助手跟进--留言列表
+    //收藏相关
+    String URL_EVENT_FAVORITE = "event/favorite";//收藏列表
+    String URL_EVENT_ADD = "event/add2favorite";//添加收藏
+    String URL_EVENT_REMOVE = "event/removeFavorite";//取消列表
 
 
 }

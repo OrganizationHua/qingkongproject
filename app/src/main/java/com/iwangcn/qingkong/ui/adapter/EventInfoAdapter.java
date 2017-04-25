@@ -13,6 +13,10 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.iwangcn.qingkong.R;
+import com.iwangcn.qingkong.business.FavoriteEvent;
+import com.iwangcn.qingkong.net.BaseBean;
+import com.iwangcn.qingkong.net.BaseSubscriber;
+import com.iwangcn.qingkong.net.ExceptionHandle;
 import com.iwangcn.qingkong.ui.model.EventInfo;
 import com.iwangcn.qingkong.ui.model.EventInfoVo;
 import com.iwangcn.qingkong.ui.view.BessleAnimation.BesselAnimation;
@@ -91,7 +95,7 @@ public class EventInfoAdapter extends BaseAdapter {
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
-        EventInfoVo infoVo = mList.get(position);
+        final EventInfoVo infoVo = mList.get(position);
         if (infoVo != null) {
             viewHolder.tvNumb.setText(infoVo.getInfoCount() + "条数据");
             EventInfo model = infoVo.getEventInfo();
@@ -112,30 +116,44 @@ public class EventInfoAdapter extends BaseAdapter {
         }
         viewHolder.linCollect.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onClick(final View view) {
                 ToastUtil.showToast(mContext, "收藏按钮");
-                BesselAnimation besselAnimation = new BesselAnimation(mContext, containerView, view, collectView);
-                besselAnimation.startAnimation(new Animator.AnimatorListener() {
-                    @Override
-                    public void onAnimationStart(Animator animator) {
+                if (infoVo != null) {
+                    new FavoriteEvent(mContext).addFavoritet(String.valueOf(infoVo.getFavoriteId()), new BaseSubscriber<BaseBean>(true) {
+                        @Override
+                        public void onError(ExceptionHandle.ResponeThrowable e) {
+                            ToastUtil.showToast(mContext, "收藏失败");
+                        }
 
-                    }
+                        @Override
+                        public void onNext(BaseBean baseBean) {
+                            ToastUtil.showToast(mContext, "收藏成功");
+                            BesselAnimation besselAnimation = new BesselAnimation(mContext, containerView, view, collectView);
+                            besselAnimation.startAnimation(new Animator.AnimatorListener() {
+                                @Override
+                                public void onAnimationStart(Animator animator) {
 
-                    @Override
-                    public void onAnimationEnd(Animator animator) {
+                                }
 
-                    }
+                                @Override
+                                public void onAnimationEnd(Animator animator) {
 
-                    @Override
-                    public void onAnimationCancel(Animator animator) {
+                                }
 
-                    }
+                                @Override
+                                public void onAnimationCancel(Animator animator) {
 
-                    @Override
-                    public void onAnimationRepeat(Animator animator) {
+                                }
 
-                    }
-                });
+                                @Override
+                                public void onAnimationRepeat(Animator animator) {
+
+                                }
+                            });
+                        }
+                    });
+                }
+
             }
         });
         return convertView;

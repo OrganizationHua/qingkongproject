@@ -94,7 +94,7 @@ public class HomeFragment extends BaseFragment implements AbPullToRefreshView.On
                 mListView.setAdapter(mAdapter);
             }
         }.execute();
-
+        mHomeEvent.getRefreshEventList();
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -151,11 +151,11 @@ public class HomeFragment extends BaseFragment implements AbPullToRefreshView.On
         if (event instanceof HomeEvent) {
             mAbPullToRefreshView.onHeaderRefreshFinish();
             List<EventInfoVo> list = (List<EventInfoVo>) event.getObject();
+            if (list.size() < NetConst.page) {//如果小于page条表示加载完成不能加载更多
+                mAbPullToRefreshView.setLoadMoreEnable(false);
+            }
             if (event.isMore()) {
                 mAbPullToRefreshView.onFooterLoadFinish();
-                if (list.size() < NetConst.page) {//如果小于10条表示加载完成不能加载更多
-                    mAbPullToRefreshView.setLoadMoreEnable(false);
-                }
             } else {
                 mAbPullToRefreshView.onHeaderRefreshFinish();
                 mList.clear();
