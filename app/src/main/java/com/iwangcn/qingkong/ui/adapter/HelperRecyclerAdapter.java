@@ -1,21 +1,27 @@
 package com.iwangcn.qingkong.ui.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.iwangcn.qingkong.R;
+import com.iwangcn.qingkong.business.HelperEvent;
+import com.iwangcn.qingkong.ui.activity.NewsDetailActivity;
 import com.iwangcn.qingkong.ui.model.HelperInfo;
+import com.iwangcn.qingkong.utils.AbDateUtil;
+import com.iwangcn.qingkong.utils.GlideUtils;
 import com.iwangcn.qingkong.utils.ToastUtil;
 import com.zhy.view.flowlayout.FlowLayout;
 import com.zhy.view.flowlayout.TagAdapter;
 import com.zhy.view.flowlayout.TagFlowLayout;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import butterknife.BindView;
@@ -25,8 +31,11 @@ import butterknife.BindView;
  */
 
 public class HelperRecyclerAdapter extends BaseRecyclerViewAdapter<HelperInfo> {
-    public HelperRecyclerAdapter(Context context, List<HelperInfo> list) {
+    private HelperEvent helperEvent;
+
+    public HelperRecyclerAdapter(Context context, List<HelperInfo> list, HelperEvent helperEvent) {
         super(context, list);
+        this.helperEvent = helperEvent;
     }
 
     @Override
@@ -35,45 +44,61 @@ public class HelperRecyclerAdapter extends BaseRecyclerViewAdapter<HelperInfo> {
     }
 
     @Override
-    public void bindData(RecyclerView.ViewHolder viewholder, HelperInfo helperInfo) {
+    public void bindData(RecyclerView.ViewHolder viewholder, final HelperInfo helperInfo, final int position) {
         HelperViewHolder holder = (HelperViewHolder) viewholder;
         if (!TextUtils.isEmpty(helperInfo.getTitle())) {
             holder.title.setText(helperInfo.getTitle());
         }
 
-        if (!TextUtils.isEmpty(helperInfo.getPubtime()+"")) {
-            holder.tvTime.setText(helperInfo.getPubtime()+"");
+        if (!TextUtils.isEmpty(helperInfo.getUpdateTime() + "")) {
+            holder.tvTime.setText(AbDateUtil.formatDateStrGetDay(helperInfo.getUpdateTime()));
         }
         if (!TextUtils.isEmpty(helperInfo.getSource())) {
             holder.tvFrom.setText(helperInfo.getSource());
         }
-        TagAdapter<String> tagAdapter = new TagAdapter<String>(initDatas()) {
-            @Override
-            public View getView(FlowLayout parent, int position, String o) {
-
-                TextView tv = (TextView) LayoutInflater.from(mContext).inflate(R.layout.tv,
-                        parent, false);
-                tv.setText(o);
-                return tv;
+        if (!TextUtils.isEmpty(helperInfo.getContent())) {
+            holder.tvContent.setText(helperInfo.getContent());
+        }
+        if (!TextUtils.isEmpty(helperInfo.getPics())) {
+            List<String> listPic = Arrays.asList(helperInfo.getPics().split(","));
+            for (int i = 0; i < listPic.size(); i++) {
+                GlideUtils.loadImageView(mContext, listPic.get(i), holder.imageView);
             }
-        };
-        holder.tagFlowLayout.setAdapter(tagAdapter);
+        }
+        if (!TextUtils.isEmpty(helperInfo.getLabels())) {
+            TagAdapter<String> tagAdapter = new TagAdapter<String>(Arrays.asList(helperInfo.getLabels().split(","))) {
+                @Override
+                public View getView(FlowLayout parent, int position, String o) {
+
+                    TextView tv = (TextView) LayoutInflater.from(mContext).inflate(R.layout.tv,
+                            parent, false);
+                    tv.setText(o);
+                    return tv;
+                }
+            };
+            holder.tagFlowLayout.setAdapter(tagAdapter);
+        }
+
+
         holder.btnFollow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 ToastUtil.showToast(mContext, "已跟进");
+                helperEvent.doHelperFollow(new Long(helperInfo.getAutoId()).intValue(), position);
             }
         });
         holder.btnNORealte.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 ToastUtil.showToast(mContext, "与我无关");
+                helperEvent.doDelete(new Long(helperInfo.getAutoId()).intValue(), position);
             }
         });
         holder.tvScan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ToastUtil.showToast(mContext, "已查看");
+                Intent intent = new Intent(mContext, NewsDetailActivity.class).putExtra("url", helperInfo.getUrl() != null ? helperInfo.getUrl() : "");
+                mContext.startActivity(intent);
             }
         });
     }
@@ -93,6 +118,12 @@ public class HelperRecyclerAdapter extends BaseRecyclerViewAdapter<HelperInfo> {
         @BindView(R.id.tv_from)
         public TextView tvFrom;//来源
 
+        @BindView(R.id.tv_content)
+        public TextView tvContent;//内容
+
+        @BindView(R.id.img_pic)
+        public ImageView imageView;//内容
+
         @BindView(R.id.ll_follow)
         public LinearLayout btnFollow;//跟进
 
@@ -108,15 +139,5 @@ public class HelperRecyclerAdapter extends BaseRecyclerViewAdapter<HelperInfo> {
         public HelperViewHolder(View itemView) {
             super(itemView);
         }
-    }
-
-    private List<String> initDatas() {
-        List<String> itemData = new ArrayList<String>(3);
-
-        for (int i = 0; i < 10; i++) {
-            itemData.add("规范");
-        }
-
-        return itemData;
     }
 }

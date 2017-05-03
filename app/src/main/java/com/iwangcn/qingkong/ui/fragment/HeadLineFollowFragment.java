@@ -62,7 +62,7 @@ public class HeadLineFollowFragment extends BaseFragment {
         mListView.setAdapter(mNewsAdapter);
         mNewsAdapter.setOnItemClickListener(new BaseRecyclerViewAdapter.OnRecyclerItemClickListener() {
             @Override
-            public void onItemClickListener(RecyclerView.ViewHolder viewHolder) {
+            public void onItemClickListener(RecyclerView.ViewHolder viewHolder,int positon) {
                 Intent intent = new Intent(getActivity(), NewsDetailActivity.class);
                 startActivity(intent);
             }

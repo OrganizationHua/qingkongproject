@@ -38,7 +38,7 @@ public class HelperFollowRecyclerAdapter extends BaseRecyclerViewAdapter<HelperM
     }
 
     @Override
-    public void bindData(RecyclerView.ViewHolder viewholder, HelperModel helperModel) {
+    public void bindData(RecyclerView.ViewHolder viewholder, HelperModel helperModel,int pos) {
         HelperFollowViewHolder holder = (HelperFollowViewHolder) viewholder;
         if (type == 1) {
             holder.llReprocess.setVisibility(View.GONE);

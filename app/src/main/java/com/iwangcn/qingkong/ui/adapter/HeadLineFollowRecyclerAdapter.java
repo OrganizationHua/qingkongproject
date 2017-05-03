@@ -38,7 +38,7 @@ public class HeadLineFollowRecyclerAdapter extends BaseRecyclerViewAdapter<Helpe
     }
 
     @Override
-    public void bindData(RecyclerView.ViewHolder viewholder, HelperModel helperModel) {
+    public void bindData(RecyclerView.ViewHolder viewholder, HelperModel helperModel,int pos) {
         HeadLineFollowViewHolder holder = (HeadLineFollowViewHolder) viewholder;
         if(type==1){
             holder.llReprocess.setVisibility(View.GONE);
