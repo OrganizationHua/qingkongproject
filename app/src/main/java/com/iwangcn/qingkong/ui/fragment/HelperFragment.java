@@ -21,6 +21,7 @@ import com.iwangcn.qingkong.ui.adapter.HelperRecyclerAdapter;
 import com.iwangcn.qingkong.ui.base.BaseFragment;
 import com.iwangcn.qingkong.ui.model.HelperInfo;
 import com.iwangcn.qingkong.ui.view.RecycleViewDivider;
+import com.iwangcn.qingkong.ui.view.freshwidget.RefreshListenerAdapter;
 import com.iwangcn.qingkong.ui.view.freshwidget.ReloadRefreshLayout;
 
 import org.greenrobot.eventbus.EventBus;
@@ -79,6 +80,17 @@ public class HelperFragment extends BaseFragment {
                 startActivity(intent);
             }
         });
+        mReloadRefreshView.setOnRefreshListener(new RefreshListenerAdapter() {
+            @Override
+            public void onRefresh(ReloadRefreshLayout refreshLayout) {
+                helperEvent.getRefreshEventList();
+            }
+
+            @Override
+            public void onLoadMore(ReloadRefreshLayout refreshLayout) {
+                helperEvent.getMoreEvent();
+            }
+        });
     }
 
     @OnClick(R.id.home_collect_icon)//收藏
@@ -101,6 +113,7 @@ public class HelperFragment extends BaseFragment {
                 } else {
                     mReloadRefreshView.setEnableRefresh(true);
                     mList.clear();
+
                 }
                 mList.addAll(list);
                 mNewsAdapter.notifyDataSetChanged();

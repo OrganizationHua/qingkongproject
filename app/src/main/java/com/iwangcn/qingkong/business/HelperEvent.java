@@ -33,7 +33,7 @@ public class HelperEvent extends Event implements NetConst {
         paratems.put(USER_ID, UserManager.getUserInfo().getAutoId());
         paratems.put("sourceType", sourceType);
 //        paratems.put("tags", tags);
-//        paratems.put("pageno",index);
+        paratems.put("pageno",index);
         RetrofitInstance.getInstance().post(URL_EVENT_HELP, paratems, HelperInfo.class, new BaseSubscriber<NetResponse<HelperInfo>>(false) {
             @Override
             public void onError(ExceptionHandle.ResponeThrowable e) {

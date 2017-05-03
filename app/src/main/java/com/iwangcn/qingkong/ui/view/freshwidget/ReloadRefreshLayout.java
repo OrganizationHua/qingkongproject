@@ -103,8 +103,8 @@ public class ReloadRefreshLayout extends RelativeLayout {
          this.context=context  ;
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.ReloadRefreshLayout, defStyleAttr, 0);
         mWaveHeight = a.getDimensionPixelSize(R.styleable.ReloadRefreshLayout_reloadwave_height, (int) DensityUtil.dp2px(context, 120));
-        mHeadHeight = a.getDimensionPixelSize(R.styleable.ReloadRefreshLayout_reloadhead_height, (int) DensityUtil.dp2px(context, 80));
-        mBottomHeight = a.getDimensionPixelSize(R.styleable.ReloadRefreshLayout_reloadbottom_height, (int) DensityUtil.dp2px(context, 60));
+        mHeadHeight = a.getDimensionPixelSize(R.styleable.ReloadRefreshLayout_reloadhead_height, (int) DensityUtil.dp2px(context, 50));
+        mBottomHeight = a.getDimensionPixelSize(R.styleable.ReloadRefreshLayout_reloadbottom_height, (int) DensityUtil.dp2px(context, 50));
         mOverScrollHeight = a.getDimensionPixelSize(R.styleable.ReloadRefreshLayout_reloadoverscroll_height, (int) mHeadHeight);
         enableLoadmore = a.getBoolean(R.styleable.ReloadRefreshLayout_reloadenable_loadmore, true);
         enableRefresh = a.getBoolean(R.styleable.ReloadRefreshLayout_reloadenable_fresh, true);
