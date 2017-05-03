@@ -5,17 +5,21 @@ import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.iwangcn.qingkong.R;
-import com.iwangcn.qingkong.ui.model.HelperModel;
+import com.iwangcn.qingkong.business.HelperFollowEvent;
+import com.iwangcn.qingkong.ui.model.HelperInfo;
+import com.iwangcn.qingkong.utils.AbDateUtil;
+import com.iwangcn.qingkong.utils.GlideUtils;
 import com.iwangcn.qingkong.utils.ToastUtil;
 import com.zhy.view.flowlayout.FlowLayout;
 import com.zhy.view.flowlayout.TagAdapter;
 import com.zhy.view.flowlayout.TagFlowLayout;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import butterknife.BindView;
@@ -24,12 +28,13 @@ import butterknife.BindView;
  * Created by RF on 2017/4/22.
  */
 
-public class HelperFollowRecyclerAdapter extends BaseRecyclerViewAdapter<HelperModel> {
+public class HelperFollowRecyclerAdapter extends BaseRecyclerViewAdapter<HelperInfo> {
     private int type;
-
-    public HelperFollowRecyclerAdapter(Context context, List<HelperModel> list, int type) {
+    private HelperFollowEvent helperFollowEvent;
+    public HelperFollowRecyclerAdapter(Context context, List<HelperInfo> list, int type,HelperFollowEvent helperFollowEvent) {
         super(context, list);
         this.type = type;
+        this.helperFollowEvent=helperFollowEvent;
     }
 
     @Override
@@ -38,7 +43,7 @@ public class HelperFollowRecyclerAdapter extends BaseRecyclerViewAdapter<HelperM
     }
 
     @Override
-    public void bindData(RecyclerView.ViewHolder viewholder, HelperModel helperModel,int pos) {
+    public void bindData(RecyclerView.ViewHolder viewholder, HelperInfo helperModel,int pos) {
         HelperFollowViewHolder holder = (HelperFollowViewHolder) viewholder;
         if (type == 1) {
             holder.llReprocess.setVisibility(View.GONE);
@@ -52,23 +57,34 @@ public class HelperFollowRecyclerAdapter extends BaseRecyclerViewAdapter<HelperM
             holder.title.setText(helperModel.getTitle());
         }
 
-        if (!TextUtils.isEmpty(helperModel.getTime())) {
-            holder.tvTime.setText(helperModel.getTime());
+        if (!TextUtils.isEmpty(helperModel.getUpdateTime()+"")) {
+            holder.tvTime.setText(AbDateUtil.formatDateStrGetDay(helperModel.getUpdateTime()));
         }
-        if (!TextUtils.isEmpty(helperModel.getFrom())) {
-            holder.tvFrom.setText(helperModel.getFrom());
+        if (!TextUtils.isEmpty(helperModel.getSource())) {
+            holder.tvFrom.setText(helperModel.getSource());
         }
-        TagAdapter<String> tagAdapter = new TagAdapter<String>(initDatas()) {
-            @Override
-            public View getView(FlowLayout parent, int position, String o) {
-
-                TextView tv = (TextView) LayoutInflater.from(mContext).inflate(R.layout.tv,
-                        parent, false);
-                tv.setText(o);
-                return tv;
+        if (!TextUtils.isEmpty(helperModel.getContent())) {
+            holder.tvContent.setText(helperModel.getContent());
+        }
+        if (!TextUtils.isEmpty(helperModel.getPics())) {
+            List<String> listPic = Arrays.asList(helperModel.getPics().split(","));
+            for (int i = 0; i < listPic.size(); i++) {
+                GlideUtils.loadImageView(mContext, listPic.get(i), holder.imageView);
             }
-        };
-        holder.tagFlowLayout.setAdapter(tagAdapter);
+        }
+        if (!TextUtils.isEmpty(helperModel.getLabels())) {
+            TagAdapter<String> tagAdapter = new TagAdapter<String>(Arrays.asList(helperModel.getLabels().split(","))) {
+                @Override
+                public View getView(FlowLayout parent, int position, String o) {
+
+                    TextView tv = (TextView) LayoutInflater.from(mContext).inflate(R.layout.tv,
+                            parent, false);
+                    tv.setText(o);
+                    return tv;
+                }
+            };
+            holder.tagFlowLayout.setAdapter(tagAdapter);
+        }
         holder.llCancle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -110,6 +126,11 @@ public class HelperFollowRecyclerAdapter extends BaseRecyclerViewAdapter<HelperM
         @BindView(R.id.tv_from)
         public TextView tvFrom;//来源
 
+        @BindView(R.id.tv_content)
+        public TextView tvContent;//内容
+
+        @BindView(R.id.img_pic)
+        public ImageView imageView;//内容
         @BindView(R.id.ll_cancle_follow)
         public LinearLayout llCancle;//取消跟进
 
@@ -136,13 +157,4 @@ public class HelperFollowRecyclerAdapter extends BaseRecyclerViewAdapter<HelperM
         }
     }
 
-    private List<String> initDatas() {
-        List<String> itemData = new ArrayList<String>(3);
-
-        for (int i = 0; i < 10; i++) {
-            itemData.add("规范");
-        }
-
-        return itemData;
-    }
 }

@@ -10,6 +10,8 @@ import com.iwangcn.qingkong.net.RetrofitInstance;
 import com.iwangcn.qingkong.providers.UserManager;
 import com.iwangcn.qingkong.ui.model.HelperInfo;
 
+import org.greenrobot.eventbus.EventBus;
+
 import java.util.HashMap;
 
 /**
@@ -29,17 +31,24 @@ public class HelperFollowEvent extends Event implements NetConst {
         HashMap paratems = new HashMap();
         paratems.put(USER_ID, UserManager.getUserInfo().getAutoId());
         paratems.put("sourceType", sourceType);
-        paratems.put("tags", tags);
+//        paratems.put("tags", tags);
         paratems.put("pageno",index);
         RetrofitInstance.getInstance().post(URL_EVENT_FOLLOWUP_AIDE, paratems, HelperInfo.class, new BaseSubscriber<NetResponse<HelperInfo>>(false) {
             @Override
             public void onError(ExceptionHandle.ResponeThrowable e) {
-
+                EventBus.getDefault().post(new LoadFailEvent());
             }
 
             @Override
             public void onNext(NetResponse<HelperInfo> netResponse) {
-
+                HelperFollowEvent.this.setObject(netResponse.getDataList());
+                HelperFollowEvent.this.setId(0);
+                if (indexPage == 1) {
+                    HelperFollowEvent.this.setIsMore(false);
+                } else {
+                    HelperFollowEvent.this.setIsMore(true);
+                }
+                EventBus.getDefault().post(HelperFollowEvent.this);
             }
         });
     }
@@ -109,13 +118,11 @@ public class HelperFollowEvent extends Event implements NetConst {
     }
     public void getMoreEvent() {
         indexPage++;
-        HashMap paratems = new HashMap();
-        getHelperEventList(indexPage, "","");
+        getHelperEventList(indexPage, "1","");
     }
 
     public void getRefreshEventList() {
         indexPage = 1;
-        HashMap paratems = new HashMap();
-        getHelperEventList(indexPage, "","");
+        getHelperEventList(indexPage, "1","");
     }
 }

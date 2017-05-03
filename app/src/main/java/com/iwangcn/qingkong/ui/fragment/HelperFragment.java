@@ -34,11 +34,12 @@ import butterknife.OnClick;
 public class HelperFragment extends BaseFragment {
 
     @BindView(R.id.home_list_news)
-    RecyclerView mListView;//黑色蒙层
+    RecyclerView mListView;
 
 
     @BindView(R.id.mReloadRefreshView)
     ReloadRefreshLayout mReloadRefreshView;
+
     private HelperRecyclerAdapter mNewsAdapter;
     private List<HelperInfo> mList = new ArrayList<>();
     private HelperEvent helperEvent;
@@ -78,6 +79,7 @@ public class HelperFragment extends BaseFragment {
         mReloadRefreshView.setOnRefreshListener(new RefreshListenerAdapter() {
             @Override
             public void onRefresh(ReloadRefreshLayout refreshLayout) {
+                mReloadRefreshView.setEnableRefresh(true);
                 helperEvent.getRefreshEventList();
             }
 
