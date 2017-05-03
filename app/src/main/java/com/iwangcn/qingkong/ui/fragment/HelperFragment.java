@@ -6,8 +6,6 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.ImageView;
-import android.widget.RelativeLayout;
 
 import com.iwangcn.qingkong.R;
 import com.iwangcn.qingkong.business.Event;
@@ -37,10 +35,7 @@ public class HelperFragment extends BaseFragment {
 
     @BindView(R.id.home_list_news)
     RecyclerView mListView;//黑色蒙层
-    @BindView(R.id.home_collect_icon)
-    ImageView mCollectIcon;//收藏ImageView
-    @BindView(R.id.rel_listView)
-    RelativeLayout mRellistView;//listView容器
+
 
     @BindView(R.id.mReloadRefreshView)
     ReloadRefreshLayout mReloadRefreshView;

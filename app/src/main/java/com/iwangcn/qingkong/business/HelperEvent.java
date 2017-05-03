@@ -95,13 +95,11 @@ public class HelperEvent extends Event implements NetConst {
 
     public void getMoreEvent() {
         indexPage++;
-        HashMap paratems = new HashMap();
-        getHelperEventList(indexPage, "", "");
+        getHelperEventList(indexPage, "1", "");
     }
 
     public void getRefreshEventList() {
         indexPage = 1;
-        HashMap paratems = new HashMap();
-        getHelperEventList(indexPage, "", "");
+        getHelperEventList(indexPage, "1", "");
     }
 }
