@@ -110,10 +110,16 @@ public class HelperFollowFragment extends BaseFragment {
                 }
                 mList.addAll(list);
                 mNewsAdapter.notifyDataSetChanged();
-            } else if (helperFollowEvent.getId() == 1) {//已跟进
+            } else if (helperFollowEvent.getId() == 1) {//取消跟进
                 mList.remove((int) helperFollowEvent.getObject());
                 mNewsAdapter.notifyItemRemoved((int) helperFollowEvent.getObject());
-            } else if (helperFollowEvent.getId() == 2) {//与我无关
+            } else if (helperFollowEvent.getId() == 2) {//置顶
+                mList.remove((int) helperFollowEvent.getObject());
+                mNewsAdapter.notifyItemRemoved((int) helperFollowEvent.getObject());
+            }else if (helperFollowEvent.getId() == 3) {////取消置顶
+                mList.remove((int) helperFollowEvent.getObject());
+                mNewsAdapter.notifyItemRemoved((int) helperFollowEvent.getObject());
+            } else if (helperFollowEvent.getId() == 4) {//已处理
                 mList.remove((int) helperFollowEvent.getObject());
                 mNewsAdapter.notifyItemRemoved((int) helperFollowEvent.getObject());
             }

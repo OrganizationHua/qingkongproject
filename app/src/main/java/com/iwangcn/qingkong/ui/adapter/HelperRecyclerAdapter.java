@@ -83,14 +83,12 @@ public class HelperRecyclerAdapter extends BaseRecyclerViewAdapter<HelperInfo> {
         holder.btnFollow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ToastUtil.showToast(mContext, "已跟进");
                 helperEvent.doHelperFollow(new Long(helperInfo.getAutoId()).intValue(), position);
             }
         });
         holder.btnNORealte.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ToastUtil.showToast(mContext, "与我无关");
                 helperEvent.doDelete(new Long(helperInfo.getAutoId()).intValue(), position);
             }
         });

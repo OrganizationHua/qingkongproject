@@ -43,7 +43,7 @@ public class HelperFollowRecyclerAdapter extends BaseRecyclerViewAdapter<HelperI
     }
 
     @Override
-    public void bindData(RecyclerView.ViewHolder viewholder, HelperInfo helperModel,int pos) {
+    public void bindData(RecyclerView.ViewHolder viewholder, final HelperInfo helperModel,final int pos) {
         HelperFollowViewHolder holder = (HelperFollowViewHolder) viewholder;
         if (type == 1) {
             holder.llReprocess.setVisibility(View.GONE);
@@ -88,19 +88,19 @@ public class HelperFollowRecyclerAdapter extends BaseRecyclerViewAdapter<HelperI
         holder.llCancle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ToastUtil.showToast(mContext, "取消跟进");
+                helperFollowEvent.doCancleFollow(new Long(helperModel.getAutoId()).intValue()+"",pos);
             }
         });
         holder.llSet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ToastUtil.showToast(mContext, "置顶");
+                helperFollowEvent.doFollowSetUpCancleTop(new Long(helperModel.getAutoId()).intValue()+"",pos);
             }
         });
         holder.llFinish.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ToastUtil.showToast(mContext, "处理完成");
+                helperFollowEvent.doFollowDone(new Long(helperModel.getAutoId()).intValue()+"",pos);
             }
         });
         holder.tvScan.setOnClickListener(new View.OnClickListener() {

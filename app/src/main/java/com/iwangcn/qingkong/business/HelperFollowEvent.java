@@ -52,7 +52,7 @@ public class HelperFollowEvent extends Event implements NetConst {
             }
         });
     }
-    private void doCancleFollow(String infoId) {//取消跟进
+    public void doCancleFollow(String infoId,final int position) {//取消跟进
         HashMap paratems = new HashMap();
         paratems.put(USER_ID, UserManager.getUserInfo().getAutoId());
         paratems.put("infoId", infoId);
@@ -64,11 +64,13 @@ public class HelperFollowEvent extends Event implements NetConst {
 
             @Override
             public void onNext(NetResponse<String> netResponse) {
-
+                HelperFollowEvent.this.setId(1);
+                HelperFollowEvent.this.setObject(position);
+                EventBus.getDefault().post(HelperFollowEvent.this);
             }
         });
     }
-    private void doFollowSetUp(String infoId) {//置顶
+    public void doFollowSetUp(String infoId,final int position) {//置顶
         HashMap paratems = new HashMap();
         paratems.put(USER_ID, UserManager.getUserInfo().getAutoId());
         paratems.put("infoId", infoId);
@@ -80,11 +82,13 @@ public class HelperFollowEvent extends Event implements NetConst {
 
             @Override
             public void onNext(NetResponse<String> netResponse) {
-
+                HelperFollowEvent.this.setId(2);
+                HelperFollowEvent.this.setObject(position);
+                EventBus.getDefault().post(HelperFollowEvent.this);
             }
         });
     }
-    private void doFollowSetUpCancleTop(String infoId) {//取消置顶
+    public void doFollowSetUpCancleTop(String infoId,final int position) {//取消置顶
         HashMap paratems = new HashMap();
         paratems.put(USER_ID, UserManager.getUserInfo().getAutoId());
         paratems.put("infoId", infoId);
@@ -96,11 +100,13 @@ public class HelperFollowEvent extends Event implements NetConst {
 
             @Override
             public void onNext(NetResponse<String> netResponse) {
-
+                HelperFollowEvent.this.setId(3);
+                HelperFollowEvent.this.setObject(position);
+                EventBus.getDefault().post(HelperFollowEvent.this);
             }
         });
     }
-    private void doFollowDone(String infoId) {//已处理
+    public void doFollowDone(String infoId,final int position) {//已处理
         HashMap paratems = new HashMap();
         paratems.put(USER_ID, UserManager.getUserInfo().getAutoId());
         paratems.put("infoId", infoId);
@@ -112,7 +118,9 @@ public class HelperFollowEvent extends Event implements NetConst {
 
             @Override
             public void onNext(NetResponse<String> netResponse) {
-
+                HelperFollowEvent.this.setId(4);
+                HelperFollowEvent.this.setObject(position);
+                EventBus.getDefault().post(HelperFollowEvent.this);
             }
         });
     }
