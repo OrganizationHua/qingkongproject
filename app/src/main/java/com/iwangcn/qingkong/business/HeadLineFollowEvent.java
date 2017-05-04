@@ -8,7 +8,9 @@ import com.iwangcn.qingkong.net.NetConst;
 import com.iwangcn.qingkong.net.NetResponse;
 import com.iwangcn.qingkong.net.RetrofitInstance;
 import com.iwangcn.qingkong.providers.UserManager;
-import com.iwangcn.qingkong.ui.model.EventDataProcess;
+import com.iwangcn.qingkong.ui.model.HelperInfo;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.HashMap;
 
@@ -25,30 +27,36 @@ public class HeadLineFollowEvent extends Event implements NetConst {
 
     }
 
-    private void getHelperEventList(int index,String sourceType ,String dealFalg,String tags) {//跟进列表
+    private void getHelperEventList(int index,String sourceType ,String tags) {
         HashMap paratems = new HashMap();
         paratems.put(USER_ID, UserManager.getUserInfo().getAutoId());
-        paratems.put("infoId", sourceType);
-        paratems.put("tags", tags);
-        paratems.put("dealFalg",index);
+        paratems.put("sourceType", sourceType);
+//        paratems.put("tags", tags);
         paratems.put("pageno",index);
-        RetrofitInstance.getInstance().post(URL_EVENT_FOLLOWUP, paratems, EventDataProcess.class, new BaseSubscriber<NetResponse<EventDataProcess>>(false) {
+        RetrofitInstance.getInstance().post(URL_EVENT_FOLLOWUP_AIDE, paratems, HelperInfo.class, new BaseSubscriber<NetResponse<HelperInfo>>(false) {
             @Override
             public void onError(ExceptionHandle.ResponeThrowable e) {
-
+                EventBus.getDefault().post(new LoadFailEvent());
             }
 
             @Override
-            public void onNext(NetResponse<EventDataProcess> netResponse) {
-
+            public void onNext(NetResponse<HelperInfo> netResponse) {
+                HeadLineFollowEvent.this.setObject(netResponse.getDataList());
+                HeadLineFollowEvent.this.setId(0);
+                if (indexPage == 1) {
+                    HeadLineFollowEvent.this.setIsMore(false);
+                } else {
+                    HeadLineFollowEvent.this.setIsMore(true);
+                }
+                EventBus.getDefault().post(HeadLineFollowEvent.this);
             }
         });
     }
-    private void doCancleFollow(String infoId) {//取消跟进
+    public void doCancleFollow(String infoId,final int position) {//取消跟进
         HashMap paratems = new HashMap();
         paratems.put(USER_ID, UserManager.getUserInfo().getAutoId());
         paratems.put("infoId", infoId);
-        RetrofitInstance.getInstance().post(URL_EVENT_FOLLOWUP_CANCELFOLLOW, paratems, String.class, new BaseSubscriber<NetResponse<String>>(false) {
+        RetrofitInstance.getInstance().post(URL_EVENT_AIDE_CANCELFOLLOW, paratems, String.class, new BaseSubscriber<NetResponse<String>>(false) {
             @Override
             public void onError(ExceptionHandle.ResponeThrowable e) {
 
@@ -56,15 +64,17 @@ public class HeadLineFollowEvent extends Event implements NetConst {
 
             @Override
             public void onNext(NetResponse<String> netResponse) {
-
+                HeadLineFollowEvent.this.setId(1);
+                HeadLineFollowEvent.this.setObject(position);
+                EventBus.getDefault().post(HeadLineFollowEvent.this);
             }
         });
     }
-    private void doFollowSetUp(String infoId) {//置顶
+    public void doFollowSetUp(String infoId,final int position) {//置顶
         HashMap paratems = new HashMap();
         paratems.put(USER_ID, UserManager.getUserInfo().getAutoId());
         paratems.put("infoId", infoId);
-        RetrofitInstance.getInstance().post(URL_EVENT_FOLLOWUP_SETTOP, paratems, String.class, new BaseSubscriber<NetResponse<String>>(false) {
+        RetrofitInstance.getInstance().post(URL_EVENT_AIDE_SETTOP, paratems, String.class, new BaseSubscriber<NetResponse<String>>(false) {
             @Override
             public void onError(ExceptionHandle.ResponeThrowable e) {
 
@@ -72,15 +82,17 @@ public class HeadLineFollowEvent extends Event implements NetConst {
 
             @Override
             public void onNext(NetResponse<String> netResponse) {
-
+                HeadLineFollowEvent.this.setId(2);
+                HeadLineFollowEvent.this.setObject(position);
+                EventBus.getDefault().post(HeadLineFollowEvent.this);
             }
         });
     }
-    private void doFollowSetUpCancleTop(String infoId) {//取消置顶
+    public void doFollowSetUpCancleTop(String infoId,final int position) {//取消置顶
         HashMap paratems = new HashMap();
         paratems.put(USER_ID, UserManager.getUserInfo().getAutoId());
         paratems.put("infoId", infoId);
-        RetrofitInstance.getInstance().post(URL_EVENT_FOLLOWUP_CANCELTOP, paratems, String.class, new BaseSubscriber<NetResponse<String>>(false) {
+        RetrofitInstance.getInstance().post(URL_EVENT_AIDE_CANCELTOP, paratems, String.class, new BaseSubscriber<NetResponse<String>>(false) {
             @Override
             public void onError(ExceptionHandle.ResponeThrowable e) {
 
@@ -88,15 +100,17 @@ public class HeadLineFollowEvent extends Event implements NetConst {
 
             @Override
             public void onNext(NetResponse<String> netResponse) {
-
+                HeadLineFollowEvent.this.setId(3);
+                HeadLineFollowEvent.this.setObject(position);
+                EventBus.getDefault().post(HeadLineFollowEvent.this);
             }
         });
     }
-    private void doFollowDone(String infoId) {//已处理
+    public void doFollowDone(String infoId,final int position) {//已处理
         HashMap paratems = new HashMap();
         paratems.put(USER_ID, UserManager.getUserInfo().getAutoId());
         paratems.put("infoId", infoId);
-        RetrofitInstance.getInstance().post(URL_EVENT_FOLLOWUP_DONE, paratems, String.class, new BaseSubscriber<NetResponse<String>>(false) {
+        RetrofitInstance.getInstance().post(URL_EVENT_AIDE_DONE, paratems, String.class, new BaseSubscriber<NetResponse<String>>(false) {
             @Override
             public void onError(ExceptionHandle.ResponeThrowable e) {
 
@@ -104,19 +118,19 @@ public class HeadLineFollowEvent extends Event implements NetConst {
 
             @Override
             public void onNext(NetResponse<String> netResponse) {
-
+                HeadLineFollowEvent.this.setId(4);
+                HeadLineFollowEvent.this.setObject(position);
+                EventBus.getDefault().post(HeadLineFollowEvent.this);
             }
         });
     }
     public void getMoreEvent() {
         indexPage++;
-        HashMap paratems = new HashMap();
-        getHelperEventList(indexPage, "","","");
+        getHelperEventList(indexPage, "1","");
     }
 
     public void getRefreshEventList() {
         indexPage = 1;
-        HashMap paratems = new HashMap();
-        getHelperEventList(indexPage, "","","");
+        getHelperEventList(indexPage, "1","");
     }
 }

@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 
 import com.iwangcn.qingkong.R;
@@ -97,6 +98,7 @@ public class HelperFragment extends BaseFragment {
     @Subscribe
     public void onEventMainThread(Event event) {
         if (event instanceof HelperEvent) {
+            Log.e("fjg","====");
             if (helperEvent.getId() == 0) {
                 mReloadRefreshView.finishRefreshing();
                 List<HelperInfo> list = (List<HelperInfo>) event.getObject();

@@ -5,17 +5,21 @@ import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.iwangcn.qingkong.R;
-import com.iwangcn.qingkong.ui.model.HelperModel;
+import com.iwangcn.qingkong.business.HeadLineFollowEvent;
+import com.iwangcn.qingkong.ui.model.HelperInfo;
+import com.iwangcn.qingkong.utils.AbDateUtil;
+import com.iwangcn.qingkong.utils.GlideUtils;
 import com.iwangcn.qingkong.utils.ToastUtil;
 import com.zhy.view.flowlayout.FlowLayout;
 import com.zhy.view.flowlayout.TagAdapter;
 import com.zhy.view.flowlayout.TagFlowLayout;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import butterknife.BindView;
@@ -24,12 +28,13 @@ import butterknife.BindView;
  * Created by RF on 2017/4/22.
  */
 
-public class HeadLineFollowRecyclerAdapter extends BaseRecyclerViewAdapter<HelperModel> {
+public class HeadLineFollowRecyclerAdapter extends BaseRecyclerViewAdapter<HelperInfo> {
     private int type;
-
-    public HeadLineFollowRecyclerAdapter(Context context, List<HelperModel> list, int type) {
+    private HeadLineFollowEvent headLineFollowEvent;
+    public HeadLineFollowRecyclerAdapter(Context context, List<HelperInfo> list, int type, HeadLineFollowEvent headLineFollowEvent) {
         super(context, list);
         this.type = type;
+        this.headLineFollowEvent=headLineFollowEvent;
     }
 
     @Override
@@ -38,68 +43,80 @@ public class HeadLineFollowRecyclerAdapter extends BaseRecyclerViewAdapter<Helpe
     }
 
     @Override
-    public void bindData(RecyclerView.ViewHolder viewholder, HelperModel helperModel,int pos) {
-        HeadLineFollowViewHolder holder = (HeadLineFollowViewHolder) viewholder;
-        if(type==1){
+    public void bindData(RecyclerView.ViewHolder viewholder, final HelperInfo helperModel,final int pos) {
+        HelperFollowViewHolder holder = (HelperFollowViewHolder) viewholder;
+        if (type == 1) {
             holder.llReprocess.setVisibility(View.GONE);
             holder.llFragment.setVisibility(View.VISIBLE);
-        }else {
+        } else {
             holder.llReprocess.setVisibility(View.VISIBLE);
             holder.llFragment.setVisibility(View.GONE);
         }
+
         if (!TextUtils.isEmpty(helperModel.getTitle())) {
             holder.title.setText(helperModel.getTitle());
         }
 
-        if (!TextUtils.isEmpty(helperModel.getTime())) {
-            holder.tvTime.setText(helperModel.getTime());
+        if (!TextUtils.isEmpty(helperModel.getUpdateTime()+"")) {
+            holder.tvTime.setText(AbDateUtil.formatDateStrGetDay(helperModel.getUpdateTime()));
         }
-        if (!TextUtils.isEmpty(helperModel.getFrom())) {
-            holder.tvFrom.setText(helperModel.getFrom());
+        if (!TextUtils.isEmpty(helperModel.getSource())) {
+            holder.tvFrom.setText(helperModel.getSource());
         }
-        TagAdapter<String> tagAdapter = new TagAdapter<String>(initDatas()) {
-            @Override
-            public View getView(FlowLayout parent, int position, String o) {
-
-                TextView tv = (TextView) LayoutInflater.from(mContext).inflate(R.layout.tv,
-                        parent, false);
-                tv.setText(o);
-                return tv;
+        if (!TextUtils.isEmpty(helperModel.getContent())) {
+            holder.tvContent.setText(helperModel.getContent());
+        }
+        if (!TextUtils.isEmpty(helperModel.getPics())) {
+            List<String> listPic = Arrays.asList(helperModel.getPics().split(","));
+            for (int i = 0; i < listPic.size(); i++) {
+                GlideUtils.loadImageView(mContext, listPic.get(i), holder.imageView);
             }
-        };
-        holder.tagFlowLayout.setAdapter(tagAdapter);
+        }
+        if (!TextUtils.isEmpty(helperModel.getLabels())) {
+            TagAdapter<String> tagAdapter = new TagAdapter<String>(Arrays.asList(helperModel.getLabels().split(","))) {
+                @Override
+                public View getView(FlowLayout parent, int position, String o) {
+
+                    TextView tv = (TextView) LayoutInflater.from(mContext).inflate(R.layout.tv,
+                            parent, false);
+                    tv.setText(o);
+                    return tv;
+                }
+            };
+            holder.tagFlowLayout.setAdapter(tagAdapter);
+        }
         holder.llCancle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ToastUtil.showToast(mContext, "取消跟进");
+                headLineFollowEvent.doCancleFollow(new Long(helperModel.getAutoId()).intValue()+"",pos);
             }
         });
         holder.llSet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ToastUtil.showToast(mContext, "置顶");
+                headLineFollowEvent.doFollowSetUpCancleTop(new Long(helperModel.getAutoId()).intValue()+"",pos);
             }
         });
         holder.llFinish.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ToastUtil.showToast(mContext, "处理完成");
+                headLineFollowEvent.doFollowDone(new Long(helperModel.getAutoId()).intValue()+"",pos);
             }
         });
         holder.tvScan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ToastUtil.showToast(mContext, "查看原文");
+                ToastUtil.showToast(mContext, "已查看");
             }
         });
     }
 
     @Override
     public BaseViewHolder onCreateItemView(View view) {
-        return new HeadLineFollowViewHolder(view);
+        return new HelperFollowViewHolder(view);
     }
 
-    static class HeadLineFollowViewHolder extends BaseViewHolder {
+    static class HelperFollowViewHolder extends BaseViewHolder {
         @BindView(R.id.tv_title)
         public TextView title;//标题
 
@@ -109,6 +126,11 @@ public class HeadLineFollowRecyclerAdapter extends BaseRecyclerViewAdapter<Helpe
         @BindView(R.id.tv_from)
         public TextView tvFrom;//来源
 
+        @BindView(R.id.tv_content)
+        public TextView tvContent;//内容
+
+        @BindView(R.id.img_pic)
+        public ImageView imageView;//内容
         @BindView(R.id.ll_cancle_follow)
         public LinearLayout llCancle;//取消跟进
 
@@ -130,18 +152,9 @@ public class HeadLineFollowRecyclerAdapter extends BaseRecyclerViewAdapter<Helpe
         @BindView(R.id.tag_flowlayout)
         public TagFlowLayout tagFlowLayout;//标签
 
-        public HeadLineFollowViewHolder(View itemView) {
+        public HelperFollowViewHolder(View itemView) {
             super(itemView);
         }
     }
 
-    private List<String> initDatas() {
-        List<String> itemData = new ArrayList<String>(3);
-
-        for (int i = 0; i < 10; i++) {
-            itemData.add("规范");
-        }
-
-        return itemData;
-    }
 }
