@@ -41,7 +41,6 @@ public class FavoriteActivity extends QkBaseActivity implements AbPullToRefreshV
     DynamicListView mListView;//
 
     private FacoriteAdapter mAdapter;
-    private List<FavoriteInfo> mList;
     private Context mContext = this;
     @BindView(R.id.mPullRefreshView)
     AbPullToRefreshView mAbPullToRefreshView;
@@ -63,7 +62,7 @@ public class FavoriteActivity extends QkBaseActivity implements AbPullToRefreshV
     }
 
     public void initData() {
-        mList = new ArrayList<>();
+        ArrayList<FavoriteInfo> mList = new ArrayList<>();
         mAdapter = new FacoriteAdapter(this);
         mAdapter.addAll(mList);
         SwingLeftInAnimationAdapter animAdapter = new SwingLeftInAnimationAdapter(mAdapter);
@@ -102,7 +101,9 @@ public class FavoriteActivity extends QkBaseActivity implements AbPullToRefreshV
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Intent intent = new Intent(mContext, NewsEventActivity.class);
+                Intent intent = new Intent(mContext, NewsListActivity.class);
+                FavoriteInfo eventInfo= (FavoriteInfo) mAdapter.getItem(i);
+                intent.putExtra("EventInfo",eventInfo.getEvent());
                 startActivity(intent);
             }
         });

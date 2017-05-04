@@ -2,15 +2,12 @@ package com.iwangcn.qingkong.ui.model;
 
 import com.iwangcn.qingkong.net.BaseBean;
 
-import java.io.Serializable;
-
 /**
  * 新闻NewsInfo
  * Created by czh on 2017/4/7.
  */
 
-public class NewsInfo extends BaseBean implements Serializable{
-
+public class NewsInfo extends BaseBean {
     private long autoId;
     private String title;
     private String content;
@@ -22,8 +19,8 @@ public class NewsInfo extends BaseBean implements Serializable{
     private String keywords;
     private int commentNum;
     private long updateTime;
-
     private String numb;
+    private boolean isSelect;//是否被选中
 
     public String getTitle() {
         return title;
@@ -119,5 +116,13 @@ public class NewsInfo extends BaseBean implements Serializable{
 
     public void setUpdateTime(long updateTime) {
         this.updateTime = updateTime;
+    }
+
+    public boolean isSelect() {
+        return isSelect;
+    }
+
+    public void setSelect(boolean select) {
+        isSelect = select;
     }
 }

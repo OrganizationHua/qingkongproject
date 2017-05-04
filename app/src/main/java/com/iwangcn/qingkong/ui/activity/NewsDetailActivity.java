@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
+import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
 
@@ -31,6 +32,7 @@ public class NewsDetailActivity extends QkBaseActivity {
     private NewsDetailPageAdapter mAdapter;
     private List<NewsInfo> mList;
     private Context mContext = this;
+    private int currentPosition = 0;
 
     @Override
     public int layoutChildResID() {
@@ -41,16 +43,15 @@ public class NewsDetailActivity extends QkBaseActivity {
     public void initView() {
         setTitle(getString(R.string.news_detail));
         setRightTitle(getString(R.string.originalText));
-        mList = new ArrayList<>();
-        for (int i = 0; i < 10; i++) {
-            NewsInfo info = new NewsInfo();
-            mList.add(info);
-        }
+
+        mList = (List<NewsInfo>) getIntent().getSerializableExtra("NewsInfoList");
+        currentPosition = getIntent().getIntExtra("frontPageposition", 0);
         FragmentManager fm = getSupportFragmentManager();
         mAdapter = new NewsDetailPageAdapter(fm);
         mAdapter.setList(mList);
         //绑定自定义适配器
         mViewPage.setAdapter(mAdapter);
+        mViewPage.setCurrentItem(currentPosition);
     }
 
     @Override
@@ -65,8 +66,10 @@ public class NewsDetailActivity extends QkBaseActivity {
 
     @OnClick(R.id.base_act_right_lin)//APP信息
     public void onBtnWebView(View view) {
-        String url = "https://www.baidu.com";
-        AbAppUtil.openBrowser(this, url);
+        NewsInfo newsInfo=mList.get(mViewPage.getCurrentItem());
+        if(!TextUtils.isEmpty(newsInfo.getUrl())){
+            AbAppUtil.openBrowser(this, newsInfo.getUrl());
+        }
     }
 
     @OnClick(R.id.news_detail_wrong_lin)//我要报错

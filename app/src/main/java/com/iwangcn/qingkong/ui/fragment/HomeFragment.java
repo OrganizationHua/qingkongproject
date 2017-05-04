@@ -20,7 +20,7 @@ import com.iwangcn.qingkong.business.HomeEvent;
 import com.iwangcn.qingkong.business.LoadFailEvent;
 import com.iwangcn.qingkong.net.NetConst;
 import com.iwangcn.qingkong.ui.activity.FavoriteActivity;
-import com.iwangcn.qingkong.ui.activity.NewsEventActivity;
+import com.iwangcn.qingkong.ui.activity.NewsListActivity;
 import com.iwangcn.qingkong.ui.activity.NewsSearchActivity;
 import com.iwangcn.qingkong.ui.adapter.EventInfoAdapter;
 import com.iwangcn.qingkong.ui.base.BaseFragment;
@@ -102,7 +102,8 @@ public class HomeFragment extends BaseFragment implements AbPullToRefreshView.On
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Intent intent = new Intent(getActivity(), NewsEventActivity.class);
+                Intent intent = new Intent(getActivity(), NewsListActivity.class);
+                intent.putExtra("EventInfo",mList.get(i).getEventInfo());
                 startActivity(intent);
             }
         });

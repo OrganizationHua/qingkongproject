@@ -44,6 +44,10 @@ public interface NetConst {
     String URL_EVENT_FAVORITE = "event/favorite";//收藏列表
     String URL_EVENT_ADD = "event/add2favorite";//添加收藏
     String URL_EVENT_REMOVE = "event/removeFavorite";//取消列表
-
-
+    //事件模块
+    String URL_EVENT_RELINFO = "event/relinfo";//事件新闻列表
+    //标签
+    String URL_TAG_TAGLIST = "event/tagList";//获取标签列表
+    String URL_TAG_SUBMITTAGS = "event/submitTags";//提交标签列表
+    String URL_TAG_DELTAGS = "event/delTags";//删除标签
 }

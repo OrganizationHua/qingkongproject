@@ -3,6 +3,7 @@ package com.iwangcn.qingkong.ui.activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.View;
@@ -14,16 +15,25 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.iwangcn.qingkong.R;
+import com.iwangcn.qingkong.business.Event;
+import com.iwangcn.qingkong.business.HomeEvent;
+import com.iwangcn.qingkong.business.LoadFailEvent;
+import com.iwangcn.qingkong.business.NewsSearchEvent;
 import com.iwangcn.qingkong.dao.model.SearchModel;
+import com.iwangcn.qingkong.net.NetConst;
 import com.iwangcn.qingkong.ui.adapter.SearchHistoryAdapter;
 import com.iwangcn.qingkong.ui.adapter.SearchResultAdapter;
 import com.iwangcn.qingkong.ui.base.BaseActivity;
 import com.iwangcn.qingkong.ui.model.NewsInfo;
 import com.iwangcn.qingkong.ui.view.ClearEditText;
+import com.iwangcn.qingkong.ui.view.freshwidget.RefreshListenerAdapter;
+import com.iwangcn.qingkong.ui.view.freshwidget.ReloadRefreshLayout;
 import com.iwangcn.qingkong.utils.AbAppUtil;
-import com.iwangcn.qingkong.utils.ToastUtil;
 import com.nhaarman.listviewanimations.appearance.simple.SwingBottomInAnimationAdapter;
 import com.nhaarman.listviewanimations.appearance.simple.SwingLeftInAnimationAdapter;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,12 +59,18 @@ public class NewsSearchActivity extends BaseActivity {
     @BindView(R.id.serch_listView_hot)
     ListView mListViewHot;//大家都在搜
 
-    private List<SearchModel> mListHistory = new ArrayList<SearchModel>();
+    @BindView(R.id.mPullRefreshView)
+    ReloadRefreshLayout mAbPullToRefreshView;//上拉加载更多
+
+
+    private List<String> mListHistory;
     private List<NewsInfo> mListResult = new ArrayList<NewsInfo>();
     private List<SearchModel> mListHot = new ArrayList<SearchModel>();
     private SearchHistoryAdapter mAdapterHistory;//历史搜索
     private SearchResultAdapter mAdapterResult;//搜索结果
     private Context mContext = this;
+    private NewsSearchEvent mSearchEvent;
+    private HomeEvent mHomeEvent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,6 +87,9 @@ public class NewsSearchActivity extends BaseActivity {
     }
 
     private void initView() {
+        EventBus.getDefault().register(this);
+        mSearchEvent = new NewsSearchEvent(this);
+        mHomeEvent = new HomeEvent(this);
         mClearEditText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -88,17 +107,31 @@ public class NewsSearchActivity extends BaseActivity {
             public void afterTextChanged(Editable s) {
             }
         });
+        initListSerchResult();
     }
 
     /**
      * 历史搜索历史
      */
     private void initData() {
-        for (int i = 0; i < 5; i++) {
-            SearchModel model = new SearchModel();
-            model.setContent("新闻搜索历史记录");
-            mListHistory.add(model);
-        }
+        initHistory();
+        initListViewHot();
+        mClearEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent) {
+                if (actionId == EditorInfo.IME_ACTION_SEARCH || actionId == EditorInfo.IME_ACTION_UNSPECIFIED) {
+                    getSearchList(mClearEditText.getText().toString().trim());
+                }
+                return false;
+            }
+        });
+    }
+
+    /**
+     * 初始化历史搜索
+     */
+    private void initHistory() {
+        mListHistory = mSearchEvent.getListHistory();
         mAdapterHistory = new SearchHistoryAdapter(this);
         mAdapterHistory.setDataList(mListHistory);
         SwingLeftInAnimationAdapter animAdapter = new SwingLeftInAnimationAdapter(mAdapterHistory);
@@ -109,28 +142,9 @@ public class NewsSearchActivity extends BaseActivity {
         mListViewHistory.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                setClearEditText(mListHistory.get(position).getContent());
+                mClearEditText.setText(mListHistory.get(position));
             }
         });
-        initListViewHot();
-        mClearEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent) {
-                if (actionId == EditorInfo.IME_ACTION_SEARCH || actionId == EditorInfo.IME_ACTION_UNSPECIFIED) {
-                    ToastUtil.showToast(mContext, "搜索");
-                    AbAppUtil.closeSoftInput(mContext);
-                }
-                return false;
-            }
-        });
-    }
-
-    private void setClearEditText(String str) {
-        mClearEditText.setText(str);
-    }
-
-    private String getEditText() {
-        return mClearEditText.getText().toString().trim();
     }
 
     /**
@@ -143,34 +157,26 @@ public class NewsSearchActivity extends BaseActivity {
             mListHot.add(model);
         }
         mAdapterHistory = new SearchHistoryAdapter(this);
-        mAdapterHistory.setDataList(mListHot);
+        //mAdapterHistory.setDataList(mListHot);
         SwingBottomInAnimationAdapter animAdapter = new SwingBottomInAnimationAdapter(mAdapterHistory);
         animAdapter.setAbsListView(mListViewHot);
         assert animAdapter.getViewAnimator() != null;
         animAdapter.getViewAnimator().setInitialDelayMillis(300);
         mListViewHot.setAdapter(animAdapter);
-        mListViewHot.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                ToastUtil.showToast(mContext, "开始搜索");
-                setClearEditText(mListHot.get(position).getContent());
-                AbAppUtil.closeSoftInput(mContext);
-            }
-        });
+//        mListViewHot.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                ToastUtil.showToast(mContext, "开始搜索");
+//                setClearEditText(mListHot.get(position).getContent());
+//                AbAppUtil.closeSoftInput(mContext);
+//            }
+//        });
     }
 
     /**
      * 搜索结果
      */
     private void initListSerchResult() {
-        for (int i = 0; i < 10; i++) {
-            NewsInfo model = new NewsInfo();
-            model.setTitle("新闻搜索历史记录");
-            model.setPubtime(22222);
-            model.setPubtime(1111);
-            model.setContent("事件来源");
-            mListResult.add(model);
-        }
         mAdapterResult = new SearchResultAdapter(this);
         mAdapterResult.setDataList(mListResult);
         SwingLeftInAnimationAdapter animAdapter = new SwingLeftInAnimationAdapter(mAdapterResult);
@@ -183,15 +189,34 @@ public class NewsSearchActivity extends BaseActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             }
         });
+        mAbPullToRefreshView.setOnRefreshListener(new RefreshListenerAdapter() {
+            @Override
+            public void onLoadMore(ReloadRefreshLayout refreshLayout) {
+                //搜索加载更多
+            }
+        });
     }
 
     @OnClick(R.id.base_act_right_lin)//搜索按钮
-    public void onBtnSearch() {
+    public void onBtnSearch(View v) {
         mListViewHistory.setVisibility(View.GONE);
         mLinNoResult.setVisibility(View.GONE);
         mListViewResult.setVisibility(View.VISIBLE);
-        initListSerchResult();
+        getSearchList(mClearEditText.getText().toString().trim());
+    }
+
+    /**
+     * 网络搜索
+     *
+     * @param keyword
+     */
+    private void getSearchList(String keyword) {
+        // mHomeEvent.getNewsEventList(1, keyword, true);
         AbAppUtil.closeSoftInput(mContext);
+        //保存历史记录
+        if (!TextUtils.isEmpty(mClearEditText.getText().toString().trim())) {
+            mSearchEvent.saveSearchHistory(mClearEditText.getText().toString().trim());
+        }
     }
 
     @OnClick(R.id.search_btn_no_result)//搜索按钮
@@ -200,6 +225,7 @@ public class NewsSearchActivity extends BaseActivity {
         mBtnHelper.setBackground(getResources().getDrawable(R.drawable.search_button_helper_finish));
     }
 
+
     /**
      * 搜索无结果
      */
@@ -207,8 +233,31 @@ public class NewsSearchActivity extends BaseActivity {
         mLinNoResult.setVisibility(View.VISIBLE);
     }
 
+    @Subscribe
+    public void onEventMainThread(Event event) {
+        if (event instanceof HomeEvent) {
+            List<NewsInfo> list = (List<NewsInfo>) event.getObject();
+            if (list.size() < NetConst.page) {//如果小于page条表示加载完成不能加载更多
+                mAbPullToRefreshView.setEnableLoadmore(false);
+            }
+            if (event.isMore()) {
+                mAbPullToRefreshView.finishLoadmore();
+            } else {
+                mListResult.clear();
+                if (list.size() > 0) {
+                    list.get(0).setSelect(true);
+                }
+            }
+            mListResult.addAll(list);
+            mAdapterResult.setDataList(mListResult);
+        } else if (event instanceof LoadFailEvent) {
+            mAbPullToRefreshView.finishLoadmore();
+        }
+    }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        EventBus.getDefault().unregister(this);
     }
 }

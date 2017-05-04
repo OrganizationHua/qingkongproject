@@ -9,7 +9,6 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.iwangcn.qingkong.R;
-import com.iwangcn.qingkong.dao.model.SearchModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,13 +18,13 @@ import java.util.List;
  */
 public class SearchHistoryAdapter extends BaseAdapter {
     private LayoutInflater inflater;
-    private List<SearchModel> mList;
+    private List<String> mList;
 
     public SearchHistoryAdapter(Context context) {
         inflater = LayoutInflater.from(context);
     }
 
-    public void setDataList(List<SearchModel> dataList) {
+    public void setDataList(List<String> dataList) {
         mList = dataList;
         notifyDataSetChanged();
     }
@@ -33,7 +32,7 @@ public class SearchHistoryAdapter extends BaseAdapter {
     @Override
     public int getCount() {
         if (mList == null) {
-            mList = new ArrayList<SearchModel>();
+            mList = new ArrayList<String>();
         }
         return mList.size();
     }
@@ -59,9 +58,9 @@ public class SearchHistoryAdapter extends BaseAdapter {
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
-        SearchModel bean = mList.get(position);
-        if (!TextUtils.isEmpty(bean.getContent())) {
-            viewHolder.name.setText(bean.getContent());
+        String bean = mList.get(position);
+        if (!TextUtils.isEmpty(bean)) {
+            viewHolder.name.setText(bean);
         }
         return convertView;
     }

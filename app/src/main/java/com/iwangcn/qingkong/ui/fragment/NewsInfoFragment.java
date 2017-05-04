@@ -3,6 +3,7 @@ package com.iwangcn.qingkong.ui.fragment;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.webkit.WebSettings;
@@ -14,6 +15,7 @@ import android.widget.TextView;
 import com.iwangcn.qingkong.R;
 import com.iwangcn.qingkong.ui.base.BaseFragment;
 import com.iwangcn.qingkong.ui.model.NewsInfo;
+import com.iwangcn.qingkong.utils.AbDateUtil;
 import com.zhy.view.flowlayout.FlowLayout;
 import com.zhy.view.flowlayout.TagAdapter;
 import com.zhy.view.flowlayout.TagFlowLayout;
@@ -74,10 +76,18 @@ public class NewsInfoFragment extends BaseFragment {
     @Override
     protected void initView(View view, Bundle savedInstanceState) {
         mContext = getActivity();
-        mNewsTitle.setText("新闻标题新闻标题新闻标题");
-        mNewsFrom.setText("新闻来源");
-        mNewsTime.setText("20170104" + "        " + "13:14");
-        initWebView("https://www.baidu.com/");
+        if(mNewsInfo!=null){
+            if(!TextUtils.isEmpty(mNewsInfo.getTitle())){
+                mNewsTitle.setText(mNewsInfo.getTitle());
+            }
+            if (!TextUtils.isEmpty(mNewsInfo.getSource())){
+                mNewsFrom.setText(mNewsInfo.getSource());
+            }
+            if(!TextUtils.isEmpty(mNewsInfo.getUrl())){
+                initWebView(mNewsInfo.getUrl());
+            }
+            mNewsTime.setText(AbDateUtil.getStringByFormat(mNewsInfo.getPubtime(),"yyyy-MM-dd"));
+        }
         initTabLayout();
     }
 
@@ -85,7 +95,7 @@ public class NewsInfoFragment extends BaseFragment {
         WebSettings webSettings = this.mWebView.getSettings();
         webSettings.setJavaScriptCanOpenWindowsAutomatically(true);//设置js可以直接打开窗口，如window.open()，默认为false
         webSettings.setJavaScriptEnabled(true);//是否允许执行js，默认为false。设置true时，会提醒可能造成XSS漏洞
-        webSettings.setSupportZoom(false);//是否可以缩放，默认true
+        webSettings.setSupportZoom(true);//是否可以缩放，默认true
         webSettings.setBuiltInZoomControls(false);//是否显示缩放按钮，默认false
         webSettings.setUseWideViewPort(true);//设置此属性，可任意比例缩放。大视图模式
         webSettings.setLoadWithOverviewMode(true);//和setUseWideViewPort(true)一起解决网页自适应问题
