@@ -39,7 +39,7 @@ public class FavoriteEvent extends Event implements NetConst {
         paratems.put(USER_ID, UserManager.getUserInfo().getAutoId());
         paratems.put("pageno", indexPage);
         RetrofitInstance.getInstance().post(URL_EVENT_FAVORITE, paratems, FavoriteInfo.class, new BaseSubscriber
-                <NetResponse<List<FavoriteInfo>>>(false) {
+                <NetResponse<List<FavoriteInfo>>>(true) {
             @Override
             public void onError(ExceptionHandle.ResponeThrowable e) {
                 EventBus.getDefault().post(new LoadFailEvent());

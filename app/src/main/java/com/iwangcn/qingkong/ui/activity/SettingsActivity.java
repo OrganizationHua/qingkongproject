@@ -114,7 +114,6 @@ public class SettingsActivity extends QkBaseActivity implements View.OnFocusChan
             ToastUtil.showToast(this, "两次密码输入不一致");
             return;
         }
-        ToastUtil.showToast(this, "修改密码成功");
         MineEvent mineEvent = new MineEvent(this);
         mineEvent.updatePwd(strOriginalPw, strNewPw);
     }
@@ -125,6 +124,9 @@ public class SettingsActivity extends QkBaseActivity implements View.OnFocusChan
             if (event.getId() == ((MineEvent) event).updatePaw) {
                 String strResult = (String) event.getObject();
                 ToastUtil.showToast(this, strResult);
+                mEdOriginal.setText("");
+                mEdNewPw.setText("");
+                mEdAgainPw.setText("");
             }
         }
     }

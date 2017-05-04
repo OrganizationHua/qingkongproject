@@ -1,5 +1,6 @@
 package com.iwangcn.qingkong.ui.activity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.EditText;
@@ -14,7 +15,8 @@ import com.iwangcn.qingkong.providers.UserManager;
 import com.iwangcn.qingkong.sp.SpConstant;
 import com.iwangcn.qingkong.sp.SpUtils;
 import com.iwangcn.qingkong.ui.base.BaseActivity;
-import com.iwangcn.qingkong.ui.model.UserInfo;
+import com.iwangcn.qingkong.ui.model.LoginInfo;
+import com.iwangcn.qingkong.utils.ToastUtil;
 
 import java.util.HashMap;
 
@@ -27,7 +29,7 @@ public class LoginActivity extends BaseActivity implements NetConst {
     EditText mEdUserName;
     @BindView(R.id.login_ed_pw)
     EditText mEdPw;
-
+    private Context mContext=this;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,15 +66,19 @@ public class LoginActivity extends BaseActivity implements NetConst {
 //        paratems.put("pwd",strPw);
         paratems.put("username", "test");
         paratems.put("pwd", "1");
-        RetrofitInstance.getInstance().post(URL_LOGIN, paratems, UserInfo.class, new BaseSubscriber<NetResponse<UserInfo>>(true) {
+        RetrofitInstance.getInstance().post(URL_LOGIN, paratems, LoginInfo.class, new BaseSubscriber<NetResponse<LoginInfo>>(true) {
             @Override
             public void onError(ExceptionHandle.ResponeThrowable e) {
+                ToastUtil.showToast(mContext,e.codeMessage);
             }
 
             @Override
-            public void onNext(NetResponse<UserInfo> o) {
-                UserManager.setUserName(o.getDataObject());
-                intentHome();
+            public void onNext(NetResponse<LoginInfo> o) {
+                LoginInfo loginInfo= o.getDataObject();
+                if(loginInfo.getUserInfo()!=null){
+                    UserManager.setUserName(loginInfo.getUserInfo());
+                    intentHome();
+                }
             }
         });
     }

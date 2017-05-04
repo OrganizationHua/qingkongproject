@@ -16,22 +16,29 @@
 
 package com.iwangcn.qingkong.ui.activity;
 
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
+import android.widget.LinearLayout;
+
 import com.google.android.flexbox.AlignItems;
 import com.google.android.flexbox.FlexDirection;
 import com.google.android.flexbox.FlexWrap;
 import com.google.android.flexbox.FlexboxLayout;
 import com.google.android.flexbox.FlexboxLayoutManager;
-
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.helper.ItemTouchHelper;
-import android.widget.LinearLayout;
-
 import com.iwangcn.qingkong.R;
+import com.iwangcn.qingkong.business.Event;
+import com.iwangcn.qingkong.business.TagEvent;
 import com.iwangcn.qingkong.ui.base.QkBaseActivity;
+import com.iwangcn.qingkong.ui.model.CilentLabel;
 import com.iwangcn.qingkong.ui.view.TagWidget.OnRecyclerItemClickListener;
 import com.iwangcn.qingkong.ui.view.TagWidget.RecycleViewItemTouchCallback;
 import com.iwangcn.qingkong.ui.view.TagWidget.RecycleViewTagAdapter;
 import com.iwangcn.qingkong.utils.VibratorUtil;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+
+import java.util.List;
 
 import butterknife.OnClick;
 
@@ -46,6 +53,8 @@ public class TagEditActivity extends QkBaseActivity implements RecycleViewItemTo
     private RecyclerView recycle_recommend;
     private LinearLayout ll_sure;
     private boolean isActivated = false;//界面是否激活
+    private TagEvent mTagEvent;
+    private RecycleViewTagAdapter mAdapter;
 
     @Override
     public int layoutChildResID() {
@@ -56,13 +65,21 @@ public class TagEditActivity extends QkBaseActivity implements RecycleViewItemTo
     public void initView() {
         setTitle("筛选");
         setRightTitle("编辑");
+
+    }
+
+    @Override
+    public void initData() {
+        EventBus.getDefault().register(this);
+        mTagEvent = new TagEvent(this);
         initRecommend();
+        mTagEvent.getTagList();
+        mTagEvent.submitTags("22");
     }
 
     @OnClick(R.id.base_tv_right)
     public void onClickRightButton() {
         switchActivated();
-
     }
 
     private void switchActivated() {
@@ -77,6 +94,14 @@ public class TagEditActivity extends QkBaseActivity implements RecycleViewItemTo
         }
     }
 
+    @Subscribe
+    public void onEventMainThread(Event event) {
+        if (event instanceof TagEvent) {
+            List<CilentLabel> list = (List<CilentLabel>) event.getObject();
+            mAdapter.setDataList(list);
+        }
+    }
+
     private void initRecommend() {
 
         recycle_recommend = (RecyclerView) findViewById(R.id.recycle_recommend);
@@ -86,11 +111,11 @@ public class TagEditActivity extends QkBaseActivity implements RecycleViewItemTo
         recommendLayoutManager.setFlexDirection(FlexDirection.ROW);
         recommendLayoutManager.setAlignItems(AlignItems.STRETCH);
         recycle_recommend.setLayoutManager(recommendLayoutManager);
-        final RecycleViewTagAdapter adapter = new RecycleViewTagAdapter(this);
-        recycle_recommend.setAdapter(adapter);
+        mAdapter = new RecycleViewTagAdapter(this);
+        recycle_recommend.setAdapter(mAdapter);
 
         final ItemTouchHelper recommendItemTouchHelper = new ItemTouchHelper(
-                new RecycleViewItemTouchCallback(adapter).setOnDragListener(this));
+                new RecycleViewItemTouchCallback(mAdapter).setOnDragListener(this));
         recommendItemTouchHelper.attachToRecyclerView(recycle_recommend);
 
         recycle_recommend.addOnItemTouchListener(new OnRecyclerItemClickListener(recycle_recommend) {
@@ -101,17 +126,17 @@ public class TagEditActivity extends QkBaseActivity implements RecycleViewItemTo
                 setRightTitle("完成");
 
                 int pos = vh.getLayoutPosition();
-                if (pos > adapter.getOneTitlePosition() && pos < adapter.getTwoTitlePosition()) {//
+                if (pos > mAdapter.getOneTitlePosition() && pos < mAdapter.getTwoTitlePosition()) {//
                     recommendItemTouchHelper.startDrag(vh);
                     VibratorUtil.Vibrate(TagEditActivity.this, 100);
-                } else if (pos > adapter.getTwoTitlePosition() && pos < adapter.getThreeTitlePosition()) {
-//                    if (adapter.isEditing) return;
-//                    adapter.isEditing = true;
-//                    adapter.notifyItemRangeChanged(adapter.getTwoTitlePosition() + 1, adapter.getTwoContentItemCount());
-                } else if (pos > adapter.getThreeTitlePosition() && pos < (adapter.getThreeTitlePosition() + adapter.getThreeContentItemCount() + 1)) {
-                    if (adapter.isEditing) return;
-                    adapter.isEditing = true;
-                    adapter.notifyItemRangeChanged(adapter.getThreeTitlePosition() + 1, adapter.getThreeContentItemCount());
+                } else if (pos > mAdapter.getTwoTitlePosition() && pos < mAdapter.getThreeTitlePosition()) {
+//                    if (mAdapter.isEditing) return;
+//                    mAdapter.isEditing = true;
+//                    mAdapter.notifyItemRangeChanged(mAdapter.getTwoTitlePosition() + 1, mAdapter.getTwoContentItemCount());
+                } else if (pos > mAdapter.getThreeTitlePosition() && pos < (mAdapter.getThreeTitlePosition() + mAdapter.getThreeContentItemCount() + 1)) {
+                    if (mAdapter.isEditing) return;
+                    mAdapter.isEditing = true;
+                    mAdapter.notifyItemRangeChanged(mAdapter.getThreeTitlePosition() + 1, mAdapter.getThreeContentItemCount());
                 }
 
             }
@@ -119,18 +144,18 @@ public class TagEditActivity extends QkBaseActivity implements RecycleViewItemTo
             @Override
             public void onItemClick(RecyclerView.ViewHolder vh) {
                 int pos = vh.getLayoutPosition();
-                if (pos == adapter.getThreeContentItemCount() + adapter.getThreeTitlePosition() + 1) {//点击加号时
+                if (pos == mAdapter.getThreeContentItemCount() + mAdapter.getThreeTitlePosition() + 1) {//点击加号时
 //                    ToastUtil.showToast(TagEditActivity.this, "last");
-                    adapter.isAdd = true;
-                    adapter.notifyItemChanged(vh.getLayoutPosition());
+                    mAdapter.isAdd = true;
+                    mAdapter.notifyItemChanged(vh.getLayoutPosition());
 
-//                      adapter.results3.add("新增");
-//                      adapter.notifyItemInserted(vh.getLayoutPosition());
-//                      adapter.notifyItemRangeChanged(vh.getLayoutPosition()+1,adapter.getItemCount()-vh.getLayoutPosition());
+//                      mAdapter.results3.add("新增");
+//                      mAdapter.notifyItemInserted(vh.getLayoutPosition());
+//                      mAdapter.notifyItemRangeChanged(vh.getLayoutPosition()+1,mAdapter.getItemCount()-vh.getLayoutPosition());
                 }
-                if (adapter.isEditing && pos > adapter.getThreeTitlePosition() && pos < adapter.getThreeTitlePosition() + adapter.getThreeContentItemCount() + 1) {//点击自定义标签item时
-                    adapter.results3.remove(pos - adapter.getThreeTitlePosition() - 1);
-                    adapter.notifyItemRemoved(pos);
+                if (mAdapter.isEditing && pos > mAdapter.getThreeTitlePosition() && pos < mAdapter.getThreeTitlePosition() + mAdapter.getThreeContentItemCount() + 1) {//点击自定义标签item时
+                    mAdapter.results3.remove(pos - mAdapter.getThreeTitlePosition() - 1);
+                    mAdapter.notifyItemRemoved(pos);
                 }
             }
         });
@@ -140,5 +165,11 @@ public class TagEditActivity extends QkBaseActivity implements RecycleViewItemTo
     @Override
     public void onFinishDrag() {
 
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
     }
 }

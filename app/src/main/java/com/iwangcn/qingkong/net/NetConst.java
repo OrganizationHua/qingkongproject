@@ -8,7 +8,7 @@ public interface NetConst {
     String STATUS_SUCCESS = "0";
     String STATUS_FAILURE = "1";
     String CODE_SUCCESS = "0";
-    public static int page = 15;
+    public static int page = 10;
     public static String USER_ID = "userId";
 
     String URL_LOGIN = "login";//登录
@@ -46,6 +46,7 @@ public interface NetConst {
     String URL_EVENT_REMOVE = "event/removeFavorite";//取消列表
     //事件模块
     String URL_EVENT_RELINFO = "event/relinfo";//事件新闻列表
+    String URL_EVENT_SEARCH_NEWS = "event/searchEventNews";//新闻搜索
     //标签
     String URL_TAG_TAGLIST = "event/tagList";//获取标签列表
     String URL_TAG_SUBMITTAGS = "event/submitTags";//提交标签列表

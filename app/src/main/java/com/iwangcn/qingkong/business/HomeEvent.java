@@ -84,7 +84,7 @@ public class HomeEvent extends Event implements NetConst {
     public List<EventInfoVo> getCacheNews() {
         List mList = new ArrayList<>();
         try {
-            mList= JSON.parseArray(ACache.get(mContext).getAsString(URL_EVENT), EventInfoVo.class);
+            mList = JSON.parseArray(ACache.get(mContext).getAsString(URL_EVENT), EventInfoVo.class);
         } catch (Exception e) {
             e.printStackTrace();
         }

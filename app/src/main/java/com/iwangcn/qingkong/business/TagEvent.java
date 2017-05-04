@@ -6,9 +6,14 @@ import com.iwangcn.qingkong.net.BaseSubscriber;
 import com.iwangcn.qingkong.net.ExceptionHandle;
 import com.iwangcn.qingkong.net.NetConst;
 import com.iwangcn.qingkong.net.RetrofitInstance;
+import com.iwangcn.qingkong.providers.UserManager;
+import com.iwangcn.qingkong.ui.model.CilentLabel;
 import com.iwangcn.qingkong.ui.model.UserInfo;
+import com.iwangcn.qingkong.utils.ToastUtil;
+import com.orhanobut.logger.Logger;
 
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * 标签管理
@@ -27,22 +32,25 @@ public class TagEvent extends Event implements NetConst {
     }
 
     public void getTagList() {
-        HashMap paratems = null;
-        RetrofitInstance.getInstance().post(URL_TAG_TAGLIST, paratems, UserInfo.class, new BaseSubscriber(false) {
+        HashMap paratems = new HashMap();
+        paratems.put(USER_ID, UserManager.getUserInfo().getAutoId());
+        RetrofitInstance.getInstance().post(URL_TAG_TAGLIST, paratems, CilentLabel.class, new BaseSubscriber<List<CilentLabel>>(false) {
             @Override
             public void onError(ExceptionHandle.ResponeThrowable e) {
-
+                ToastUtil.showToast(mContext, e.codeMessage);
             }
 
             @Override
-            public void onNext(Object o) {
-
+            public void onNext(List<CilentLabel> o) {
+                Logger.e("11");
             }
         });
     }
 
-    public void submitTags() {
-        HashMap paratems = null;
+    public void submitTags(String tags) {
+        HashMap paratems = new HashMap();
+        paratems.put(USER_ID, UserManager.getUserInfo().getAutoId());
+        paratems.put("tags", tags);
         RetrofitInstance.getInstance().post(URL_TAG_SUBMITTAGS, paratems, UserInfo.class, new BaseSubscriber(false) {
             @Override
             public void onError(ExceptionHandle.ResponeThrowable e) {
@@ -57,7 +65,8 @@ public class TagEvent extends Event implements NetConst {
     }
 
     public void deleteTags() {
-        HashMap paratems = null;
+        HashMap paratems = new HashMap();
+        paratems.put(USER_ID, UserManager.getUserInfo().getAutoId());
         RetrofitInstance.getInstance().post(URL_TAG_DELTAGS, paratems, UserInfo.class, new BaseSubscriber(false) {
             @Override
             public void onError(ExceptionHandle.ResponeThrowable e) {

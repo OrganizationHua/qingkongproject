@@ -8,6 +8,7 @@ import com.iwangcn.qingkong.net.NetConst;
 import com.iwangcn.qingkong.net.RetrofitInstance;
 import com.iwangcn.qingkong.providers.UserManager;
 import com.iwangcn.qingkong.ui.model.UserInfo;
+import com.iwangcn.qingkong.utils.ToastUtil;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -39,7 +40,7 @@ public class MineEvent extends Event implements NetConst {
         RetrofitInstance.getInstance().post(URL_UPDATE_PWD, paratems, UserInfo.class, new BaseSubscriber(true) {
             @Override
             public void onError(ExceptionHandle.ResponeThrowable e) {
-
+                ToastUtil.showToast(mContext,e.codeMessage);
             }
 
             @Override

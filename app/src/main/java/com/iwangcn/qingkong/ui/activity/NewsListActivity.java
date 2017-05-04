@@ -15,17 +15,23 @@ import android.widget.TextView;
 
 import com.iwangcn.qingkong.R;
 import com.iwangcn.qingkong.business.Event;
+import com.iwangcn.qingkong.business.FavoriteEvent;
 import com.iwangcn.qingkong.business.NewsListBus;
 import com.iwangcn.qingkong.business.LoadFailEvent;
+import com.iwangcn.qingkong.net.BaseBean;
+import com.iwangcn.qingkong.net.BaseSubscriber;
+import com.iwangcn.qingkong.net.ExceptionHandle;
 import com.iwangcn.qingkong.net.NetConst;
 import com.iwangcn.qingkong.ui.adapter.NewsListAdapter;
 import com.iwangcn.qingkong.ui.base.BaseActivity;
 import com.iwangcn.qingkong.ui.model.EventInfo;
+import com.iwangcn.qingkong.ui.model.FavoriteStateModel;
 import com.iwangcn.qingkong.ui.model.NewsInfo;
 import com.iwangcn.qingkong.ui.view.freshwidget.RefreshListenerAdapter;
 import com.iwangcn.qingkong.ui.view.freshwidget.ReloadRefreshLayout;
 import com.iwangcn.qingkong.utils.AbDateUtil;
 import com.iwangcn.qingkong.utils.GlideUtils;
+import com.iwangcn.qingkong.utils.ToastUtil;
 import com.nhaarman.listviewanimations.appearance.simple.AlphaInAnimationAdapter;
 
 import org.greenrobot.eventbus.EventBus;
@@ -54,9 +60,11 @@ public class NewsListActivity extends BaseActivity {
     private NewsListAdapter mAdapter;
     private List<NewsInfo> mList = new ArrayList<>();
 
-    private EventInfo mIntentEventInfo;
+    private EventInfo mIntentEventInfo;//上个界面传递过来的事件
+    private FavoriteStateModel mFavoriteStateModel;//上个界面传过来的收藏状态
     private final int REQUEST_CODE = 10;
     private NewsListBus mEventBus;
+    private FavoriteEvent mFavoriteEvent;//收藏
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -70,7 +78,16 @@ public class NewsListActivity extends BaseActivity {
     public void initView() {
         EventBus.getDefault().register(this);
         mEventBus = new NewsListBus(this);
+        mFavoriteEvent = new FavoriteEvent(this);
         mIntentEventInfo = (EventInfo) getIntent().getSerializableExtra("EventInfo");
+        mFavoriteStateModel = (FavoriteStateModel) getIntent().getSerializableExtra("FavoriteStateModel");
+        if (mFavoriteStateModel != null) {
+            if (mFavoriteStateModel.getFavoriteFlag() == 0) {
+                mCollcetImage.setSelected(false);
+            } else {
+                mCollcetImage.setSelected(true);
+            }
+        }
         initListView();
         mAbPullToRefreshView.setOnRefreshListener(new RefreshListenerAdapter() {
             @Override
@@ -88,7 +105,7 @@ public class NewsListActivity extends BaseActivity {
 
     private View initListHeadView() {
         View headView = LayoutInflater.from(this).inflate(R.layout.activity_eventinfo_headview, null);
-        ImageView imageIcon = (ImageView)headView.findViewById(R.id.home_fragment_item_icon);
+        ImageView imageIcon = (ImageView) headView.findViewById(R.id.home_fragment_item_icon);
         TextView tvTitle = (TextView) headView.findViewById(R.id.news_title);
         TextView tvNumb = (TextView) headView.findViewById(R.id.new_item_num);
         TextView tvTime = (TextView) headView.findViewById(R.id.new_item_time);
@@ -124,8 +141,8 @@ public class NewsListActivity extends BaseActivity {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Intent intent = new Intent(mContext, NewsDetailActivity.class);
                 intent.putExtra("NewsInfoList", (Serializable) mList);
-                intent.putExtra("frontPageposition",i-1);
-                startActivityForResult(intent,REQUEST_CODE);
+                intent.putExtra("frontPageposition", i - 1);
+                startActivityForResult(intent, REQUEST_CODE);
             }
         });
     }
@@ -180,6 +197,40 @@ public class NewsListActivity extends BaseActivity {
     public void onBtnFilter() {
         Intent intent = new Intent(this, TagEditActivity.class);
         startActivity(intent);
+    }
+
+    @OnClick(R.id.base_img_right_lin)//收藏
+    public void btnCollected(View view) {
+        if (mFavoriteStateModel != null) {
+            int favoriteFlag = mFavoriteStateModel.getFavoriteFlag();
+            if (mFavoriteStateModel.getFavoriteFlag() == 0) {
+                mFavoriteEvent.addFavoritet(String.valueOf(favoriteFlag), new BaseSubscriber<BaseBean>(true) {
+                    @Override
+                    public void onError(ExceptionHandle.ResponeThrowable e) {
+                        ToastUtil.showToast(mContext, e.codeMessage);
+                    }
+
+                    @Override
+                    public void onNext(BaseBean baseBean) {
+                        ToastUtil.showToast(mContext, "收藏成功");
+                        mCollcetImage.setSelected(true);
+                    }
+                });
+            } else {
+                mFavoriteEvent.removeFavoritet(String.valueOf(favoriteFlag), new BaseSubscriber<BaseBean>(true) {
+                    @Override
+                    public void onError(ExceptionHandle.ResponeThrowable e) {
+                        ToastUtil.showToast(mContext, e.codeMessage);
+                    }
+
+                    @Override
+                    public void onNext(BaseBean o) {
+                        ToastUtil.showToast(mContext, "取消收藏");
+                        mCollcetImage.setSelected(false);
+                    }
+                });
+            }
+        }
     }
 
     @OnClick(R.id.base_act_left_lin)//返回键

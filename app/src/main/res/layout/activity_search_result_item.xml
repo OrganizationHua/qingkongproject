@@ -72,6 +72,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="13dp"
+            android:drawablePadding="6dp"
             android:drawableLeft="@drawable/search_icon_from"
             android:textColor="@color/home_blue"
             android:textSize="12sp"

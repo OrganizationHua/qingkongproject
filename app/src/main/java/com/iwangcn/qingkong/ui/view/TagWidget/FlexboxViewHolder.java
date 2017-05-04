@@ -17,10 +17,12 @@
 package com.iwangcn.qingkong.ui.view.TagWidget;
 
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
 
 import com.iwangcn.qingkong.R;
+import com.iwangcn.qingkong.ui.model.CilentLabel;
 
 /**
  * ViewHolder that represents a cat image.
@@ -35,8 +37,10 @@ class FlexboxViewHolder extends RecyclerView.ViewHolder {
 
     }
 
-    void bindTo(String string, boolean isEditing) {
-        mTextView.setText(string);
+    void bindTo(CilentLabel cilentLabel, boolean isEditing) {
+        if(!TextUtils.isEmpty(cilentLabel.getName())){
+            mTextView.setText(cilentLabel.getName());
+        }
         if (isEditing) {
             mTextView.setBackgroundResource(R.drawable.normal_tag_seclected);
         } else {

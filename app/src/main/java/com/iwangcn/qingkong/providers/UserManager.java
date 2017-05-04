@@ -1,7 +1,7 @@
 package com.iwangcn.qingkong.providers;
 
-import com.google.gson.Gson;
 import com.iwangcn.qingkong.app.MobileApplication;
+import com.iwangcn.qingkong.net.ACache;
 import com.iwangcn.qingkong.sp.SpConstant;
 import com.iwangcn.qingkong.sp.SpUtils;
 import com.iwangcn.qingkong.ui.model.UserInfo;
@@ -16,16 +16,15 @@ public class UserManager {
     private static UserInfo userInfo;
 
     public static void setUserName(UserInfo userInfo) {
-        UserManager.userInfo=userInfo;
-        SpUtils.put(MobileApplication.getInstance(), SpConstant.USER_INFO, new Gson().toJson(userInfo));
+        UserManager.userInfo = userInfo;
+        ACache.get(MobileApplication.getInstance()).put(SpConstant.USER_INFO, userInfo);
         SpUtils.put(MobileApplication.getInstance(), SpConstant.IS_LOGIN, true);
         SpUtils.put(MobileApplication.getInstance(), SpConstant.CACHE_USERNAME, userInfo.getName());
     }
 
     public static UserInfo getUserInfo() {
         if (userInfo == null) {
-            String strUserInfo = (String) SpUtils.get(MobileApplication.getInstance(), SpConstant.USER_INFO, "");
-            userInfo = new Gson().fromJson(strUserInfo, UserInfo.class);
+            userInfo = (UserInfo) ACache.get(MobileApplication.getInstance()).getAsObject(SpConstant.USER_INFO);
         }
         return userInfo;
     }
@@ -35,7 +34,8 @@ public class UserManager {
      */
     public static void clearUserInfo() {
         userInfo = null;
-        SpUtils.put(MobileApplication.getInstance(), SpConstant.USER_INFO, "");
+        ACache.get(MobileApplication.getInstance()).clear();
+        SpUtils.put(MobileApplication.getInstance(), SpConstant.IS_LOGIN, false);
     }
 
 }

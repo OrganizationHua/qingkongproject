@@ -42,7 +42,7 @@ public abstract class QkBaseActivity extends BaseActivity {
     @BindView(R.id.base_img_right)
     ImageView mImgRight;//右边图片
 
-    @BindView(R.id.systemFailNetRoootRel)
+    @BindView(R.id.systemFailNetRootRel)
     RelativeLayout mRelFailNet;//网络加载失败
 
     @BindView(R.id.systemNoNetRoootRel)

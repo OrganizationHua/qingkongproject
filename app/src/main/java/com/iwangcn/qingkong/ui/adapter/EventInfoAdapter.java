@@ -85,7 +85,7 @@ public class EventInfoAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
         ViewHolder viewHolder;
         if (convertView == null) {
             convertView = LayoutInflater.from(mContext).inflate(
@@ -118,12 +118,11 @@ public class EventInfoAdapter extends BaseAdapter {
         viewHolder.linCollect.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View view) {
-                ToastUtil.showToast(mContext, "收藏按钮");
                 if (infoVo != null) {
                     new FavoriteEvent(mContext).addFavoritet(String.valueOf(infoVo.getFavoriteId()), new BaseSubscriber<BaseBean>(true) {
                         @Override
                         public void onError(ExceptionHandle.ResponeThrowable e) {
-                            ToastUtil.showToast(mContext, "收藏失败");
+                            ToastUtil.showToast(mContext, e.codeMessage);
                         }
 
                         @Override
@@ -138,7 +137,8 @@ public class EventInfoAdapter extends BaseAdapter {
 
                                 @Override
                                 public void onAnimationEnd(Animator animator) {
-
+                                    mList.remove(position);
+                                    notifyDataSetChanged();
                                 }
 
                                 @Override

@@ -7,7 +7,7 @@ import com.iwangcn.qingkong.net.BaseBean;
  * Created by czh on 2017/4/19.
  */
 
-public class FavoriteInfo extends BaseBean{
+public class FavoriteInfo extends BaseBean {
     private long autoId;
     private long userId;//用户id
     private long eventId;//事件id

@@ -1,15 +1,16 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/rel_listView"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@drawable/bg_nav_bar"
     android:focusable="true"
     android:focusableInTouchMode="true"
     android:orientation="vertical"
     android:paddingTop="@dimen/padding_top"
-    android:id="@+id/rel_listView"
     tools:context=".ui.fragment.HomeFragment">
+
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -73,9 +74,9 @@
                     android:layout_height="match_parent"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="9dp"
-                    android:focusable="false"
                     android:layout_toLeftOf="@+id/homeFragment_lin_search"
                     android:background="@android:color/transparent"
+                    android:focusable="false"
                     android:gravity="center_vertical"
                     android:hint="@string/search_news"
                     android:imeOptions="actionSearch"
@@ -112,7 +113,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <com.iwangcn.qingkong.ui.view.pullview.AbPullToRefreshView
+
+            <com.iwangcn.qingkong.ui.view.freshwidget.ReloadRefreshLayout
                 android:id="@+id/mPullRefreshView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -127,8 +129,11 @@
                     android:dividerHeight="0dp"
                     android:listSelector="#00000000"
                     android:scrollbars="none" />
-            </com.iwangcn.qingkong.ui.view.pullview.AbPullToRefreshView>
+            </com.iwangcn.qingkong.ui.view.freshwidget.ReloadRefreshLayout>
+
+            <include layout="@layout/system_loading" />
 
         </RelativeLayout>
     </LinearLayout>
+
 </RelativeLayout>

@@ -25,7 +25,9 @@ import com.iwangcn.qingkong.ui.activity.NewsSearchActivity;
 import com.iwangcn.qingkong.ui.adapter.EventInfoAdapter;
 import com.iwangcn.qingkong.ui.base.BaseFragment;
 import com.iwangcn.qingkong.ui.model.EventInfoVo;
-import com.iwangcn.qingkong.ui.view.pullview.AbPullToRefreshView;
+import com.iwangcn.qingkong.ui.model.FavoriteStateModel;
+import com.iwangcn.qingkong.ui.view.freshwidget.RefreshListenerAdapter;
+import com.iwangcn.qingkong.ui.view.freshwidget.ReloadRefreshLayout;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -36,7 +38,10 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.OnClick;
 
-public class HomeFragment extends BaseFragment implements AbPullToRefreshView.OnHeaderRefreshListener, AbPullToRefreshView.OnFooterLoadListener {
+public class HomeFragment extends BaseFragment {
+    @BindView(R.id.systemLin_loding)
+    RelativeLayout mLinLoading;//再次刷新
+
     @BindView(R.id.homefragment_edit_search)
     EditText mEditSearch;//输入框
     @BindView(R.id.home_rel_search_bg_mark)
@@ -51,10 +56,10 @@ public class HomeFragment extends BaseFragment implements AbPullToRefreshView.On
     LinearLayout mLin;//listView容器
 
     @BindView(R.id.mPullRefreshView)
-    AbPullToRefreshView mAbPullToRefreshView;
+    ReloadRefreshLayout mAbPullToRefreshView;
 
     private EventInfoAdapter mAdapter;
-    private List<EventInfoVo> mList=new ArrayList<>();
+    private List<EventInfoVo> mList = new ArrayList<>();
     private HomeEvent mHomeEvent;
 
     @Override
@@ -75,8 +80,6 @@ public class HomeFragment extends BaseFragment implements AbPullToRefreshView.On
     }
 
     private void initData() {
-        mAbPullToRefreshView.setOnHeaderRefreshListener(this);
-        mAbPullToRefreshView.setOnFooterLoadListener(this);
         mHomeEvent = new HomeEvent(getActivity());
         mAdapter = new EventInfoAdapter(getActivity());
         mAdapter.setCollectView(mLin);
@@ -92,28 +95,41 @@ public class HomeFragment extends BaseFragment implements AbPullToRefreshView.On
 
             @Override
             protected void onPostExecute(List<EventInfoVo> eventInfos) {
-                if(eventInfos!=null){
+                if (eventInfos != null) {
                     mList = eventInfos;
                     mAdapter.setDataList(mList);
+                }else{
+                    mLinLoading.setVisibility(View.VISIBLE);
                 }
+                mHomeEvent.getRefreshEventList();
             }
         }.execute();
-        mHomeEvent.getRefreshEventList();
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                FavoriteStateModel favoriteStateModel = new FavoriteStateModel();
+                favoriteStateModel.setEventId(mList.get(i).getFavoriteId());
+                favoriteStateModel.setFavoriteFlag(mList.get(i).getFavoriteFlag());
                 Intent intent = new Intent(getActivity(), NewsListActivity.class);
-                intent.putExtra("EventInfo",mList.get(i).getEventInfo());
+                intent.putExtra("EventInfo", mList.get(i).getEventInfo());
+                intent.putExtra("FavoriteStateModel", favoriteStateModel);
                 startActivity(intent);
             }
         });
+        mAbPullToRefreshView.setOnRefreshListener(new RefreshListenerAdapter() {
+            @Override
+            public void onRefresh(ReloadRefreshLayout refreshLayout) {
+                super.onRefresh(refreshLayout);
+                mAbPullToRefreshView.setEnableLoadmore(true);
+                mHomeEvent.getRefreshEventList();
+            }
 
-    }
-
-    @OnClick(R.id.home_rel_search)//搜索按钮
-    public void btnSearch() {
-        Intent intent = new Intent(getActivity(), NewsSearchActivity.class);
-        startActivity(intent);
+            @Override
+            public void onLoadMore(ReloadRefreshLayout refreshLayout) {
+                super.onLoadMore(refreshLayout);
+                mHomeEvent.getMoreEvent();
+            }
+        });
     }
 
     @OnClick(R.id.homefragment_edit_search)//搜索按钮
@@ -154,34 +170,24 @@ public class HomeFragment extends BaseFragment implements AbPullToRefreshView.On
     @Subscribe
     public void onEventMainThread(Event event) {
         if (event instanceof HomeEvent) {
-            mAbPullToRefreshView.onHeaderRefreshFinish();
+            mLinLoading.setVisibility(View.GONE);
+            mAbPullToRefreshView.finishRefreshing();
             List<EventInfoVo> list = (List<EventInfoVo>) event.getObject();
             if (list.size() < NetConst.page) {//如果小于page条表示加载完成不能加载更多
-                mAbPullToRefreshView.setLoadMoreEnable(false);
+                mAbPullToRefreshView.setEnableLoadmore(false);
             }
             if (event.isMore()) {
-                mAbPullToRefreshView.onFooterLoadFinish();
+                mAbPullToRefreshView.finishLoadmore();
             } else {
-                mAbPullToRefreshView.onHeaderRefreshFinish();
+                mAbPullToRefreshView.finishRefreshing();
                 mList.clear();
             }
             mList.addAll(list);
             mAdapter.setDataList(mList);
         } else if (event instanceof LoadFailEvent) {
-            mAbPullToRefreshView.onHeaderRefreshFinish();
-            mAbPullToRefreshView.onFooterLoadFinish();
+            mAbPullToRefreshView.finishLoadmore();
+            mAbPullToRefreshView.finishRefreshing();
         }
-    }
-
-    @Override
-    public void onFooterLoad(AbPullToRefreshView view) {
-        mHomeEvent.getMoreEvent();
-    }
-
-    @Override
-    public void onHeaderRefresh(AbPullToRefreshView view) {
-        mAbPullToRefreshView.setLoadMoreEnable(true);
-        mHomeEvent.getRefreshEventList();
     }
 
     @Override

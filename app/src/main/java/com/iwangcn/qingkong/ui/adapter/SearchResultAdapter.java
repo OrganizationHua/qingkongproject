@@ -9,6 +9,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.iwangcn.qingkong.R;
+import com.iwangcn.qingkong.ui.model.EventData;
 import com.iwangcn.qingkong.ui.model.NewsInfo;
 import com.zhy.view.flowlayout.FlowLayout;
 import com.zhy.view.flowlayout.TagAdapter;
@@ -23,7 +24,7 @@ import java.util.List;
  */
 public class SearchResultAdapter extends BaseAdapter {
     private LayoutInflater inflater;
-    private List<NewsInfo> mList;
+    private List<EventData> mList;
     private Context mContext;
 
     public SearchResultAdapter(Context context) {
@@ -31,7 +32,7 @@ public class SearchResultAdapter extends BaseAdapter {
         inflater = LayoutInflater.from(context);
     }
 
-    public void setDataList(List<NewsInfo> dataList) {
+    public void setDataList(List<EventData> dataList) {
         mList = dataList;
         notifyDataSetChanged();
     }
@@ -39,7 +40,7 @@ public class SearchResultAdapter extends BaseAdapter {
     @Override
     public int getCount() {
         if (mList == null) {
-            mList = new ArrayList<NewsInfo>();
+            mList = new ArrayList<EventData>();
         }
         return mList.size();
     }
@@ -69,7 +70,8 @@ public class SearchResultAdapter extends BaseAdapter {
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
-        NewsInfo bean = mList.get(position);
+        EventData eventData = mList.get(position);
+        NewsInfo bean=eventData.getData();
         if (!TextUtils.isEmpty(bean.getTitle())) {
             viewHolder.title.setText(bean.getTitle());
         }
@@ -80,7 +82,7 @@ public class SearchResultAdapter extends BaseAdapter {
             viewHolder.from.setText(bean.getNumb());
         }
         if (!TextUtils.isEmpty(bean.getContent())) {
-            viewHolder.tvEvent.setText(bean.getContent());
+            viewHolder.tvEvent.setText(bean.getTitle());
         }
         TagAdapter<String> tagAdapter = new TagAdapter<String>(initDatas()) {
             @Override

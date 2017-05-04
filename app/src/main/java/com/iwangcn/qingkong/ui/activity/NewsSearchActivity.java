@@ -16,7 +16,6 @@ import android.widget.TextView;
 
 import com.iwangcn.qingkong.R;
 import com.iwangcn.qingkong.business.Event;
-import com.iwangcn.qingkong.business.HomeEvent;
 import com.iwangcn.qingkong.business.LoadFailEvent;
 import com.iwangcn.qingkong.business.NewsSearchEvent;
 import com.iwangcn.qingkong.dao.model.SearchModel;
@@ -24,7 +23,7 @@ import com.iwangcn.qingkong.net.NetConst;
 import com.iwangcn.qingkong.ui.adapter.SearchHistoryAdapter;
 import com.iwangcn.qingkong.ui.adapter.SearchResultAdapter;
 import com.iwangcn.qingkong.ui.base.BaseActivity;
-import com.iwangcn.qingkong.ui.model.NewsInfo;
+import com.iwangcn.qingkong.ui.model.EventData;
 import com.iwangcn.qingkong.ui.view.ClearEditText;
 import com.iwangcn.qingkong.ui.view.freshwidget.RefreshListenerAdapter;
 import com.iwangcn.qingkong.ui.view.freshwidget.ReloadRefreshLayout;
@@ -64,14 +63,13 @@ public class NewsSearchActivity extends BaseActivity {
 
 
     private List<String> mListHistory;
-    private List<NewsInfo> mListResult = new ArrayList<NewsInfo>();
+    private List<EventData> mListResult = new ArrayList<EventData>();
     private List<SearchModel> mListHot = new ArrayList<SearchModel>();
     private SearchHistoryAdapter mAdapterHistory;//历史搜索
     private SearchResultAdapter mAdapterResult;//搜索结果
     private Context mContext = this;
     private NewsSearchEvent mSearchEvent;
-    private HomeEvent mHomeEvent;
-
+    private String strKeyWord="";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -89,7 +87,6 @@ public class NewsSearchActivity extends BaseActivity {
     private void initView() {
         EventBus.getDefault().register(this);
         mSearchEvent = new NewsSearchEvent(this);
-        mHomeEvent = new HomeEvent(this);
         mClearEditText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -99,7 +96,6 @@ public class NewsSearchActivity extends BaseActivity {
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (s.length() > 0) {
                     mListViewHistory.setVisibility(View.GONE);
-                    searchNoResult();
                 }
             }
 
@@ -107,7 +103,13 @@ public class NewsSearchActivity extends BaseActivity {
             public void afterTextChanged(Editable s) {
             }
         });
-        initListSerchResult();
+        mAbPullToRefreshView.setOnRefreshListener(new RefreshListenerAdapter() {
+            @Override
+            public void onLoadMore(ReloadRefreshLayout refreshLayout) {
+                super.onLoadMore(refreshLayout);
+                mSearchEvent.getMoreEvent(strKeyWord);
+            }
+        });
     }
 
     /**
@@ -116,6 +118,7 @@ public class NewsSearchActivity extends BaseActivity {
     private void initData() {
         initHistory();
         initListViewHot();
+        initListSerchResult();
         mClearEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent) {
@@ -211,7 +214,8 @@ public class NewsSearchActivity extends BaseActivity {
      * @param keyword
      */
     private void getSearchList(String keyword) {
-        // mHomeEvent.getNewsEventList(1, keyword, true);
+        strKeyWord=keyword;
+        mSearchEvent.getRefreshEventList(keyword);
         AbAppUtil.closeSoftInput(mContext);
         //保存历史记录
         if (!TextUtils.isEmpty(mClearEditText.getText().toString().trim())) {
@@ -225,7 +229,6 @@ public class NewsSearchActivity extends BaseActivity {
         mBtnHelper.setBackground(getResources().getDrawable(R.drawable.search_button_helper_finish));
     }
 
-
     /**
      * 搜索无结果
      */
@@ -235,8 +238,12 @@ public class NewsSearchActivity extends BaseActivity {
 
     @Subscribe
     public void onEventMainThread(Event event) {
-        if (event instanceof HomeEvent) {
-            List<NewsInfo> list = (List<NewsInfo>) event.getObject();
+        if (event instanceof NewsSearchEvent) {
+            List<EventData> list = (List<EventData>) event.getObject();
+            if(list.size()==0&&mListResult.size()==0){//表示没有搜到
+                searchNoResult();
+                return;
+            }
             if (list.size() < NetConst.page) {//如果小于page条表示加载完成不能加载更多
                 mAbPullToRefreshView.setEnableLoadmore(false);
             }
@@ -244,9 +251,6 @@ public class NewsSearchActivity extends BaseActivity {
                 mAbPullToRefreshView.finishLoadmore();
             } else {
                 mListResult.clear();
-                if (list.size() > 0) {
-                    list.get(0).setSelect(true);
-                }
             }
             mListResult.addAll(list);
             mAdapterResult.setDataList(mListResult);

@@ -17,7 +17,9 @@ import com.iwangcn.qingkong.net.NetConst;
 import com.iwangcn.qingkong.ui.adapter.FacoriteAdapter;
 import com.iwangcn.qingkong.ui.base.QkBaseActivity;
 import com.iwangcn.qingkong.ui.model.FavoriteInfo;
-import com.iwangcn.qingkong.ui.view.pullview.AbPullToRefreshView;
+import com.iwangcn.qingkong.ui.model.FavoriteStateModel;
+import com.iwangcn.qingkong.ui.view.freshwidget.RefreshListenerAdapter;
+import com.iwangcn.qingkong.ui.view.freshwidget.ReloadRefreshLayout;
 import com.iwangcn.qingkong.utils.ToastUtil;
 import com.nhaarman.listviewanimations.appearance.simple.SwingLeftInAnimationAdapter;
 import com.nhaarman.listviewanimations.itemmanipulation.DynamicListView;
@@ -35,7 +37,7 @@ import butterknife.BindView;
  * Created by czh on 2017/4/9.
  */
 
-public class FavoriteActivity extends QkBaseActivity implements AbPullToRefreshView.OnHeaderRefreshListener, AbPullToRefreshView.OnFooterLoadListener {
+public class FavoriteActivity extends QkBaseActivity {
 
     @BindView(R.id.home_list_collect)
     DynamicListView mListView;//
@@ -43,7 +45,7 @@ public class FavoriteActivity extends QkBaseActivity implements AbPullToRefreshV
     private FacoriteAdapter mAdapter;
     private Context mContext = this;
     @BindView(R.id.mPullRefreshView)
-    AbPullToRefreshView mAbPullToRefreshView;
+    ReloadRefreshLayout mAbPullToRefreshView;
 
     FavoriteEvent mBusEvent;
 
@@ -57,8 +59,21 @@ public class FavoriteActivity extends QkBaseActivity implements AbPullToRefreshV
         EventBus.getDefault().register(this);
         mBusEvent = new FavoriteEvent(this);
         setTitle(getResources().getString(R.string.toutiao_collect));
-        mAbPullToRefreshView.setOnHeaderRefreshListener(this);
-        mAbPullToRefreshView.setOnFooterLoadListener(this);
+        mAbPullToRefreshView.setOnRefreshListener(new RefreshListenerAdapter() {
+            @Override
+            public void onRefresh(ReloadRefreshLayout refreshLayout) {
+                super.onRefresh(refreshLayout);
+                mAbPullToRefreshView.setEnableLoadmore(true);
+                mBusEvent.getRefreshEventList();
+            }
+
+            @Override
+            public void onLoadMore(ReloadRefreshLayout refreshLayout) {
+                super.onLoadMore(refreshLayout);
+                mBusEvent.getMoreEvent();
+            }
+        });
+
     }
 
     public void initData() {
@@ -77,7 +92,7 @@ public class FavoriteActivity extends QkBaseActivity implements AbPullToRefreshV
                 mBusEvent.removeFavoritet(String.valueOf(info.getEventId()), new BaseSubscriber(true) {
                     @Override
                     public void onError(ExceptionHandle.ResponeThrowable e) {
-                        ToastUtil.showToast(mContext,"取消失败");
+                        ToastUtil.showToast(mContext, e.codeMessage);
                     }
 
                     @Override
@@ -101,9 +116,13 @@ public class FavoriteActivity extends QkBaseActivity implements AbPullToRefreshV
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                FavoriteInfo eventInfo = (FavoriteInfo) mAdapter.getItem(i);
+                FavoriteStateModel favoriteStateModel = new FavoriteStateModel();
+                favoriteStateModel.setEventId(eventInfo.getEventId());
+                favoriteStateModel.setFavoriteFlag(1);
                 Intent intent = new Intent(mContext, NewsListActivity.class);
-                FavoriteInfo eventInfo= (FavoriteInfo) mAdapter.getItem(i);
-                intent.putExtra("EventInfo",eventInfo.getEvent());
+                intent.putExtra("EventInfo", eventInfo.getEvent());
+                intent.putExtra("FavoriteStateModel", favoriteStateModel);
                 startActivity(intent);
             }
         });
@@ -113,33 +132,22 @@ public class FavoriteActivity extends QkBaseActivity implements AbPullToRefreshV
     @Subscribe
     public void onEventMainThread(Event event) {
         if (event instanceof FavoriteEvent) {
-            mAbPullToRefreshView.onHeaderRefreshFinish();
+            mAbPullToRefreshView.finishRefreshing();
             List<FavoriteInfo> list = (List<FavoriteInfo>) event.getObject();
             if (list.size() < NetConst.page) {//如果小于page条表示加载完成不能加载更多
-                mAbPullToRefreshView.setLoadMoreEnable(false);
+                mAbPullToRefreshView.setEnableLoadmore(false);
             }
             if (event.isMore()) {
-                mAbPullToRefreshView.onFooterLoadFinish();
+                mAbPullToRefreshView.finishLoadmore();
             } else {
-                mAbPullToRefreshView.onHeaderRefreshFinish();
+                mAbPullToRefreshView.finishRefreshing();
                 mAdapter.clear();
             }
             mAdapter.addAll(list);
         } else if (event instanceof LoadFailEvent) {
-            mAbPullToRefreshView.onHeaderRefreshFinish();
-            mAbPullToRefreshView.onFooterLoadFinish();
+            mAbPullToRefreshView.finishLoadmore();
+            mAbPullToRefreshView.finishRefreshing();
         }
-    }
-
-    @Override
-    public void onFooterLoad(AbPullToRefreshView view) {
-        mBusEvent.getMoreEvent();
-    }
-
-    @Override
-    public void onHeaderRefresh(AbPullToRefreshView view) {
-        mAbPullToRefreshView.setLoadMoreEnable(true);
-        mBusEvent.getRefreshEventList();
     }
 
     @Override

@@ -68,7 +68,4 @@ public class NewsListBus extends Event implements NetConst {
         indexPage = 1;
         getDataList(indexPage, eventInfoVo);
     }
-    public void getDataListByKeywords(int keysPage,String keywords){
-
-    }
 }
