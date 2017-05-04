@@ -12,7 +12,7 @@ import com.iwangcn.qingkong.business.Event;
 import com.iwangcn.qingkong.business.HelperFollowEvent;
 import com.iwangcn.qingkong.business.LoadFailEvent;
 import com.iwangcn.qingkong.net.NetConst;
-import com.iwangcn.qingkong.ui.activity.NewsDetailActivity;
+import com.iwangcn.qingkong.ui.activity.FollowDetailActivity;
 import com.iwangcn.qingkong.ui.adapter.BaseRecyclerViewAdapter;
 import com.iwangcn.qingkong.ui.adapter.HelperFollowRecyclerAdapter;
 import com.iwangcn.qingkong.ui.base.BaseFragment;
@@ -75,7 +75,7 @@ public class HelperFollowFragment extends BaseFragment {
             @Override
             public void onItemClickListener(RecyclerView.ViewHolder viewHolder,int position) {
                 String url = mList.get(position).getUrl();
-                Intent intent = new Intent(getActivity(), NewsDetailActivity.class).putExtra("url", url != null ? url : "");
+                Intent intent = new Intent(getActivity(), FollowDetailActivity.class).putExtra("url", url != null ? url : "");
                 startActivity(intent);
             }
         });

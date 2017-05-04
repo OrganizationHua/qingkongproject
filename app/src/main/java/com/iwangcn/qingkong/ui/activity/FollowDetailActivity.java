@@ -9,6 +9,7 @@ import android.widget.TextView;
 import com.iwangcn.qingkong.R;
 import com.iwangcn.qingkong.ui.base.QkBaseActivity;
 import com.iwangcn.qingkong.utils.ToastUtil;
+import com.zhy.view.flowlayout.TagFlowLayout;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -25,6 +26,9 @@ public class FollowDetailActivity extends QkBaseActivity {
     TextView mNewsTime;
     @BindView(R.id.news_webView)
     WebView mWebView;
+
+    @BindView(R.id.tag_flowlayout)
+    public TagFlowLayout tagFlowLayout;//标签
     @Override
     public int layoutChildResID() {
         return R.layout.activity_follow_detail;
@@ -42,6 +46,7 @@ public class FollowDetailActivity extends QkBaseActivity {
         mNewsTitle.setText("新闻标题新闻标题新闻标题");
         mNewsFrom.setText("新闻来源");
         mNewsTime.setText("20170104"+"        "+"13:14");
+
     }
     private void initWebView(String url){
         WebSettings webSettings = this.mWebView.getSettings();

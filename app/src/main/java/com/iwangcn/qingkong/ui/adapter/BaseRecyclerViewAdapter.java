@@ -16,7 +16,7 @@ public abstract class BaseRecyclerViewAdapter<T> extends RecyclerView.Adapter<Re
     public OnRecyclerItemClickListener onRecyclerItemClickListener = null;
 
     public interface OnRecyclerItemClickListener {
-        void onItemClickListener(RecyclerView.ViewHolder viewHolder,int pos);
+        void onItemClickListener(RecyclerView.ViewHolder viewHolder, int pos);
     }
 
     public void setOnItemClickListener(OnRecyclerItemClickListener ItemClickListener) {
@@ -55,13 +55,14 @@ public abstract class BaseRecyclerViewAdapter<T> extends RecyclerView.Adapter<Re
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onRecyclerItemClickListener.onItemClickListener(holder,position);
+                if (onRecyclerItemClickListener != null)
+                    onRecyclerItemClickListener.onItemClickListener(holder, position);
             }
         });
-        bindData(holder, mList.get(position),position);
+        bindData(holder, mList.get(position), position);
     }
 
-    public abstract void bindData(RecyclerView.ViewHolder holder, T t,int pos);
+    public abstract void bindData(RecyclerView.ViewHolder holder, T t, int pos);
 
     public abstract RecyclerView.ViewHolder onCreateItemView(View view);
 

@@ -12,11 +12,10 @@ import android.widget.TextView;
 
 import com.iwangcn.qingkong.R;
 import com.iwangcn.qingkong.business.HelperEvent;
-import com.iwangcn.qingkong.ui.activity.NewsDetailActivity;
+import com.iwangcn.qingkong.ui.activity.FollowDetailActivity;
 import com.iwangcn.qingkong.ui.model.HelperInfo;
 import com.iwangcn.qingkong.utils.AbDateUtil;
 import com.iwangcn.qingkong.utils.GlideUtils;
-import com.iwangcn.qingkong.utils.ToastUtil;
 import com.zhy.view.flowlayout.FlowLayout;
 import com.zhy.view.flowlayout.TagAdapter;
 import com.zhy.view.flowlayout.TagFlowLayout;
@@ -95,7 +94,7 @@ public class HelperRecyclerAdapter extends BaseRecyclerViewAdapter<HelperInfo> {
         holder.tvScan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(mContext, NewsDetailActivity.class).putExtra("url", helperInfo.getUrl() != null ? helperInfo.getUrl() : "");
+                Intent intent = new Intent(mContext, FollowDetailActivity.class).putExtra("url", helperInfo.getUrl() != null ? helperInfo.getUrl() : "");
                 mContext.startActivity(intent);
             }
         });

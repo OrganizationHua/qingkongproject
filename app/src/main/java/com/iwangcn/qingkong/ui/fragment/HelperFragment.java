@@ -12,9 +12,7 @@ import com.iwangcn.qingkong.business.Event;
 import com.iwangcn.qingkong.business.HelperEvent;
 import com.iwangcn.qingkong.business.LoadFailEvent;
 import com.iwangcn.qingkong.net.NetConst;
-import com.iwangcn.qingkong.ui.activity.NewsDetailActivity;
 import com.iwangcn.qingkong.ui.activity.TagEditActivity;
-import com.iwangcn.qingkong.ui.adapter.BaseRecyclerViewAdapter;
 import com.iwangcn.qingkong.ui.adapter.HelperRecyclerAdapter;
 import com.iwangcn.qingkong.ui.base.BaseFragment;
 import com.iwangcn.qingkong.ui.model.HelperInfo;
@@ -68,14 +66,14 @@ public class HelperFragment extends BaseFragment {
         mListView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
         mListView.addItemDecoration(new RecycleViewDivider(getActivity(), LinearLayoutManager.VERTICAL, R.drawable.divider_shape));
         mListView.setAdapter(mNewsAdapter);
-        mNewsAdapter.setOnItemClickListener(new BaseRecyclerViewAdapter.OnRecyclerItemClickListener() {
-            @Override
-            public void onItemClickListener(RecyclerView.ViewHolder viewHolder, int pos) {
-                String url = mList.get(pos).getUrl();
-                Intent intent = new Intent(getActivity(), NewsDetailActivity.class).putExtra("url", url != null ? url : "");
-                startActivity(intent);
-            }
-        });
+//        mNewsAdapter.setOnItemClickListener(new BaseRecyclerViewAdapter.OnRecyclerItemClickListener() {
+//            @Override
+//            public void onItemClickListener(RecyclerView.ViewHolder viewHolder, int pos) {
+//                String url = mList.get(pos).getUrl();
+//                Intent intent = new Intent(getActivity(), FollowDetailActivity.class).putExtra("url", url != null ? url : "");
+//                startActivity(intent);
+//            }
+//        });
         mReloadRefreshView.setOnRefreshListener(new RefreshListenerAdapter() {
             @Override
             public void onRefresh(ReloadRefreshLayout refreshLayout) {
