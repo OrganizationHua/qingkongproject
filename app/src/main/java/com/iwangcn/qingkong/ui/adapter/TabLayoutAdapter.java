@@ -26,8 +26,7 @@ public class TabLayoutAdapter extends FragmentPagerAdapter {
      * 标题栏
      */
     private static String[] mTitles = null;
-    private static final int[] mImgDefaultIds = {R.drawable.tab_btn_toutiao_default, R.drawable.tab_btn_zhushou_default, R.drawable.tab_btn_genjin_default, R.drawable.tab_btn_wode_default};
-    private static final int[] mImgSelectIds = {R.drawable.tab_btn_toutiao_selected, R.drawable.tab_btn_zhushou_selected, R.drawable.tab_btn_genjin_selected, R.drawable.tab_btn_wode_selected};
+
     private static final int[] mImgDrable = {R.drawable.tab_btn_toutiao_selector,R.drawable.tab_btn_zhushou_selector,R.drawable.tab_btn_genjin_selector,R.drawable.tab_btn_wode_selector};
     private Context mContext;
 

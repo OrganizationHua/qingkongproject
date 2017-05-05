@@ -16,7 +16,7 @@
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="1dp"
+        android:layout_height="1px"
         android:background="@color/line_gray"></View>
 
     <android.support.design.widget.TabLayout
@@ -24,7 +24,9 @@
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:background="@android:color/white"
+        app:tabBackground="@android:color/transparent"
         app:tabIndicatorHeight="0dp"
         app:tabMode="fixed"
+        app:tabSelectedTextColor="@android:color/transparent"
         app:tabTextAppearance="@style/TextAppearance.AppCompat.Large" />
 </LinearLayout>

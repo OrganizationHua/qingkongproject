@@ -27,7 +27,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:textSize="17sp"
+        android:textSize="18sp"
         android:textColor="@color/font_black"
         tools:text="标题" />
 

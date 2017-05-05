@@ -2,25 +2,30 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg_nav_bar"
+    android:background="@color/white"
     android:orientation="vertical"
-    android:paddingTop="@dimen/padding_top"
     tools:context=".ui.fragment.MineFragment">
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/top_title_height"
-        android:background="@drawable/bg_nav_bar">
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_nav_bar"
+        android:paddingTop="@dimen/padding_top">
 
-        <TextView
-            style="@style/TextView.fragmentTopTitle"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_centerInParent="true"
-            android:gravity="center"
-            android:text="@string/mine" />
-    </RelativeLayout>
+            android:layout_height="@dimen/top_title_height">
 
+            <TextView
+                style="@style/TextView.fragmentTopTitle"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_centerInParent="true"
+                android:gravity="center"
+                android:text="@string/mine" />
+        </RelativeLayout>
+
+    </LinearLayout>
 
     <com.iwangcn.qingkong.ui.view.BounceScrollView
         android:layout_width="match_parent"
@@ -34,11 +39,6 @@
             android:background="@color/background_gray"
             android:orientation="vertical"
             android:paddingBottom="60dp">
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/line_gray"></View>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -57,7 +57,7 @@
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
+                android:layout_height="1px"
                 android:background="@color/line_gray"></View>
 
             <LinearLayout
@@ -90,7 +90,7 @@
 
                 <View
                     android:layout_width="match_parent"
-                    android:layout_height="1dp"
+                    android:layout_height="1px"
                     android:background="@color/line_gray"></View>
 
                 <RelativeLayout
@@ -116,7 +116,7 @@
 
                 <View
                     android:layout_width="match_parent"
-                    android:layout_height="1dp"
+                    android:layout_height="1px"
                     android:background="@color/line_gray"></View>
 
                 <RelativeLayout
@@ -142,7 +142,7 @@
 
                 <View
                     android:layout_width="match_parent"
-                    android:layout_height="1dp"
+                    android:layout_height="1px"
                     android:background="@color/line_gray"></View>
 
                 <RelativeLayout
@@ -168,7 +168,7 @@
 
                 <View
                     android:layout_width="match_parent"
-                    android:layout_height="1dp"
+                    android:layout_height="1px"
                     android:background="@color/line_gray"></View>
 
                 <RelativeLayout
@@ -195,7 +195,7 @@
             <!--应用相关-->
             <View
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
+                android:layout_height="1px"
                 android:background="@color/line_gray"></View>
 
             <LinearLayout
@@ -214,7 +214,7 @@
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
+                android:layout_height="1px"
                 android:background="@color/line_gray"></View>
 
             <LinearLayout
@@ -248,7 +248,7 @@
 
                 <View
                     android:layout_width="match_parent"
-                    android:layout_height="1dp"
+                    android:layout_height="1px"
                     android:background="@color/line_gray"></View>
 
                 <RelativeLayout
@@ -293,7 +293,7 @@
 
                 <View
                     android:layout_width="match_parent"
-                    android:layout_height="1dp"
+                    android:layout_height="1px"
                     android:background="@color/line_gray"></View>
 
                 <RelativeLayout
@@ -313,7 +313,7 @@
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
+                android:layout_height="1px"
                 android:background="@color/line_gray"></View>
         </LinearLayout>
     </com.iwangcn.qingkong.ui.view.BounceScrollView>

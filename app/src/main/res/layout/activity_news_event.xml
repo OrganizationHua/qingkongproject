@@ -87,13 +87,12 @@
 
                 </LinearLayout>
 
-
+            <View
+                android:layout_alignParentBottom="true"
+                android:background="@color/line_gray"
+                android:layout_width="match_parent"
+                android:layout_height="1px"></View>
             </RelativeLayout>
-
-            <!--<include-->
-            <!--layout="@layout/base_activity_title_layout"-->
-            <!--android:layout_width="match_parent"-->
-            <!--&gt;</include>-->
 
         </android.support.design.widget.CollapsingToolbarLayout>
 

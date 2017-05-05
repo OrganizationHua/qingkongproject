@@ -8,7 +8,7 @@
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="1dp"
+        android:layout_height="1px"
         android:layout_alignParentBottom="true"
         android:background="@color/line_gray"></View>
 
@@ -64,14 +64,12 @@
             android:id="@+id/search_tag_flowlayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
             zhy:max_select="-1" />
 
         <TextView
             android:id="@+id/search_result_item_event"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="13dp"
             android:drawablePadding="6dp"
             android:drawableLeft="@drawable/search_icon_from"
             android:textColor="@color/home_blue"
