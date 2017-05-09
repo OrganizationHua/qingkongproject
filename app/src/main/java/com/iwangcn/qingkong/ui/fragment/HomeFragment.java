@@ -4,11 +4,8 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -42,10 +39,6 @@ public class HomeFragment extends BaseFragment {
     @BindView(R.id.systemLin_loding)
     RelativeLayout mLinLoading;//再次刷新
 
-    @BindView(R.id.homefragment_edit_search)
-    EditText mEditSearch;//输入框
-    @BindView(R.id.home_rel_search_bg_mark)
-    RelativeLayout mRelMark;//黑色蒙层
     @BindView(R.id.home_list_news)
     ListView mListView;//黑色蒙层
     @BindView(R.id.home_collect_icon)
@@ -69,7 +62,6 @@ public class HomeFragment extends BaseFragment {
 
     @Override
     protected void initView(View view, Bundle savedInstanceState) {
-        initEditText();
         initData();
     }
 
@@ -142,29 +134,6 @@ public class HomeFragment extends BaseFragment {
     public void btnCollect() {
         Intent intent = new Intent(getActivity(), FavoriteActivity.class);
         startActivity(intent);
-    }
-
-    private void initEditText() {
-        mEditSearch.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                if (charSequence.length() > 0) {
-                    mRelMark.setVisibility(View.GONE);
-                } else {
-                    mRelMark.setVisibility(View.VISIBLE);
-                }
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-
-            }
-        });
     }
 
     @Subscribe

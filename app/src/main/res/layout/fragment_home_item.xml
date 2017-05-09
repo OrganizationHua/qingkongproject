@@ -14,7 +14,8 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1px"
-        android:background="@color/line_gray"></View>
+        android:background="@color/line_gray"
+        ></View>
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -99,8 +100,8 @@
                         android:id="@+id/new_item_num"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:gravity="center_vertical|left"
                         android:layout_weight="1"
+                        android:gravity="center_vertical|left"
                         android:textColor="@color/home_gray"
                         android:textSize="11sp"
                         tools:text="时间" />
@@ -121,17 +122,18 @@
         </LinearLayout>
 
         <ImageView
-            android:visibility="gone"
             android:id="@+id/home_fragment_item_note"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_marginRight="5dp"
             android:layout_marginTop="5dp"
-            android:src="@drawable/toutiao_icon_note" />
+            android:src="@drawable/toutiao_icon_note"
+            android:visibility="gone" />
     </RelativeLayout>
 
     <View
+        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@color/line_gray"></View>

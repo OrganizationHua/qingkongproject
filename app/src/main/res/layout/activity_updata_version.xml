@@ -12,24 +12,24 @@
         android:gravity="center_horizontal|bottom">
 
         <ImageView
-            android:layout_gravity="bottom"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
             android:src="@drawable/login_logo" />
     </LinearLayout>
 
     <LinearLayout
-        android:layout_marginTop="53dp"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:layout_marginTop="53dp"
         android:layout_weight="2"
-        android:paddingLeft="25dp"
-        android:paddingRight="25dp"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:paddingLeft="25dp">
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="50dp"
+            android:gravity="center_vertical"
             android:paddingLeft="23dp">
 
             <TextView
@@ -54,15 +54,13 @@
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginTop="20dp"
+            android:layout_height="1px"
             android:background="@color/line_gray"></View>
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="20dp"
-            android:layout_marginTop="20dp"
+            android:layout_height="50dp"
+            android:gravity="center_vertical"
             android:paddingLeft="23dp">
 
             <TextView
@@ -86,19 +84,19 @@
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="1dp"
+            android:layout_height="1px"
             android:background="@color/line_gray"
             android:paddingLeft="23dp"></View>
 
         <Button
             android:id="@+id/btn_update"
+            style="?android:attr/borderlessButtonStyle"
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:layout_marginTop="40dp"
             android:background="@drawable/login_button_bg"
             android:gravity="center"
             android:text="@string/update_version"
-            style="?android:attr/borderlessButtonStyle"
             android:textColor="@android:color/white"
             android:textSize="18sp"></Button>
     </LinearLayout>

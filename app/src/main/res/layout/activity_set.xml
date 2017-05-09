@@ -193,22 +193,15 @@
                     android:layout_height="@dimen/mine_item_height"
                     android:gravity="center_vertical">
 
-                    <TextView
-                        style="@style/TextView.fragmentMineBlack"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:text="@string/set_pw_original" />
-
                     <EditText
-                        style="@style/TextView.fragmentMineBlack"
                         android:id="@+id/set_ed_pw_original"
+                        style="@style/TextView.fragmentMineBlack"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_marginLeft="14dp"
                         android:layout_marginRight="@dimen/mine_item_margin_left"
                         android:background="@android:color/transparent"
                         android:digits="@string/rule_password"
+                        android:hint="@string/set_pw_original"
                         android:inputType="numberPassword"
                         android:maxLength="18"
                         android:singleLine="true"
@@ -225,22 +218,15 @@
                     android:layout_height="@dimen/mine_item_height"
                     android:gravity="center_vertical">
 
-                    <TextView
-                        style="@style/TextView.fragmentMineBlack"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:text="@string/set_pw_new" />
-
                     <EditText
-                        style="@style/TextView.fragmentMineBlack"
                         android:id="@+id/set_ed_pw_new"
+                        style="@style/TextView.fragmentMineBlack"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_marginLeft="14dp"
                         android:layout_marginRight="@dimen/mine_item_margin_left"
                         android:background="@android:color/transparent"
                         android:digits="@string/rule_password"
+                        android:hint="@string/set_pw_new"
                         android:inputType="numberPassword"
                         android:maxLength="18"
                         android:singleLine="true"
@@ -257,22 +243,15 @@
                     android:layout_height="@dimen/mine_item_height"
                     android:gravity="center_vertical">
 
-                    <TextView
-                        style="@style/TextView.fragmentMineBlack"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:text="@string/set_pw_new_again" />
-
                     <EditText
-                        style="@style/TextView.fragmentMineBlack"
                         android:id="@+id/set_ed_pw_new_again"
+                        style="@style/TextView.fragmentMineBlack"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_marginLeft="14dp"
                         android:layout_marginRight="@dimen/mine_item_margin_left"
                         android:background="@android:color/transparent"
                         android:digits="@string/rule_password"
+                        android:hint="@string/set_pw_new_again"
                         android:inputType="numberPassword"
                         android:maxLength="18"
                         android:singleLine="true"

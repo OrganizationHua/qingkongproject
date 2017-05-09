@@ -29,7 +29,6 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:text="确认安全退出1"
-                android:textStyle="bold"
                 android:visibility="gone" />
 
             <TextView
@@ -45,7 +44,7 @@
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="1dp"
+            android:layout_height="1px"
             android:background="@color/line_gray"></View>
 
         <LinearLayout
@@ -53,13 +52,14 @@
             android:layout_height="42dp">
 
             <Button
+                style="?android:attr/borderlessButtonStyle"
                 android:id="@+id/dialog_btn_cancle"
-                style="@style/TextView.dialog"
+                android:textSize="15sp"
+                android:textColor="#666666"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="@drawable/dialog_btn_select_bottom_left_round"
-
                 android:gravity="center"
                 android:text="取消" />
 
@@ -68,17 +68,18 @@
                 android:layout_width="1px"
                 android:layout_height="25dp"
                 android:layout_gravity="center"
-                android:background="@color/background_gray"></View>
+                android:background="@color/line_gray"></View>
 
             <Button
+                style="?android:attr/borderlessButtonStyle"
+                android:textSize="15sp"
+                android:textColor="#666666"
                 android:id="@+id/dialog_btn_confirm"
-                style="@style/TextView.dialog"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="@drawable/dialog_btn_select_bottom_right_round"
                 android:gravity="center"
-
                 android:text="确认" />
         </LinearLayout>
     </LinearLayout>

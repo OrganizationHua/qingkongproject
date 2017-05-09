@@ -42,11 +42,11 @@
             android:background="@color/line_gray"></View>
 
         <Button
+            android:background="@drawable/gray_btn_select"
             android:id="@+id/tag_btn_confirm"
             style="?android:attr/borderlessButtonStyle"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:background="@android:color/white"
             android:gravity="center"
             android:text="确定"
             android:textColor="@color/font_gray_666"
