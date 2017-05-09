@@ -17,7 +17,6 @@ import com.iwangcn.qingkong.ui.adapter.BaseRecyclerViewAdapter;
 import com.iwangcn.qingkong.ui.adapter.HelperFollowRecyclerAdapter;
 import com.iwangcn.qingkong.ui.base.BaseFragment;
 import com.iwangcn.qingkong.ui.model.HelperInfo;
-import com.iwangcn.qingkong.ui.view.RecycleViewDivider;
 import com.iwangcn.qingkong.ui.view.freshwidget.RefreshListenerAdapter;
 import com.iwangcn.qingkong.ui.view.freshwidget.ReloadRefreshLayout;
 
@@ -69,7 +68,6 @@ public class HelperFollowFragment extends BaseFragment {
         helperFollowEvent.getRefreshEventList();
         mNewsAdapter = new HelperFollowRecyclerAdapter(getActivity(),mList,type,helperFollowEvent);
         mListView.setLayoutManager(new LinearLayoutManager(getActivity(),LinearLayoutManager.VERTICAL,false));
-        mListView.addItemDecoration(new RecycleViewDivider(getActivity(), LinearLayoutManager.VERTICAL,R.drawable.divider_shape));
         mListView.setAdapter(mNewsAdapter);
         mNewsAdapter.setOnItemClickListener(new BaseRecyclerViewAdapter.OnRecyclerItemClickListener() {
             @Override
