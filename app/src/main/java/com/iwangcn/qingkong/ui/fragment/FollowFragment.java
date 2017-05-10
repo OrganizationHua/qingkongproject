@@ -16,6 +16,8 @@ import com.iwangcn.qingkong.ui.base.BaseFragment;
 import butterknife.BindView;
 import butterknife.OnClick;
 
+import static com.iwangcn.qingkong.utils.TabLayoutUtil.setIndicator;
+
 public class FollowFragment extends BaseFragment {
 
     @BindView(R.id.iv_processed)
@@ -26,7 +28,16 @@ public class FollowFragment extends BaseFragment {
     ViewPager viewPager;
     @BindView(R.id.tabLayout)
     TabLayout mTabLayout;
-
+    @Override
+    public void onStart() {
+        super.onStart();
+        mTabLayout.post(new Runnable() {
+            @Override
+            public void run() {
+                setIndicator(mTabLayout, 66, 66);
+            }
+        });
+    }
     @Override
     protected int layoutResID() {
         return R.layout.fragment_follow;
