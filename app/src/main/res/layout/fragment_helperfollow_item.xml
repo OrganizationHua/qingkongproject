@@ -25,7 +25,7 @@
             android:id="@+id/tv_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="习近平视察京津冀"
+            android:text="澳大利亚"
             android:textSize="16sp" />
 
         <RelativeLayout

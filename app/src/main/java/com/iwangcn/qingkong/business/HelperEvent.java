@@ -10,6 +10,7 @@ import com.iwangcn.qingkong.net.NetResponse;
 import com.iwangcn.qingkong.net.RetrofitInstance;
 import com.iwangcn.qingkong.providers.UserManager;
 import com.iwangcn.qingkong.ui.model.HelperInfo;
+import com.iwangcn.qingkong.ui.model.HelperListModel;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -34,14 +35,14 @@ public class HelperEvent extends Event implements NetConst {
         paratems.put("sourceType", sourceType);
 //        paratems.put("tags", tags);
         paratems.put("pageno",index);
-        RetrofitInstance.getInstance().post(URL_EVENT_HELP, paratems, HelperInfo.class, new BaseSubscriber<NetResponse<HelperInfo>>(false) {
+        RetrofitInstance.getInstance().post(URL_EVENT_HELP, paratems, HelperInfo.class, new BaseSubscriber<NetResponse<HelperListModel>>(false) {
             @Override
             public void onError(ExceptionHandle.ResponeThrowable e) {
                 EventBus.getDefault().post(new LoadFailEvent());
             }
 
             @Override
-            public void onNext(NetResponse<HelperInfo> netResponse) {
+            public void onNext(NetResponse<HelperListModel> netResponse) {
                 Log.e("fjg", netResponse.getDataList().size() + "");
                 HelperEvent.this.setObject(netResponse.getDataList());
                 HelperEvent.this.setId(0);

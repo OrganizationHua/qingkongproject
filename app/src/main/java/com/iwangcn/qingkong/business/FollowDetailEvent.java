@@ -9,7 +9,7 @@ import com.iwangcn.qingkong.net.NetConst;
 import com.iwangcn.qingkong.net.NetResponse;
 import com.iwangcn.qingkong.net.RetrofitInstance;
 import com.iwangcn.qingkong.providers.UserManager;
-import com.iwangcn.qingkong.ui.model.HelperInfo;
+import com.iwangcn.qingkong.ui.model.HelperListModel;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -33,14 +33,14 @@ public class FollowDetailEvent extends Event implements NetConst {
         paratems.put(USER_ID, UserManager.getUserInfo().getAutoId());
         paratems.put("infoId", infoId);
         paratems.put("pageno",index);
-        RetrofitInstance.getInstance().post(URL_EVENT_FOLLOWUP_DETAIL_COMMENT, paratems, HelperInfo.class, new BaseSubscriber<NetResponse<HelperInfo>>(false) {
+        RetrofitInstance.getInstance().post(URL_EVENT_FOLLOWUP_DETAIL_COMMENT, paratems, HelperListModel.class, new BaseSubscriber<NetResponse<HelperListModel>>(false) {
             @Override
             public void onError(ExceptionHandle.ResponeThrowable e) {
                 EventBus.getDefault().post(new LoadFailEvent());
             }
 
             @Override
-            public void onNext(NetResponse<HelperInfo> netResponse) {
+            public void onNext(NetResponse<HelperListModel> netResponse) {
                 Log.e("fjg", netResponse.getDataList().size() + "");
                 FollowDetailEvent.this.setObject(netResponse.getDataList());
                 FollowDetailEvent.this.setId(0);

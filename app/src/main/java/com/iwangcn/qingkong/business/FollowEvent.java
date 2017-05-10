@@ -7,7 +7,7 @@ import com.iwangcn.qingkong.net.ExceptionHandle;
 import com.iwangcn.qingkong.net.NetConst;
 import com.iwangcn.qingkong.net.NetResponse;
 import com.iwangcn.qingkong.net.RetrofitInstance;
-import com.iwangcn.qingkong.ui.model.HelperInfo;
+import com.iwangcn.qingkong.ui.model.HelperListModel;
 
 import java.util.HashMap;
 
@@ -23,14 +23,14 @@ public class FollowEvent extends Event implements NetConst {
 
     }
     private void getHelperEventList(int index, HashMap paratems) {
-        RetrofitInstance.getInstance().post(URL_EVENT_HELP, paratems, HelperInfo.class, new BaseSubscriber<NetResponse<HelperInfo>>(false) {
+        RetrofitInstance.getInstance().post(URL_EVENT_HELP, paratems, HelperListModel.class, new BaseSubscriber<NetResponse<HelperListModel>>(false) {
             @Override
             public void onError(ExceptionHandle.ResponeThrowable e) {
 
             }
 
             @Override
-            public void onNext(NetResponse<HelperInfo> netResponse) {
+            public void onNext(NetResponse<HelperListModel> netResponse) {
 
             }
         });
