@@ -47,6 +47,8 @@ import okio.BufferedSource;
  */
 public final class HttpLoggingInterceptor implements Interceptor {
     private static final Charset UTF8 = Charset.forName("UTF-8");
+    private String requestUrl;
+    private String responseStr;
 
     public enum Level {
         /**
@@ -208,7 +210,7 @@ public final class HttpLoggingInterceptor implements Interceptor {
                 // logger.log("");
                 if (isPlaintext(buffer)) {
                     // logger.log(buffer.readString(charset));
-                    logger.log(request.url() + "?" + buffer.readString(charset));
+                    requestUrl = request.url() + "?" + buffer.readString(charset);
 //          logger.log("--> END " + request.method()
 //              + " (" + requestBody.contentLength() + "-byte body)");
                 } else {
@@ -264,7 +266,8 @@ public final class HttpLoggingInterceptor implements Interceptor {
 
                 if (contentLength != 0) {
                     // logger.log("");
-                    logger.log(buffer.clone().readString(charset));
+                    responseStr = buffer.clone().readString(charset);
+                    logger.log(requestUrl + "  ==>" + responseStr);
                     com.orhanobut.logger.Logger.init().methodCount(0).hideThreadInfo();
                     com.orhanobut.logger.Logger.json(buffer.clone().readString(charset));
                 }
