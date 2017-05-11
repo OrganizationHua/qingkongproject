@@ -2,6 +2,8 @@ package com.iwangcn.qingkong.ui.model;
 
 import com.iwangcn.qingkong.net.BaseBean;
 
+import java.io.Serializable;
+
 /**
  * Created by RF on 2017/4/24.
  */
@@ -32,7 +34,7 @@ public class HelperListModel extends BaseBean {
         this.helperProcess = helperProcess;
     }
 
-    public static class HelperInfo {
+    public static class HelperInfo implements Serializable {
         /**
          * autoId : 22
          * clientId : 1

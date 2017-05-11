@@ -72,20 +72,6 @@
             android:layout_marginBottom="20dp"
             android:layout_marginTop="22dp"
             android:scrollbars="none"></WebView>
-        <com.iwangcn.qingkong.ui.view.freshwidget.ReloadRefreshLayout
-            android:id="@+id/mReloadRefreshView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/background"
-            app:reloadenable_loadmore="true"
-            >
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/home_list_news"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="2dp"
-                />
-        </com.iwangcn.qingkong.ui.view.freshwidget.ReloadRefreshLayout>
     </LinearLayout>
     <View
         android:layout_above="@+id/ll_fragment"

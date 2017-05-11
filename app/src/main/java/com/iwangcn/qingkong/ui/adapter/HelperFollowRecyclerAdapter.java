@@ -1,16 +1,19 @@
 package com.iwangcn.qingkong.ui.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.iwangcn.qingkong.R;
 import com.iwangcn.qingkong.business.HelperFollowEvent;
+import com.iwangcn.qingkong.ui.activity.MessageListActivity;
 import com.iwangcn.qingkong.ui.model.HelperListModel;
 import com.iwangcn.qingkong.utils.GlideUtils;
 import com.iwangcn.qingkong.utils.ToastUtil;
@@ -66,6 +69,9 @@ public class HelperFollowRecyclerAdapter extends BaseRecyclerViewAdapter<HelperL
         if (!TextUtils.isEmpty(helperModel.getHelperInfo().getContent())) {
             holder.tvContent.setText(helperModel.getHelperInfo().getContent());
         }
+        if (!TextUtils.isEmpty("")) {
+            holder.btn_leave_message.setText("留言（" + "3" + "）");
+        }
         if (!TextUtils.isEmpty(helperModel.getHelperInfo().getPics())) {
             List<String> listPic = Arrays.asList(helperModel.getHelperInfo().getPics().split(","));
             for (int i = 0; i < listPic.size(); i++) {
@@ -107,6 +113,13 @@ public class HelperFollowRecyclerAdapter extends BaseRecyclerViewAdapter<HelperL
             @Override
             public void onClick(View v) {
                 ToastUtil.showToast(mContext, "已查看");
+            }
+        });
+        holder.btn_leave_message.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(mContext, MessageListActivity.class).putExtra("message", helperModel.getHelperInfo());
+                mContext.startActivity(intent);
             }
         });
     }
@@ -151,6 +164,9 @@ public class HelperFollowRecyclerAdapter extends BaseRecyclerViewAdapter<HelperL
 
         @BindView(R.id.tag_flowlayout)
         public TagFlowLayout tagFlowLayout;//标签
+
+        @BindView(R.id.btn_leave_message)
+        public Button btn_leave_message;//留言
 
         public HelperFollowViewHolder(View itemView) {
             super(itemView);

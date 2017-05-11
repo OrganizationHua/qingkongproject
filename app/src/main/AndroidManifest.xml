@@ -47,6 +47,7 @@
         <activity android:name=".ui.activity.NewsListActivity" />
         <activity android:name=".ui.activity.ProcessedActivity" />
         <activity android:name=".ui.activity.FollowDetailActivity" />
+        <activity android:name=".ui.activity.MessageListActivity" />
         <activity
             android:name=".ui.activity.TagEditActivity"
             android:windowSoftInputMode="stateHidden|adjustPan" />
