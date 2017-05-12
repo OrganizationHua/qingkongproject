@@ -54,4 +54,5 @@ dependencies {
     compile 'cn.bingoogolapple:bga-banner:2.1.7'
     compile 'com.android.support:design:26.0.0-alpha1'
     compile 'jp.wasabeef:recyclerview-animators:2.2.6'
+    compile 'jp.wasabeef:recyclerview-animators:1.2.2'
 }

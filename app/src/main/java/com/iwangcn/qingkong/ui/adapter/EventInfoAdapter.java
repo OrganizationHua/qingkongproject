@@ -2,11 +2,9 @@ package com.iwangcn.qingkong.ui.adapter;
 
 import android.animation.Animator;
 import android.content.Context;
+import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -24,7 +22,6 @@ import com.iwangcn.qingkong.utils.AbDateUtil;
 import com.iwangcn.qingkong.utils.GlideUtils;
 import com.iwangcn.qingkong.utils.ToastUtil;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -35,19 +32,14 @@ import butterknife.ButterKnife;
  * 时间Adapter
  * demo Adapter Created by zhchen on 15/8/5
  */
-public class EventInfoAdapter extends BaseAdapter {
-    private List<EventInfoVo> mList;
+public class EventInfoAdapter extends BaseRecyclerViewAdapter<EventInfoVo> {
     private Context mContext;
     private RelativeLayout containerView;
     private View collectView;
 
-    public EventInfoAdapter(Context context) {
+    public EventInfoAdapter(Context context, List<EventInfoVo> list) {
+        super(context, list);
         this.mContext = context;
-    }
-
-    public void setDataList(List<EventInfoVo> dataList) {
-        mList = dataList;
-        notifyDataSetChanged();
     }
 
     public RelativeLayout getContainerView() {
@@ -66,38 +58,21 @@ public class EventInfoAdapter extends BaseAdapter {
         this.collectView = collectView;
     }
 
-    @Override
-    public int getCount() {
-        if (mList == null) {
-            mList = new ArrayList<EventInfoVo>();
-        }
-        return mList.size();
+
+    public void setDataList(List<EventInfoVo> dataList) {
+        mList = dataList;
+        notifyDataSetChanged();
     }
 
     @Override
-    public Object getItem(int position) {
-        return mList.get(position);
+    public RecyclerView.ViewHolder onCreateItemView(View view) {
+        return new EventInfoAdapter.ViewHolder(view);
     }
 
     @Override
-    public long getItemId(int position) {
-        return position;
-    }
-
-    @Override
-    public View getView(final int position, View convertView, ViewGroup parent) {
-        ViewHolder viewHolder;
-        if (convertView == null) {
-            convertView = LayoutInflater.from(mContext).inflate(
-                    R.layout.fragment_home_item, null);
-            viewHolder = new ViewHolder(convertView);
-            convertView.setTag(viewHolder);
-        } else {
-            viewHolder = (ViewHolder) convertView.getTag();
-        }
-        final EventInfoVo infoVo = mList.get(position);
+    public void bindData(RecyclerView.ViewHolder holder, final EventInfoVo infoVo, final int position) {
+        EventInfoAdapter.ViewHolder viewHolder = (EventInfoAdapter.ViewHolder) holder;
         if (infoVo != null) {
-
             EventInfo model = infoVo.getEventInfo();
             viewHolder.tvNumb.setText(model.getNewsNum() + "条数据");
             if (model != null) {
@@ -137,8 +112,7 @@ public class EventInfoAdapter extends BaseAdapter {
 
                                 @Override
                                 public void onAnimationEnd(Animator animator) {
-                                    mList.remove(position);
-                                    notifyDataSetChanged();
+                                    remove(position);
                                 }
 
                                 @Override
@@ -157,10 +131,25 @@ public class EventInfoAdapter extends BaseAdapter {
 
             }
         });
-        return convertView;
     }
 
-    static class ViewHolder {
+    @Override
+    public int getLayoutId() {
+        return R.layout.fragment_home_item;
+    }
+
+    public void remove(int position) {
+        mList.remove(position);
+        notifyItemRemoved(position);
+    }
+
+    public void add(EventInfoVo model, int position) {
+        mList.add(position, model);
+        notifyItemInserted(position);
+    }
+
+    static class ViewHolder extends BaseViewHolder {
+
         @BindView(R.id.news_title)
         public TextView title;//标题
         @BindView(R.id.new_item_num)
@@ -175,9 +164,9 @@ public class EventInfoAdapter extends BaseAdapter {
         public ImageView imgIcon;//pic
 
 
-        public ViewHolder(View view) {
-            ButterKnife.bind(this, view);
+        public ViewHolder(View itemView) {
+            super(itemView);
+            ButterKnife.bind(this, itemView);
         }
     }
-
 }

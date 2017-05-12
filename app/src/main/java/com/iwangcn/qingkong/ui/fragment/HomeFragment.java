@@ -4,11 +4,12 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.AdapterView;
+import android.view.animation.OvershootInterpolator;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.RelativeLayout;
 
 import com.iwangcn.qingkong.R;
@@ -17,12 +18,10 @@ import com.iwangcn.qingkong.business.HomeEvent;
 import com.iwangcn.qingkong.business.LoadFailEvent;
 import com.iwangcn.qingkong.net.NetConst;
 import com.iwangcn.qingkong.ui.activity.FavoriteActivity;
-import com.iwangcn.qingkong.ui.activity.NewsListActivity;
 import com.iwangcn.qingkong.ui.activity.NewsSearchActivity;
 import com.iwangcn.qingkong.ui.adapter.EventInfoAdapter;
 import com.iwangcn.qingkong.ui.base.BaseFragment;
 import com.iwangcn.qingkong.ui.model.EventInfoVo;
-import com.iwangcn.qingkong.ui.model.FavoriteStateModel;
 import com.iwangcn.qingkong.ui.view.freshwidget.RefreshListenerAdapter;
 import com.iwangcn.qingkong.ui.view.freshwidget.ReloadRefreshLayout;
 
@@ -34,13 +33,15 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import jp.wasabeef.recyclerview.adapters.AlphaInAnimationAdapter;
+import jp.wasabeef.recyclerview.animators.SlideInLeftAnimator;
 
 public class HomeFragment extends BaseFragment {
     @BindView(R.id.systemLin_loding)
     RelativeLayout mLinLoading;//再次刷新
 
     @BindView(R.id.home_list_news)
-    ListView mListView;//黑色蒙层
+    RecyclerView mListView;//黑色蒙层
     @BindView(R.id.home_collect_icon)
     ImageView mCollectIcon;//收藏ImageView
     @BindView(R.id.rel_listView)
@@ -73,11 +74,20 @@ public class HomeFragment extends BaseFragment {
 
     private void initData() {
         mHomeEvent = new HomeEvent(getActivity());
-        mAdapter = new EventInfoAdapter(getActivity());
+        mAdapter = new EventInfoAdapter(getActivity(), mList);
         mAdapter.setCollectView(mLin);
         mAdapter.setContainerView(mRellistView);
-        mAdapter.setDataList(mList);
-        mListView.setAdapter(mAdapter);
+
+        mListView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        SlideInLeftAnimator animator = new SlideInLeftAnimator();
+        animator.setInterpolator(new OvershootInterpolator());
+        mListView.setItemAnimator(animator);
+        AlphaInAnimationAdapter alphaAdapter = new AlphaInAnimationAdapter(mAdapter);
+        alphaAdapter.setFirstOnly(true);
+        alphaAdapter.setDuration(500);
+        alphaAdapter.setInterpolator(new OvershootInterpolator(.5f));
+        mListView.setAdapter(alphaAdapter);
+
         new AsyncTask<Object, Object, List<EventInfoVo>>() {
 
             @Override
@@ -90,24 +100,25 @@ public class HomeFragment extends BaseFragment {
                 if (eventInfos != null) {
                     mList = eventInfos;
                     mAdapter.setDataList(mList);
-                }else{
+                } else {
                     mLinLoading.setVisibility(View.VISIBLE);
                 }
                 mHomeEvent.getRefreshEventList();
             }
         }.execute();
-        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                FavoriteStateModel favoriteStateModel = new FavoriteStateModel();
-                favoriteStateModel.setEventId(mList.get(i).getFavoriteId());
-                favoriteStateModel.setFavoriteFlag(mList.get(i).getFavoriteFlag());
-                Intent intent = new Intent(getActivity(), NewsListActivity.class);
-                intent.putExtra("EventInfo", mList.get(i).getEventInfo());
-                intent.putExtra("FavoriteStateModel", favoriteStateModel);
-                startActivity(intent);
-            }
-        });
+
+//        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+//                FavoriteStateModel favoriteStateModel = new FavoriteStateModel();
+//                favoriteStateModel.setEventId(mList.get(i).getFavoriteId());
+//                favoriteStateModel.setFavoriteFlag(mList.get(i).getFavoriteFlag());
+//                Intent intent = new Intent(getActivity(), NewsListActivity.class);
+//                intent.putExtra("EventInfo", mList.get(i).getEventInfo());
+//                intent.putExtra("FavoriteStateModel", favoriteStateModel);
+//                startActivity(intent);
+//            }
+//        });
         mAbPullToRefreshView.setOnRefreshListener(new RefreshListenerAdapter() {
             @Override
             public void onRefresh(ReloadRefreshLayout refreshLayout) {
