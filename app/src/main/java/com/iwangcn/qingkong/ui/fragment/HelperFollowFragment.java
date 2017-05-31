@@ -40,13 +40,15 @@ public class HelperFollowFragment extends BaseFragment {
     private List<HelperListModel> mList = new ArrayList<>();
     private HelperFollowEvent helperFollowEvent;
     private int type;
-    public static HelperFollowFragment newInstance(int type){
+
+    public static HelperFollowFragment newInstance(int type) {
         HelperFollowFragment myFragment = new HelperFollowFragment();
         Bundle bundle = new Bundle();
-        bundle.putInt("type",type);
+        bundle.putInt("type", type);
         myFragment.setArguments(bundle);
         return myFragment;
     }
+
     @Override
     protected int layoutResID() {
         return R.layout.fragment_helper_fflow;
@@ -56,22 +58,30 @@ public class HelperFollowFragment extends BaseFragment {
     protected void initView(View view, Bundle savedInstanceState) {
         Bundle bundle = getArguments();
         type = bundle.getInt("type");
-        initData();
+
     }
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EventBus.getDefault().register(this);
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        initData();
+    }
+
     private void initData() {
-        helperFollowEvent = new HelperFollowEvent(getContext());
+        helperFollowEvent = new HelperFollowEvent(getContext(), type);
         helperFollowEvent.getRefreshEventList();
-        mNewsAdapter = new HelperFollowRecyclerAdapter(getActivity(),mList,type,helperFollowEvent);
-        mListView.setLayoutManager(new LinearLayoutManager(getActivity(),LinearLayoutManager.VERTICAL,false));
+        mNewsAdapter = new HelperFollowRecyclerAdapter(getActivity(), mList, type, helperFollowEvent);
+        mListView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
         mListView.setAdapter(mNewsAdapter);
         mNewsAdapter.setOnItemClickListener(new BaseRecyclerViewAdapter.OnRecyclerItemClickListener() {
             @Override
-            public void onItemClickListener(RecyclerView.ViewHolder viewHolder,int position) {
+            public void onItemClickListener(RecyclerView.ViewHolder viewHolder, int position) {
                 String url = mList.get(position).getHelperInfo().getUrl();
                 Intent intent = new Intent(getActivity(), FollowDetailActivity.class).putExtra("url", url != null ? url : "");
                 startActivity(intent);
@@ -90,6 +100,7 @@ public class HelperFollowFragment extends BaseFragment {
             }
         });
     }
+
     @Subscribe
     public void onEventMainThread(Event event) {
         if (event instanceof HelperFollowEvent) {
@@ -114,7 +125,7 @@ public class HelperFollowFragment extends BaseFragment {
             } else if (helperFollowEvent.getId() == 2) {//置顶
                 mList.remove((int) helperFollowEvent.getObject());
                 mNewsAdapter.notifyItemRemoved((int) helperFollowEvent.getObject());
-            }else if (helperFollowEvent.getId() == 3) {////取消置顶
+            } else if (helperFollowEvent.getId() == 3) {////取消置顶
                 mList.remove((int) helperFollowEvent.getObject());
                 mNewsAdapter.notifyItemRemoved((int) helperFollowEvent.getObject());
             } else if (helperFollowEvent.getId() == 4) {//已处理
@@ -126,6 +137,7 @@ public class HelperFollowFragment extends BaseFragment {
             mReloadRefreshView.finishLoadmore();
         }
     }
+
     @Override
     public void onDestroy() {
         super.onDestroy();

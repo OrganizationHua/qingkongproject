@@ -56,15 +56,22 @@ public class HeadLineFollowFragment extends BaseFragment {
     protected void initView(View view, Bundle savedInstanceState) {
         Bundle bundle = getArguments();
         type = bundle.getInt("type");
+
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
         initData();
     }
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EventBus.getDefault().register(this);
     }
     private void initData() {
-        headLineFollowEvent = new HeadLineFollowEvent(getContext());
+        headLineFollowEvent = new HeadLineFollowEvent(getContext(),type);
         headLineFollowEvent.getRefreshEventList();
         mNewsAdapter = new HeadLineFollowRecyclerAdapter(getActivity(),mList,type,headLineFollowEvent);
         mListView.setLayoutManager(new LinearLayoutManager(getActivity(),LinearLayoutManager.VERTICAL,false));

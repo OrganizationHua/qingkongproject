@@ -21,10 +21,11 @@ import java.util.HashMap;
 public class HeadLineFollowEvent extends Event implements NetConst {
     private Context mContext;
     private int indexPage = 0;//当前页数
+    private int type;
 
-    public HeadLineFollowEvent(Context context) {
+    public HeadLineFollowEvent(Context context,int type) {
         this.mContext = context;
-
+         this.type=type;
     }
 
     private void getHelperEventList(int index,String sourceType ,String tags) {
@@ -33,7 +34,7 @@ public class HeadLineFollowEvent extends Event implements NetConst {
         paratems.put("sourceType", sourceType);
 //        paratems.put("tags", tags);
         paratems.put("pageno",index);
-        paratems.put("dealFlag","0");
+        paratems.put("dealFlag",type);
         RetrofitInstance.getInstance().post(URL_EVENT_FOLLOWUP, paratems, HeadLineModel.class, new BaseSubscriber<NetResponse<HeadLineModel>>(false) {
             @Override
             public void onError(ExceptionHandle.ResponeThrowable e) {

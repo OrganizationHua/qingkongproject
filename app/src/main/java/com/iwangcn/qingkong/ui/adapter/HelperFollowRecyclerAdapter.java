@@ -49,7 +49,7 @@ public class HelperFollowRecyclerAdapter extends BaseRecyclerViewAdapter<HelperL
     @Override
     public void bindData(RecyclerView.ViewHolder viewholder, final HelperListModel helperModel, final int pos) {
         HelperFollowViewHolder holder = (HelperFollowViewHolder) viewholder;
-        if (type == 1) {
+        if (type == 0) {
             holder.llReprocess.setVisibility(View.GONE);
             holder.llFragment.setVisibility(View.VISIBLE);
         } else {
