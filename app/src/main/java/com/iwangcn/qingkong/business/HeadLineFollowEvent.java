@@ -57,7 +57,7 @@ public class HeadLineFollowEvent extends Event implements NetConst {
         HashMap paratems = new HashMap();
         paratems.put(USER_ID, UserManager.getUserInfo().getAutoId());
         paratems.put("infoId", infoId);
-        RetrofitInstance.getInstance().post(URL_EVENT_AIDE_CANCELFOLLOW, paratems, String.class, new BaseSubscriber<NetResponse<String>>(false) {
+        RetrofitInstance.getInstance().post(URL_EVENT_FOLLOWUP_CANCELFOLLOW, paratems, String.class, new BaseSubscriber<NetResponse<String>>(false) {
             @Override
             public void onError(ExceptionHandle.ResponeThrowable e) {
 
@@ -75,7 +75,7 @@ public class HeadLineFollowEvent extends Event implements NetConst {
         HashMap paratems = new HashMap();
         paratems.put(USER_ID, UserManager.getUserInfo().getAutoId());
         paratems.put("infoId", infoId);
-        RetrofitInstance.getInstance().post(URL_EVENT_AIDE_SETTOP, paratems, String.class, new BaseSubscriber<NetResponse<String>>(false) {
+        RetrofitInstance.getInstance().post(URL_EVENT_FOLLOWUP_SETTOP, paratems, String.class, new BaseSubscriber<NetResponse<String>>(false) {
             @Override
             public void onError(ExceptionHandle.ResponeThrowable e) {
 
@@ -93,7 +93,7 @@ public class HeadLineFollowEvent extends Event implements NetConst {
         HashMap paratems = new HashMap();
         paratems.put(USER_ID, UserManager.getUserInfo().getAutoId());
         paratems.put("infoId", infoId);
-        RetrofitInstance.getInstance().post(URL_EVENT_AIDE_CANCELTOP, paratems, String.class, new BaseSubscriber<NetResponse<String>>(false) {
+        RetrofitInstance.getInstance().post(URL_EVENT_FOLLOWUP_CANCELTOP, paratems, String.class, new BaseSubscriber<NetResponse<String>>(false) {
             @Override
             public void onError(ExceptionHandle.ResponeThrowable e) {
 
@@ -111,7 +111,7 @@ public class HeadLineFollowEvent extends Event implements NetConst {
         HashMap paratems = new HashMap();
         paratems.put(USER_ID, UserManager.getUserInfo().getAutoId());
         paratems.put("infoId", infoId);
-        RetrofitInstance.getInstance().post(URL_EVENT_AIDE_DONE, paratems, String.class, new BaseSubscriber<NetResponse<String>>(false) {
+        RetrofitInstance.getInstance().post(URL_EVENT_FOLLOWUP_DONE, paratems, String.class, new BaseSubscriber<NetResponse<String>>(false) {
             @Override
             public void onError(ExceptionHandle.ResponeThrowable e) {
 
