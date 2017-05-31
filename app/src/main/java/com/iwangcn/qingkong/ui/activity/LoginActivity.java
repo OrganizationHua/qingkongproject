@@ -64,8 +64,8 @@ public class LoginActivity extends BaseActivity implements NetConst {
         HashMap paratems = new HashMap();
 //        paratems.put("uname",userName);
 //        paratems.put("pwd",strPw);
-        paratems.put("username", "test");
-        paratems.put("pwd", "1");
+        paratems.put("username", userName);
+        paratems.put("pwd",strPw);
         RetrofitInstance.getInstance().post(URL_LOGIN, paratems, LoginInfo.class, new BaseSubscriber<NetResponse<LoginInfo>>(true) {
             @Override
             public void onError(ExceptionHandle.ResponeThrowable e) {

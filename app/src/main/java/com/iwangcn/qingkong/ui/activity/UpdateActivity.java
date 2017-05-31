@@ -59,11 +59,13 @@ public class UpdateActivity extends QkBaseActivity {
     }
     public static void checkUpdate(Context context) {
         //示例检查更新地址
-        String url = "http://localhost:8081/view/app/pub?event=update&platform=android&versionCode=" + UpdateAppUtils.getVerCode(context);
+        //String url = "http://localhost:8081/view/app/pub?event=update&platform=android&versionCode=" + UpdateAppUtils.getVerCode(context);
+        String url = " http://114.55.106.61:18080/api/user/checkVersion";
         //实例化更新工具
         UpdateAppUtils versionUtils = new UpdateAppUtils(context, false);
         //检查更新
         versionUtils.checkUpdate(url);
+        //user/checkVersion
     }
 
 }

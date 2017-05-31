@@ -19,6 +19,8 @@ import com.iwangcn.qingkong.business.Event;
 import com.iwangcn.qingkong.business.LoadFailEvent;
 import com.iwangcn.qingkong.business.NewsSearchEvent;
 import com.iwangcn.qingkong.dao.model.SearchModel;
+import com.iwangcn.qingkong.net.BaseSubscriber;
+import com.iwangcn.qingkong.net.ExceptionHandle;
 import com.iwangcn.qingkong.net.NetConst;
 import com.iwangcn.qingkong.ui.adapter.SearchHistoryAdapter;
 import com.iwangcn.qingkong.ui.adapter.SearchResultAdapter;
@@ -28,6 +30,7 @@ import com.iwangcn.qingkong.ui.view.ClearEditText;
 import com.iwangcn.qingkong.ui.view.freshwidget.RefreshListenerAdapter;
 import com.iwangcn.qingkong.ui.view.freshwidget.ReloadRefreshLayout;
 import com.iwangcn.qingkong.utils.AbAppUtil;
+import com.iwangcn.qingkong.utils.ToastUtil;
 import com.nhaarman.listviewanimations.appearance.simple.SwingBottomInAnimationAdapter;
 import com.nhaarman.listviewanimations.appearance.simple.SwingLeftInAnimationAdapter;
 
@@ -225,8 +228,19 @@ public class NewsSearchActivity extends BaseActivity {
 
     @OnClick(R.id.search_btn_no_result)//搜索按钮
     public void btnSearch() {
-        mBtnHelper.setText(getString(R.string.search_helper_finish));
-        mBtnHelper.setBackground(getResources().getDrawable(R.drawable.search_button_helper_finish));
+        mSearchEvent.noticeHelper(mClearEditText.getText().toString().trim(), new BaseSubscriber(true) {
+            @Override
+            public void onError(ExceptionHandle.ResponeThrowable e) {
+                ToastUtil.showToast(mContext,"通知小助手失败");
+            }
+
+            @Override
+            public void onNext(Object o) {
+                mBtnHelper.setText(getString(R.string.search_helper_finish));
+                mBtnHelper.setBackground(getResources().getDrawable(R.drawable.search_button_helper_finish));
+            }
+        });
+
     }
 
     /**

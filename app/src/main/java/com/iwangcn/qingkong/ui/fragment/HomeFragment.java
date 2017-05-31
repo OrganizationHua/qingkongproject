@@ -18,10 +18,13 @@ import com.iwangcn.qingkong.business.HomeEvent;
 import com.iwangcn.qingkong.business.LoadFailEvent;
 import com.iwangcn.qingkong.net.NetConst;
 import com.iwangcn.qingkong.ui.activity.FavoriteActivity;
+import com.iwangcn.qingkong.ui.activity.NewsListActivity;
 import com.iwangcn.qingkong.ui.activity.NewsSearchActivity;
+import com.iwangcn.qingkong.ui.adapter.BaseRecyclerViewAdapter;
 import com.iwangcn.qingkong.ui.adapter.EventInfoAdapter;
 import com.iwangcn.qingkong.ui.base.BaseFragment;
 import com.iwangcn.qingkong.ui.model.EventInfoVo;
+import com.iwangcn.qingkong.ui.model.FavoriteStateModel;
 import com.iwangcn.qingkong.ui.view.freshwidget.RefreshListenerAdapter;
 import com.iwangcn.qingkong.ui.view.freshwidget.ReloadRefreshLayout;
 
@@ -106,19 +109,18 @@ public class HomeFragment extends BaseFragment {
                 mHomeEvent.getRefreshEventList();
             }
         }.execute();
-
-//        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-//                FavoriteStateModel favoriteStateModel = new FavoriteStateModel();
-//                favoriteStateModel.setEventId(mList.get(i).getFavoriteId());
-//                favoriteStateModel.setFavoriteFlag(mList.get(i).getFavoriteFlag());
-//                Intent intent = new Intent(getActivity(), NewsListActivity.class);
-//                intent.putExtra("EventInfo", mList.get(i).getEventInfo());
-//                intent.putExtra("FavoriteStateModel", favoriteStateModel);
-//                startActivity(intent);
-//            }
-//        });
+        mAdapter.setOnItemClickListener(new BaseRecyclerViewAdapter.OnRecyclerItemClickListener() {
+            @Override
+            public void onItemClickListener(RecyclerView.ViewHolder viewHolder, int i) {
+                FavoriteStateModel favoriteStateModel = new FavoriteStateModel();
+                favoriteStateModel.setEventId(mList.get(i).getFavoriteId());
+                favoriteStateModel.setFavoriteFlag(mList.get(i).getFavoriteFlag());
+                Intent intent = new Intent(getActivity(), NewsListActivity.class);
+                intent.putExtra("EventInfo", mList.get(i).getEventInfo());
+                intent.putExtra("FavoriteStateModel", favoriteStateModel);
+                startActivity(intent);
+            }
+        });
         mAbPullToRefreshView.setOnRefreshListener(new RefreshListenerAdapter() {
             @Override
             public void onRefresh(ReloadRefreshLayout refreshLayout) {

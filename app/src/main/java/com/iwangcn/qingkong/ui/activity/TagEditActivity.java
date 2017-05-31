@@ -74,7 +74,7 @@ public class TagEditActivity extends QkBaseActivity implements RecycleViewItemTo
         mTagEvent = new TagEvent(this);
         initRecommend();
         mTagEvent.getTagList();
-        mTagEvent.submitTags("22");
+     //   mTagEvent.submitTags("22");
     }
 
     @OnClick(R.id.base_tv_right)

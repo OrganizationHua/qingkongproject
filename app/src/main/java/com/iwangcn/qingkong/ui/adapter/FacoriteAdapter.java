@@ -76,7 +76,7 @@ public class FacoriteAdapter extends ArrayAdapter implements UndoAdapter {
                 viewHolder.tvNumb.setText(model.getNewsNum() + "条数据");
                 //时间
                 viewHolder.tvTime.setText(AbDateUtil.formatDateStrGetDay(model.getUpdateTime()));
-                if (TextUtils.isEmpty(model.getPicUrl())) {
+                if (!TextUtils.isEmpty(model.getPicUrl())) {
                     GlideUtils.loadImageView(mContext, model.getPicUrl(), viewHolder.imgIcon);
                 }
             }

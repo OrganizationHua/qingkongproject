@@ -3,6 +3,7 @@ package com.iwangcn.qingkong.business;
 import android.content.Context;
 
 import com.iwangcn.qingkong.net.ACache;
+import com.iwangcn.qingkong.net.BaseBean;
 import com.iwangcn.qingkong.net.BaseSubscriber;
 import com.iwangcn.qingkong.net.ExceptionHandle;
 import com.iwangcn.qingkong.net.NetConst;
@@ -100,4 +101,12 @@ public class NewsSearchEvent extends Event implements NetConst {
         indexPage = 1;
         getDataList(indexPage, keyword);
     }
+
+    public void noticeHelper(String keyword, BaseSubscriber baseSubscriber) {
+        HashMap paratems = new HashMap();
+        paratems.put(USER_ID, UserManager.getUserInfo().getAutoId());
+        paratems.put("keyword", keyword);
+        RetrofitInstance.getInstance().post(URL_NOTICE_HELPER, paratems, BaseBean.class, baseSubscriber);
+    }
+
 }

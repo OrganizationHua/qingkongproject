@@ -74,7 +74,7 @@ public class EventInfoAdapter extends BaseRecyclerViewAdapter<EventInfoVo> {
         EventInfoAdapter.ViewHolder viewHolder = (EventInfoAdapter.ViewHolder) holder;
         if (infoVo != null) {
             EventInfo model = infoVo.getEventInfo();
-            viewHolder.tvNumb.setText(model.getNewsNum() + "条数据");
+            viewHolder.tvNumb.setText(infoVo.getInfoCount() + "条数据");
             if (model != null) {
                 if (!TextUtils.isEmpty(model.getName())) {
                     viewHolder.title.setText(model.getName());
@@ -86,7 +86,7 @@ public class EventInfoAdapter extends BaseRecyclerViewAdapter<EventInfoVo> {
             } else {
                 viewHolder.imgNote.setVisibility(View.GONE);
             }
-            if (TextUtils.isEmpty(model.getPicUrl())) {
+            if (!TextUtils.isEmpty(model.getPicUrl())) {
                 GlideUtils.loadImageView(mContext, model.getPicUrl(), viewHolder.imgIcon);
             }
         }
