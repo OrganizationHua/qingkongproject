@@ -67,9 +67,18 @@ public class HelperListModel extends BaseBean {
         private int dataType;
         private String labels;
         private String pics;
-        private String updateTime;
+        private long updateTime;
         private String labelsList;
+        private String followCount;
         private String helperFeedbackDetail;
+
+        public String getFollowCount() {
+            return followCount;
+        }
+
+        public void setFollowCount(String followCount) {
+            this.followCount = followCount;
+        }
 
         public int getAutoId() {
             return autoId;
@@ -175,11 +184,11 @@ public class HelperListModel extends BaseBean {
             this.pics = pics;
         }
 
-        public String getUpdateTime() {
+        public long getUpdateTime() {
             return updateTime;
         }
 
-        public void setUpdateTime(String updateTime) {
+        public void setUpdateTime(long updateTime) {
             this.updateTime = updateTime;
         }
 

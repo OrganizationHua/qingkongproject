@@ -8,7 +8,7 @@ import com.iwangcn.qingkong.net.NetConst;
 import com.iwangcn.qingkong.net.NetResponse;
 import com.iwangcn.qingkong.net.RetrofitInstance;
 import com.iwangcn.qingkong.providers.UserManager;
-import com.iwangcn.qingkong.ui.model.HelperListModel;
+import com.iwangcn.qingkong.ui.model.HeadLineModel;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -33,14 +33,15 @@ public class HeadLineFollowEvent extends Event implements NetConst {
         paratems.put("sourceType", sourceType);
 //        paratems.put("tags", tags);
         paratems.put("pageno",index);
-        RetrofitInstance.getInstance().post(URL_EVENT_FOLLOWUP_AIDE, paratems, HelperListModel.class, new BaseSubscriber<NetResponse<HelperListModel>>(false) {
+        paratems.put("dealFlag","0");
+        RetrofitInstance.getInstance().post(URL_EVENT_FOLLOWUP, paratems, HeadLineModel.class, new BaseSubscriber<NetResponse<HeadLineModel>>(false) {
             @Override
             public void onError(ExceptionHandle.ResponeThrowable e) {
                 EventBus.getDefault().post(new LoadFailEvent());
             }
 
             @Override
-            public void onNext(NetResponse<HelperListModel> netResponse) {
+            public void onNext(NetResponse<HeadLineModel> netResponse) {
                 HeadLineFollowEvent.this.setObject(netResponse.getDataList());
                 HeadLineFollowEvent.this.setId(0);
                 if (indexPage == 1) {

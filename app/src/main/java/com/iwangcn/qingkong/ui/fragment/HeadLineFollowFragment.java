@@ -10,14 +10,13 @@ import android.view.View;
 import com.iwangcn.qingkong.R;
 import com.iwangcn.qingkong.business.Event;
 import com.iwangcn.qingkong.business.HeadLineFollowEvent;
-import com.iwangcn.qingkong.business.HelperFollowEvent;
 import com.iwangcn.qingkong.business.LoadFailEvent;
 import com.iwangcn.qingkong.net.NetConst;
 import com.iwangcn.qingkong.ui.activity.FollowDetailActivity;
 import com.iwangcn.qingkong.ui.adapter.BaseRecyclerViewAdapter;
 import com.iwangcn.qingkong.ui.adapter.HeadLineFollowRecyclerAdapter;
 import com.iwangcn.qingkong.ui.base.BaseFragment;
-import com.iwangcn.qingkong.ui.model.HelperListModel;
+import com.iwangcn.qingkong.ui.model.HeadLineModel;
 import com.iwangcn.qingkong.ui.view.freshwidget.RefreshListenerAdapter;
 import com.iwangcn.qingkong.ui.view.freshwidget.ReloadRefreshLayout;
 
@@ -38,7 +37,7 @@ public class HeadLineFollowFragment extends BaseFragment {
     ReloadRefreshLayout mReloadRefreshView;
 
     private HeadLineFollowRecyclerAdapter mNewsAdapter;
-    private List<HelperListModel> mList = new ArrayList<>();
+    private List<HeadLineModel> mList = new ArrayList<>();
     private HeadLineFollowEvent headLineFollowEvent;
     private int type;
     public static HeadLineFollowFragment newInstance(int type){
@@ -73,7 +72,7 @@ public class HeadLineFollowFragment extends BaseFragment {
         mNewsAdapter.setOnItemClickListener(new BaseRecyclerViewAdapter.OnRecyclerItemClickListener() {
             @Override
             public void onItemClickListener(RecyclerView.ViewHolder viewHolder,int position) {
-                String url = mList.get(position).getHelperInfo().getUrl();
+                String url = mList.get(position).getEventData().getData().getUrl();
                 Intent intent = new Intent(getActivity(), FollowDetailActivity.class).putExtra("url", url != null ? url : "");
                 startActivity(intent);
             }
@@ -93,10 +92,10 @@ public class HeadLineFollowFragment extends BaseFragment {
     }
     @Subscribe
     public void onEventMainThread(Event event) {
-        if (event instanceof HelperFollowEvent) {
+        if (event instanceof HeadLineFollowEvent) {
             if (headLineFollowEvent.getId() == 0) {
                 mReloadRefreshView.finishRefreshing();
-                List<HelperListModel> list = (List<HelperListModel>) event.getObject();
+                List<HeadLineModel> list = (List<HeadLineModel>) event.getObject();
                 if (list.size() < NetConst.page) {//如果小于page条表示加载完成不能加载更多
                     mReloadRefreshView.finishLoadmore();
                 }

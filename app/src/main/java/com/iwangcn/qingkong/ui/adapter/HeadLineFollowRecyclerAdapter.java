@@ -11,8 +11,8 @@ import android.widget.TextView;
 
 import com.iwangcn.qingkong.R;
 import com.iwangcn.qingkong.business.HeadLineFollowEvent;
-import com.iwangcn.qingkong.ui.model.HelperListModel;
-import com.iwangcn.qingkong.utils.GlideUtils;
+import com.iwangcn.qingkong.ui.model.HeadLineModel;
+import com.iwangcn.qingkong.utils.AbDateUtil;
 import com.iwangcn.qingkong.utils.ToastUtil;
 import com.zhy.view.flowlayout.FlowLayout;
 import com.zhy.view.flowlayout.TagAdapter;
@@ -27,10 +27,10 @@ import butterknife.BindView;
  * Created by RF on 2017/4/22.
  */
 
-public class HeadLineFollowRecyclerAdapter extends BaseRecyclerViewAdapter<HelperListModel> {
+public class HeadLineFollowRecyclerAdapter extends BaseRecyclerViewAdapter<HeadLineModel> {
     private int type;
     private HeadLineFollowEvent headLineFollowEvent;
-    public HeadLineFollowRecyclerAdapter(Context context, List<HelperListModel> list, int type, HeadLineFollowEvent headLineFollowEvent) {
+    public HeadLineFollowRecyclerAdapter(Context context, List<HeadLineModel> list, int type, HeadLineFollowEvent headLineFollowEvent) {
         super(context, list);
         this.type = type;
         this.headLineFollowEvent=headLineFollowEvent;
@@ -42,7 +42,7 @@ public class HeadLineFollowRecyclerAdapter extends BaseRecyclerViewAdapter<Helpe
     }
 
     @Override
-    public void bindData(RecyclerView.ViewHolder viewholder, final HelperListModel helperModel, final int pos) {
+    public void bindData(RecyclerView.ViewHolder viewholder, final HeadLineModel helperModel, final int pos) {
         HelperFollowViewHolder holder = (HelperFollowViewHolder) viewholder;
         if (type == 1) {
             holder.llReprocess.setVisibility(View.GONE);
@@ -52,27 +52,22 @@ public class HeadLineFollowRecyclerAdapter extends BaseRecyclerViewAdapter<Helpe
             holder.llFragment.setVisibility(View.GONE);
         }
 
-        if (!TextUtils.isEmpty(helperModel.getHelperInfo().getTitle())) {
-            holder.title.setText(helperModel.getHelperInfo().getTitle());
+        if (!TextUtils.isEmpty(helperModel.getEventData().getData().getTitle())) {
+            holder.title.setText(helperModel.getEventData().getData().getTitle());
         }
 
-        if (!TextUtils.isEmpty(helperModel.getHelperInfo().getUpdateTime()+"")) {
-            holder.tvTime.setText(helperModel.getHelperInfo().getUpdateTime());
+        if (!TextUtils.isEmpty(helperModel.getEventData().getData().getUpdateTime()+"")) {
+            holder.tvTime.setText(AbDateUtil.formatDateStrGetDay(helperModel.getEventData().getData().getUpdateTime()));
         }
-        if (!TextUtils.isEmpty(helperModel.getHelperInfo().getSource())) {
-            holder.tvFrom.setText(helperModel.getHelperInfo().getSource());
+        if (!TextUtils.isEmpty(helperModel.getEventData().getData().getSource())) {
+            holder.tvFrom.setText(helperModel.getEventData().getData().getSource());
         }
-        if (!TextUtils.isEmpty(helperModel.getHelperInfo().getContent())) {
-            holder.tvContent.setText(helperModel.getHelperInfo().getContent());
+        if (!TextUtils.isEmpty(helperModel.getEventData().getData().getContent())) {
+            holder.tvContent.setText(helperModel.getEventData().getData().getContent());
         }
-        if (!TextUtils.isEmpty(helperModel.getHelperInfo().getPics())) {
-            List<String> listPic = Arrays.asList(helperModel.getHelperInfo().getPics().split(","));
-            for (int i = 0; i < listPic.size(); i++) {
-                GlideUtils.loadImageView(mContext, listPic.get(i), holder.imageView);
-            }
-        }
-        if (!TextUtils.isEmpty(helperModel.getHelperInfo().getLabels())) {
-            TagAdapter<String> tagAdapter = new TagAdapter<String>(Arrays.asList(helperModel.getHelperInfo().getLabels().split(","))) {
+
+        if (!TextUtils.isEmpty(helperModel.getLabels())) {
+            TagAdapter<String> tagAdapter = new TagAdapter<String>(Arrays.asList(helperModel.getLabels().split(","))) {
                 @Override
                 public View getView(FlowLayout parent, int position, String o) {
 
@@ -87,19 +82,19 @@ public class HeadLineFollowRecyclerAdapter extends BaseRecyclerViewAdapter<Helpe
         holder.llCancle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                headLineFollowEvent.doCancleFollow(new Long(helperModel.getHelperInfo().getAutoId()).intValue()+"",pos);
+                headLineFollowEvent.doCancleFollow(new Long(helperModel.getEventData().getData().getAutoId()).intValue()+"",pos);
             }
         });
         holder.llSet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                headLineFollowEvent.doFollowSetUpCancleTop(new Long(helperModel.getHelperInfo().getAutoId()).intValue()+"",pos);
+                headLineFollowEvent.doFollowSetUpCancleTop(new Long(helperModel.getEventData().getData().getAutoId()).intValue()+"",pos);
             }
         });
         holder.llFinish.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                headLineFollowEvent.doFollowDone(new Long(helperModel.getHelperInfo().getAutoId()).intValue()+"",pos);
+                headLineFollowEvent.doFollowDone(new Long(helperModel.getEventData().getData().getAutoId()).intValue()+"",pos);
             }
         });
         holder.tvScan.setOnClickListener(new View.OnClickListener() {

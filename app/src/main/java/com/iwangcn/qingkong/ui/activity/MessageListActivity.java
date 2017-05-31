@@ -18,6 +18,7 @@ import com.iwangcn.qingkong.ui.model.HelperInfo;
 import com.iwangcn.qingkong.ui.model.HelperListModel;
 import com.iwangcn.qingkong.ui.view.freshwidget.RefreshListenerAdapter;
 import com.iwangcn.qingkong.ui.view.freshwidget.ReloadRefreshLayout;
+import com.iwangcn.qingkong.utils.AbDateUtil;
 import com.iwangcn.qingkong.utils.ToastUtil;
 import com.zhy.view.flowlayout.FlowLayout;
 import com.zhy.view.flowlayout.TagAdapter;
@@ -131,7 +132,7 @@ public class MessageListActivity extends QkBaseActivity {
             Log.e("fjg====", helperInfo.getTitle());
             mNewsTitle.setText(helperInfo.getTitle());
             mNewsFrom.setText(helperInfo.getSource());
-            mNewsTime.setText(helperInfo.getUpdateTime());
+            mNewsTime.setText(AbDateUtil.formatDateStrGetDay(helperInfo.getUpdateTime()));
             TagAdapter<String> tagAdapter = new TagAdapter<String>(Arrays.asList(helperInfo.getLabels().split(","))) {
                 @Override
                 public View getView(FlowLayout parent, int position, String o) {
