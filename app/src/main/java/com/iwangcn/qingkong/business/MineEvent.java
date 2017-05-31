@@ -2,6 +2,7 @@ package com.iwangcn.qingkong.business;
 
 import android.content.Context;
 
+import com.iwangcn.qingkong.net.BaseBean;
 import com.iwangcn.qingkong.net.BaseSubscriber;
 import com.iwangcn.qingkong.net.ExceptionHandle;
 import com.iwangcn.qingkong.net.NetConst;
@@ -37,7 +38,7 @@ public class MineEvent extends Event implements NetConst {
         paratems.put("oldPwd", oldPwd);
         paratems.put("newPwd", newPwd);
         paratems.put("renewPwd", newPwd);
-        RetrofitInstance.getInstance().post(URL_UPDATE_PWD, paratems, UserInfo.class, new BaseSubscriber(true) {
+        RetrofitInstance.getInstance().post(URL_UPDATE_PWD, paratems, BaseBean.class, new BaseSubscriber(true) {
             @Override
             public void onError(ExceptionHandle.ResponeThrowable e) {
                 ToastUtil.showToast(mContext,e.codeMessage);
@@ -57,13 +58,13 @@ public class MineEvent extends Event implements NetConst {
         RetrofitInstance.getInstance().post(URL_CHECK_VERSION, paratems, UserInfo.class, new BaseSubscriber(true) {
             @Override
             public void onError(ExceptionHandle.ResponeThrowable e) {
-
+                    ToastUtil.showToast(mContext,e.codeMessage);
             }
 
             @Override
             public void onNext(Object o) {
                 MineEvent even = new MineEvent();
-                even.setObject(o);
+             //   even.setObject(o.);
                 even.setId(checkVersion);
                 EventBus.getDefault().post(even);
             }

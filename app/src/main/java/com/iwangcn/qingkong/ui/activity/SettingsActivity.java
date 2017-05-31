@@ -122,8 +122,8 @@ public class SettingsActivity extends QkBaseActivity implements View.OnFocusChan
     public void onEventMainThread(Event event) {
         if (event instanceof MineEvent) {
             if (event.getId() == ((MineEvent) event).updatePaw) {
-                String strResult = (String) event.getObject();
-                ToastUtil.showToast(this, strResult);
+                // String strResult = (String) event.getObject();
+                ToastUtil.showToast(this, "密码修改成功");
                 mEdOriginal.setText("");
                 mEdNewPw.setText("");
                 mEdAgainPw.setText("");
