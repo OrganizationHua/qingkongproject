@@ -21,18 +21,20 @@ import java.util.HashMap;
 public class HelperFollowEvent extends Event implements NetConst {
     private Context mContext;
     private int indexPage = 0;//当前页数
+    private int type;
 
-    public HelperFollowEvent(Context context) {
+    public HelperFollowEvent(Context context, int type) {
         this.mContext = context;
-
+        this.type = type;
     }
 
-    private void getHelperEventList(int index,String sourceType ,String tags) {
+    private void getHelperEventList(int index, String sourceType, String tags) {
         HashMap paratems = new HashMap();
         paratems.put(USER_ID, UserManager.getUserInfo().getAutoId());
         paratems.put("sourceType", sourceType);
 //        paratems.put("tags", tags);
-        paratems.put("pageno",index);
+        paratems.put("pageno", index);
+        paratems.put("dealFlag",type);
         RetrofitInstance.getInstance().post(URL_EVENT_FOLLOWUP_AIDE, paratems, HelperListModel.class, new BaseSubscriber<NetResponse<HelperListModel>>(false) {
             @Override
             public void onError(ExceptionHandle.ResponeThrowable e) {
@@ -52,7 +54,8 @@ public class HelperFollowEvent extends Event implements NetConst {
             }
         });
     }
-    public void doCancleFollow(String infoId,final int position) {//取消跟进
+
+    public void doCancleFollow(String infoId, final int position) {//取消跟进
         HashMap paratems = new HashMap();
         paratems.put(USER_ID, UserManager.getUserInfo().getAutoId());
         paratems.put("infoId", infoId);
@@ -70,7 +73,8 @@ public class HelperFollowEvent extends Event implements NetConst {
             }
         });
     }
-    public void doFollowSetUp(String infoId,final int position) {//置顶
+
+    public void doFollowSetUp(String infoId, final int position) {//置顶
         HashMap paratems = new HashMap();
         paratems.put(USER_ID, UserManager.getUserInfo().getAutoId());
         paratems.put("infoId", infoId);
@@ -88,7 +92,8 @@ public class HelperFollowEvent extends Event implements NetConst {
             }
         });
     }
-    public void doFollowSetUpCancleTop(String infoId,final int position) {//取消置顶
+
+    public void doFollowSetUpCancleTop(String infoId, final int position) {//取消置顶
         HashMap paratems = new HashMap();
         paratems.put(USER_ID, UserManager.getUserInfo().getAutoId());
         paratems.put("infoId", infoId);
@@ -106,7 +111,8 @@ public class HelperFollowEvent extends Event implements NetConst {
             }
         });
     }
-    public void doFollowDone(String infoId,final int position) {//已处理
+
+    public void doFollowDone(String infoId, final int position) {//已处理
         HashMap paratems = new HashMap();
         paratems.put(USER_ID, UserManager.getUserInfo().getAutoId());
         paratems.put("infoId", infoId);
@@ -124,13 +130,14 @@ public class HelperFollowEvent extends Event implements NetConst {
             }
         });
     }
+
     public void getMoreEvent() {
         indexPage++;
-        getHelperEventList(indexPage, "1","");
+        getHelperEventList(indexPage, "1", "");
     }
 
     public void getRefreshEventList() {
         indexPage = 1;
-        getHelperEventList(indexPage, "1","");
+        getHelperEventList(indexPage, "1", "");
     }
 }

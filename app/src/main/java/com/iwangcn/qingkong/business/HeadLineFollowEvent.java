@@ -8,7 +8,7 @@ import com.iwangcn.qingkong.net.NetConst;
 import com.iwangcn.qingkong.net.NetResponse;
 import com.iwangcn.qingkong.net.RetrofitInstance;
 import com.iwangcn.qingkong.providers.UserManager;
-import com.iwangcn.qingkong.ui.model.HelperListModel;
+import com.iwangcn.qingkong.ui.model.HeadLineModel;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -21,10 +21,11 @@ import java.util.HashMap;
 public class HeadLineFollowEvent extends Event implements NetConst {
     private Context mContext;
     private int indexPage = 0;//当前页数
+    private int type;
 
-    public HeadLineFollowEvent(Context context) {
+    public HeadLineFollowEvent(Context context,int type) {
         this.mContext = context;
-
+         this.type=type;
     }
 
     private void getHelperEventList(int index,String sourceType ,String tags) {
@@ -33,14 +34,15 @@ public class HeadLineFollowEvent extends Event implements NetConst {
         paratems.put("sourceType", sourceType);
 //        paratems.put("tags", tags);
         paratems.put("pageno",index);
-        RetrofitInstance.getInstance().post(URL_EVENT_FOLLOWUP_AIDE, paratems, HelperListModel.class, new BaseSubscriber<NetResponse<HelperListModel>>(false) {
+        paratems.put("dealFlag",type);
+        RetrofitInstance.getInstance().post(URL_EVENT_FOLLOWUP, paratems, HeadLineModel.class, new BaseSubscriber<NetResponse<HeadLineModel>>(false) {
             @Override
             public void onError(ExceptionHandle.ResponeThrowable e) {
                 EventBus.getDefault().post(new LoadFailEvent());
             }
 
             @Override
-            public void onNext(NetResponse<HelperListModel> netResponse) {
+            public void onNext(NetResponse<HeadLineModel> netResponse) {
                 HeadLineFollowEvent.this.setObject(netResponse.getDataList());
                 HeadLineFollowEvent.this.setId(0);
                 if (indexPage == 1) {
@@ -56,7 +58,7 @@ public class HeadLineFollowEvent extends Event implements NetConst {
         HashMap paratems = new HashMap();
         paratems.put(USER_ID, UserManager.getUserInfo().getAutoId());
         paratems.put("infoId", infoId);
-        RetrofitInstance.getInstance().post(URL_EVENT_AIDE_CANCELFOLLOW, paratems, String.class, new BaseSubscriber<NetResponse<String>>(false) {
+        RetrofitInstance.getInstance().post(URL_EVENT_FOLLOWUP_CANCELFOLLOW, paratems, String.class, new BaseSubscriber<NetResponse<String>>(false) {
             @Override
             public void onError(ExceptionHandle.ResponeThrowable e) {
 
@@ -74,7 +76,7 @@ public class HeadLineFollowEvent extends Event implements NetConst {
         HashMap paratems = new HashMap();
         paratems.put(USER_ID, UserManager.getUserInfo().getAutoId());
         paratems.put("infoId", infoId);
-        RetrofitInstance.getInstance().post(URL_EVENT_AIDE_SETTOP, paratems, String.class, new BaseSubscriber<NetResponse<String>>(false) {
+        RetrofitInstance.getInstance().post(URL_EVENT_FOLLOWUP_SETTOP, paratems, String.class, new BaseSubscriber<NetResponse<String>>(false) {
             @Override
             public void onError(ExceptionHandle.ResponeThrowable e) {
 
@@ -92,7 +94,7 @@ public class HeadLineFollowEvent extends Event implements NetConst {
         HashMap paratems = new HashMap();
         paratems.put(USER_ID, UserManager.getUserInfo().getAutoId());
         paratems.put("infoId", infoId);
-        RetrofitInstance.getInstance().post(URL_EVENT_AIDE_CANCELTOP, paratems, String.class, new BaseSubscriber<NetResponse<String>>(false) {
+        RetrofitInstance.getInstance().post(URL_EVENT_FOLLOWUP_CANCELTOP, paratems, String.class, new BaseSubscriber<NetResponse<String>>(false) {
             @Override
             public void onError(ExceptionHandle.ResponeThrowable e) {
 
@@ -110,7 +112,7 @@ public class HeadLineFollowEvent extends Event implements NetConst {
         HashMap paratems = new HashMap();
         paratems.put(USER_ID, UserManager.getUserInfo().getAutoId());
         paratems.put("infoId", infoId);
-        RetrofitInstance.getInstance().post(URL_EVENT_AIDE_DONE, paratems, String.class, new BaseSubscriber<NetResponse<String>>(false) {
+        RetrofitInstance.getInstance().post(URL_EVENT_FOLLOWUP_DONE, paratems, String.class, new BaseSubscriber<NetResponse<String>>(false) {
             @Override
             public void onError(ExceptionHandle.ResponeThrowable e) {
 

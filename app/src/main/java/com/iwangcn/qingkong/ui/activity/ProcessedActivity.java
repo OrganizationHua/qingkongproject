@@ -42,7 +42,7 @@ public class ProcessedActivity extends QkBaseActivity {
     public void initView() {
         setTitle("已处理");
         setRightImg(R.drawable.genjin_btn_filter_2);
-        final FollowTabAdapter tabLayoutAdapter = new FollowTabAdapter(this, getSupportFragmentManager(), 2);
+        final FollowTabAdapter tabLayoutAdapter = new FollowTabAdapter(this, getSupportFragmentManager(), 1);
         viewPager.setAdapter(tabLayoutAdapter);
         mTabLayout.setupWithViewPager(viewPager);
 

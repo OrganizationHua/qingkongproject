@@ -15,6 +15,7 @@ import com.iwangcn.qingkong.R;
 import com.iwangcn.qingkong.business.HelperFollowEvent;
 import com.iwangcn.qingkong.ui.activity.MessageListActivity;
 import com.iwangcn.qingkong.ui.model.HelperListModel;
+import com.iwangcn.qingkong.utils.AbDateUtil;
 import com.iwangcn.qingkong.utils.GlideUtils;
 import com.iwangcn.qingkong.utils.ToastUtil;
 import com.zhy.view.flowlayout.FlowLayout;
@@ -48,7 +49,7 @@ public class HelperFollowRecyclerAdapter extends BaseRecyclerViewAdapter<HelperL
     @Override
     public void bindData(RecyclerView.ViewHolder viewholder, final HelperListModel helperModel, final int pos) {
         HelperFollowViewHolder holder = (HelperFollowViewHolder) viewholder;
-        if (type == 1) {
+        if (type == 0) {
             holder.llReprocess.setVisibility(View.GONE);
             holder.llFragment.setVisibility(View.VISIBLE);
         } else {
@@ -61,7 +62,7 @@ public class HelperFollowRecyclerAdapter extends BaseRecyclerViewAdapter<HelperL
         }
 
         if (!TextUtils.isEmpty(helperModel.getHelperInfo().getUpdateTime() + "")) {
-            holder.tvTime.setText(helperModel.getHelperInfo().getUpdateTime());
+            holder.tvTime.setText(AbDateUtil.formatDateStrGetDay(helperModel.getHelperInfo().getUpdateTime()));
         }
         if (!TextUtils.isEmpty(helperModel.getHelperInfo().getSource())) {
             holder.tvFrom.setText(helperModel.getHelperInfo().getSource());
@@ -69,8 +70,8 @@ public class HelperFollowRecyclerAdapter extends BaseRecyclerViewAdapter<HelperL
         if (!TextUtils.isEmpty(helperModel.getHelperInfo().getContent())) {
             holder.tvContent.setText(helperModel.getHelperInfo().getContent());
         }
-        if (!TextUtils.isEmpty("")) {
-            holder.btn_leave_message.setText("留言（" + "3" + "）");
+        if (!TextUtils.isEmpty(helperModel.getHelperInfo().getFollowCount())) {
+            holder.btn_leave_message.setText("留言（" + helperModel.getHelperInfo().getFollowCount() + "）");
         }
         if (!TextUtils.isEmpty(helperModel.getHelperInfo().getPics())) {
             List<String> listPic = Arrays.asList(helperModel.getHelperInfo().getPics().split(","));
