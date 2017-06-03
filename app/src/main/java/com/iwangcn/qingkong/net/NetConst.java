@@ -52,4 +52,7 @@ public interface NetConst {
     String URL_TAG_TAGLIST = "event/tagList";//获取标签列表
     String URL_TAG_SUBMITTAGS = "event/submitTags";//提交标签列表
     String URL_TAG_DELTAGS = "event/delTags";//删除标签
+    String URL_REPORT_ERROR = "event/reportError";//我要报错
+    String URL_REROR_LABELS = "event/errorLabels";//查询报错标签
+
 }

@@ -6,6 +6,10 @@
     android:layout_marginRight="9dp"
     android:background="@drawable/tag_popupwindown_select_norml"
     android:gravity="center"
+    android:paddingBottom="3dp"
+    android:paddingLeft="9dp"
+    android:paddingRight="9dp"
+    android:paddingTop="3dp"
     android:textColor="@color/font_gray"
     android:textSize="16sp">
 

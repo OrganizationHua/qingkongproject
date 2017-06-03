@@ -5,9 +5,11 @@ import android.content.Context;
 import com.iwangcn.qingkong.net.BaseSubscriber;
 import com.iwangcn.qingkong.net.ExceptionHandle;
 import com.iwangcn.qingkong.net.NetConst;
+import com.iwangcn.qingkong.net.NetResponse;
 import com.iwangcn.qingkong.net.RetrofitInstance;
 import com.iwangcn.qingkong.providers.UserManager;
 import com.iwangcn.qingkong.ui.model.CilentLabel;
+import com.iwangcn.qingkong.ui.model.LabelError;
 import com.iwangcn.qingkong.ui.model.UserInfo;
 import com.iwangcn.qingkong.utils.ToastUtil;
 import com.orhanobut.logger.Logger;
@@ -76,6 +78,47 @@ public class TagEvent extends Event implements NetConst {
             @Override
             public void onNext(Object o) {
 
+            }
+        });
+    }
+
+    /**
+     * 查询报错标签
+     *
+     * @param baseSubscriber
+     */
+    public void getErrorLabels(BaseSubscriber baseSubscriber) {
+        HashMap paratems = new HashMap();
+        paratems.put(USER_ID, UserManager.getUserInfo().getAutoId());
+        RetrofitInstance.getInstance().post(URL_REROR_LABELS, paratems, LabelError.class, baseSubscriber);
+    }
+
+    /**
+     *
+     * @param autoId
+     * @param listData
+     */
+    public void reportLabels(String autoId, List<LabelError> listData) {
+        StringBuilder stringBuilder = new StringBuilder();
+        for (LabelError model : listData) {
+            if (model.isSelect()) {
+                stringBuilder.append(model.getName());
+                stringBuilder.append(",");
+            }
+        }
+        HashMap paratems = new HashMap();
+        paratems.put(USER_ID, UserManager.getUserInfo().getAutoId());
+        paratems.put("infoId", autoId);
+        paratems.put("tags", stringBuilder.toString());
+        RetrofitInstance.getInstance().post(URL_REPORT_ERROR, paratems, LabelError.class, new BaseSubscriber<NetResponse>(true) {
+            @Override
+            public void onError(ExceptionHandle.ResponeThrowable e) {
+                ToastUtil.showToast(mContext,e.codeMessage);
+            }
+
+            @Override
+            public void onNext(NetResponse o) {
+                ToastUtil.showToast(mContext, o.getMessage());
             }
         });
     }

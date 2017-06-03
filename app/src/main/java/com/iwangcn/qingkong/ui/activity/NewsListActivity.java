@@ -142,6 +142,7 @@ public class NewsListActivity extends BaseActivity {
                 Intent intent = new Intent(mContext, NewsDetailActivity.class);
                 intent.putExtra("NewsInfoList", (Serializable) mList);
                 intent.putExtra("frontPageposition", i - 1);
+                intent.putExtra("autoId",mIntentEventInfo.getAutoId());//事件ID
                 startActivityForResult(intent, REQUEST_CODE);
             }
         });
@@ -179,11 +180,13 @@ public class NewsListActivity extends BaseActivity {
             if (event.isMore()) {
                 mAbPullToRefreshView.finishLoadmore();
             } else {
-                mAbPullToRefreshView.finishRefreshing();
-                mList.clear();
-                if (list.size() > 0) {
+                if(list.size()==0){
+                    ToastUtil.showToast(this,"暂无相关新闻");
+                }else{
                     list.get(0).setSelect(true);
                 }
+                mAbPullToRefreshView.finishRefreshing();
+                mList.clear();
             }
             mList.addAll(list);
             mAdapter.setDataList(mList);

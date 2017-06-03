@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:zhy="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingLeft="15dp"
+    android:paddingRight="15dp">
+
+    <LinearLayout
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/tag_popup_left_bg"
+        android:orientation="vertical">
+
+
+        <LinearLayout
+            android:id="@+id/tag_flowlayout_lin"
+            android:layout_width="match_parent"
+            android:layout_height="328dp"
+            android:background="@drawable/tag_popup_gray_bg">
+
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <com.zhy.view.flowlayout.TagFlowLayout
+                        android:id="@+id/tag_flowlayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:paddingBottom="17dp"
+                        android:paddingLeft="23dp"
+                        android:paddingRight="23dp"
+                        android:paddingTop="17dp"
+                        zhy:max_select="-1" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1px"
+                        android:background="@color/line_gray"></View>
+
+                    <com.zhy.view.flowlayout.TagFlowLayout
+                        android:id="@+id/tag_flowlayout_mine"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:paddingBottom="17dp"
+                        android:paddingLeft="23dp"
+                        android:paddingRight="23dp"
+                        android:paddingTop="17dp"
+                        zhy:max_select="-1" />
+                </LinearLayout>
+
+            </ScrollView>
+
+        </LinearLayout>
+
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/line_gray"></View>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/tag_btn_more"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_weight="1"
+                android:background="@drawable/gray_btn_select"
+                android:gravity="center"
+                android:text="更多"
+                android:textColor="@color/font_gray_666"
+                android:textSize="18sp" />
+
+            <View
+                android:layout_width="1px"
+                android:layout_height="30dp"
+                android:layout_gravity="center"
+                android:background="@color/line_gray"></View>
+
+            <Button
+                android:id="@+id/tag_btn_confirm"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_weight="1"
+                android:background="@drawable/gray_btn_select"
+                android:gravity="center"
+                android:text="确定"
+                android:textColor="@color/font_gray_666"
+                android:textSize="18sp" />
+        </LinearLayout>
+
+    </LinearLayout>
+</LinearLayout>
