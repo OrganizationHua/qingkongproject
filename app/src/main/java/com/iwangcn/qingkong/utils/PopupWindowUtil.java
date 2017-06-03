@@ -163,7 +163,7 @@ public class PopupWindowUtil {
             @Override
             public void onClick(View view) {
                 popupWindow.dismiss();
-                onConfirmListener.onClick(view);
+                onMoreListener.onClick(view);
             }
         });
         btnConfig.setOnClickListener(new View.OnClickListener() {

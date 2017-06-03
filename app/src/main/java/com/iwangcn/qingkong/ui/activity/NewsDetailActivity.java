@@ -145,7 +145,8 @@ public class NewsDetailActivity extends QkBaseActivity {
         }, new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                Intent intent=new Intent(mContext,MoreTagEditActivity.class);
+                startActivity(intent);
             }
         });
     }

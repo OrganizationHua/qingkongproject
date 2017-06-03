@@ -36,14 +36,15 @@ public class TagEvent extends Event implements NetConst {
     public void getTagList() {
         HashMap paratems = new HashMap();
         paratems.put(USER_ID, UserManager.getUserInfo().getAutoId());
-        RetrofitInstance.getInstance().post(URL_TAG_TAGLIST, paratems, CilentLabel.class, new BaseSubscriber<List<CilentLabel>>(false) {
+
+        RetrofitInstance.getInstance().post(URL_TAG_TAGLIST, paratems, CilentLabel.class, new BaseSubscriber(true) {
             @Override
             public void onError(ExceptionHandle.ResponeThrowable e) {
                 ToastUtil.showToast(mContext, e.codeMessage);
             }
 
             @Override
-            public void onNext(List<CilentLabel> o) {
+            public void onNext(Object o) {
                 Logger.e("11");
             }
         });
