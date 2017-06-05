@@ -198,7 +198,7 @@ public class NewsListActivity extends BaseActivity {
 
     @OnClick(R.id.base_act_right_lin)//选择器按钮
     public void onBtnFilter() {
-        Intent intent = new Intent(this, TagEditActivity.class);
+        Intent intent = new Intent(this, MoreTagEditActivity.class);
         startActivity(intent);
     }
 

@@ -34,24 +34,26 @@ public class RecycleViewTagAdapter extends BaseMultipleItemAdapter implements Re
     public boolean isEditing = false;
     public boolean isAdd = false;
     public static List<CilentLabel> results1 = new ArrayList<>();
-    public static List<String> results2 = new ArrayList<>();
-    public static List<String> results3 = new ArrayList<>();
+    public static List<CilentLabel> results2 = new ArrayList<>();
+    public static List<CilentLabel> results3 = new ArrayList<>();
     private Context mContext;
 
     public RecycleViewTagAdapter(Context context) {
         super(context);
         this.mContext = context;
     }
-    public void setDataList(List<CilentLabel> list){
-        results1=list;
-        notifyDataSetChanged();
-    }
-    private void initData() {
 
-        for (int i = 0; i < 15; i++) {
-            results2.add(2 + "你敢吗");
-            results3.add(3 + "你敢吗");
+    public void setDataList(ArrayList<ArrayList<CilentLabel>> list) {
+        if (list.get(0) != null) {
+            results1 = list.get(0);
         }
+        if (list.get(1) != null) {
+            results2 = list.get(1);
+        }
+        if (list.get(1) != null) {
+            results3 = list.get(1);
+        }
+        notifyDataSetChanged();
     }
 
     @Override
@@ -69,9 +71,9 @@ public class RecycleViewTagAdapter extends BaseMultipleItemAdapter implements Re
             if (position > getOneTitlePosition() && position < getTwoTitlePosition()) {
                 ((FlexboxViewHolder) holder).bindTo(results1.get(position - getOneTitlePosition() - 1), false);
             } else if (position > getTwoTitlePosition() && position < getThreeTitlePosition()) {
-               // ((FlexboxViewHolder) holder).bindTo(results2.get(position - getTwoTitlePosition() - 1), false);
+                ((FlexboxViewHolder) holder).bindTo(results2.get(position - getTwoTitlePosition() - 1), false);
             } else if (position > getThreeTitlePosition() && position < getThreeTitlePosition() + getThreeContentItemCount() + 1) {
-              //  ((FlexboxViewHolder) holder).bindTo(results3.get(position - getThreeTitlePosition() - 1), isEditing);
+                ((FlexboxViewHolder) holder).bindTo(results3.get(position - getThreeTitlePosition() - 1), isEditing);
             }
         } else if (holder instanceof LastViewHolder) {
             ((LastViewHolder) holder).bindTo(isAdd);

@@ -30,15 +30,15 @@ import com.iwangcn.qingkong.business.Event;
 import com.iwangcn.qingkong.business.TagEvent;
 import com.iwangcn.qingkong.ui.base.QkBaseActivity;
 import com.iwangcn.qingkong.ui.model.CilentLabel;
+import com.iwangcn.qingkong.ui.view.TagWidget.MoreRecycleViewTagAdapter;
 import com.iwangcn.qingkong.ui.view.TagWidget.OnRecyclerItemClickListener;
 import com.iwangcn.qingkong.ui.view.TagWidget.RecycleViewItemTouchCallback;
-import com.iwangcn.qingkong.ui.view.TagWidget.RecycleViewTagAdapter;
 import com.iwangcn.qingkong.utils.VibratorUtil;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
-import java.util.List;
+import java.util.ArrayList;
 
 import butterknife.OnClick;
 
@@ -54,7 +54,7 @@ public class MoreTagEditActivity extends QkBaseActivity implements RecycleViewIt
     private LinearLayout ll_sure;
     private boolean isActivated = false;//界面是否激活
     private TagEvent mTagEvent;
-    private RecycleViewTagAdapter mAdapter;
+    private MoreRecycleViewTagAdapter mAdapter;
 
     @Override
     public int layoutChildResID() {
@@ -97,7 +97,7 @@ public class MoreTagEditActivity extends QkBaseActivity implements RecycleViewIt
     @Subscribe
     public void onEventMainThread(Event event) {
         if (event instanceof TagEvent) {
-            List<CilentLabel> list = (List<CilentLabel>) event.getObject();
+           ArrayList<ArrayList<CilentLabel>> list = (ArrayList<ArrayList<CilentLabel>>) event.getObject();
             mAdapter.setDataList(list);
         }
     }
@@ -111,7 +111,7 @@ public class MoreTagEditActivity extends QkBaseActivity implements RecycleViewIt
         recommendLayoutManager.setFlexDirection(FlexDirection.ROW);
         recommendLayoutManager.setAlignItems(AlignItems.STRETCH);
         recycle_recommend.setLayoutManager(recommendLayoutManager);
-        mAdapter = new RecycleViewTagAdapter(this);
+        mAdapter = new MoreRecycleViewTagAdapter(this);
         recycle_recommend.setAdapter(mAdapter);
 
         final ItemTouchHelper recommendItemTouchHelper = new ItemTouchHelper(

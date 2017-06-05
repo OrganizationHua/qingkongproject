@@ -38,7 +38,7 @@ import com.iwangcn.qingkong.utils.VibratorUtil;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
-import java.util.List;
+import java.util.ArrayList;
 
 import butterknife.OnClick;
 
@@ -74,7 +74,7 @@ public class TagEditActivity extends QkBaseActivity implements RecycleViewItemTo
         mTagEvent = new TagEvent(this);
         initRecommend();
         mTagEvent.getTagList();
-     //   mTagEvent.submitTags("22");
+        //   mTagEvent.submitTags("22");
     }
 
     @OnClick(R.id.base_tv_right)
@@ -97,7 +97,7 @@ public class TagEditActivity extends QkBaseActivity implements RecycleViewItemTo
     @Subscribe
     public void onEventMainThread(Event event) {
         if (event instanceof TagEvent) {
-            List<CilentLabel> list = (List<CilentLabel>) event.getObject();
+            ArrayList<ArrayList<CilentLabel>> list = (ArrayList<ArrayList<CilentLabel>>) event.getObject();
             mAdapter.setDataList(list);
         }
     }
