@@ -106,8 +106,12 @@ public class MessageListActivity extends QkBaseActivity {
             Log.e("fjg", "====");
             if (helperEvent.getId() == 0) {
                 mReloadRefreshView.finishRefreshing();
-                List<HelperFeedbackDetail> list = (List<HelperFeedbackDetail>) event.getObject();
-                if (list==null||list.size() < NetConst.page) {//如果小于page条表示加载完成不能加载更多
+                List<HelperFeedbackDetail> list = new ArrayList<>();
+                if (event.getObject() != null) {
+
+                    list = (List<HelperFeedbackDetail>) event.getObject();
+                }
+                if (list.size() < NetConst.page) {//如果小于page条表示加载完成不能加载更多
                     mReloadRefreshView.finishLoadmore();
                 }
                 if (event.isMore()) {

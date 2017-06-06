@@ -1,6 +1,5 @@
 package com.iwangcn.qingkong.ui.fragment;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
@@ -12,8 +11,6 @@ import com.iwangcn.qingkong.business.Event;
 import com.iwangcn.qingkong.business.HelperFollowEvent;
 import com.iwangcn.qingkong.business.LoadFailEvent;
 import com.iwangcn.qingkong.net.NetConst;
-import com.iwangcn.qingkong.ui.activity.FollowDetailActivity;
-import com.iwangcn.qingkong.ui.adapter.BaseRecyclerViewAdapter;
 import com.iwangcn.qingkong.ui.adapter.HelperFollowRecyclerAdapter;
 import com.iwangcn.qingkong.ui.base.BaseFragment;
 import com.iwangcn.qingkong.ui.model.HelperListModel;
@@ -79,14 +76,6 @@ public class HelperFollowFragment extends BaseFragment {
         mNewsAdapter = new HelperFollowRecyclerAdapter(getActivity(), mList, type, helperFollowEvent);
         mListView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
         mListView.setAdapter(mNewsAdapter);
-        mNewsAdapter.setOnItemClickListener(new BaseRecyclerViewAdapter.OnRecyclerItemClickListener() {
-            @Override
-            public void onItemClickListener(RecyclerView.ViewHolder viewHolder, int position) {
-                String url = mList.get(position).getHelperInfo().getUrl();
-                Intent intent = new Intent(getActivity(), FollowDetailActivity.class).putExtra("url", url != null ? url : "");
-                startActivity(intent);
-            }
-        });
         mReloadRefreshView.setOnRefreshListener(new RefreshListenerAdapter() {
             @Override
             public void onRefresh(ReloadRefreshLayout refreshLayout) {

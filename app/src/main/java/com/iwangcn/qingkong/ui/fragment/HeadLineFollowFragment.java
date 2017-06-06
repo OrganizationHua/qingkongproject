@@ -40,13 +40,15 @@ public class HeadLineFollowFragment extends BaseFragment {
     private List<HeadLineModel> mList = new ArrayList<>();
     private HeadLineFollowEvent headLineFollowEvent;
     private int type;
-    public static HeadLineFollowFragment newInstance(int type){
+
+    public static HeadLineFollowFragment newInstance(int type) {
         HeadLineFollowFragment myFragment = new HeadLineFollowFragment();
         Bundle bundle = new Bundle();
-        bundle.putInt("type",type);
+        bundle.putInt("type", type);
         myFragment.setArguments(bundle);
         return myFragment;
     }
+
     @Override
     protected int layoutResID() {
         return R.layout.fragment_helper_fflow;
@@ -70,17 +72,21 @@ public class HeadLineFollowFragment extends BaseFragment {
         super.onCreate(savedInstanceState);
         EventBus.getDefault().register(this);
     }
+
     private void initData() {
-        headLineFollowEvent = new HeadLineFollowEvent(getContext(),type);
+        headLineFollowEvent = new HeadLineFollowEvent(getContext(), type);
         headLineFollowEvent.getRefreshEventList();
-        mNewsAdapter = new HeadLineFollowRecyclerAdapter(getActivity(),mList,type,headLineFollowEvent);
-        mListView.setLayoutManager(new LinearLayoutManager(getActivity(),LinearLayoutManager.VERTICAL,false));
+        mNewsAdapter = new HeadLineFollowRecyclerAdapter(getActivity(), mList, type, headLineFollowEvent);
+        mListView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
         mListView.setAdapter(mNewsAdapter);
         mNewsAdapter.setOnItemClickListener(new BaseRecyclerViewAdapter.OnRecyclerItemClickListener() {
             @Override
-            public void onItemClickListener(RecyclerView.ViewHolder viewHolder,int position) {
-                String url = mList.get(position).getEventData().getData().getUrl();
-                Intent intent = new Intent(getActivity(), FollowDetailActivity.class).putExtra("url", url != null ? url : "");
+            public void onItemClickListener(RecyclerView.ViewHolder viewHolder, int position) {
+                HeadLineModel  data = mList.get(position);
+                int type=1;
+                Intent intent = new Intent(getActivity(), FollowDetailActivity.class)
+                        .putExtra("data", data)
+                        .putExtra("type",type);
                 startActivity(intent);
             }
         });
@@ -97,13 +103,14 @@ public class HeadLineFollowFragment extends BaseFragment {
             }
         });
     }
+
     @Subscribe
     public void onEventMainThread(Event event) {
         if (event instanceof HeadLineFollowEvent) {
             if (headLineFollowEvent.getId() == 0) {
                 mReloadRefreshView.finishRefreshing();
                 List<HeadLineModel> list = (List<HeadLineModel>) event.getObject();
-                if (list.size() < NetConst.page) {//如果小于page条表示加载完成不能加载更多
+                if (list == null || list.size() < NetConst.page) {//如果小于page条表示加载完成不能加载更多
                     mReloadRefreshView.finishLoadmore();
                 }
                 if (event.isMore()) {
@@ -121,7 +128,7 @@ public class HeadLineFollowFragment extends BaseFragment {
             } else if (headLineFollowEvent.getId() == 2) {//置顶
                 mList.remove((int) headLineFollowEvent.getObject());
                 mNewsAdapter.notifyItemRemoved((int) headLineFollowEvent.getObject());
-            }else if (headLineFollowEvent.getId() == 3) {////取消置顶
+            } else if (headLineFollowEvent.getId() == 3) {////取消置顶
                 mList.remove((int) headLineFollowEvent.getObject());
                 mNewsAdapter.notifyItemRemoved((int) headLineFollowEvent.getObject());
             } else if (headLineFollowEvent.getId() == 4) {//已处理
@@ -133,6 +140,7 @@ public class HeadLineFollowFragment extends BaseFragment {
             mReloadRefreshView.finishLoadmore();
         }
     }
+
     @Override
     public void onDestroy() {
         super.onDestroy();

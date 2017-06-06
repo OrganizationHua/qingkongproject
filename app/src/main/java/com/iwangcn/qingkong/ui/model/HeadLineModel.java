@@ -2,6 +2,8 @@ package com.iwangcn.qingkong.ui.model;
 
 import com.iwangcn.qingkong.net.BaseBean;
 
+import java.io.Serializable;
+
 /**
  * 作者：fjg on 2017/5/31 21:51
  */
@@ -128,7 +130,7 @@ public class HeadLineModel extends BaseBean{
         this.updateTime = updateTime;
     }
 
-    public static class EventData {
+    public static class EventData implements Serializable {
 
 
         private int autoId;
@@ -240,7 +242,7 @@ public class HeadLineModel extends BaseBean{
             this.updateTime = updateTime;
         }
 
-        public static class Data {
+        public static class Data implements Serializable {
 
             private int autoId;
             private String title;
