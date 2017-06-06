@@ -82,19 +82,19 @@ public class HeadLineFollowRecyclerAdapter extends BaseRecyclerViewAdapter<HeadL
         holder.llCancle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                headLineFollowEvent.doCancleFollow(new Long(helperModel.getEventData().getData().getAutoId()).intValue()+"",pos);
+                headLineFollowEvent.doCancleFollow(new Long(helperModel.getAutoId()).intValue()+"",pos);
             }
         });
         holder.llSet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                headLineFollowEvent.doFollowSetUpCancleTop(new Long(helperModel.getEventData().getData().getAutoId()).intValue()+"",pos);
+                headLineFollowEvent.doFollowSetUpCancleTop(helperModel.getAutoId()+"",pos);
             }
         });
         holder.llFinish.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                headLineFollowEvent.doFollowDone(new Long(helperModel.getEventData().getData().getAutoId()).intValue()+"",pos);
+                headLineFollowEvent.doFollowDone(helperModel.getAutoId()+"",pos);
             }
         });
         holder.tvScan.setOnClickListener(new View.OnClickListener() {

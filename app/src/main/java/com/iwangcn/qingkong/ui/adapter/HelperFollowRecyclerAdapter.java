@@ -95,19 +95,19 @@ public class HelperFollowRecyclerAdapter extends BaseRecyclerViewAdapter<HelperL
         holder.llCancle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                helperFollowEvent.doCancleFollow(new Long(helperModel.getHelperInfo().getAutoId()).intValue() + "", pos);
+                helperFollowEvent.doCancleFollow(helperModel.getHelperProcess().getAutoId() + "", pos);
             }
         });
         holder.llSet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                helperFollowEvent.doFollowSetUpCancleTop(new Long(helperModel.getHelperInfo().getAutoId()).intValue() + "", pos);
+                helperFollowEvent.doFollowSetUpCancleTop(helperModel.getHelperProcess().getAutoId() + "", pos);
             }
         });
         holder.llFinish.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                helperFollowEvent.doFollowDone(new Long(helperModel.getHelperInfo().getAutoId()).intValue() + "", pos);
+                helperFollowEvent.doFollowDone(helperModel.getHelperProcess().getAutoId() + "", pos);
             }
         });
         holder.tvScan.setOnClickListener(new View.OnClickListener() {
