@@ -4,8 +4,12 @@
     android:layout_height="wrap_content"
     android:layout_marginBottom="6dp"
     android:layout_marginRight="9dp"
+    android:paddingBottom="3dp"
+    android:paddingLeft="9dp"
+    android:paddingRight="9dp"
+    android:paddingTop="3dp"
+    android:textColor="@android:color/white"
     android:background="@drawable/normal_bg"
-    android:text="Helloworld"
     android:textSize="12sp">
 
 </TextView>

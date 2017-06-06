@@ -18,7 +18,10 @@ package com.iwangcn.qingkong.utils;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.GradientDrawable;
 import android.os.Build.VERSION;
 import android.text.TextPaint;
 import android.util.DisplayMetrics;
@@ -686,10 +689,26 @@ public class AbViewUtil {
         a.setDuration(800);
         v.startAnimation(a);
     }
+
     public static int getScreenHeight(Context context) {
         WindowManager windowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
         DisplayMetrics dm = new DisplayMetrics();
         windowManager.getDefaultDisplay().getMetrics(dm);
         return dm.heightPixels;
+    }
+
+    public static Drawable getShapeDrawable(String colorType) {
+        int strokeWidth = 0;     // 1dp 边框宽度
+        int roundRadius = 10;     // 5dp 圆角半径
+        int strokeColor = Color.parseColor("#FFFF0000");//边框颜色
+        int fillColor = Color.parseColor(colorType); //内部填充颜色
+
+        GradientDrawable gd = new GradientDrawable();//创建drawable
+        gd.setColor(fillColor);
+
+        gd.setCornerRadius(roundRadius);
+        gd.setStroke(strokeWidth, strokeColor);
+        gd.setShape(GradientDrawable.RECTANGLE);
+        return gd;
     }
 }

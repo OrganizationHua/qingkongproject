@@ -47,7 +47,8 @@ public interface NetConst {
     //事件模块
     String URL_EVENT_RELINFO = "event/relinfo";//事件新闻列表
     String URL_EVENT_SEARCH_NEWS = "event/searchEventNews";//新闻搜索
-    String URL_NOTICE_HELPER = "api/common/notice_helper";//通知小助手
+    String URL_NOTICE_HELPER = "common/notice_helper";//通知小助手
+    String URL_HOT_KEYWORDS = "common/hot_keywords";//热搜
     //标签
     String URL_TAG_TAGLIST = "event/tagList";//获取标签列表
     String URL_TAG_SUBMITTAGS = "event/submitTags";//提交标签列表

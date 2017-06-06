@@ -4,6 +4,7 @@ import com.iwangcn.qingkong.app.MobileApplication;
 import com.iwangcn.qingkong.net.ACache;
 import com.iwangcn.qingkong.sp.SpConstant;
 import com.iwangcn.qingkong.sp.SpUtils;
+import com.iwangcn.qingkong.ui.model.ClientUserInfoVo;
 import com.iwangcn.qingkong.ui.model.UserInfo;
 
 /**
@@ -12,19 +13,27 @@ import com.iwangcn.qingkong.ui.model.UserInfo;
  */
 
 public class UserManager {
-    private static UserManager instance;
     private static UserInfo userInfo;
+    private static ClientUserInfoVo loginInfo;
 
-    public static void setUserName(UserInfo userInfo) {
-        UserManager.userInfo = userInfo;
-        ACache.get(MobileApplication.getInstance()).put(SpConstant.USER_INFO, userInfo);
+    public static void setUserName(ClientUserInfoVo loginInfo) {
+        UserManager.loginInfo = loginInfo;
+        UserManager.userInfo = loginInfo.getUserInfo();
+        ACache.get(MobileApplication.getInstance()).put(SpConstant.USER_INFO, loginInfo);
         SpUtils.put(MobileApplication.getInstance(), SpConstant.IS_LOGIN, true);
-        SpUtils.put(MobileApplication.getInstance(), SpConstant.CACHE_USERNAME, userInfo.getName());
+        SpUtils.put(MobileApplication.getInstance(), SpConstant.CACHE_USERNAME, loginInfo.getUserInfo().getName());
+    }
+
+    public static ClientUserInfoVo getClientUserInfo() {
+        if (loginInfo == null) {
+            loginInfo = (ClientUserInfoVo) ACache.get(MobileApplication.getInstance()).getAsObject(SpConstant.USER_INFO);
+        }
+        return loginInfo;
     }
 
     public static UserInfo getUserInfo() {
         if (userInfo == null) {
-            userInfo = (UserInfo) ACache.get(MobileApplication.getInstance()).getAsObject(SpConstant.USER_INFO);
+            userInfo = getClientUserInfo().getUserInfo();
         }
         return userInfo;
     }

@@ -1,6 +1,7 @@
 package com.iwangcn.qingkong.business;
 
 import android.content.Context;
+import android.text.TextUtils;
 
 import com.iwangcn.qingkong.net.ACache;
 import com.iwangcn.qingkong.net.BaseBean;
@@ -13,6 +14,8 @@ import com.iwangcn.qingkong.providers.UserManager;
 import com.iwangcn.qingkong.ui.model.EventData;
 
 import org.greenrobot.eventbus.EventBus;
+import org.json.JSONArray;
+import org.json.JSONException;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -109,4 +112,31 @@ public class NewsSearchEvent extends Event implements NetConst {
         RetrofitInstance.getInstance().post(URL_NOTICE_HELPER, paratems, BaseBean.class, baseSubscriber);
     }
 
+    public void getHotList(final BaseSubscriber subscriber) {
+        HashMap paratems = new HashMap();
+        paratems.put(USER_ID, UserManager.getUserInfo().getAutoId());
+        paratems.put("clientId", UserManager.getClientUserInfo().getClientUser().getClientId());
+        RetrofitInstance.getInstance().post(URL_HOT_KEYWORDS, paratems, String.class, new BaseSubscriber<NetResponse>(true) {
+            @Override
+            public void onError(ExceptionHandle.ResponeThrowable e) {
+
+            }
+
+            @Override
+            public void onNext(NetResponse o) {
+                if (!TextUtils.isEmpty(o.getData())) {
+                    try {
+                        JSONArray jsonArray = new JSONArray(o.getData());
+                        ArrayList<String> list = new ArrayList<String>();
+                        for (int i = 0; i < jsonArray.length(); i++) {
+                            list.add(jsonArray.get(i).toString());
+                        }
+                        subscriber.onNext(list);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        });
+    }
 }

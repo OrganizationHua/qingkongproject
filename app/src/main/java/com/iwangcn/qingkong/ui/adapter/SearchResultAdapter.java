@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.iwangcn.qingkong.R;
 import com.iwangcn.qingkong.ui.model.EventData;
 import com.iwangcn.qingkong.ui.model.NewsInfo;
+import com.iwangcn.qingkong.utils.AbViewUtil;
 import com.zhy.view.flowlayout.FlowLayout;
 import com.zhy.view.flowlayout.TagAdapter;
 import com.zhy.view.flowlayout.TagFlowLayout;
@@ -91,6 +92,7 @@ public class SearchResultAdapter extends BaseAdapter {
                 TextView tv = (TextView) LayoutInflater.from(mContext).inflate(R.layout.tv,
                         parent, false);
                 tv.setText(o);
+                tv.setBackground(AbViewUtil.getShapeDrawable(mContext.getString(R.string.tag_normal)));
                 return tv;
             }
         };

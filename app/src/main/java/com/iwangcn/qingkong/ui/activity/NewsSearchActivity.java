@@ -19,7 +19,6 @@ import com.iwangcn.qingkong.R;
 import com.iwangcn.qingkong.business.Event;
 import com.iwangcn.qingkong.business.LoadFailEvent;
 import com.iwangcn.qingkong.business.NewsSearchEvent;
-import com.iwangcn.qingkong.dao.model.SearchModel;
 import com.iwangcn.qingkong.net.BaseSubscriber;
 import com.iwangcn.qingkong.net.ExceptionHandle;
 import com.iwangcn.qingkong.net.NetConst;
@@ -70,7 +69,8 @@ public class NewsSearchActivity extends BaseActivity {
 
     private List<String> mListHistory;
     private List<EventData> mListResult = new ArrayList<EventData>();
-    private List<SearchModel> mListHot = new ArrayList<SearchModel>();
+    private List<String> mListHot = new ArrayList<>();
+    private SearchHistoryAdapter mHotAdapter;//热搜
     private SearchHistoryAdapter mAdapterHistory;//历史搜索
     private SearchResultAdapter mAdapterResult;//搜索结果
     private Context mContext = this;
@@ -129,7 +129,7 @@ public class NewsSearchActivity extends BaseActivity {
         mClearEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent) {
-                if (actionId == EditorInfo.IME_ACTION_SEARCH || actionId == EditorInfo.IME_ACTION_UNSPECIFIED) {
+                if (actionId == EditorInfo.IME_ACTION_SEARCH ) {
                     getSearchList(mClearEditText.getText().toString().trim());
                 }
                 return false;
@@ -161,26 +161,20 @@ public class NewsSearchActivity extends BaseActivity {
      * 大家都在搜
      */
     private void initListViewHot() {
-        for (int i = 0; i < 5; i++) {
-            SearchModel model = new SearchModel();
-            model.setContent("大家都在搜");
-            mListHot.add(model);
-        }
-        mAdapterHistory = new SearchHistoryAdapter(this);
-        //mAdapterHistory.setDataList(mListHot);
-        SwingBottomInAnimationAdapter animAdapter = new SwingBottomInAnimationAdapter(mAdapterHistory);
+        mHotAdapter = new SearchHistoryAdapter(this);
+        mHotAdapter.setDataList(mListHot);
+        SwingBottomInAnimationAdapter animAdapter = new SwingBottomInAnimationAdapter(mHotAdapter);
         animAdapter.setAbsListView(mListViewHot);
         assert animAdapter.getViewAnimator() != null;
         animAdapter.getViewAnimator().setInitialDelayMillis(300);
         mListViewHot.setAdapter(animAdapter);
-//        mListViewHot.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                ToastUtil.showToast(mContext, "开始搜索");
-//                setClearEditText(mListHot.get(position).getContent());
-//                AbAppUtil.closeSoftInput(mContext);
-//            }
-//        });
+        mListViewHot.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                mClearEditText.setText(mListHot.get(position));
+                AbAppUtil.closeSoftInput(mContext);
+            }
+        });
     }
 
     /**
@@ -247,7 +241,9 @@ public class NewsSearchActivity extends BaseActivity {
 
             @Override
             public void onNext(Object o) {
+                ToastUtil.showToast(mContext, "已通知小助手");
                 mBtnHelper.setText(getString(R.string.search_helper_finish));
+                mBtnHelper.setClickable(false);
                 mBtnHelper.setBackground(getResources().getDrawable(R.drawable.search_button_helper_finish));
             }
         });
@@ -259,6 +255,21 @@ public class NewsSearchActivity extends BaseActivity {
      */
     private void searchNoResult() {
         mLinNoResult.setVisibility(View.VISIBLE);
+        mBtnHelper.setText(getString(R.string.search_notify_helper));
+        mBtnHelper.setClickable(true);
+        mBtnHelper.setBackground(getResources().getDrawable(R.drawable.login_button_bg));
+        mSearchEvent.getHotList(new BaseSubscriber(true) {
+            @Override
+            public void onError(ExceptionHandle.ResponeThrowable e) {
+
+            }
+
+            @Override
+            public void onNext(Object o) {
+                mListHot = (List<String>) o;
+                mHotAdapter.setDataList(mListHot);
+            }
+        });
     }
 
     @Subscribe
