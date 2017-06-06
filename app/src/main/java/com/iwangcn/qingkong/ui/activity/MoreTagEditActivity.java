@@ -30,9 +30,9 @@ import com.iwangcn.qingkong.business.Event;
 import com.iwangcn.qingkong.business.TagEvent;
 import com.iwangcn.qingkong.ui.base.QkBaseActivity;
 import com.iwangcn.qingkong.ui.model.CilentLabel;
+import com.iwangcn.qingkong.ui.view.TagWidget.MoreRecycleViewTagAdapter;
 import com.iwangcn.qingkong.ui.view.TagWidget.OnRecyclerItemClickListener;
 import com.iwangcn.qingkong.ui.view.TagWidget.RecycleViewItemTouchCallback;
-import com.iwangcn.qingkong.ui.view.TagWidget.RecycleViewTagAdapter;
 import com.iwangcn.qingkong.utils.VibratorUtil;
 
 import org.greenrobot.eventbus.EventBus;
@@ -49,12 +49,12 @@ import butterknife.OnClick;
  * Thus compared to using the {@link FlexboxLayout}, it's much less likely to abuse the memory,
  * which some times leads to the OutOfMemoryError.
  */
-public class TagEditActivity extends QkBaseActivity implements RecycleViewItemTouchCallback.OnDragListener {
+public class MoreTagEditActivity extends QkBaseActivity implements RecycleViewItemTouchCallback.OnDragListener {
     private RecyclerView recycle_recommend;
     private LinearLayout ll_sure;
     private boolean isActivated = false;//界面是否激活
     private TagEvent mTagEvent;
-    private RecycleViewTagAdapter mAdapter;
+    private MoreRecycleViewTagAdapter mAdapter;
 
     @Override
     public int layoutChildResID() {
@@ -63,7 +63,7 @@ public class TagEditActivity extends QkBaseActivity implements RecycleViewItemTo
 
     @Override
     public void initView() {
-        setTitle("筛选");
+        setTitle("更多业务标签");
         setRightTitle("编辑");
 
     }
@@ -97,7 +97,7 @@ public class TagEditActivity extends QkBaseActivity implements RecycleViewItemTo
     @Subscribe
     public void onEventMainThread(Event event) {
         if (event instanceof TagEvent) {
-            ArrayList<ArrayList<CilentLabel>> list = (ArrayList<ArrayList<CilentLabel>>) event.getObject();
+           ArrayList<ArrayList<CilentLabel>> list = (ArrayList<ArrayList<CilentLabel>>) event.getObject();
             mAdapter.setDataList(list);
         }
     }
@@ -111,7 +111,7 @@ public class TagEditActivity extends QkBaseActivity implements RecycleViewItemTo
         recommendLayoutManager.setFlexDirection(FlexDirection.ROW);
         recommendLayoutManager.setAlignItems(AlignItems.STRETCH);
         recycle_recommend.setLayoutManager(recommendLayoutManager);
-        mAdapter = new RecycleViewTagAdapter(this);
+        mAdapter = new MoreRecycleViewTagAdapter(this);
         recycle_recommend.setAdapter(mAdapter);
 
         final ItemTouchHelper recommendItemTouchHelper = new ItemTouchHelper(
@@ -128,7 +128,7 @@ public class TagEditActivity extends QkBaseActivity implements RecycleViewItemTo
                 int pos = vh.getLayoutPosition();
                 if (pos > mAdapter.getOneTitlePosition() && pos < mAdapter.getTwoTitlePosition()) {//
                     recommendItemTouchHelper.startDrag(vh);
-                    VibratorUtil.Vibrate(TagEditActivity.this, 100);
+                    VibratorUtil.Vibrate(MoreTagEditActivity.this, 100);
                 } else if (pos > mAdapter.getTwoTitlePosition() && pos < mAdapter.getThreeTitlePosition()) {
 //                    if (mAdapter.isEditing) return;
 //                    mAdapter.isEditing = true;

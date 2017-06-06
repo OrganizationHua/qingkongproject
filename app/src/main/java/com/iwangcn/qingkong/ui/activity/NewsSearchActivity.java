@@ -1,6 +1,7 @@
 package com.iwangcn.qingkong.ui.activity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -26,6 +27,7 @@ import com.iwangcn.qingkong.ui.adapter.SearchHistoryAdapter;
 import com.iwangcn.qingkong.ui.adapter.SearchResultAdapter;
 import com.iwangcn.qingkong.ui.base.BaseActivity;
 import com.iwangcn.qingkong.ui.model.EventData;
+import com.iwangcn.qingkong.ui.model.NewsInfo;
 import com.iwangcn.qingkong.ui.view.ClearEditText;
 import com.iwangcn.qingkong.ui.view.freshwidget.RefreshListenerAdapter;
 import com.iwangcn.qingkong.ui.view.freshwidget.ReloadRefreshLayout;
@@ -37,6 +39,7 @@ import com.nhaarman.listviewanimations.appearance.simple.SwingLeftInAnimationAda
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -72,7 +75,8 @@ public class NewsSearchActivity extends BaseActivity {
     private SearchResultAdapter mAdapterResult;//搜索结果
     private Context mContext = this;
     private NewsSearchEvent mSearchEvent;
-    private String strKeyWord="";
+    private String strKeyWord = "";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -192,7 +196,14 @@ public class NewsSearchActivity extends BaseActivity {
         mListViewResult.setAdapter(animAdapter);
         mListViewResult.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            public void onItemClick(AdapterView<?> parent, View view, int i, long id) {
+                //跟进和未跟进分别处理
+                ArrayList<NewsInfo> list = new ArrayList<NewsInfo>();
+                list.add(mListResult.get(i).getData());
+                Intent intent = new Intent(mContext, NewsDetailActivity.class);
+                intent.putExtra("NewsInfoList", (Serializable) list);
+                intent.putExtra("autoId", mListResult.get(i).getAutoId());//事件ID
+                startActivity(intent);
             }
         });
         mAbPullToRefreshView.setOnRefreshListener(new RefreshListenerAdapter() {
@@ -217,7 +228,7 @@ public class NewsSearchActivity extends BaseActivity {
      * @param keyword
      */
     private void getSearchList(String keyword) {
-        strKeyWord=keyword;
+        strKeyWord = keyword;
         mSearchEvent.getRefreshEventList(keyword);
         AbAppUtil.closeSoftInput(mContext);
         //保存历史记录
@@ -231,7 +242,7 @@ public class NewsSearchActivity extends BaseActivity {
         mSearchEvent.noticeHelper(mClearEditText.getText().toString().trim(), new BaseSubscriber(true) {
             @Override
             public void onError(ExceptionHandle.ResponeThrowable e) {
-                ToastUtil.showToast(mContext,"通知小助手失败");
+                ToastUtil.showToast(mContext, "通知小助手失败");
             }
 
             @Override
@@ -254,7 +265,7 @@ public class NewsSearchActivity extends BaseActivity {
     public void onEventMainThread(Event event) {
         if (event instanceof NewsSearchEvent) {
             List<EventData> list = (List<EventData>) event.getObject();
-            if(list.size()==0&&mListResult.size()==0){//表示没有搜到
+            if (list.size() == 0 && mListResult.size() == 0) {//表示没有搜到
                 searchNoResult();
                 return;
             }

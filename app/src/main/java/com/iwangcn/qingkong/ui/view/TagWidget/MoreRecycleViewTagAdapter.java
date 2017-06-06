@@ -30,7 +30,7 @@ import java.util.List;
 /**
  * Adapter class that handles the data set with the {@link RecyclerView.LayoutManager}
  */
-public class RecycleViewTagAdapter extends BaseMultipleItemAdapter implements RecycleViewItemTouchCallback.ItemTouchAdapter {
+public class MoreRecycleViewTagAdapter extends BaseMultipleItemAdapter implements RecycleViewItemTouchCallback.ItemTouchAdapter {
     public boolean isEditing = false;
     public boolean isAdd = false;
     public static List<CilentLabel> results1 = new ArrayList<>();
@@ -38,19 +38,19 @@ public class RecycleViewTagAdapter extends BaseMultipleItemAdapter implements Re
     public static List<CilentLabel> results3 = new ArrayList<>();
     private Context mContext;
 
-    public RecycleViewTagAdapter(Context context) {
+    public MoreRecycleViewTagAdapter(Context context) {
         super(context);
         this.mContext = context;
     }
 
     public void setDataList(ArrayList<ArrayList<CilentLabel>> list) {
-        if (list.get(0) != null) {
+        if(list.get(0)!=null){
             results1 = list.get(0);
         }
-        if (list.get(1) != null) {
+        if(list.get(1)!=null){
             results2 = list.get(1);
         }
-        if (list.get(1) != null) {
+        if(list.get(1)!=null){
             results3 = list.get(1);
         }
         notifyDataSetChanged();
@@ -60,9 +60,9 @@ public class RecycleViewTagAdapter extends BaseMultipleItemAdapter implements Re
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof HeaderViewHolder) {
             if (position == getOneTitlePosition()) {
-                ((HeaderViewHolder) holder).bindTo("来源");
+                ((HeaderViewHolder) holder).bindTo("推荐标签");
             } else if (position == getTwoTitlePosition()) {
-                ((HeaderViewHolder) holder).bindTo("业务标签");
+                ((HeaderViewHolder) holder).bindTo("自定义标签");
             } else if (position == getThreeTitlePosition()) {
                 ((HeaderViewHolder) holder).bindTo("自定义标签");
             }

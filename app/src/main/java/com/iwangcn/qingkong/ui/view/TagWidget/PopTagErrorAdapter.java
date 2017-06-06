@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.iwangcn.qingkong.R;
+import com.iwangcn.qingkong.ui.model.LabelError;
 import com.zhy.view.flowlayout.FlowLayout;
 import com.zhy.view.flowlayout.TagAdapter;
 
@@ -18,17 +19,17 @@ import java.util.List;
  * Created by czh on 2017/4/21.
  */
 
-public class PopTagAdapter extends TagAdapter<TagModel> {
+public class PopTagErrorAdapter extends TagAdapter<LabelError> {
     public static final int COLOR_RECOMMON = 0;
     public static final int COLOR_MINE = 1;
     public static final int COLOR_ERROR =3;//报错
-    private List<TagModel> mList;
+    private List<LabelError> mList;
     private Context mContext;
 
     private String[] tagColors = new String[]{"#FFFFFFFF", "#FFf4924A", "#e6c14c", "#b33b37"};
     private int tagColorType = 0;
 
-    public PopTagAdapter(List<TagModel> datas, Context context) {
+    public PopTagErrorAdapter(List<LabelError> datas, Context context) {
         super(datas);
         this.mList = datas;
         this.mContext = context;
@@ -40,8 +41,8 @@ public class PopTagAdapter extends TagAdapter<TagModel> {
     }
 
     @Override
-    public View getView(FlowLayout parent, int position, TagModel tagModel) {
-        TagModel model = mList.get(position);
+    public View getView(FlowLayout parent, int position, LabelError LabelError) {
+        LabelError model = mList.get(position);
         TextView tv = (TextView) LayoutInflater.from(mContext).inflate(R.layout.tag_popupwindow_item,
                 parent, false);
         if (model.isSelect()) {
@@ -53,7 +54,7 @@ public class PopTagAdapter extends TagAdapter<TagModel> {
             tv.setTextColor(mContext.getResources().getColor(R.color.font_gray_666));
             tv.setBackground(getShapeDrawable(0));
         }
-        tv.setText(model.getTag());
+        tv.setText(model.getName());
         return tv;
     }
 
