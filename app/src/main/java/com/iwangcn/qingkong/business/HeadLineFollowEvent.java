@@ -126,6 +126,24 @@ public class HeadLineFollowEvent extends Event implements NetConst {
             }
         });
     }
+    public void doFollowReprocess(String infoId,final int position) {//重新处理
+        HashMap paratems = new HashMap();
+        paratems.put(USER_ID, UserManager.getUserInfo().getAutoId());
+        paratems.put("infoId", infoId);
+        RetrofitInstance.getInstance().post(URL_EVENT_FOLLOWUP_REPROCESS, paratems, String.class, new BaseSubscriber<NetResponse<String>>(false) {
+            @Override
+            public void onError(ExceptionHandle.ResponeThrowable e) {
+
+            }
+
+            @Override
+            public void onNext(NetResponse<String> netResponse) {
+                HeadLineFollowEvent.this.setId(5);
+                HeadLineFollowEvent.this.setObject(position);
+                EventBus.getDefault().post(HeadLineFollowEvent.this);
+            }
+        });
+    }
     public void getMoreEvent() {
         indexPage++;
         getHelperEventList(indexPage, "1","");

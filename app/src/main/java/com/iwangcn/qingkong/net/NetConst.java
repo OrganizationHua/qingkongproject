@@ -30,6 +30,8 @@ public interface NetConst {
     String URL_EVENT_FOLLOWUP_SETTOP = "followup/event/setTop";//2.4.3头条跟进--置顶
     String URL_EVENT_FOLLOWUP_CANCELTOP = "followup/event/cancelTop";//2.4.4头条跟进--取消置顶
     String URL_EVENT_FOLLOWUP_DONE = "followup/event/done";//2.4.5头条跟进--处理完毕
+    String URL_EVENT_FOLLOWUP_REPROCESS = "followup/event/reprocess";//头条跟进--重新处理
+
     String URL_EVENT_FOLLOWUP_DETAIL = "followup/event/detail";//2.4.6头条跟进--跟进消息详情
     String URL_EVENT_FOLLOWUP_DETAIL_COMMENT = "followup/event/detail/comment";//2.4.7头条跟进--跟进消息详情--获取评论
     String URL_EVENT_FOLLOWUP_AIDE = "followup/aide";//2.4.8助手跟进列表
@@ -37,6 +39,8 @@ public interface NetConst {
     String URL_EVENT_AIDE_SETTOP = "followup/aide/setTop";//2.4.10助手跟进--置顶
     String URL_EVENT_AIDE_CANCELTOP = "followup/aide/cancelTop";//2.4.11助手跟进--取消置顶
     String URL_EVENT_AIDE_DONE = "followup/aide/done";//2.4.12助手跟进--处理完毕
+    String URL_EVENT_AIDE_REPROCESS = "followup/aide/reprocess";//助手跟进--重新处理
+
     String URL_EVENT_AIDE_DETAIL = "followup/aide/detail";//2.4.13助手跟进--助手跟进详情
     String URL_EVENT_AIDE_SUBMIT = "followup/aide/submitMessage";//2.4.14 助手跟进--提交留言
     String URL_EVENT_AIDE_MESSAGELIST = "followup/aide/messageList";//2.4.15助手跟进--留言列表

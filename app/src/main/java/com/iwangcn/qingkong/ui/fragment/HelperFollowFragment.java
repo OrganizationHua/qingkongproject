@@ -120,6 +120,9 @@ public class HelperFollowFragment extends BaseFragment {
             } else if (helperFollowEvent.getId() == 4) {//已处理
                 mList.remove((int) helperFollowEvent.getObject());
                 mNewsAdapter.notifyItemRemoved((int) helperFollowEvent.getObject());
+            } else if (helperFollowEvent.getId() == 5) {//重新处理
+                mList.remove((int) helperFollowEvent.getObject());
+                mNewsAdapter.notifyItemRemoved((int) helperFollowEvent.getObject());
             }
         } else if (event instanceof LoadFailEvent) {
             mReloadRefreshView.finishRefreshing();

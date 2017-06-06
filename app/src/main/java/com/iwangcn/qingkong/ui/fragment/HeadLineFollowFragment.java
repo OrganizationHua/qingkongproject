@@ -134,6 +134,9 @@ public class HeadLineFollowFragment extends BaseFragment {
             } else if (headLineFollowEvent.getId() == 4) {//已处理
                 mList.remove((int) headLineFollowEvent.getObject());
                 mNewsAdapter.notifyItemRemoved((int) headLineFollowEvent.getObject());
+            }else if (headLineFollowEvent.getId() == 5) {//重新处理
+                mList.remove((int) headLineFollowEvent.getObject());
+                mNewsAdapter.notifyItemRemoved((int) headLineFollowEvent.getObject());
             }
         } else if (event instanceof LoadFailEvent) {
             mReloadRefreshView.finishRefreshing();

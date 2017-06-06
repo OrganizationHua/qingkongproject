@@ -113,6 +113,13 @@ public class HeadLineFollowRecyclerAdapter extends BaseRecyclerViewAdapter<HeadL
                 headLineFollowEvent.doFollowDone(helperModel.getAutoId() + "", pos);
             }
         });
+        //重新处理
+        holder.llReprocess.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                headLineFollowEvent.doFollowReprocess(helperModel.getAutoId() + "", pos);
+            }
+        });
         holder.tvScan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

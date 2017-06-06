@@ -130,7 +130,24 @@ public class HelperFollowEvent extends Event implements NetConst {
             }
         });
     }
+    public void doFollowReprocess(String infoId, final int position) {//已处理
+        HashMap paratems = new HashMap();
+        paratems.put(USER_ID, UserManager.getUserInfo().getAutoId());
+        paratems.put("infoId", infoId);
+        RetrofitInstance.getInstance().post(URL_EVENT_AIDE_REPROCESS, paratems, String.class, new BaseSubscriber<NetResponse<String>>(false) {
+            @Override
+            public void onError(ExceptionHandle.ResponeThrowable e) {
 
+            }
+
+            @Override
+            public void onNext(NetResponse<String> netResponse) {
+                HelperFollowEvent.this.setId(5);
+                HelperFollowEvent.this.setObject(position);
+                EventBus.getDefault().post(HelperFollowEvent.this);
+            }
+        });
+    }
     public void getMoreEvent() {
         indexPage++;
         getHelperEventList(indexPage, "1", "");

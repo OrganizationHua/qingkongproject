@@ -127,6 +127,13 @@ public class HelperFollowRecyclerAdapter extends BaseRecyclerViewAdapter<HelperL
                 helperFollowEvent.doFollowDone(helperModel.getHelperProcess().getAutoId() + "", pos);
             }
         });
+        //重新处理
+        holder.llReprocess.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                helperFollowEvent.doFollowReprocess(helperModel.getHelperProcess().getAutoId() + "", pos);
+            }
+        });
         holder.tvScan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
