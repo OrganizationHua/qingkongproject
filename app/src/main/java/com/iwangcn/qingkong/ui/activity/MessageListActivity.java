@@ -5,6 +5,8 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
@@ -53,13 +55,18 @@ public class MessageListActivity extends QkBaseActivity {
 
     @BindView(R.id.home_list_news)
     RecyclerView mListView;
+    @BindView(R.id.img_send)
+    ImageView img_send;
 
+    @BindView(R.id.tv_content)
+    EditText tv_content;
 
     @BindView(R.id.mReloadRefreshView)
     ReloadRefreshLayout mReloadRefreshView;
     private MessageListAdapter mNewsAdapter;
     private List<HelperFeedbackDetail> mList = new ArrayList<>();
     private MessageListEvent helperEvent;
+    private String autoId;
 
     @Override
     public int layoutChildResID() {
@@ -77,7 +84,7 @@ public class MessageListActivity extends QkBaseActivity {
     @Override
     public void initData() {
         helperInfo = (HelperListModel.HelperInfo) getIntent().getSerializableExtra("message");
-        String autoId = getIntent().getStringExtra("autoId");
+        autoId = getIntent().getStringExtra("autoId");
         initTag(helperInfo);
         helperEvent = new MessageListEvent(this, autoId);
         helperEvent.getRefreshEventList();
@@ -126,9 +133,10 @@ public class MessageListActivity extends QkBaseActivity {
         }
     }
 
-    @OnClick(R.id.base_act_right_lin)//APP信息
-    public void onBtnWebView() {
-        ToastUtil.showToast(this, "查看原文");
+    @OnClick(R.id.img_send)//APP信息
+    public void onSendMessage() {
+        helperEvent.commitMessage(autoId, tv_content.getText().toString().trim());
+        tv_content.setText("");
     }
 
     public void initTag(HelperListModel.HelperInfo helperInfo) {

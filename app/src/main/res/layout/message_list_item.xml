@@ -35,7 +35,6 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentTop="true"
-                android:text="助手"
                 android:textSize="12sp" />
 
             <TextView
@@ -44,7 +43,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:layout_toRightOf="@+id/tv_username"
-                android:text="腾讯新闻"
                 android:textSize="12sp" />
 
             <TextView
@@ -53,7 +51,6 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/tv_message"
                 android:layout_centerInParent="true"
-                android:text="三天前"
                 android:textSize="12sp" />
         </RelativeLayout>
 

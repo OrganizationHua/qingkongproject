@@ -55,7 +55,7 @@ public class MessageListAdapter extends BaseRecyclerViewAdapter<HelperFeedbackDe
             holder.tv_time.setText(AbDateUtil.formatDateStrGetDay(helperInfo.getUpdateTime()));
         }
 
-        if (!TextUtils.isEmpty(helperInfo.getUserName())) {
+        if (!TextUtils.isEmpty(helperInfo.getMessage())) {
             holder.tv_message.setText(helperInfo.getMessage());
         }
 

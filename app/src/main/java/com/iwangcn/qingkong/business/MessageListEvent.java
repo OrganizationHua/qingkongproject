@@ -10,6 +10,7 @@ import com.iwangcn.qingkong.net.RetrofitInstance;
 import com.iwangcn.qingkong.providers.UserManager;
 import com.iwangcn.qingkong.ui.model.HelperFeedbackDetail;
 import com.iwangcn.qingkong.ui.model.HelperListModel;
+import com.iwangcn.qingkong.utils.ToastUtil;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -55,10 +56,11 @@ public class MessageListEvent extends Event implements NetConst {
         });
     }
 
-    public void commitMessage(String infoId) {//提交留言
+    public void commitMessage(String infoId, String content) {//提交留言
         HashMap paratems = new HashMap();
         paratems.put(USER_ID, UserManager.getUserInfo().getAutoId());
         paratems.put("infoId", infoId);
+        paratems.put("content", content);
         RetrofitInstance.getInstance().post(URL_EVENT_AIDE_SUBMIT, paratems, String.class, new BaseSubscriber<NetResponse<String>>(false) {
             @Override
             public void onError(ExceptionHandle.ResponeThrowable e) {
