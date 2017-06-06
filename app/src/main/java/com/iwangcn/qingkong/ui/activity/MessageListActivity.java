@@ -12,20 +12,16 @@ import android.widget.TextView;
 import com.alibaba.fastjson.JSON;
 import com.iwangcn.qingkong.R;
 import com.iwangcn.qingkong.business.Event;
-import com.iwangcn.qingkong.business.HelperEvent;
 import com.iwangcn.qingkong.business.LoadFailEvent;
 import com.iwangcn.qingkong.business.MessageListEvent;
 import com.iwangcn.qingkong.net.NetConst;
-import com.iwangcn.qingkong.ui.adapter.HelperRecyclerAdapter;
 import com.iwangcn.qingkong.ui.adapter.MessageListAdapter;
 import com.iwangcn.qingkong.ui.base.QkBaseActivity;
 import com.iwangcn.qingkong.ui.model.HelperFeedbackDetail;
-import com.iwangcn.qingkong.ui.model.HelperInfo;
 import com.iwangcn.qingkong.ui.model.HelperListModel;
 import com.iwangcn.qingkong.ui.view.freshwidget.RefreshListenerAdapter;
 import com.iwangcn.qingkong.ui.view.freshwidget.ReloadRefreshLayout;
 import com.iwangcn.qingkong.utils.AbDateUtil;
-import com.iwangcn.qingkong.utils.ToastUtil;
 import com.zhy.view.flowlayout.FlowLayout;
 import com.zhy.view.flowlayout.TagAdapter;
 import com.zhy.view.flowlayout.TagFlowLayout;
@@ -34,7 +30,6 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import butterknife.BindView;
@@ -112,7 +107,7 @@ public class MessageListActivity extends QkBaseActivity {
             if (helperEvent.getId() == 0) {
                 mReloadRefreshView.finishRefreshing();
                 List<HelperFeedbackDetail> list = (List<HelperFeedbackDetail>) event.getObject();
-                if (list.size() < NetConst.page) {//如果小于page条表示加载完成不能加载更多
+                if (list==null||list.size() < NetConst.page) {//如果小于page条表示加载完成不能加载更多
                     mReloadRefreshView.finishLoadmore();
                 }
                 if (event.isMore()) {
