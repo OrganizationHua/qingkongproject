@@ -29,7 +29,7 @@ public class BesselAnimation {
         this.itemView=itemView;
     }
 
-    public void startAnimation( Animator.AnimatorListener listener){
+    public void startAnimation(final  Animator.AnimatorListener listener){
         int[] childCoordinate = new int[2];
         int[] parentCoordinate = new int[2];
         int[] shopCoordinate = new int[2];
@@ -66,7 +66,7 @@ public class BesselAnimation {
         animator.addListener(new Animator.AnimatorListener() {
             @Override
             public void onAnimationStart(Animator animator) {
-
+                listener.onAnimationStart(animator);
             }
 
             @Override
@@ -77,16 +77,17 @@ public class BesselAnimation {
                 //shopImg 开始一个放大动画
                 Animation scaleAnim = AnimationUtils.loadAnimation(mContext, R.anim.collect_scale);
                 collectView.startAnimation(scaleAnim);
+                listener.onAnimationEnd(animator);
             }
 
             @Override
             public void onAnimationCancel(Animator animator) {
-
+                listener.onAnimationCancel(animator);
             }
 
             @Override
             public void onAnimationRepeat(Animator animator) {
-
+                listener.onAnimationRepeat(animator);
             }
         });
         animator.start();

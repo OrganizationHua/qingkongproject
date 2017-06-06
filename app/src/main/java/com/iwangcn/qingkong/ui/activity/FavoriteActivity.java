@@ -16,8 +16,7 @@ import com.iwangcn.qingkong.net.ExceptionHandle;
 import com.iwangcn.qingkong.net.NetConst;
 import com.iwangcn.qingkong.ui.adapter.FacoriteAdapter;
 import com.iwangcn.qingkong.ui.base.QkBaseActivity;
-import com.iwangcn.qingkong.ui.model.FavoriteInfo;
-import com.iwangcn.qingkong.ui.model.FavoriteStateModel;
+import com.iwangcn.qingkong.ui.model.EventInfoVo;
 import com.iwangcn.qingkong.ui.view.freshwidget.RefreshListenerAdapter;
 import com.iwangcn.qingkong.ui.view.freshwidget.ReloadRefreshLayout;
 import com.iwangcn.qingkong.utils.ToastUtil;
@@ -77,7 +76,7 @@ public class FavoriteActivity extends QkBaseActivity {
     }
 
     public void initData() {
-        ArrayList<FavoriteInfo> mList = new ArrayList<>();
+        ArrayList<EventInfoVo> mList = new ArrayList<>();
         mAdapter = new FacoriteAdapter(this);
         mAdapter.addAll(mList);
         SwingLeftInAnimationAdapter animAdapter = new SwingLeftInAnimationAdapter(mAdapter);
@@ -88,8 +87,8 @@ public class FavoriteActivity extends QkBaseActivity {
         mAdapter.setCancleCollcetListener(new FacoriteAdapter.OnClickCancleCollectListener() {
             @Override
             public void onClickCancleCollect(final int position) {
-                FavoriteInfo info = (FavoriteInfo) mAdapter.getItem(position);
-                mBusEvent.removeFavoritet(String.valueOf(info.getAutoId()), new BaseSubscriber(true) {
+                EventInfoVo info = (EventInfoVo) mAdapter.getItem(position);
+                mBusEvent.removeFavoritet(String.valueOf(info.getFavoriteId()), new BaseSubscriber(true) {
                     @Override
                     public void onError(ExceptionHandle.ResponeThrowable e) {
                         ToastUtil.showToast(mContext, e.codeMessage);
@@ -116,13 +115,9 @@ public class FavoriteActivity extends QkBaseActivity {
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                FavoriteInfo eventInfo = (FavoriteInfo) mAdapter.getItem(i);
-                FavoriteStateModel favoriteStateModel = new FavoriteStateModel();
-                favoriteStateModel.setEventId(eventInfo.getEventId());
-                favoriteStateModel.setFavoriteFlag(1);
+                EventInfoVo eventInfo = (EventInfoVo) mAdapter.getItem(i);
                 Intent intent = new Intent(mContext, NewsListActivity.class);
-                intent.putExtra("EventInfo", eventInfo.getEvent());
-                intent.putExtra("FavoriteStateModel", favoriteStateModel);
+                intent.putExtra("EventInfoVo", eventInfo);
                 startActivity(intent);
             }
         });
@@ -132,18 +127,22 @@ public class FavoriteActivity extends QkBaseActivity {
     @Subscribe
     public void onEventMainThread(Event event) {
         if (event instanceof FavoriteEvent) {
-            mAbPullToRefreshView.finishRefreshing();
-            List<FavoriteInfo> list = (List<FavoriteInfo>) event.getObject();
-            if (list.size() < NetConst.page) {//如果小于page条表示加载完成不能加载更多
-                mAbPullToRefreshView.setEnableLoadmore(false);
-            }
-            if (event.isMore()) {
-                mAbPullToRefreshView.finishLoadmore();
-            } else {
+            if (event.getId() == FavoriteEvent.FAVORITE_GET_LIST) {
                 mAbPullToRefreshView.finishRefreshing();
-                mAdapter.clear();
+                List<EventInfoVo> list = (List<EventInfoVo>) event.getObject();
+                if (list.size() < NetConst.page) {//如果小于page条表示加载完成不能加载更多
+                    mAbPullToRefreshView.setEnableLoadmore(false);
+                }
+                if (event.isMore()) {
+                    mAbPullToRefreshView.finishLoadmore();
+                } else {
+                    mAbPullToRefreshView.finishRefreshing();
+                    mAdapter.clear();
+                }
+                mAdapter.addAll(list);
+            } else if (event.getId() == FavoriteEvent.FAVORITE_FINISH) {
+                mBusEvent.getRefreshEventList();
             }
-            mAdapter.addAll(list);
         } else if (event instanceof LoadFailEvent) {
             mAbPullToRefreshView.finishLoadmore();
             mAbPullToRefreshView.finishRefreshing();

@@ -14,6 +14,7 @@ import android.widget.RelativeLayout;
 
 import com.iwangcn.qingkong.R;
 import com.iwangcn.qingkong.business.Event;
+import com.iwangcn.qingkong.business.FavoriteEvent;
 import com.iwangcn.qingkong.business.HomeEvent;
 import com.iwangcn.qingkong.business.LoadFailEvent;
 import com.iwangcn.qingkong.net.NetConst;
@@ -24,7 +25,6 @@ import com.iwangcn.qingkong.ui.adapter.BaseRecyclerViewAdapter;
 import com.iwangcn.qingkong.ui.adapter.EventInfoAdapter;
 import com.iwangcn.qingkong.ui.base.BaseFragment;
 import com.iwangcn.qingkong.ui.model.EventInfoVo;
-import com.iwangcn.qingkong.ui.model.FavoriteStateModel;
 import com.iwangcn.qingkong.ui.view.freshwidget.RefreshListenerAdapter;
 import com.iwangcn.qingkong.ui.view.freshwidget.ReloadRefreshLayout;
 
@@ -84,6 +84,7 @@ public class HomeFragment extends BaseFragment {
         mListView.setLayoutManager(new LinearLayoutManager(getActivity()));
         SlideInLeftAnimator animator = new SlideInLeftAnimator();
         animator.setInterpolator(new OvershootInterpolator());
+        animator.setAddDuration(500);
         mListView.setItemAnimator(animator);
         AlphaInAnimationAdapter alphaAdapter = new AlphaInAnimationAdapter(mAdapter);
         alphaAdapter.setFirstOnly(true);
@@ -112,12 +113,8 @@ public class HomeFragment extends BaseFragment {
         mAdapter.setOnItemClickListener(new BaseRecyclerViewAdapter.OnRecyclerItemClickListener() {
             @Override
             public void onItemClickListener(RecyclerView.ViewHolder viewHolder, int i) {
-                FavoriteStateModel favoriteStateModel = new FavoriteStateModel();
-                favoriteStateModel.setEventId(mList.get(i).getFavoriteId());
-                favoriteStateModel.setFavoriteFlag(mList.get(i).getFavoriteFlag());
                 Intent intent = new Intent(getActivity(), NewsListActivity.class);
-                intent.putExtra("EventInfo", mList.get(i).getEventInfo());
-                intent.putExtra("FavoriteStateModel", favoriteStateModel);
+                intent.putExtra("EventInfoVo", mList.get(i));
                 startActivity(intent);
             }
         });
@@ -169,6 +166,10 @@ public class HomeFragment extends BaseFragment {
         } else if (event instanceof LoadFailEvent) {
             mAbPullToRefreshView.finishLoadmore();
             mAbPullToRefreshView.finishRefreshing();
+        }else if(event instanceof FavoriteEvent){
+            if(event.getId()==FavoriteEvent.FAVORITE_FINISH){
+                mHomeEvent.getRefreshEventList();
+            }
         }
     }
 

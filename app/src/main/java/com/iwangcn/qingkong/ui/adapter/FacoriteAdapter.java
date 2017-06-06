@@ -13,7 +13,7 @@ import android.widget.TextView;
 
 import com.iwangcn.qingkong.R;
 import com.iwangcn.qingkong.ui.model.EventInfo;
-import com.iwangcn.qingkong.ui.model.FavoriteInfo;
+import com.iwangcn.qingkong.ui.model.EventInfoVo;
 import com.iwangcn.qingkong.ui.view.MyCommonDialog;
 import com.iwangcn.qingkong.utils.AbDateUtil;
 import com.iwangcn.qingkong.utils.GlideUtils;
@@ -65,15 +65,14 @@ public class FacoriteAdapter extends ArrayAdapter implements UndoAdapter {
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
-        final FavoriteInfo favoriteInfo = (FavoriteInfo) getItem(position);
-        if (favoriteInfo != null) {
-            EventInfo model = favoriteInfo.getEvent();
+        final EventInfoVo eventInfoVo = (EventInfoVo) getItem(position);
+        if (eventInfoVo != null) {
+            EventInfo model = eventInfoVo.getEventInfo();
+            viewHolder.tvNumb.setText(eventInfoVo.getInfoCount() + "条数据");
             if (model != null) {
                 if (!TextUtils.isEmpty(model.getName())) {
                     viewHolder.title.setText(model.getName());
                 }
-                //条数
-                viewHolder.tvNumb.setText(model.getNewsNum() + "条数据");
                 //时间
                 viewHolder.tvTime.setText(AbDateUtil.formatDateStrGetDay(model.getUpdateTime()));
                 if (!TextUtils.isEmpty(model.getPicUrl())) {

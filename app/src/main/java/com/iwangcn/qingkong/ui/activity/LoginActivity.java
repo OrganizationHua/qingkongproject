@@ -3,6 +3,7 @@ package com.iwangcn.qingkong.ui.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.widget.EditText;
 
 import com.iwangcn.qingkong.R;
@@ -49,21 +50,19 @@ public class LoginActivity extends BaseActivity implements NetConst {
     public void onBtLogin() {
         String strUserName = mEdUserName.getText().toString().trim();
         String strPw = mEdPw.getText().toString().trim();
-//        if (TextUtils.isEmpty(strUserName) || TextUtils.isEmpty(strPw)) {
-//            ToastUtil.showToast(this, "用户名和密码不能为空");
-//            return;
-//        }
-//        if (strPw.length() < 6) {
-//            ToastUtil.showToast(this, "密码不能少于6位");
-//            return;
-//        }
+        if (TextUtils.isEmpty(strUserName) || TextUtils.isEmpty(strPw)) {
+            ToastUtil.showToast(this, "用户名和密码不能为空");
+            return;
+        }
+        if (strPw.length() < 6) {
+            ToastUtil.showToast(this, "密码不能少于6位");
+            return;
+        }
         login(strUserName, strPw);
     }
 
     public void login(String userName, String strPw) {
         HashMap paratems = new HashMap();
-//        paratems.put("uname",userName);
-//        paratems.put("pwd",strPw);
         paratems.put("username", userName);
         paratems.put("pwd",strPw);
         RetrofitInstance.getInstance().post(URL_LOGIN, paratems, LoginInfo.class, new BaseSubscriber<NetResponse<LoginInfo>>(true) {
