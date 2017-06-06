@@ -12,7 +12,6 @@ import android.widget.TextView;
 
 import com.iwangcn.qingkong.R;
 import com.iwangcn.qingkong.business.FavoriteEvent;
-import com.iwangcn.qingkong.net.BaseBean;
 import com.iwangcn.qingkong.net.BaseSubscriber;
 import com.iwangcn.qingkong.net.ExceptionHandle;
 import com.iwangcn.qingkong.ui.model.EventInfo;
@@ -73,7 +72,7 @@ public class EventInfoAdapter extends BaseRecyclerViewAdapter<EventInfoVo> {
     public void bindData(RecyclerView.ViewHolder holder, final EventInfoVo infoVo, final int position) {
         EventInfoAdapter.ViewHolder viewHolder = (EventInfoAdapter.ViewHolder) holder;
         if (infoVo != null) {
-            EventInfo model = infoVo.getEventInfo();
+            final EventInfo model = infoVo.getEventInfo();
             viewHolder.tvNumb.setText(infoVo.getInfoCount() + "条数据");
             if (model != null) {
                 if (!TextUtils.isEmpty(model.getName())) {
@@ -81,56 +80,58 @@ public class EventInfoAdapter extends BaseRecyclerViewAdapter<EventInfoVo> {
                 }
                 viewHolder.tvTime.setText(AbDateUtil.formatDateStrGetDay(model.getUpdateTime()));
             }
-            if (model.getStatus() == 1) {
-                viewHolder.imgNote.setVisibility(View.VISIBLE);
-            } else {
-                viewHolder.imgNote.setVisibility(View.GONE);
-            }
+            //这个功能暂时不做
+//            if (model.getStatus() == 1) {
+//                viewHolder.imgNote.setVisibility(View.VISIBLE);
+//            } else {
+//                viewHolder.imgNote.setVisibility(View.GONE);
+//            }
             if (!TextUtils.isEmpty(model.getPicUrl())) {
                 GlideUtils.loadImageView(mContext, model.getPicUrl(), viewHolder.imgIcon);
             }
-        }
-        viewHolder.linCollect.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(final View view) {
-                if (infoVo != null) {
-                    new FavoriteEvent(mContext).addFavoritet(String.valueOf(infoVo.getFavoriteId()), new BaseSubscriber<BaseBean>(true) {
-                        @Override
-                        public void onError(ExceptionHandle.ResponeThrowable e) {
-                            ToastUtil.showToast(mContext, e.codeMessage);
-                        }
 
-                        @Override
-                        public void onNext(BaseBean baseBean) {
-                            ToastUtil.showToast(mContext, "收藏成功");
-                            BesselAnimation besselAnimation = new BesselAnimation(mContext, containerView, view, collectView);
-                            besselAnimation.startAnimation(new Animator.AnimatorListener() {
-                                @Override
-                                public void onAnimationStart(Animator animator) {
+            viewHolder.linCollect.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(final View view) {
+                    if (infoVo != null) {
+                        new FavoriteEvent(mContext).addFavoritet(String.valueOf(model.getAutoId()), new BaseSubscriber(true) {
+                            @Override
+                            public void onError(ExceptionHandle.ResponeThrowable e) {
+                                ToastUtil.showToast(mContext, e.codeMessage);
+                            }
 
-                                }
+                            @Override
+                            public void onNext(Object baseBean) {
+                                ToastUtil.showToast(mContext, "收藏成功");
+                                BesselAnimation besselAnimation = new BesselAnimation(mContext, containerView, view, collectView);
+                                besselAnimation.startAnimation(new Animator.AnimatorListener() {
+                                    @Override
+                                    public void onAnimationStart(Animator animator) {
 
-                                @Override
-                                public void onAnimationEnd(Animator animator) {
-                                    remove(position);
-                                }
+                                    }
 
-                                @Override
-                                public void onAnimationCancel(Animator animator) {
+                                    @Override
+                                    public void onAnimationEnd(Animator animator) {
+                                        remove(position);
+                                    }
 
-                                }
+                                    @Override
+                                    public void onAnimationCancel(Animator animator) {
 
-                                @Override
-                                public void onAnimationRepeat(Animator animator) {
+                                    }
 
-                                }
-                            });
-                        }
-                    });
+                                    @Override
+                                    public void onAnimationRepeat(Animator animator) {
+
+                                    }
+                                });
+                            }
+                        });
+                    }
+
                 }
-
-            }
-        });
+            });
+        }
     }
 
     @Override

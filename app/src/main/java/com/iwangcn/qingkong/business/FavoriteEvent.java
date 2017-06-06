@@ -9,7 +9,7 @@ import com.iwangcn.qingkong.net.NetConst;
 import com.iwangcn.qingkong.net.NetResponse;
 import com.iwangcn.qingkong.net.RetrofitInstance;
 import com.iwangcn.qingkong.providers.UserManager;
-import com.iwangcn.qingkong.ui.model.FavoriteInfo;
+import com.iwangcn.qingkong.ui.model.EventInfoVo;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -24,7 +24,8 @@ import java.util.List;
 public class FavoriteEvent extends Event implements NetConst {
     private Context mContext;
     private int indexPage = 1;//当前页数
-
+    public static int FAVORITE_GET_LIST=1;
+    public static int FAVORITE_FINISH=2;
     public FavoriteEvent() {
 
     }
@@ -38,8 +39,8 @@ public class FavoriteEvent extends Event implements NetConst {
         HashMap paratems = new HashMap();
         paratems.put(USER_ID, UserManager.getUserInfo().getAutoId());
         paratems.put("pageno", indexPage);
-        RetrofitInstance.getInstance().post(URL_EVENT_FAVORITE, paratems, FavoriteInfo.class, new BaseSubscriber
-                <NetResponse<List<FavoriteInfo>>>(true) {
+        RetrofitInstance.getInstance().post(URL_EVENT_FAVORITE, paratems, EventInfoVo.class, new BaseSubscriber
+                <NetResponse<List<EventInfoVo>>>(true) {
             @Override
             public void onError(ExceptionHandle.ResponeThrowable e) {
                 EventBus.getDefault().post(new LoadFailEvent());
@@ -47,9 +48,10 @@ public class FavoriteEvent extends Event implements NetConst {
 
             @Override
 
-            public void onNext(NetResponse<List<FavoriteInfo>> o) {
+            public void onNext(NetResponse<List<EventInfoVo>> o) {
                 FavoriteEvent favoriteEvent=new FavoriteEvent();
                 favoriteEvent.setObject(o.getDataList());
+                favoriteEvent.setId(FAVORITE_GET_LIST);
                 EventBus.getDefault().post(favoriteEvent);
             }
         });
@@ -70,7 +72,7 @@ public class FavoriteEvent extends Event implements NetConst {
      *
      * @param eventId
      */
-    public void addFavoritet(String eventId,BaseSubscriber<BaseBean> subscriber) {
+    public void addFavoritet(String eventId,BaseSubscriber subscriber) {
         HashMap paratems = new HashMap();
         paratems.put(USER_ID, UserManager.getUserInfo().getAutoId());
         paratems.put("eventId", eventId);

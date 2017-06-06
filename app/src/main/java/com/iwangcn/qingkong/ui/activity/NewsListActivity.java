@@ -16,16 +16,15 @@ import android.widget.TextView;
 import com.iwangcn.qingkong.R;
 import com.iwangcn.qingkong.business.Event;
 import com.iwangcn.qingkong.business.FavoriteEvent;
-import com.iwangcn.qingkong.business.NewsListBus;
 import com.iwangcn.qingkong.business.LoadFailEvent;
-import com.iwangcn.qingkong.net.BaseBean;
+import com.iwangcn.qingkong.business.NewsListBus;
 import com.iwangcn.qingkong.net.BaseSubscriber;
 import com.iwangcn.qingkong.net.ExceptionHandle;
 import com.iwangcn.qingkong.net.NetConst;
 import com.iwangcn.qingkong.ui.adapter.NewsListAdapter;
 import com.iwangcn.qingkong.ui.base.BaseActivity;
 import com.iwangcn.qingkong.ui.model.EventInfo;
-import com.iwangcn.qingkong.ui.model.FavoriteStateModel;
+import com.iwangcn.qingkong.ui.model.EventInfoVo;
 import com.iwangcn.qingkong.ui.model.NewsInfo;
 import com.iwangcn.qingkong.ui.view.freshwidget.RefreshListenerAdapter;
 import com.iwangcn.qingkong.ui.view.freshwidget.ReloadRefreshLayout;
@@ -60,8 +59,8 @@ public class NewsListActivity extends BaseActivity {
     private NewsListAdapter mAdapter;
     private List<NewsInfo> mList = new ArrayList<>();
 
-    private EventInfo mIntentEventInfo;//上个界面传递过来的事件
-    private FavoriteStateModel mFavoriteStateModel;//上个界面传过来的收藏状态
+    private EventInfoVo mIntentEventInfo;//上个界面传递过来的事件
+    // private FavoriteStateModel mFavoriteStateModel;//上个界面传过来的收藏状态
     private final int REQUEST_CODE = 10;
     private NewsListBus mEventBus;
     private FavoriteEvent mFavoriteEvent;//收藏
@@ -79,10 +78,10 @@ public class NewsListActivity extends BaseActivity {
         EventBus.getDefault().register(this);
         mEventBus = new NewsListBus(this);
         mFavoriteEvent = new FavoriteEvent(this);
-        mIntentEventInfo = (EventInfo) getIntent().getSerializableExtra("EventInfo");
-        mFavoriteStateModel = (FavoriteStateModel) getIntent().getSerializableExtra("FavoriteStateModel");
-        if (mFavoriteStateModel != null) {
-            if (mFavoriteStateModel.getFavoriteFlag() == 0) {
+        mIntentEventInfo = (EventInfoVo) getIntent().getSerializableExtra("EventInfoVo");
+        // mFavoriteStateModel = (FavoriteStateModel) getIntent().getSerializableExtra("FavoriteStateModel");
+        if (mIntentEventInfo != null) {
+            if (mIntentEventInfo.getFavoriteFlag() == 0) {
                 mCollcetImage.setSelected(false);
             } else {
                 mCollcetImage.setSelected(true);
@@ -92,13 +91,13 @@ public class NewsListActivity extends BaseActivity {
         mAbPullToRefreshView.setOnRefreshListener(new RefreshListenerAdapter() {
             @Override
             public void onRefresh(ReloadRefreshLayout refreshLayout) {
-                mEventBus.getRefreshEventList(mIntentEventInfo);
+                mEventBus.getRefreshEventList(mIntentEventInfo.getEventInfo());
             }
 
             @Override
             public void onLoadMore(ReloadRefreshLayout refreshLayout) {
                 super.onLoadMore(refreshLayout);
-                mEventBus.getMoreEvent(mIntentEventInfo);
+                mEventBus.getMoreEvent(mIntentEventInfo.getEventInfo());
             }
         });
     }
@@ -110,7 +109,7 @@ public class NewsListActivity extends BaseActivity {
         TextView tvNumb = (TextView) headView.findViewById(R.id.new_item_num);
         TextView tvTime = (TextView) headView.findViewById(R.id.new_item_time);
         TextView tvBrief = (TextView) headView.findViewById(R.id.tv_brief);
-        EventInfo eventInfo = mIntentEventInfo;
+        EventInfo eventInfo = mIntentEventInfo.getEventInfo();
         if (eventInfo != null) {
             if (!TextUtils.isEmpty(eventInfo.getPicUrl())) {
                 GlideUtils.loadImageView(this, eventInfo.getPicUrl(), imageIcon);
@@ -135,14 +134,14 @@ public class NewsListActivity extends BaseActivity {
         mAnimAdapter.setAbsListView(mListView);
         mListView.setAdapter(mAnimAdapter);
         ViewCompat.setNestedScrollingEnabled(mListView, true);
-        mEventBus.getRefreshEventList(mIntentEventInfo);
+        mEventBus.getRefreshEventList(mIntentEventInfo.getEventInfo());
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Intent intent = new Intent(mContext, NewsDetailActivity.class);
                 intent.putExtra("NewsInfoList", (Serializable) mList);
                 intent.putExtra("frontPageposition", i - 1);
-                intent.putExtra("autoId",mIntentEventInfo.getAutoId());//事件ID
+                intent.putExtra("autoId", mIntentEventInfo.getEventInfo().getAutoId());//事件ID
                 startActivityForResult(intent, REQUEST_CODE);
             }
         });
@@ -180,9 +179,9 @@ public class NewsListActivity extends BaseActivity {
             if (event.isMore()) {
                 mAbPullToRefreshView.finishLoadmore();
             } else {
-                if(list.size()==0){
-                    ToastUtil.showToast(this,"暂无相关新闻");
-                }else{
+                if (list.size() == 0) {
+                    ToastUtil.showToast(this, "暂无相关新闻");
+                } else {
                     list.get(0).setSelect(true);
                 }
                 mAbPullToRefreshView.finishRefreshing();
@@ -204,32 +203,40 @@ public class NewsListActivity extends BaseActivity {
 
     @OnClick(R.id.base_img_right_lin)//收藏
     public void btnCollected(View view) {
-        if (mFavoriteStateModel != null) {
-            int favoriteFlag = mFavoriteStateModel.getFavoriteFlag();
-            if (mFavoriteStateModel.getFavoriteFlag() == 0) {
-                mFavoriteEvent.addFavoritet(String.valueOf(favoriteFlag), new BaseSubscriber<BaseBean>(true) {
+        if (mIntentEventInfo != null) {
+            int favoriteFlag = mIntentEventInfo.getFavoriteFlag();
+            if (mIntentEventInfo.getFavoriteFlag() == 0) {
+                mFavoriteEvent.addFavoritet(String.valueOf(mIntentEventInfo.getEventInfo().getAutoId()), new BaseSubscriber(true) {
                     @Override
                     public void onError(ExceptionHandle.ResponeThrowable e) {
                         ToastUtil.showToast(mContext, e.codeMessage);
                     }
 
                     @Override
-                    public void onNext(BaseBean baseBean) {
+                    public void onNext(Object o) {
                         ToastUtil.showToast(mContext, "收藏成功");
                         mCollcetImage.setSelected(true);
+                        mIntentEventInfo.setFavoriteFlag(1);
+                        FavoriteEvent favoriteEvent = new FavoriteEvent();
+                        favoriteEvent.setId(FavoriteEvent.FAVORITE_FINISH);
+                        EventBus.getDefault().post(favoriteEvent);
                     }
                 });
             } else {
-                mFavoriteEvent.removeFavoritet(String.valueOf(favoriteFlag), new BaseSubscriber<BaseBean>(true) {
+                mFavoriteEvent.removeFavoritet(String.valueOf(mIntentEventInfo.getFavoriteId()), new BaseSubscriber(true) {
                     @Override
                     public void onError(ExceptionHandle.ResponeThrowable e) {
                         ToastUtil.showToast(mContext, e.codeMessage);
                     }
 
                     @Override
-                    public void onNext(BaseBean o) {
-                        ToastUtil.showToast(mContext, "取消收藏");
+                    public void onNext(Object o) {
+                        ToastUtil.showToast(mContext, "取消收藏成功");
                         mCollcetImage.setSelected(false);
+                        mIntentEventInfo.setFavoriteFlag(0);
+                        FavoriteEvent favoriteEvent = new FavoriteEvent();
+                        favoriteEvent.setId(FavoriteEvent.FAVORITE_FINISH);
+                        EventBus.getDefault().post(favoriteEvent);
                     }
                 });
             }
