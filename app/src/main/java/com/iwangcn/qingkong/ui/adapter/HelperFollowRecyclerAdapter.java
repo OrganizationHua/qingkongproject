@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.alibaba.fastjson.JSON;
 import com.iwangcn.qingkong.R;
 import com.iwangcn.qingkong.business.HelperFollowEvent;
 import com.iwangcn.qingkong.ui.activity.MessageListActivity;
@@ -70,17 +71,26 @@ public class HelperFollowRecyclerAdapter extends BaseRecyclerViewAdapter<HelperL
         if (!TextUtils.isEmpty(helperModel.getHelperInfo().getContent())) {
             holder.tvContent.setText(helperModel.getHelperInfo().getContent());
         }
+        //是否置顶
+        if (!TextUtils.equals(helperModel.getHelperProcess().getTop() + "", "0")) {
+            holder.tv_is_top.setText("置顶");
+            holder.img_is_top.setImageResource(R.drawable.genjin_btn_top);
+        } else if (!TextUtils.equals(helperModel.getHelperProcess().getTop() + "", "1")) {
+            holder.tv_is_top.setText("取消置顶");
+            holder.img_is_top.setImageResource(R.drawable.genjin_btn_untop);
+        }
         if (!TextUtils.isEmpty(helperModel.getHelperInfo().getFollowCount())) {
             holder.btn_leave_message.setText("留言（" + helperModel.getHelperInfo().getFollowCount() + "）");
         }
         if (!TextUtils.isEmpty(helperModel.getHelperInfo().getPics())) {
+
             List<String> listPic = Arrays.asList(helperModel.getHelperInfo().getPics().split(","));
             for (int i = 0; i < listPic.size(); i++) {
                 GlideUtils.loadImageView(mContext, listPic.get(i), holder.imageView);
             }
         }
         if (!TextUtils.isEmpty(helperModel.getHelperInfo().getLabels())) {
-            TagAdapter<String> tagAdapter = new TagAdapter<String>(Arrays.asList(helperModel.getHelperInfo().getLabels().split(","))) {
+            TagAdapter<String> tagAdapter = new TagAdapter<String>(JSON.parseArray(helperModel.getHelperInfo().getLabels(),String.class)) {
                 @Override
                 public View getView(FlowLayout parent, int position, String o) {
 
@@ -92,18 +102,25 @@ public class HelperFollowRecyclerAdapter extends BaseRecyclerViewAdapter<HelperL
             };
             holder.tagFlowLayout.setAdapter(tagAdapter);
         }
+        //取消跟进
         holder.llCancle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 helperFollowEvent.doCancleFollow(helperModel.getHelperProcess().getAutoId() + "", pos);
             }
         });
+        //取消置顶 置顶
         holder.llSet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                helperFollowEvent.doFollowSetUpCancleTop(helperModel.getHelperProcess().getAutoId() + "", pos);
+                if (!TextUtils.equals(helperModel.getHelperProcess().getTop() + "", "0")) {
+                    helperFollowEvent.doFollowSetUp(helperModel.getHelperProcess().getAutoId() + "", pos);
+                } else if (!TextUtils.equals(helperModel.getHelperProcess().getTop() + "", "1")) {
+                    helperFollowEvent.doFollowSetUpCancleTop(helperModel.getHelperProcess().getAutoId() + "", pos);
+                }
             }
         });
+        //处理完成
         holder.llFinish.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -116,10 +133,12 @@ public class HelperFollowRecyclerAdapter extends BaseRecyclerViewAdapter<HelperL
                 ToastUtil.showToast(mContext, "已查看");
             }
         });
+        //留言
         holder.btn_leave_message.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(mContext, MessageListActivity.class).putExtra("message", helperModel.getHelperInfo());
+                Intent intent = new Intent(mContext, MessageListActivity.class).putExtra("message", helperModel.getHelperInfo())
+                        .putExtra("autoId", helperModel.getHelperProcess().getAutoId()+"");
                 mContext.startActivity(intent);
             }
         });
@@ -145,8 +164,15 @@ public class HelperFollowRecyclerAdapter extends BaseRecyclerViewAdapter<HelperL
 
         @BindView(R.id.img_pic)
         public ImageView imageView;//内容
+
         @BindView(R.id.ll_cancle_follow)
         public LinearLayout llCancle;//取消跟进
+
+        @BindView(R.id.img_is_top)
+        public ImageView img_is_top;//置顶
+
+        @BindView(R.id.tv_is_top)
+        public TextView tv_is_top;//置顶
 
         @BindView(R.id.ll_set_top)
         public LinearLayout llSet;//置顶

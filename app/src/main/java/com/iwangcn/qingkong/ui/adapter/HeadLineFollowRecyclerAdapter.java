@@ -30,10 +30,11 @@ import butterknife.BindView;
 public class HeadLineFollowRecyclerAdapter extends BaseRecyclerViewAdapter<HeadLineModel> {
     private int type;
     private HeadLineFollowEvent headLineFollowEvent;
+
     public HeadLineFollowRecyclerAdapter(Context context, List<HeadLineModel> list, int type, HeadLineFollowEvent headLineFollowEvent) {
         super(context, list);
         this.type = type;
-        this.headLineFollowEvent=headLineFollowEvent;
+        this.headLineFollowEvent = headLineFollowEvent;
     }
 
     @Override
@@ -56,7 +57,7 @@ public class HeadLineFollowRecyclerAdapter extends BaseRecyclerViewAdapter<HeadL
             holder.title.setText(helperModel.getEventData().getData().getTitle());
         }
 
-        if (!TextUtils.isEmpty(helperModel.getEventData().getData().getUpdateTime()+"")) {
+        if (!TextUtils.isEmpty(helperModel.getEventData().getData().getUpdateTime() + "")) {
             holder.tvTime.setText(AbDateUtil.formatDateStrGetDay(helperModel.getEventData().getData().getUpdateTime()));
         }
         if (!TextUtils.isEmpty(helperModel.getEventData().getData().getSource())) {
@@ -65,7 +66,14 @@ public class HeadLineFollowRecyclerAdapter extends BaseRecyclerViewAdapter<HeadL
         if (!TextUtils.isEmpty(helperModel.getEventData().getData().getContent())) {
             holder.tvContent.setText(helperModel.getEventData().getData().getContent());
         }
-
+        //是否置顶
+        if (!TextUtils.equals(helperModel.getTop() + "", "0")) {
+            holder.tv_is_top.setText("置顶");
+            holder.img_is_top.setImageResource(R.drawable.genjin_btn_top);
+        } else if (!TextUtils.equals(helperModel.getTop() + "", "1")) {
+            holder.tv_is_top.setText("取消置顶");
+            holder.img_is_top.setImageResource(R.drawable.genjin_btn_untop);
+        }
         if (!TextUtils.isEmpty(helperModel.getLabels())) {
             TagAdapter<String> tagAdapter = new TagAdapter<String>(Arrays.asList(helperModel.getLabels().split(","))) {
                 @Override
@@ -79,22 +87,30 @@ public class HeadLineFollowRecyclerAdapter extends BaseRecyclerViewAdapter<HeadL
             };
             holder.tagFlowLayout.setAdapter(tagAdapter);
         }
+        //取消跟进
         holder.llCancle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                headLineFollowEvent.doCancleFollow(new Long(helperModel.getAutoId()).intValue()+"",pos);
+                headLineFollowEvent.doCancleFollow(helperModel.getAutoId() + "", pos);
             }
         });
+        //取消置顶 置顶
         holder.llSet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                headLineFollowEvent.doFollowSetUpCancleTop(helperModel.getAutoId()+"",pos);
+                if (!TextUtils.equals(helperModel.getTop() + "", "0")) {
+                    headLineFollowEvent.doFollowSetUp(helperModel.getAutoId() + "", pos);
+                } else if (!TextUtils.equals(helperModel.getTop() + "", "1")) {
+                    headLineFollowEvent.doFollowSetUpCancleTop(helperModel.getAutoId() + "", pos);
+                }
+
             }
         });
+        //处理完成
         holder.llFinish.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                headLineFollowEvent.doFollowDone(helperModel.getAutoId()+"",pos);
+                headLineFollowEvent.doFollowDone(helperModel.getAutoId() + "", pos);
             }
         });
         holder.tvScan.setOnClickListener(new View.OnClickListener() {
@@ -125,8 +141,15 @@ public class HeadLineFollowRecyclerAdapter extends BaseRecyclerViewAdapter<HeadL
 
         @BindView(R.id.img_pic)
         public ImageView imageView;//内容
+
         @BindView(R.id.ll_cancle_follow)
         public LinearLayout llCancle;//取消跟进
+
+        @BindView(R.id.img_is_top)
+        public ImageView img_is_top;//置顶
+
+        @BindView(R.id.tv_is_top)
+        public TextView tv_is_top;//置顶
 
         @BindView(R.id.ll_set_top)
         public LinearLayout llSet;//置顶

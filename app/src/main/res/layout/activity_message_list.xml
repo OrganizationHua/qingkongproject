@@ -38,21 +38,20 @@
             android:gravity="center_vertical">
 
             <TextView
-                android:id="@+id/news_from"
+                android:id="@+id/news_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:text="网易"
+                android:text="时间"
                 android:textColor="@color/font_gray"
                 android:textSize="11sp" />
-
             <TextView
-                android:id="@+id/news_time"
+                android:id="@+id/news_from"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:text="时间"
+                android:text="网易"
                 android:textColor="@color/font_gray"
                 android:textSize="11sp" />
         </RelativeLayout>

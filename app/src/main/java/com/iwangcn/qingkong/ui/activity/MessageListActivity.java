@@ -11,8 +11,10 @@ import com.iwangcn.qingkong.R;
 import com.iwangcn.qingkong.business.Event;
 import com.iwangcn.qingkong.business.HelperEvent;
 import com.iwangcn.qingkong.business.LoadFailEvent;
+import com.iwangcn.qingkong.business.MessageListEvent;
 import com.iwangcn.qingkong.net.NetConst;
 import com.iwangcn.qingkong.ui.adapter.HelperRecyclerAdapter;
+import com.iwangcn.qingkong.ui.adapter.MessageListAdapter;
 import com.iwangcn.qingkong.ui.base.QkBaseActivity;
 import com.iwangcn.qingkong.ui.model.HelperInfo;
 import com.iwangcn.qingkong.ui.model.HelperListModel;
@@ -53,9 +55,9 @@ public class MessageListActivity extends QkBaseActivity {
 
     @BindView(R.id.mReloadRefreshView)
     ReloadRefreshLayout mReloadRefreshView;
-    private HelperRecyclerAdapter mNewsAdapter;
+    private MessageListAdapter mNewsAdapter;
     private List<HelperInfo> mList = new ArrayList<>();
-    private HelperEvent helperEvent;
+    private MessageListEvent helperEvent;
     @Override
     public int layoutChildResID() {
         return R.layout.activity_message_list;
@@ -72,10 +74,11 @@ public class MessageListActivity extends QkBaseActivity {
     @Override
     public void initData() {
         helperInfo = (HelperListModel.HelperInfo) getIntent().getSerializableExtra("message");
+        String autoId=getIntent().getStringExtra("autoId");
         initTag(helperInfo);
-        helperEvent = new HelperEvent(this);
+        helperEvent = new MessageListEvent(this,autoId);
         helperEvent.getRefreshEventList();
-        mNewsAdapter = new HelperRecyclerAdapter(this, mList, helperEvent);
+        mNewsAdapter = new MessageListAdapter(this, mList, helperEvent);
         mListView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         mListView.setAdapter(mNewsAdapter);
         mReloadRefreshView.setOnRefreshListener(new RefreshListenerAdapter() {
@@ -93,7 +96,7 @@ public class MessageListActivity extends QkBaseActivity {
     }
     @Subscribe
     public void onEventMainThread(Event event) {
-        if (event instanceof HelperEvent) {
+        if (event instanceof MessageListEvent) {
             Log.e("fjg","====");
             if (helperEvent.getId() == 0) {
                 mReloadRefreshView.finishRefreshing();
@@ -110,12 +113,8 @@ public class MessageListActivity extends QkBaseActivity {
                 }
                 mList.addAll(list);
                 mNewsAdapter.notifyDataSetChanged();
-            } else if (helperEvent.getId() == 1) {//已跟进
-                mList.remove((int) helperEvent.getObject());
-                mNewsAdapter.notifyItemRemoved((int) helperEvent.getObject());
-            } else if (helperEvent.getId() == 2) {//与我无关
-                mList.remove((int) helperEvent.getObject());
-                mNewsAdapter.notifyItemRemoved((int) helperEvent.getObject());
+            } else if (helperEvent.getId() == 1) {//提交留言
+
             }
         } else if (event instanceof LoadFailEvent) {
             mReloadRefreshView.finishRefreshing();

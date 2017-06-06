@@ -10,9 +10,9 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.alibaba.fastjson.JSON;
 import com.iwangcn.qingkong.R;
-import com.iwangcn.qingkong.business.HelperEvent;
+
+import com.iwangcn.qingkong.business.MessageListEvent;
 import com.iwangcn.qingkong.ui.activity.FollowDetailActivity;
 import com.iwangcn.qingkong.ui.model.HelperInfo;
 import com.iwangcn.qingkong.utils.AbDateUtil;
@@ -30,10 +30,10 @@ import butterknife.BindView;
  * Created by RF on 2017/4/22.
  */
 
-public class HelperRecyclerAdapter extends BaseRecyclerViewAdapter<HelperInfo> {
-    private HelperEvent helperEvent;
+public class MessageListAdapter extends BaseRecyclerViewAdapter<HelperInfo> {
+    private MessageListEvent helperEvent;
 
-    public HelperRecyclerAdapter(Context context, List<HelperInfo> list, HelperEvent helperEvent) {
+    public MessageListAdapter(Context context, List<HelperInfo> list, MessageListEvent helperEvent) {
         super(context, list);
         this.helperEvent = helperEvent;
     }
@@ -59,46 +59,7 @@ public class HelperRecyclerAdapter extends BaseRecyclerViewAdapter<HelperInfo> {
         if (!TextUtils.isEmpty(helperInfo.getContent())) {
             holder.tvContent.setText(helperInfo.getContent());
         }
-        if (!TextUtils.isEmpty(helperInfo.getPics())) {
-            List<String> listPic = Arrays.asList(helperInfo.getPics().split(","));
-            for (int i = 0; i < listPic.size(); i++) {
-                GlideUtils.loadImageView(mContext, listPic.get(i), holder.imageView);
-            }
-        }
-        if (!TextUtils.isEmpty(helperInfo.getLabels())) {
-            TagAdapter<String> tagAdapter = new TagAdapter<String>(JSON.parseArray(helperInfo.getLabels(),String.class)) {
-                @Override
-                public View getView(FlowLayout parent, int position, String o) {
 
-                    TextView tv = (TextView) LayoutInflater.from(mContext).inflate(R.layout.tv,
-                            parent, false);
-                    tv.setText(o);
-                    return tv;
-                }
-            };
-            holder.tagFlowLayout.setAdapter(tagAdapter);
-        }
-
-
-        holder.btnFollow.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                helperEvent.doHelperFollow(new Long(helperInfo.getAutoId()).intValue(), position);
-            }
-        });
-        holder.btnNORealte.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                helperEvent.doDelete(new Long(helperInfo.getAutoId()).intValue(), position);
-            }
-        });
-        holder.tvScan.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(mContext, FollowDetailActivity.class).putExtra("url", helperInfo.getUrl() != null ? helperInfo.getUrl() : "");
-                mContext.startActivity(intent);
-            }
-        });
     }
 
     @Override
