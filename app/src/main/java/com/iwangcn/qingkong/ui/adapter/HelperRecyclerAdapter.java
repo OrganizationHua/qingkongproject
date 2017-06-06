@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.alibaba.fastjson.JSON;
 import com.iwangcn.qingkong.R;
 import com.iwangcn.qingkong.business.HelperEvent;
 import com.iwangcn.qingkong.ui.activity.FollowDetailActivity;
@@ -65,7 +66,7 @@ public class HelperRecyclerAdapter extends BaseRecyclerViewAdapter<HelperInfo> {
             }
         }
         if (!TextUtils.isEmpty(helperInfo.getLabels())) {
-            TagAdapter<String> tagAdapter = new TagAdapter<String>(Arrays.asList(helperInfo.getLabels().split(","))) {
+            TagAdapter<String> tagAdapter = new TagAdapter<String>(JSON.parseArray(helperInfo.getLabels(),String.class)) {
                 @Override
                 public View getView(FlowLayout parent, int position, String o) {
 
