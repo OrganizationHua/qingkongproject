@@ -26,7 +26,7 @@ public class HttpSuccessResponseFunc<T> implements Func1<NetResponse, NetRespons
         if (response.getMessage() == null)
             response.setMessage("数据异常");
         if (response.getData() == null)
-            response.setMessage("");
+            response.setData("");
         if (TextUtils.equals("200", response.getCode())) {
             try {
                 response.setDataObject(JSON.parseObject(response.getData().toString(), clazz));
