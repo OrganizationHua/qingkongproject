@@ -8,6 +8,7 @@ import com.iwangcn.qingkong.net.NetConst;
 import com.iwangcn.qingkong.net.NetResponse;
 import com.iwangcn.qingkong.net.RetrofitInstance;
 import com.iwangcn.qingkong.providers.UserManager;
+import com.iwangcn.qingkong.ui.model.HelperFeedbackDetail;
 import com.iwangcn.qingkong.ui.model.HelperListModel;
 
 import org.greenrobot.eventbus.EventBus;
@@ -34,14 +35,14 @@ public class MessageListEvent extends Event implements NetConst {
         paratems.put("infoId", infoId);
         paratems.put("pageno", index);
 
-        RetrofitInstance.getInstance().post(URL_EVENT_AIDE_MESSAGELIST, paratems, HelperListModel.class, new BaseSubscriber<NetResponse<HelperListModel>>(false) {
+        RetrofitInstance.getInstance().post(URL_EVENT_AIDE_MESSAGELIST, paratems, HelperFeedbackDetail.class, new BaseSubscriber<NetResponse<HelperFeedbackDetail>>(false) {
             @Override
             public void onError(ExceptionHandle.ResponeThrowable e) {
                 EventBus.getDefault().post(new LoadFailEvent());
             }
 
             @Override
-            public void onNext(NetResponse<HelperListModel> netResponse) {
+            public void onNext(NetResponse<HelperFeedbackDetail> netResponse) {
                 MessageListEvent.this.setObject(netResponse.getDataList());
                 MessageListEvent.this.setId(0);
                 if (indexPage == 1) {

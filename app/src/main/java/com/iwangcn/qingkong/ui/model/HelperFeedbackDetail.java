@@ -9,7 +9,7 @@ import com.iwangcn.qingkong.net.BaseBean;
 public class HelperFeedbackDetail extends BaseBean {
     private long autoId;
     private long feedbackId;
-    private int type;
+    private String userName;
     private int userId;
     private String message;
     private long updateTime;
@@ -30,12 +30,12 @@ public class HelperFeedbackDetail extends BaseBean {
         this.feedbackId = feedbackId;
     }
 
-    public int getType() {
-        return type;
+    public String getUserName() {
+        return userName;
     }
 
-    public void setType(int type) {
-        this.type = type;
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
     public int getUserId() {

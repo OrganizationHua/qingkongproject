@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
 
+import com.alibaba.fastjson.JSON;
 import com.iwangcn.qingkong.R;
 import com.iwangcn.qingkong.business.Event;
 import com.iwangcn.qingkong.business.HelperEvent;
@@ -16,6 +17,7 @@ import com.iwangcn.qingkong.net.NetConst;
 import com.iwangcn.qingkong.ui.adapter.HelperRecyclerAdapter;
 import com.iwangcn.qingkong.ui.adapter.MessageListAdapter;
 import com.iwangcn.qingkong.ui.base.QkBaseActivity;
+import com.iwangcn.qingkong.ui.model.HelperFeedbackDetail;
 import com.iwangcn.qingkong.ui.model.HelperInfo;
 import com.iwangcn.qingkong.ui.model.HelperListModel;
 import com.iwangcn.qingkong.ui.view.freshwidget.RefreshListenerAdapter;
@@ -56,8 +58,9 @@ public class MessageListActivity extends QkBaseActivity {
     @BindView(R.id.mReloadRefreshView)
     ReloadRefreshLayout mReloadRefreshView;
     private MessageListAdapter mNewsAdapter;
-    private List<HelperInfo> mList = new ArrayList<>();
+    private List<HelperFeedbackDetail> mList = new ArrayList<>();
     private MessageListEvent helperEvent;
+
     @Override
     public int layoutChildResID() {
         return R.layout.activity_message_list;
@@ -74,9 +77,9 @@ public class MessageListActivity extends QkBaseActivity {
     @Override
     public void initData() {
         helperInfo = (HelperListModel.HelperInfo) getIntent().getSerializableExtra("message");
-        String autoId=getIntent().getStringExtra("autoId");
+        String autoId = getIntent().getStringExtra("autoId");
         initTag(helperInfo);
-        helperEvent = new MessageListEvent(this,autoId);
+        helperEvent = new MessageListEvent(this, autoId);
         helperEvent.getRefreshEventList();
         mNewsAdapter = new MessageListAdapter(this, mList, helperEvent);
         mListView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
@@ -94,13 +97,14 @@ public class MessageListActivity extends QkBaseActivity {
             }
         });
     }
+
     @Subscribe
     public void onEventMainThread(Event event) {
         if (event instanceof MessageListEvent) {
-            Log.e("fjg","====");
+            Log.e("fjg", "====");
             if (helperEvent.getId() == 0) {
                 mReloadRefreshView.finishRefreshing();
-                List<HelperInfo> list = (List<HelperInfo>) event.getObject();
+                List<HelperFeedbackDetail> list = (List<HelperFeedbackDetail>) event.getObject();
                 if (list.size() < NetConst.page) {//如果小于page条表示加载完成不能加载更多
                     mReloadRefreshView.finishLoadmore();
                 }
@@ -121,6 +125,7 @@ public class MessageListActivity extends QkBaseActivity {
             mReloadRefreshView.finishLoadmore();
         }
     }
+
     @OnClick(R.id.base_act_right_lin)//APP信息
     public void onBtnWebView() {
         ToastUtil.showToast(this, "查看原文");
@@ -132,7 +137,7 @@ public class MessageListActivity extends QkBaseActivity {
             mNewsTitle.setText(helperInfo.getTitle());
             mNewsFrom.setText(helperInfo.getSource());
             mNewsTime.setText(AbDateUtil.formatDateStrGetDay(helperInfo.getUpdateTime()));
-            TagAdapter<String> tagAdapter = new TagAdapter<String>(Arrays.asList(helperInfo.getLabels().split(","))) {
+            TagAdapter<String> tagAdapter = new TagAdapter<String>(JSON.parseArray(helperInfo.getLabels(), String.class)) {
                 @Override
                 public View getView(FlowLayout parent, int position, String o) {
 
