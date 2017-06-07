@@ -7,6 +7,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.widget.RelativeLayout;
 
 import com.iwangcn.qingkong.R;
 import com.iwangcn.qingkong.business.Event;
@@ -30,7 +31,8 @@ import butterknife.BindView;
 import butterknife.OnClick;
 
 public class HelperFragment extends BaseFragment {
-
+    @BindView(R.id.system_no_data)
+    RelativeLayout mNoData;//暂时没有数据
     @BindView(R.id.home_list_news)
     RecyclerView mListView;
 
@@ -96,10 +98,15 @@ public class HelperFragment extends BaseFragment {
     @Subscribe
     public void onEventMainThread(Event event) {
         if (event instanceof HelperEvent) {
-            Log.e("fjg","====");
+            Log.e("fjg", "====");
             if (helperEvent.getId() == 0) {
                 mReloadRefreshView.finishRefreshing();
                 List<HelperInfo> list = (List<HelperInfo>) event.getObject();
+                if (list == null || list.isEmpty()) {
+                    mNoData.setVisibility(View.VISIBLE);
+                }else{
+                    mNoData.setVisibility(View.GONE);
+                }
                 if (list.size() < NetConst.page) {//如果小于page条表示加载完成不能加载更多
                     mReloadRefreshView.finishLoadmore();
                 }

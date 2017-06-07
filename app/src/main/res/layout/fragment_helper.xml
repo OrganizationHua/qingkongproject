@@ -43,17 +43,25 @@
             </RelativeLayout>
         </LinearLayout>
 
-        <com.iwangcn.qingkong.ui.view.freshwidget.ReloadRefreshLayout
-            android:id="@+id/mReloadRefreshView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/background"
-            app:reloadenable_loadmore="true">
+        <RelativeLayout
 
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/home_list_news"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <com.iwangcn.qingkong.ui.view.freshwidget.ReloadRefreshLayout
+                android:id="@+id/mReloadRefreshView"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-        </com.iwangcn.qingkong.ui.view.freshwidget.ReloadRefreshLayout>
+                android:layout_height="match_parent"
+                android:background="@color/background"
+                app:reloadenable_loadmore="true">
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/home_list_news"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </com.iwangcn.qingkong.ui.view.freshwidget.ReloadRefreshLayout>
+
+            <include layout="@layout/system_no_data" />
+        </RelativeLayout>
     </LinearLayout>
 </RelativeLayout>
