@@ -105,7 +105,11 @@ public class HelperFragment extends BaseFragment {
                 mReloadRefreshView.finishRefreshing();
                 List<HelperInfo> list = (List<HelperInfo>) event.getObject();
                 if (list == null || list.isEmpty()) {
-                    mNoData.setVisibility(View.VISIBLE);
+                    if (event.isMore()){
+                        mNoData.setVisibility(View.GONE);
+                    }else {
+                        mNoData.setVisibility(View.VISIBLE);
+                    }
                 }else{
                     mNoData.setVisibility(View.GONE);
                 }

@@ -22,20 +22,27 @@ public class HeadLineFollowEvent extends Event implements NetConst {
     private Context mContext;
     private int indexPage = 0;//当前页数
     private int type;
+    private boolean isShowDialog = false;
 
-    public HeadLineFollowEvent(Context context,int type) {
+    public HeadLineFollowEvent(Context context, int type) {
         this.mContext = context;
-         this.type=type;
+        this.type = type;
+
     }
 
-    private void getHelperEventList(int index,String sourceType ,String tags) {
+    private void getHelperEventList(int index, String sourceType, String tags) {
+        if (type == 1 && index == 1) {
+            isShowDialog = true;
+        } else {
+            isShowDialog = false;
+        }
         HashMap paratems = new HashMap();
         paratems.put(USER_ID, UserManager.getUserInfo().getAutoId());
         paratems.put("sourceType", sourceType);
 //        paratems.put("tags", tags);
-        paratems.put("pageno",index);
-        paratems.put("dealFlag",type);
-        RetrofitInstance.getInstance().post(URL_EVENT_FOLLOWUP, paratems, HeadLineModel.class, new BaseSubscriber<NetResponse<HeadLineModel>>(false) {
+        paratems.put("pageno", index);
+        paratems.put("dealFlag", type);
+        RetrofitInstance.getInstance().post(URL_EVENT_FOLLOWUP, paratems, HeadLineModel.class, new BaseSubscriber<NetResponse<HeadLineModel>>(isShowDialog) {
             @Override
             public void onError(ExceptionHandle.ResponeThrowable e) {
                 EventBus.getDefault().post(new LoadFailEvent());
@@ -54,7 +61,8 @@ public class HeadLineFollowEvent extends Event implements NetConst {
             }
         });
     }
-    public void doCancleFollow(String infoId,final int position) {//取消跟进
+
+    public void doCancleFollow(String infoId, final int position) {//取消跟进
         HashMap paratems = new HashMap();
         paratems.put(USER_ID, UserManager.getUserInfo().getAutoId());
         paratems.put("infoId", infoId);
@@ -72,7 +80,8 @@ public class HeadLineFollowEvent extends Event implements NetConst {
             }
         });
     }
-    public void doFollowSetUp(String infoId,final int position) {//置顶
+
+    public void doFollowSetUp(String infoId, final int position) {//置顶
         HashMap paratems = new HashMap();
         paratems.put(USER_ID, UserManager.getUserInfo().getAutoId());
         paratems.put("infoId", infoId);
@@ -90,7 +99,8 @@ public class HeadLineFollowEvent extends Event implements NetConst {
             }
         });
     }
-    public void doFollowSetUpCancleTop(String infoId,final int position) {//取消置顶
+
+    public void doFollowSetUpCancleTop(String infoId, final int position) {//取消置顶
         HashMap paratems = new HashMap();
         paratems.put(USER_ID, UserManager.getUserInfo().getAutoId());
         paratems.put("infoId", infoId);
@@ -108,7 +118,8 @@ public class HeadLineFollowEvent extends Event implements NetConst {
             }
         });
     }
-    public void doFollowDone(String infoId,final int position) {//已处理
+
+    public void doFollowDone(String infoId, final int position) {//已处理
         HashMap paratems = new HashMap();
         paratems.put(USER_ID, UserManager.getUserInfo().getAutoId());
         paratems.put("infoId", infoId);
@@ -126,7 +137,8 @@ public class HeadLineFollowEvent extends Event implements NetConst {
             }
         });
     }
-    public void doFollowReprocess(String infoId,final int position) {//重新处理
+
+    public void doFollowReprocess(String infoId, final int position) {//重新处理
         HashMap paratems = new HashMap();
         paratems.put(USER_ID, UserManager.getUserInfo().getAutoId());
         paratems.put("infoId", infoId);
@@ -144,13 +156,14 @@ public class HeadLineFollowEvent extends Event implements NetConst {
             }
         });
     }
+
     public void getMoreEvent() {
         indexPage++;
-        getHelperEventList(indexPage, "1","");
+        getHelperEventList(indexPage, "1", "");
     }
 
     public void getRefreshEventList() {
         indexPage = 1;
-        getHelperEventList(indexPage, "1","");
+        getHelperEventList(indexPage, "1", "");
     }
 }

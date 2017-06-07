@@ -116,7 +116,11 @@ public class HeadLineFollowFragment extends BaseFragment {
                 mReloadRefreshView.finishRefreshing();
                 List<HeadLineModel> list = (List<HeadLineModel>) event.getObject();
                 if (list == null || list.isEmpty()) {
-                    mNoData.setVisibility(View.VISIBLE);
+                    if (event.isMore()) {
+                        mNoData.setVisibility(View.GONE);
+                    } else {
+                        mNoData.setVisibility(View.VISIBLE);
+                    }
                 } else {
                     mNoData.setVisibility(View.GONE);
                 }
