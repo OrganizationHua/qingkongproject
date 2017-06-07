@@ -83,26 +83,19 @@ public class HeadLineFollowRecyclerAdapter extends BaseRecyclerViewAdapter<HeadL
         if (helperModel.getEventData().getDataType() == 1 || helperModel.getEventData().getDataType() == 5) {
             list.add(new QkTagModel(1, helperModel.getEventData().getData().getKeywords()));
         }
-        for (int i = 0; i < helperModel.getBusinessLabels().size(); i++) {
-            list.add(new QkTagModel(2, helperModel.getBusinessLabels().get(i)));
+        if (helperModel.getBusinessLabels() != null && helperModel.getBusinessLabels().size() != 0) {
+            for (int i = 0; i < helperModel.getBusinessLabels().size(); i++) {
+                list.add(new QkTagModel(2, helperModel.getBusinessLabels().get(i)));
+            }
         }
-        for (int j = 0; j < helperModel.getSelfLabels().size(); j++) {
-            list.add(new QkTagModel(3, helperModel.getSelfLabels().get(j)));
+        if (helperModel.getSelfLabels() != null && helperModel.getSelfLabels().size() != 0) {
+            for (int j = 0; j < helperModel.getSelfLabels().size(); j++) {
+                list.add(new QkTagModel(3, helperModel.getSelfLabels().get(j)));
+            }
         }
-        holder.tagFlowLayout.setAdapter(new QKTagAdapter(mContext,list));
-//        if (!TextUtils.isEmpty(helperModel.getLabels())) {
-//            TagAdapter<String> tagAdapter = new TagAdapter<String>(Arrays.asList(helperModel.getLabels().split(","))) {
-//                @Override
-//                public View getView(FlowLayout parent, int position, String o) {
-//
-//                    TextView tv = (TextView) LayoutInflater.from(mContext).inflate(R.layout.tv,
-//                            parent, false);
-//                    tv.setText(o);
-//                    return tv;
-//                }
-//            };
-//            holder.tagFlowLayout.setAdapter(tagAdapter);
-//        }
+
+        holder.tagFlowLayout.setAdapter(new QKTagAdapter(mContext, list));
+
         //取消跟进
         holder.llCancle.setOnClickListener(new View.OnClickListener() {
             @Override
