@@ -39,7 +39,7 @@ public class GlideUtils {
     }
 
     //设置加载中以及加载失败图片
-    public static void loadImageViewLoding(Context mContext, String path, ImageView mImageView, int lodingImage, int errorImageView) {
+    public static void loadImageView(Context mContext, String path, ImageView mImageView, int lodingImage, int errorImageView) {
         Glide.with(mContext).load(path).placeholder(lodingImage).error(errorImageView).into(mImageView);
     }
 

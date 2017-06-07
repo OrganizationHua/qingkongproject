@@ -62,7 +62,7 @@ public class HelperRecyclerAdapter extends BaseRecyclerViewAdapter<HelperInfo> {
         if (!TextUtils.isEmpty(helperInfo.getPics())) {
             List<String> listPic = Arrays.asList(helperInfo.getPics().split(","));
             for (int i = 0; i < listPic.size(); i++) {
-                GlideUtils.loadImageView(mContext, listPic.get(i), holder.imageView);
+                GlideUtils.loadImageView(mContext, listPic.get(i), holder.imageView,R.drawable.default_icon_bg,R.drawable.default_icon_bg);
             }
         }
         if (!TextUtils.isEmpty(helperInfo.getLabels())) {
