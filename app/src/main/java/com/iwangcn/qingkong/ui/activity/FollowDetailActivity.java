@@ -16,7 +16,6 @@ import com.iwangcn.qingkong.ui.base.QkBaseActivity;
 import com.iwangcn.qingkong.ui.model.HeadLineModel;
 import com.iwangcn.qingkong.ui.model.QkTagModel;
 import com.iwangcn.qingkong.utils.AbDateUtil;
-import com.iwangcn.qingkong.utils.ToastUtil;
 import com.zhy.view.flowlayout.TagFlowLayout;
 
 import java.util.ArrayList;
@@ -56,7 +55,7 @@ public class FollowDetailActivity extends QkBaseActivity {
     @Override
     public void initView() {
         setTitle(getString(R.string.news_detail));
-        setRightTitle(getString(R.string.originalText));
+//        setRightTitle(getString(R.string.originalText));
         if (getIntent().getIntExtra("type", 1) == 1) {
             data = (HeadLineModel) getIntent().getSerializableExtra("data");
         }
@@ -161,6 +160,6 @@ public class FollowDetailActivity extends QkBaseActivity {
 
     @OnClick(R.id.base_act_right_lin)//APP信息
     public void onBtnWebView() {
-        ToastUtil.showToast(this, "查看原文");
+
     }
 }
