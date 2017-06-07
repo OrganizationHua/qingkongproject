@@ -8,9 +8,11 @@ import android.view.Window;
 import android.view.WindowManager;
 
 import com.iwangcn.qingkong.R;
+import com.iwangcn.qingkong.business.QueryDataTypeEvent;
 import com.iwangcn.qingkong.sp.SpConstant;
 import com.iwangcn.qingkong.sp.SpUtils;
 import com.iwangcn.qingkong.ui.base.BaseActivity;
+import com.iwangcn.qingkong.ui.model.QueryDataType;
 
 public class SplashActivity extends BaseActivity {
     private int SPLASH_SCREEN_DELAY_MILLISECOND = 2000;
@@ -27,6 +29,7 @@ public class SplashActivity extends BaseActivity {
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_splash);
         isFirstStart();
+        new QueryDataTypeEvent().queeryDataType();
     }
 
     /**

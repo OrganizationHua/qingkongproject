@@ -9,15 +9,19 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.alibaba.fastjson.JSON;
 import com.iwangcn.qingkong.R;
 import com.iwangcn.qingkong.business.HeadLineFollowEvent;
+import com.iwangcn.qingkong.sp.SpUtils;
 import com.iwangcn.qingkong.ui.model.HeadLineModel;
+import com.iwangcn.qingkong.ui.model.QkTagModel;
 import com.iwangcn.qingkong.utils.AbDateUtil;
 import com.iwangcn.qingkong.utils.ToastUtil;
 import com.zhy.view.flowlayout.FlowLayout;
 import com.zhy.view.flowlayout.TagAdapter;
 import com.zhy.view.flowlayout.TagFlowLayout;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -74,19 +78,31 @@ public class HeadLineFollowRecyclerAdapter extends BaseRecyclerViewAdapter<HeadL
             holder.tv_is_top.setText("取消置顶");
             holder.img_is_top.setImageResource(R.drawable.genjin_btn_untop);
         }
-        if (!TextUtils.isEmpty(helperModel.getLabels())) {
-            TagAdapter<String> tagAdapter = new TagAdapter<String>(Arrays.asList(helperModel.getLabels().split(","))) {
-                @Override
-                public View getView(FlowLayout parent, int position, String o) {
-
-                    TextView tv = (TextView) LayoutInflater.from(mContext).inflate(R.layout.tv,
-                            parent, false);
-                    tv.setText(o);
-                    return tv;
-                }
-            };
-            holder.tagFlowLayout.setAdapter(tagAdapter);
+        List<QkTagModel> list = new ArrayList<>();
+        list.add(new QkTagModel(0, (String) SpUtils.get(mContext, helperModel.getEventData().getDataType() + "", "1")));
+        if (helperModel.getEventData().getDataType() == 1 || helperModel.getEventData().getDataType() == 5) {
+            list.add(new QkTagModel(1, helperModel.getEventData().getData().getKeywords()));
         }
+        for (int i = 0; i < helperModel.getBusinessLabels().size(); i++) {
+            list.add(new QkTagModel(2, helperModel.getBusinessLabels().get(i)));
+        }
+        for (int j = 0; j < helperModel.getSelfLabels().size(); j++) {
+            list.add(new QkTagModel(3, helperModel.getSelfLabels().get(j)));
+        }
+        holder.tagFlowLayout.setAdapter(new QKTagAdapter(mContext,list));
+//        if (!TextUtils.isEmpty(helperModel.getLabels())) {
+//            TagAdapter<String> tagAdapter = new TagAdapter<String>(Arrays.asList(helperModel.getLabels().split(","))) {
+//                @Override
+//                public View getView(FlowLayout parent, int position, String o) {
+//
+//                    TextView tv = (TextView) LayoutInflater.from(mContext).inflate(R.layout.tv,
+//                            parent, false);
+//                    tv.setText(o);
+//                    return tv;
+//                }
+//            };
+//            holder.tagFlowLayout.setAdapter(tagAdapter);
+//        }
         //取消跟进
         holder.llCancle.setOnClickListener(new View.OnClickListener() {
             @Override

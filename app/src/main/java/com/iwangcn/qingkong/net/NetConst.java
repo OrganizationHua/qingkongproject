@@ -44,6 +44,8 @@ public interface NetConst {
     String URL_EVENT_AIDE_DETAIL = "followup/aide/detail";//2.4.13助手跟进--助手跟进详情
     String URL_EVENT_AIDE_SUBMIT = "followup/aide/submitMessage";//2.4.14 助手跟进--提交留言
     String URL_EVENT_AIDE_MESSAGELIST = "followup/aide/messageList";//2.4.15助手跟进--留言列表
+
+    String URL_SOURRE_TYPE = "common/queryDataType";//2.6.3数据来源类型查询
     //收藏相关
     String URL_EVENT_FAVORITE = "event/favorite";//收藏列表
     String URL_EVENT_ADD = "event/add2favorite";//添加收藏
