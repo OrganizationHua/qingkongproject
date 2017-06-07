@@ -22,7 +22,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.iwangcn.qingkong.R;
-import com.iwangcn.qingkong.ui.model.CilentLabel;
+import com.iwangcn.qingkong.ui.model.ClientLabel;
 
 /**
  * ViewHolder that represents a cat image.
@@ -37,7 +37,7 @@ class FlexboxViewHolder extends RecyclerView.ViewHolder {
 
     }
 
-    void bindTo(CilentLabel cilentLabel, boolean isEditing) {
+    void bindTo(ClientLabel cilentLabel, boolean isEditing) {
         if(!TextUtils.isEmpty(cilentLabel.getName())){
             mTextView.setText(cilentLabel.getName());
         }

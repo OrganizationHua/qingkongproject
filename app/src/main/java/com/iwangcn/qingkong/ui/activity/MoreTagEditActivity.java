@@ -29,7 +29,7 @@ import com.iwangcn.qingkong.R;
 import com.iwangcn.qingkong.business.Event;
 import com.iwangcn.qingkong.business.TagEvent;
 import com.iwangcn.qingkong.ui.base.QkBaseActivity;
-import com.iwangcn.qingkong.ui.model.CilentLabel;
+import com.iwangcn.qingkong.ui.model.ClientLabel;
 import com.iwangcn.qingkong.ui.view.TagWidget.MoreRecycleViewTagAdapter;
 import com.iwangcn.qingkong.ui.view.TagWidget.OnRecyclerItemClickListener;
 import com.iwangcn.qingkong.ui.view.TagWidget.RecycleViewItemTouchCallback;
@@ -97,7 +97,7 @@ public class MoreTagEditActivity extends QkBaseActivity implements RecycleViewIt
     @Subscribe
     public void onEventMainThread(Event event) {
         if (event instanceof TagEvent) {
-           ArrayList<ArrayList<CilentLabel>> list = (ArrayList<ArrayList<CilentLabel>>) event.getObject();
+           ArrayList<ArrayList<ClientLabel>> list = (ArrayList<ArrayList<ClientLabel>>) event.getObject();
             mAdapter.setDataList(list);
         }
     }

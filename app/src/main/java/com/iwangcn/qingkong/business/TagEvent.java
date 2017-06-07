@@ -11,7 +11,7 @@ import com.iwangcn.qingkong.net.NetConst;
 import com.iwangcn.qingkong.net.NetResponse;
 import com.iwangcn.qingkong.net.RetrofitInstance;
 import com.iwangcn.qingkong.providers.UserManager;
-import com.iwangcn.qingkong.ui.model.CilentLabel;
+import com.iwangcn.qingkong.ui.model.ClientLabel;
 import com.iwangcn.qingkong.ui.model.LabelError;
 import com.iwangcn.qingkong.utils.ToastUtil;
 
@@ -52,7 +52,7 @@ public class TagEvent extends Event implements NetConst {
             @Override
             public void onNext(NetResponse o) {
                 if (!TextUtils.isEmpty(o.getData())) {
-                    ArrayList<ArrayList<CilentLabel>> list = parserTagData(o.getData());
+                    ArrayList<ArrayList<ClientLabel>> list = parserTagData(o.getData());
                     if (list != null) {
                         // baseSubscriber.onNext(list);
                         TagEvent event = new TagEvent();
@@ -66,12 +66,12 @@ public class TagEvent extends Event implements NetConst {
         });
     }
 
-    private ArrayList<ArrayList<CilentLabel>> parserTagData(String array) {
+    private ArrayList<ArrayList<ClientLabel>> parserTagData(String array) {
         try {
             JSONArray jsonArray = new JSONArray(array);
-            ArrayList<ArrayList<CilentLabel>> listSum = new ArrayList<>();
+            ArrayList<ArrayList<ClientLabel>> listSum = new ArrayList<>();
             for (int i = 0; i < jsonArray.length(); i++) {
-                ArrayList<CilentLabel> list = (ArrayList<CilentLabel>) JSON.parseArray(jsonArray.get(i).toString(), CilentLabel.class);
+                ArrayList<ClientLabel> list = (ArrayList<ClientLabel>) JSON.parseArray(jsonArray.get(i).toString(), ClientLabel.class);
                 listSum.add(list);
             }
             return listSum;
@@ -82,13 +82,13 @@ public class TagEvent extends Event implements NetConst {
     }
 
     public class test {
-        ArrayList<CilentLabel> list;
+        ArrayList<ClientLabel> list;
 
-        public ArrayList<CilentLabel> getList() {
+        public ArrayList<ClientLabel> getList() {
             return list;
         }
 
-        public void setList(ArrayList<CilentLabel> list) {
+        public void setList(ArrayList<ClientLabel> list) {
             this.list = list;
         }
     }
@@ -100,9 +100,10 @@ public class TagEvent extends Event implements NetConst {
         RetrofitInstance.getInstance().post(URL_TAG_SUBMITTAGS, paratems, BaseBean.class, baseSubscriber);
     }
 
-    public void deleteTags(BaseSubscriber baseSubscriber) {
+    public void deleteTags(ClientLabel clientLabel, BaseSubscriber baseSubscriber) {
         HashMap paratems = new HashMap();
         paratems.put(USER_ID, UserManager.getUserInfo().getAutoId());
+        paratems.put("tagId", String.valueOf(clientLabel.getAutoId()));
         RetrofitInstance.getInstance().post(URL_TAG_DELTAGS, paratems, BaseBean.class, baseSubscriber);
     }
 

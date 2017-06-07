@@ -21,7 +21,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.ViewGroup;
 
 import com.iwangcn.qingkong.R;
-import com.iwangcn.qingkong.ui.model.CilentLabel;
+import com.iwangcn.qingkong.ui.model.ClientLabel;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -33,9 +33,9 @@ import java.util.List;
 public class RecycleViewTagAdapter extends BaseMultipleItemAdapter implements RecycleViewItemTouchCallback.ItemTouchAdapter {
     public boolean isEditing = false;
     public boolean isAdd = false;
-    public static List<CilentLabel> results1 = new ArrayList<>();
-    public static List<CilentLabel> results2 = new ArrayList<>();
-    public static List<CilentLabel> results3 = new ArrayList<>();
+    public static List<ClientLabel> results1 = new ArrayList<>();
+    public static List<ClientLabel> results2 = new ArrayList<>();
+    public static List<ClientLabel> results3 = new ArrayList<>();
     private Context mContext;
 
     public RecycleViewTagAdapter(Context context) {
@@ -43,7 +43,7 @@ public class RecycleViewTagAdapter extends BaseMultipleItemAdapter implements Re
         this.mContext = context;
     }
 
-    public void setDataList(ArrayList<ArrayList<CilentLabel>> list) {
+    public void setDataList(ArrayList<ArrayList<ClientLabel>> list) {
         if (list.get(0) != null) {
             results1 = list.get(0);
         }

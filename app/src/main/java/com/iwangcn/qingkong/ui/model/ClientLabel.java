@@ -7,7 +7,7 @@ import com.iwangcn.qingkong.net.BaseBean;
  * Created by czh on 2017/5/4.
  */
 
-public class CilentLabel extends BaseBean {
+public class ClientLabel extends BaseBean {
     private long autoId;
     private long clientId;
     private long status;
