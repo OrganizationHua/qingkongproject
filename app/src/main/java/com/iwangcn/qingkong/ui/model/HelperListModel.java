@@ -3,6 +3,7 @@ package com.iwangcn.qingkong.ui.model;
 import com.iwangcn.qingkong.net.BaseBean;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * Created by RF on 2017/4/24.
@@ -233,7 +234,23 @@ public class HelperListModel extends BaseBean {
         private int status;
         private String updateTime;
         private String helperFeedbackDetail;
+        private List<String> businessLabels;
+        private List<String> selfLabels;
+        public List<String> getBusinessLabels() {
+            return businessLabels;
+        }
 
+        public void setBusinessLabels(List<String> businessLabels) {
+            this.businessLabels = businessLabels;
+        }
+
+        public List<String> getSelfLabels() {
+            return selfLabels;
+        }
+
+        public void setSelfLabels(List<String> selfLabels) {
+            this.selfLabels = selfLabels;
+        }
         public int getAutoId() {
             return autoId;
         }

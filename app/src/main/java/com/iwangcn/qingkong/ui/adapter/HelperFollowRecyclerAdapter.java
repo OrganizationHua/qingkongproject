@@ -4,25 +4,24 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.alibaba.fastjson.JSON;
 import com.iwangcn.qingkong.R;
 import com.iwangcn.qingkong.business.HelperFollowEvent;
+import com.iwangcn.qingkong.sp.SpUtils;
 import com.iwangcn.qingkong.ui.activity.MessageListActivity;
 import com.iwangcn.qingkong.ui.model.HelperListModel;
+import com.iwangcn.qingkong.ui.model.QkTagModel;
 import com.iwangcn.qingkong.utils.AbDateUtil;
 import com.iwangcn.qingkong.utils.GlideUtils;
 import com.iwangcn.qingkong.utils.ToastUtil;
-import com.zhy.view.flowlayout.FlowLayout;
-import com.zhy.view.flowlayout.TagAdapter;
 import com.zhy.view.flowlayout.TagFlowLayout;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -86,22 +85,30 @@ public class HelperFollowRecyclerAdapter extends BaseRecyclerViewAdapter<HelperL
 
             List<String> listPic = Arrays.asList(helperModel.getHelperInfo().getPics().split(","));
             for (int i = 0; i < listPic.size(); i++) {
-                GlideUtils.loadImageView(mContext, listPic.get(i), holder.imageView,R.drawable.default_icon_bg,R.drawable.default_icon_bg);
+                GlideUtils.loadImageView(mContext, listPic.get(i), holder.imageView, R.drawable.default_icon_bg, R.drawable.default_icon_bg);
             }
         }
-        if (!TextUtils.isEmpty(helperModel.getHelperInfo().getLabels())) {
-            TagAdapter<String> tagAdapter = new TagAdapter<String>(JSON.parseArray(helperModel.getHelperInfo().getLabels(),String.class)) {
-                @Override
-                public View getView(FlowLayout parent, int position, String o) {
 
-                    TextView tv = (TextView) LayoutInflater.from(mContext).inflate(R.layout.tv,
-                            parent, false);
-                    tv.setText(o);
-                    return tv;
+        List<QkTagModel> list = new ArrayList<>();
+        list.add(new QkTagModel(0, (String) SpUtils.get(mContext, helperModel.getHelperInfo().getDataType() + "", "1")));
+
+        if (helperModel.getHelperProcess().getBusinessLabels() != null && helperModel.getHelperProcess().getBusinessLabels().size() != 0) {
+            for (int i = 0; i < helperModel.getHelperProcess().getBusinessLabels().size(); i++) {
+                if (!TextUtils.isEmpty(helperModel.getHelperProcess().getBusinessLabels().get(i))) {
+                    list.add(new QkTagModel(2, helperModel.getHelperProcess().getBusinessLabels().get(i)));
                 }
-            };
-            holder.tagFlowLayout.setAdapter(tagAdapter);
+            }
         }
+        if (helperModel.getHelperProcess().getSelfLabels() != null && helperModel.getHelperProcess().getSelfLabels().size() != 0) {
+            for (int j = 0; j < helperModel.getHelperProcess().getSelfLabels().size(); j++) {
+                if (!TextUtils.isEmpty(helperModel.getHelperProcess().getSelfLabels().get(j))) {
+                    list.add(new QkTagModel(3, helperModel.getHelperProcess().getSelfLabels().get(j)));
+                }
+            }
+        }
+
+        holder.tagFlowLayout.setAdapter(new QKTagAdapter(mContext, list));
+
         //取消跟进
         holder.llCancle.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -145,7 +152,7 @@ public class HelperFollowRecyclerAdapter extends BaseRecyclerViewAdapter<HelperL
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(mContext, MessageListActivity.class).putExtra("message", helperModel.getHelperInfo())
-                        .putExtra("autoId", helperModel.getHelperProcess().getAutoId()+"");
+                        .putExtra("autoId", helperModel.getHelperProcess().getAutoId() + "");
                 mContext.startActivity(intent);
             }
         });
