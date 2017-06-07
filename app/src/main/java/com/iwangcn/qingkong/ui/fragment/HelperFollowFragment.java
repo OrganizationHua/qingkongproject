@@ -90,6 +90,7 @@ public class HelperFollowFragment extends BaseFragment {
             @Override
             public void onLoadMore(ReloadRefreshLayout refreshLayout) {
                 helperFollowEvent.getMoreEvent();
+                mNoData.setVisibility(View.GONE);
             }
         });
     }

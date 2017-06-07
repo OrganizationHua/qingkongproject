@@ -86,6 +86,7 @@ public class HelperFragment extends BaseFragment {
             @Override
             public void onLoadMore(ReloadRefreshLayout refreshLayout) {
                 helperEvent.getMoreEvent();
+                mNoData.setVisibility(View.GONE);
             }
         });
     }

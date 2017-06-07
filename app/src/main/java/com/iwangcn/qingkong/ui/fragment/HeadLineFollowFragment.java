@@ -104,6 +104,7 @@ public class HeadLineFollowFragment extends BaseFragment {
             @Override
             public void onLoadMore(ReloadRefreshLayout refreshLayout) {
                 headLineFollowEvent.getMoreEvent();
+                mNoData.setVisibility(View.GONE);
             }
         });
     }
