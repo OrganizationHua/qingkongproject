@@ -44,7 +44,7 @@ public class HomeFragment extends BaseFragment {
     RelativeLayout mLinLoading;//再次刷新
 
     @BindView(R.id.home_list_news)
-    RecyclerView mListView;//黑色蒙层
+    RecyclerView mListView;//
     @BindView(R.id.home_collect_icon)
     ImageView mCollectIcon;//收藏ImageView
     @BindView(R.id.rel_listView)
@@ -134,7 +134,7 @@ public class HomeFragment extends BaseFragment {
         });
     }
 
-    @OnClick(R.id.homefragment_edit_search)//搜索按钮
+    @OnClick(R.id.home_rel_search)//搜索按钮
     public void onEditSearch() {
         Intent intent = new Intent(getActivity(), NewsSearchActivity.class);
         startActivity(intent);

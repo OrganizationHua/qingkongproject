@@ -110,13 +110,6 @@ public class NewsSearchActivity extends BaseActivity {
             public void afterTextChanged(Editable s) {
             }
         });
-        mAbPullToRefreshView.setOnRefreshListener(new RefreshListenerAdapter() {
-            @Override
-            public void onLoadMore(ReloadRefreshLayout refreshLayout) {
-                super.onLoadMore(refreshLayout);
-                mSearchEvent.getMoreEvent(strKeyWord);
-            }
-        });
     }
 
     /**
@@ -204,6 +197,8 @@ public class NewsSearchActivity extends BaseActivity {
             @Override
             public void onLoadMore(ReloadRefreshLayout refreshLayout) {
                 //搜索加载更多
+                super.onLoadMore(refreshLayout);
+                mSearchEvent.getMoreEvent(strKeyWord);
             }
         });
     }

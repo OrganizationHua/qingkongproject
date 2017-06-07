@@ -72,7 +72,7 @@ public class SearchResultAdapter extends BaseAdapter {
             viewHolder = (ViewHolder) convertView.getTag();
         }
         EventData eventData = mList.get(position);
-        NewsInfo bean=eventData.getData();
+        NewsInfo bean = eventData.getData();
         if (!TextUtils.isEmpty(bean.getTitle())) {
             viewHolder.title.setText(bean.getTitle());
         }
@@ -85,18 +85,22 @@ public class SearchResultAdapter extends BaseAdapter {
         if (!TextUtils.isEmpty(bean.getContent())) {
             viewHolder.tvEvent.setText(bean.getTitle());
         }
-        TagAdapter<String> tagAdapter = new TagAdapter<String>(initDatas()) {
-            @Override
-            public View getView(FlowLayout parent, int position, String o) {
+        if (!TextUtils.isEmpty(bean.getKeywords())) {
 
-                TextView tv = (TextView) LayoutInflater.from(mContext).inflate(R.layout.tv,
-                        parent, false);
-                tv.setText(o);
-                tv.setBackground(AbViewUtil.getShapeDrawable(mContext.getString(R.string.tag_normal)));
-                return tv;
-            }
-        };
-        viewHolder.tagFlowLayout.setAdapter(tagAdapter);
+            TagAdapter<String> tagAdapter = new TagAdapter<String>(initDatas(bean.getKeywords())) {
+                @Override
+                public View getView(FlowLayout parent, int position, String o) {
+
+                    TextView tv = (TextView) LayoutInflater.from(mContext).inflate(R.layout.tv,
+                            parent, false);
+                    tv.setText(o);
+                    tv.setBackground(AbViewUtil.getShapeDrawable(mContext.getString(R.string.tag_normal)));
+                    return tv;
+                }
+            };
+            viewHolder.tagFlowLayout.setAdapter(tagAdapter);
+        }
+
         return convertView;
     }
 
@@ -108,13 +112,9 @@ public class SearchResultAdapter extends BaseAdapter {
         public TagFlowLayout tagFlowLayout;
     }
 
-    private List<String> initDatas() {
+    private List<String> initDatas(String keywords) {
         List<String> itemData = new ArrayList<String>(3);
-
-        for (int i = 0; i < 5; i++) {
-            itemData.add("新闻标签");
-
-        }
+        itemData.add(keywords);
         return itemData;
     }
 }

@@ -16,6 +16,7 @@ import com.iwangcn.qingkong.R;
 import com.iwangcn.qingkong.ui.base.BaseFragment;
 import com.iwangcn.qingkong.ui.model.NewsInfo;
 import com.iwangcn.qingkong.utils.AbDateUtil;
+import com.iwangcn.qingkong.utils.AbViewUtil;
 import com.zhy.view.flowlayout.FlowLayout;
 import com.zhy.view.flowlayout.TagAdapter;
 import com.zhy.view.flowlayout.TagFlowLayout;
@@ -50,6 +51,7 @@ public class NewsInfoFragment extends BaseFragment {
 
     private int position; //页号
     private NewsInfo mNewsInfo;
+
     public static NewsInfoFragment newInstance(int position, NewsInfo newsInfo) {
         NewsInfoFragment fragment = new NewsInfoFragment();
         // Supply num input as an argument.
@@ -65,7 +67,7 @@ public class NewsInfoFragment extends BaseFragment {
         super.onCreate(savedInstanceState);
         //这里我只是简单的用num区别标签，其实具体应用中可以使用真实的fragment对象来作为叶片
         position = getArguments() != null ? getArguments().getInt("position") : 1;
-        mNewsInfo = getArguments() != null ? (NewsInfo) getArguments().getSerializable("newsInfo") :null;
+        mNewsInfo = getArguments() != null ? (NewsInfo) getArguments().getSerializable("newsInfo") : null;
     }
 
     @Override
@@ -76,19 +78,21 @@ public class NewsInfoFragment extends BaseFragment {
     @Override
     protected void initView(View view, Bundle savedInstanceState) {
         mContext = getActivity();
-        if(mNewsInfo!=null){
-            if(!TextUtils.isEmpty(mNewsInfo.getTitle())){
+        if (mNewsInfo != null) {
+            if (!TextUtils.isEmpty(mNewsInfo.getTitle())) {
                 mNewsTitle.setText(mNewsInfo.getTitle());
             }
-            if (!TextUtils.isEmpty(mNewsInfo.getSource())){
+            if (!TextUtils.isEmpty(mNewsInfo.getSource())) {
                 mNewsFrom.setText(mNewsInfo.getSource());
             }
-            if(!TextUtils.isEmpty(mNewsInfo.getUrl())){
+            if (!TextUtils.isEmpty(mNewsInfo.getUrl())) {
                 initWebView(mNewsInfo.getUrl());
             }
-            mNewsTime.setText(AbDateUtil.getStringByFormat(mNewsInfo.getPubtime(),"yyyy-MM-dd"));
+            mNewsTime.setText(AbDateUtil.getStringByFormat(mNewsInfo.getPubtime(), "yyyy-MM-dd"));
         }
-        initTabLayout();
+        if (!TextUtils.isEmpty(mNewsInfo.getKeywords())) {
+            initTabLayout(mNewsInfo.getKeywords());
+        }
     }
 
     private void initWebView(String url) {
@@ -123,13 +127,9 @@ public class NewsInfoFragment extends BaseFragment {
         this.mWebView.loadUrl(url);
     }
 
-    private void initTabLayout() {
+    private void initTabLayout(String keywords) {
         List<String> itemData = new ArrayList<String>(3);
-
-        for (int i = 0; i < 10; i++) {
-            itemData.add("规范");
-
-        }
+        itemData.add(keywords);
         TagAdapter<String> tagAdapter = new TagAdapter<String>(itemData) {
             @Override
             public View getView(FlowLayout parent, int position, String o) {
@@ -137,6 +137,7 @@ public class NewsInfoFragment extends BaseFragment {
                 TextView tv = (TextView) LayoutInflater.from(mContext).inflate(R.layout.tv,
                         parent, false);
                 tv.setText(o);
+                tv.setBackground(AbViewUtil.getShapeDrawable(mContext.getString(R.string.tag_normal)));
                 return tv;
             }
         };

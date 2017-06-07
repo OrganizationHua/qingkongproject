@@ -91,7 +91,7 @@ public class NewsListAdapter extends BaseAdapter {
         } else {
             viewHolder.imgBlueCircle.setVisibility(View.VISIBLE);
             viewHolder.imgGreenCircl.setVisibility(View.GONE);
-          //  AbViewUtil.collapse(viewHolder.linContent);
+            //  AbViewUtil.collapse(viewHolder.linContent);
             viewHolder.linContent.setVisibility(View.GONE);
 
         }
@@ -104,13 +104,13 @@ public class NewsListAdapter extends BaseAdapter {
         if (!TextUtils.isEmpty(model.getTitle())) {
             viewHolder.newsBrief.setText(model.getTitle());
         }
-        viewHolder.newsTime.setText(AbDateUtil.getStringByFormat(model.getPubtime(),"yyyy-MM-dd"));
-        viewHolder.newsYear.setText(AbDateUtil.getStringByFormat(model.getPubtime(),"yyyy"));
-        viewHolder.newsDay.setText(AbDateUtil.getStringByFormat(model.getPubtime(),"MM-dd"));
-        if(position!=0){//判断是否显示年份
-            if(AbDateUtil.getYear(mList.get(position).getPubtime())!=AbDateUtil.getYear(mList.get(position-1).getPubtime())){
+        viewHolder.newsTime.setText(AbDateUtil.getStringByFormat(model.getPubtime(), "yyyy-MM-dd"));
+        viewHolder.newsYear.setText(AbDateUtil.getStringByFormat(model.getPubtime(), "yyyy"));
+        viewHolder.newsDay.setText(AbDateUtil.getStringByFormat(model.getPubtime(), "MM-dd"));
+        if (position != 0) {//判断是否显示年份
+            if (AbDateUtil.getYear(mList.get(position).getPubtime()) != AbDateUtil.getYear(mList.get(position - 1).getPubtime())) {
                 viewHolder.newsYear.setVisibility(View.VISIBLE);
-            }else{
+            } else {
                 viewHolder.newsYear.setVisibility(View.INVISIBLE);
             }
         }
@@ -134,17 +134,21 @@ public class NewsListAdapter extends BaseAdapter {
                 }
             }
         });
-        TagAdapter<String> tagAdapter = new TagAdapter<String>(initDatas()) {
-            @Override
-            public View getView(FlowLayout parent, int position, String o) {
+        if (!TextUtils.isEmpty(model.getKeywords())) {
 
-                TextView tv = (TextView) LayoutInflater.from(mContext).inflate(R.layout.tv,
-                        parent, false);
-                tv.setText(o);
-                return tv;
-            }
-        };
-        viewHolder.tagFlowLayout.setAdapter(tagAdapter);
+            TagAdapter<String> tagAdapter = new TagAdapter<String>(initDatas(model.getKeywords())) {
+                @Override
+                public View getView(FlowLayout parent, int position, String o) {
+
+                    TextView tv = (TextView) LayoutInflater.from(mContext).inflate(R.layout.tv,
+                            parent, false);
+                    tv.setText(o);
+                    tv.setBackground(AbViewUtil.getShapeDrawable(mContext.getString(R.string.tag_normal)));
+                    return tv;
+                }
+            };
+            viewHolder.tagFlowLayout.setAdapter(tagAdapter);
+        }
         return convertView;
     }
 
@@ -195,13 +199,9 @@ public class NewsListAdapter extends BaseAdapter {
         }
     }
 
-    private List<String> initDatas() {
+    private List<String> initDatas(String keywords) {
         List<String> itemData = new ArrayList<String>(3);
-
-        for (int i = 0; i < 5; i++) {
-            itemData.add("新闻标签");
-
-        }
+        itemData.add(keywords);
         return itemData;
     }
 }

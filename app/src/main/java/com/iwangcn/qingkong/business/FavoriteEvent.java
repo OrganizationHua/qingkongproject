@@ -24,8 +24,9 @@ import java.util.List;
 public class FavoriteEvent extends Event implements NetConst {
     private Context mContext;
     private int indexPage = 1;//当前页数
-    public static int FAVORITE_GET_LIST=1;
-    public static int FAVORITE_FINISH=2;
+    public static int FAVORITE_GET_LIST = 1;
+    public static int FAVORITE_FINISH = 2;
+
     public FavoriteEvent() {
 
     }
@@ -49,7 +50,7 @@ public class FavoriteEvent extends Event implements NetConst {
             @Override
 
             public void onNext(NetResponse<List<EventInfoVo>> o) {
-                FavoriteEvent favoriteEvent=new FavoriteEvent();
+                FavoriteEvent favoriteEvent = new FavoriteEvent();
                 favoriteEvent.setObject(o.getDataList());
                 favoriteEvent.setId(FAVORITE_GET_LIST);
                 EventBus.getDefault().post(favoriteEvent);
@@ -72,11 +73,11 @@ public class FavoriteEvent extends Event implements NetConst {
      *
      * @param eventId
      */
-    public void addFavoritet(String eventId,BaseSubscriber subscriber) {
+    public void addFavoritet(String eventId, BaseSubscriber subscriber) {
         HashMap paratems = new HashMap();
         paratems.put(USER_ID, UserManager.getUserInfo().getAutoId());
         paratems.put("eventId", eventId);
-        RetrofitInstance.getInstance().post(URL_EVENT_ADD, paratems, BaseBean.class,subscriber);
+        RetrofitInstance.getInstance().post(URL_EVENT_ADD, paratems, BaseBean.class, subscriber);
     }
 
     /**
@@ -84,7 +85,7 @@ public class FavoriteEvent extends Event implements NetConst {
      *
      * @param fId
      */
-    public void removeFavoritet(String fId,BaseSubscriber baseSubscriber) {
+    public void removeFavoritet(String fId, BaseSubscriber baseSubscriber) {
         HashMap paratems = new HashMap();
         paratems.put(USER_ID, UserManager.getUserInfo().getAutoId());
         paratems.put("fId", fId);
