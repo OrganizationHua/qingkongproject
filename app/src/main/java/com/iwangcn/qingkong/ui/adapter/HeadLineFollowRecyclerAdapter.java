@@ -3,13 +3,11 @@ package com.iwangcn.qingkong.ui.adapter;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.alibaba.fastjson.JSON;
 import com.iwangcn.qingkong.R;
 import com.iwangcn.qingkong.business.HeadLineFollowEvent;
 import com.iwangcn.qingkong.sp.SpUtils;
@@ -17,12 +15,9 @@ import com.iwangcn.qingkong.ui.model.HeadLineModel;
 import com.iwangcn.qingkong.ui.model.QkTagModel;
 import com.iwangcn.qingkong.utils.AbDateUtil;
 import com.iwangcn.qingkong.utils.ToastUtil;
-import com.zhy.view.flowlayout.FlowLayout;
-import com.zhy.view.flowlayout.TagAdapter;
 import com.zhy.view.flowlayout.TagFlowLayout;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import butterknife.BindView;
@@ -81,16 +76,23 @@ public class HeadLineFollowRecyclerAdapter extends BaseRecyclerViewAdapter<HeadL
         List<QkTagModel> list = new ArrayList<>();
         list.add(new QkTagModel(0, (String) SpUtils.get(mContext, helperModel.getEventData().getDataType() + "", "1")));
         if (helperModel.getEventData().getDataType() == 1 || helperModel.getEventData().getDataType() == 5) {
-            list.add(new QkTagModel(1, helperModel.getEventData().getData().getKeywords()));
+            if (!TextUtils.isEmpty(helperModel.getEventData().getData().getKeywords())) {
+                list.add(new QkTagModel(1, helperModel.getEventData().getData().getKeywords()));
+
+            }
         }
         if (helperModel.getBusinessLabels() != null && helperModel.getBusinessLabels().size() != 0) {
             for (int i = 0; i < helperModel.getBusinessLabels().size(); i++) {
-                list.add(new QkTagModel(2, helperModel.getBusinessLabels().get(i)));
+                if (!TextUtils.isEmpty(helperModel.getBusinessLabels().get(i))) {
+                    list.add(new QkTagModel(2, helperModel.getBusinessLabels().get(i)));
+                }
             }
         }
         if (helperModel.getSelfLabels() != null && helperModel.getSelfLabels().size() != 0) {
             for (int j = 0; j < helperModel.getSelfLabels().size(); j++) {
-                list.add(new QkTagModel(3, helperModel.getSelfLabels().get(j)));
+                if (!TextUtils.isEmpty(helperModel.getSelfLabels().get(j))) {
+                    list.add(new QkTagModel(3, helperModel.getSelfLabels().get(j)));
+                }
             }
         }
 
