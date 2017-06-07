@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -13,14 +12,15 @@ import android.widget.TextView;
 import com.alibaba.fastjson.JSON;
 import com.iwangcn.qingkong.R;
 import com.iwangcn.qingkong.business.HelperEvent;
+import com.iwangcn.qingkong.sp.SpUtils;
 import com.iwangcn.qingkong.ui.activity.FollowDetailActivity;
 import com.iwangcn.qingkong.ui.model.HelperInfo;
+import com.iwangcn.qingkong.ui.model.QkTagModel;
 import com.iwangcn.qingkong.utils.AbDateUtil;
 import com.iwangcn.qingkong.utils.GlideUtils;
-import com.zhy.view.flowlayout.FlowLayout;
-import com.zhy.view.flowlayout.TagAdapter;
 import com.zhy.view.flowlayout.TagFlowLayout;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -62,22 +62,21 @@ public class HelperRecyclerAdapter extends BaseRecyclerViewAdapter<HelperInfo> {
         if (!TextUtils.isEmpty(helperInfo.getPics())) {
             List<String> listPic = Arrays.asList(helperInfo.getPics().split(","));
             for (int i = 0; i < listPic.size(); i++) {
-                GlideUtils.loadImageView(mContext, listPic.get(i), holder.imageView,R.drawable.default_icon_bg,R.drawable.default_icon_bg);
+                GlideUtils.loadImageView(mContext, listPic.get(i), holder.imageView, R.drawable.default_icon_bg, R.drawable.default_icon_bg);
             }
         }
-        if (!TextUtils.isEmpty(helperInfo.getLabels())) {
-            TagAdapter<String> tagAdapter = new TagAdapter<String>(JSON.parseArray(helperInfo.getLabels(),String.class)) {
-                @Override
-                public View getView(FlowLayout parent, int position, String o) {
-
-                    TextView tv = (TextView) LayoutInflater.from(mContext).inflate(R.layout.tv,
-                            parent, false);
-                    tv.setText(o);
-                    return tv;
+        List<QkTagModel> list = new ArrayList<>();
+        list.add(new QkTagModel(0, (String) SpUtils.get(mContext, helperInfo.getDataType() + "", "1")));
+        List<String> listTag = JSON.parseArray(helperInfo.getLabels(), String.class);
+        if (listTag != null && listTag.size() != 0) {
+            for (int j = 0; j < listTag.size(); j++) {
+                if (!TextUtils.isEmpty(listTag.get(j))) {
+                    list.add(new QkTagModel(3, listTag.get(j)));
                 }
-            };
-            holder.tagFlowLayout.setAdapter(tagAdapter);
+            }
         }
+
+        holder.tagFlowLayout.setAdapter(new QKTagAdapter(mContext, list));
 
 
         holder.btnFollow.setOnClickListener(new View.OnClickListener() {

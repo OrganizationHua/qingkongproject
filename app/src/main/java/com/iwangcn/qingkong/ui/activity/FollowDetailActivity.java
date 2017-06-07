@@ -2,8 +2,6 @@ package com.iwangcn.qingkong.ui.activity;
 
 import android.graphics.Bitmap;
 import android.text.TextUtils;
-import android.view.LayoutInflater;
-import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -12,15 +10,17 @@ import android.widget.TextView;
 
 import com.iwangcn.qingkong.R;
 import com.iwangcn.qingkong.business.FollowDetailEvent;
+import com.iwangcn.qingkong.sp.SpUtils;
+import com.iwangcn.qingkong.ui.adapter.QKTagAdapter;
 import com.iwangcn.qingkong.ui.base.QkBaseActivity;
 import com.iwangcn.qingkong.ui.model.HeadLineModel;
+import com.iwangcn.qingkong.ui.model.QkTagModel;
 import com.iwangcn.qingkong.utils.AbDateUtil;
 import com.iwangcn.qingkong.utils.ToastUtil;
-import com.zhy.view.flowlayout.FlowLayout;
-import com.zhy.view.flowlayout.TagAdapter;
 import com.zhy.view.flowlayout.TagFlowLayout;
 
-import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -78,19 +78,30 @@ public class FollowDetailActivity extends QkBaseActivity {
         mNewsTitle.setText(data.getEventData().getData().getTitle() == null ? "" : data.getEventData().getData().getTitle());
         mNewsFrom.setText(data.getEventData().getData().getSource() == null ? "" : data.getEventData().getData().getSource());
         mNewsTime.setText(AbDateUtil.formatDateStrGetDay(data.getEventData().getData().getUpdateTime()));
-        if (!TextUtils.isEmpty(data.getLabels())) {
-            TagAdapter<String> tagAdapter = new TagAdapter<String>(Arrays.asList(data.getLabels().split(","))) {
-                @Override
-                public View getView(FlowLayout parent, int position, String o) {
+        List<QkTagModel> list = new ArrayList<>();
+        list.add(new QkTagModel(0, (String) SpUtils.get(this, data.getEventData().getDataType() + "", "1")));
+        if (data.getEventData().getDataType() == 1 || data.getEventData().getDataType() == 5) {
+            if (!TextUtils.isEmpty(data.getEventData().getData().getKeywords())) {
+                list.add(new QkTagModel(1, data.getEventData().getData().getKeywords()));
 
-                    TextView tv = (TextView) LayoutInflater.from(FollowDetailActivity.this).inflate(R.layout.tv,
-                            parent, false);
-                    tv.setText(o);
-                    return tv;
-                }
-            };
-            tagFlowLayout.setAdapter(tagAdapter);
+            }
         }
+        if (data.getBusinessLabels() != null && data.getBusinessLabels().size() != 0) {
+            for (int i = 0; i < data.getBusinessLabels().size(); i++) {
+                if (!TextUtils.isEmpty(data.getBusinessLabels().get(i))) {
+                    list.add(new QkTagModel(2, data.getBusinessLabels().get(i)));
+                }
+            }
+        }
+        if (data.getSelfLabels() != null && data.getSelfLabels().size() != 0) {
+            for (int j = 0; j < data.getSelfLabels().size(); j++) {
+                if (!TextUtils.isEmpty(data.getSelfLabels().get(j))) {
+                    list.add(new QkTagModel(3, data.getSelfLabels().get(j)));
+                }
+            }
+        }
+
+        tagFlowLayout.setAdapter(new QKTagAdapter(this, list));
 
     }
 
