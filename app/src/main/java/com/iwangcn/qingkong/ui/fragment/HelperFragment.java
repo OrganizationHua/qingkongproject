@@ -79,6 +79,7 @@ public class HelperFragment extends BaseFragment {
             @Override
             public void onRefresh(ReloadRefreshLayout refreshLayout) {
                 mReloadRefreshView.setEnableRefresh(true);
+                mNoData.setVisibility(View.GONE);
                 helperEvent.getRefreshEventList();
             }
 

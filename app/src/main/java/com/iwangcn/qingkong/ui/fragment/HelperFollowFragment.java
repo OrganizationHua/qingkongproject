@@ -84,6 +84,7 @@ public class HelperFollowFragment extends BaseFragment {
             public void onRefresh(ReloadRefreshLayout refreshLayout) {
                 mReloadRefreshView.setEnableRefresh(true);
                 helperFollowEvent.getRefreshEventList();
+                mNoData.setVisibility(View.GONE);
             }
 
             @Override

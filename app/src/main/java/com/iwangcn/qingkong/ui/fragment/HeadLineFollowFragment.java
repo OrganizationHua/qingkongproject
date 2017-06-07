@@ -97,6 +97,7 @@ public class HeadLineFollowFragment extends BaseFragment {
             @Override
             public void onRefresh(ReloadRefreshLayout refreshLayout) {
                 mReloadRefreshView.setEnableRefresh(true);
+                mNoData.setVisibility(View.GONE);
                 headLineFollowEvent.getRefreshEventList();
             }
 
