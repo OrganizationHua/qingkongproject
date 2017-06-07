@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.RelativeLayout;
 
 import com.iwangcn.qingkong.R;
 import com.iwangcn.qingkong.business.Event;
@@ -29,6 +30,8 @@ import java.util.List;
 import butterknife.BindView;
 
 public class HeadLineFollowFragment extends BaseFragment {
+    @BindView(R.id.system_no_data)
+    RelativeLayout mNoData;//暂时没有数据
 
     @BindView(R.id.home_list_news)
     RecyclerView mListView;
@@ -82,11 +85,11 @@ public class HeadLineFollowFragment extends BaseFragment {
         mNewsAdapter.setOnItemClickListener(new BaseRecyclerViewAdapter.OnRecyclerItemClickListener() {
             @Override
             public void onItemClickListener(RecyclerView.ViewHolder viewHolder, int position) {
-                HeadLineModel  data = mList.get(position);
-                int type=1;
+                HeadLineModel data = mList.get(position);
+                int type = 1;
                 Intent intent = new Intent(getActivity(), FollowDetailActivity.class)
                         .putExtra("data", data)
-                        .putExtra("type",type);
+                        .putExtra("type", type);
                 startActivity(intent);
             }
         });
@@ -94,6 +97,7 @@ public class HeadLineFollowFragment extends BaseFragment {
             @Override
             public void onRefresh(ReloadRefreshLayout refreshLayout) {
                 mReloadRefreshView.setEnableRefresh(true);
+                mNoData.setVisibility(View.GONE);
                 headLineFollowEvent.getRefreshEventList();
             }
 
@@ -110,6 +114,11 @@ public class HeadLineFollowFragment extends BaseFragment {
             if (headLineFollowEvent.getId() == 0) {
                 mReloadRefreshView.finishRefreshing();
                 List<HeadLineModel> list = (List<HeadLineModel>) event.getObject();
+                if (list == null || list.isEmpty()) {
+                    mNoData.setVisibility(View.VISIBLE);
+                } else {
+                    mNoData.setVisibility(View.GONE);
+                }
                 if (list == null || list.size() < NetConst.page) {//如果小于page条表示加载完成不能加载更多
                     mReloadRefreshView.finishLoadmore();
                 }
@@ -120,8 +129,10 @@ public class HeadLineFollowFragment extends BaseFragment {
                     mList.clear();
 
                 }
-                mList.addAll(list);
-                mNewsAdapter.notifyDataSetChanged();
+                if (list != null) {
+                    mList.addAll(list);
+                    mNewsAdapter.notifyDataSetChanged();
+                }
             } else if (headLineFollowEvent.getId() == 1) {//取消跟进
                 mList.remove((int) headLineFollowEvent.getObject());
                 mNewsAdapter.notifyItemRemoved((int) headLineFollowEvent.getObject());
@@ -134,7 +145,7 @@ public class HeadLineFollowFragment extends BaseFragment {
             } else if (headLineFollowEvent.getId() == 4) {//已处理
                 mList.remove((int) headLineFollowEvent.getObject());
                 mNewsAdapter.notifyItemRemoved((int) headLineFollowEvent.getObject());
-            }else if (headLineFollowEvent.getId() == 5) {//重新处理
+            } else if (headLineFollowEvent.getId() == 5) {//重新处理
                 mList.remove((int) headLineFollowEvent.getObject());
                 mNewsAdapter.notifyItemRemoved((int) headLineFollowEvent.getObject());
             }

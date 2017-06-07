@@ -5,6 +5,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.RelativeLayout;
 
 import com.iwangcn.qingkong.R;
 import com.iwangcn.qingkong.business.Event;
@@ -26,6 +27,8 @@ import java.util.List;
 import butterknife.BindView;
 
 public class HelperFollowFragment extends BaseFragment {
+    @BindView(R.id.system_no_data)
+    RelativeLayout mNoData;//暂时没有数据
 
     @BindView(R.id.home_list_news)
     RecyclerView mListView;
@@ -81,6 +84,7 @@ public class HelperFollowFragment extends BaseFragment {
             public void onRefresh(ReloadRefreshLayout refreshLayout) {
                 mReloadRefreshView.setEnableRefresh(true);
                 helperFollowEvent.getRefreshEventList();
+                mNoData.setVisibility(View.GONE);
             }
 
             @Override
@@ -96,6 +100,11 @@ public class HelperFollowFragment extends BaseFragment {
             if (helperFollowEvent.getId() == 0) {
                 mReloadRefreshView.finishRefreshing();
                 List<HelperListModel> list = (List<HelperListModel>) event.getObject();
+                if (list == null || list.isEmpty()) {
+                    mNoData.setVisibility(View.VISIBLE);
+                } else {
+                    mNoData.setVisibility(View.GONE);
+                }
                 if (list.size() < NetConst.page) {//如果小于page条表示加载完成不能加载更多
                     mReloadRefreshView.finishLoadmore();
                 }
@@ -104,10 +113,11 @@ public class HelperFollowFragment extends BaseFragment {
                 } else {
                     mReloadRefreshView.setEnableRefresh(true);
                     mList.clear();
-
                 }
-                mList.addAll(list);
-                mNewsAdapter.notifyDataSetChanged();
+                if (list != null) {
+                    mList.addAll(list);
+                    mNewsAdapter.notifyDataSetChanged();
+                }
             } else if (helperFollowEvent.getId() == 1) {//取消跟进
                 mList.remove((int) helperFollowEvent.getObject());
                 mNewsAdapter.notifyItemRemoved((int) helperFollowEvent.getObject());

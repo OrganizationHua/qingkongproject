@@ -34,6 +34,7 @@ public class HomeActivity extends BaseActivity {
         final TabLayoutAdapter tabLayoutAdapter = new TabLayoutAdapter(this, getSupportFragmentManager());
         viewPager.setAdapter(tabLayoutAdapter);
         mTabLayout.setupWithViewPager(viewPager);
+        viewPager.setOffscreenPageLimit(4);
         for (int i = 0; i < mTabLayout.getTabCount(); i++) {
             mTabLayout.getTabAt(i).setCustomView(tabLayoutAdapter.getTabView(i));
 
@@ -58,6 +59,7 @@ public class HomeActivity extends BaseActivity {
             }
         });
     }
+
     private final Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -72,13 +74,14 @@ public class HomeActivity extends BaseActivity {
     private void exit() {
         if (!isExit) {
             isExit = true;
-            ToastUtil.showToast(getBaseContext(),getString(R.string.msg_back_to_logout));
+            ToastUtil.showToast(getBaseContext(), getString(R.string.msg_back_to_logout));
             // 利用handler延迟发送更改状态信息
             mHandler.sendEmptyMessageDelayed(10, 2000);
         } else {
             moveTaskToBack(true);
         }
     }
+
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
