@@ -2,6 +2,7 @@ package com.iwangcn.qingkong.ui.activity;
 
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,10 +16,13 @@ import com.iwangcn.qingkong.business.Event;
 import com.iwangcn.qingkong.business.LoadFailEvent;
 import com.iwangcn.qingkong.business.MessageListEvent;
 import com.iwangcn.qingkong.net.NetConst;
+import com.iwangcn.qingkong.sp.SpUtils;
 import com.iwangcn.qingkong.ui.adapter.MessageListAdapter;
+import com.iwangcn.qingkong.ui.adapter.QKTagAdapter;
 import com.iwangcn.qingkong.ui.base.QkBaseActivity;
 import com.iwangcn.qingkong.ui.model.HelperFeedbackDetail;
 import com.iwangcn.qingkong.ui.model.HelperListModel;
+import com.iwangcn.qingkong.ui.model.QkTagModel;
 import com.iwangcn.qingkong.ui.view.freshwidget.RefreshListenerAdapter;
 import com.iwangcn.qingkong.ui.view.freshwidget.ReloadRefreshLayout;
 import com.iwangcn.qingkong.utils.AbDateUtil;
@@ -68,7 +72,7 @@ public class MessageListActivity extends QkBaseActivity {
         return R.layout.activity_message_list;
     }
 
-    private HelperListModel.HelperInfo helperInfo;
+    private HelperListModel helperInfo;
 
     @Override
     public void initView() {
@@ -78,8 +82,8 @@ public class MessageListActivity extends QkBaseActivity {
 
     @Override
     public void initData() {
-        helperInfo = (HelperListModel.HelperInfo) getIntent().getSerializableExtra("message");
-        autoId = getIntent().getStringExtra("autoId");
+        helperInfo = (HelperListModel) getIntent().getSerializableExtra("message");
+        autoId = helperInfo.getHelperProcess().getAutoId()+"";
         initTag(helperInfo);
         helperEvent = new MessageListEvent(this, autoId);
         helperEvent.getRefreshEventList();
@@ -138,23 +142,32 @@ public class MessageListActivity extends QkBaseActivity {
         tv_content.setText("");
     }
 
-    public void initTag(HelperListModel.HelperInfo helperInfo) {
+    public void initTag(HelperListModel helperInfo) {
         if (helperInfo != null) {
-            Log.e("fjg====", helperInfo.getTitle());
-            mNewsTitle.setText(helperInfo.getTitle());
-            mNewsFrom.setText(helperInfo.getSource());
-            mNewsTime.setText(AbDateUtil.formatDateStrGetDay(helperInfo.getUpdateTime()));
-            TagAdapter<String> tagAdapter = new TagAdapter<String>(JSON.parseArray(helperInfo.getLabels(), String.class)) {
-                @Override
-                public View getView(FlowLayout parent, int position, String o) {
+            Log.e("fjg====", helperInfo.getHelperInfo().getTitle());
+            mNewsTitle.setText(helperInfo.getHelperInfo().getTitle());
+            mNewsFrom.setText(helperInfo.getHelperInfo().getSource());
+            mNewsTime.setText(AbDateUtil.formatDateStrGetDay(helperInfo.getHelperInfo().getUpdateTime()));
+            List<QkTagModel> list = new ArrayList<>();
+            list.add(new QkTagModel(0, (String) SpUtils.get(this, helperInfo.getHelperInfo().getDataType() + "", "1")));
 
-                    TextView tv = (TextView) LayoutInflater.from(MessageListActivity.this).inflate(R.layout.tv,
-                            parent, false);
-                    tv.setText(o);
-                    return tv;
+            if (helperInfo.getHelperProcess().getBusinessLabels() != null && helperInfo.getHelperProcess().getBusinessLabels().size() != 0) {
+                for (int i = 0; i < helperInfo.getHelperProcess().getBusinessLabels().size(); i++) {
+                    if (!TextUtils.isEmpty(helperInfo.getHelperProcess().getBusinessLabels().get(i))) {
+                        list.add(new QkTagModel(2, helperInfo.getHelperProcess().getBusinessLabels().get(i)));
+                    }
                 }
-            };
-            tagFlowLayout.setAdapter(tagAdapter);
+            }
+            if (helperInfo.getHelperProcess().getSelfLabels() != null && helperInfo.getHelperProcess().getSelfLabels().size() != 0) {
+                for (int j = 0; j < helperInfo.getHelperProcess().getSelfLabels().size(); j++) {
+                    if (!TextUtils.isEmpty(helperInfo.getHelperProcess().getSelfLabels().get(j))) {
+                        list.add(new QkTagModel(3, helperInfo.getHelperProcess().getSelfLabels().get(j)));
+                    }
+                }
+            }
+
+           tagFlowLayout.setAdapter(new QKTagAdapter(this, list));
+
         }
     }
 
