@@ -7,20 +7,26 @@ import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
+import android.widget.LinearLayout;
 
 import com.iwangcn.qingkong.R;
+import com.iwangcn.qingkong.business.Event;
+import com.iwangcn.qingkong.business.FollowDetailEvent;
 import com.iwangcn.qingkong.business.TagEvent;
 import com.iwangcn.qingkong.net.BaseSubscriber;
 import com.iwangcn.qingkong.net.ExceptionHandle;
 import com.iwangcn.qingkong.net.NetResponse;
 import com.iwangcn.qingkong.ui.adapter.NewsDetailPageAdapter;
 import com.iwangcn.qingkong.ui.base.QkBaseActivity;
+import com.iwangcn.qingkong.ui.model.ClientLabel;
 import com.iwangcn.qingkong.ui.model.LabelError;
 import com.iwangcn.qingkong.ui.model.NewsInfo;
-import com.iwangcn.qingkong.ui.view.TagWidget.TagModel;
 import com.iwangcn.qingkong.utils.AbAppUtil;
 import com.iwangcn.qingkong.utils.PopupWindowUtil;
 import com.iwangcn.qingkong.utils.ToastUtil;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,6 +48,9 @@ public class NewsDetailActivity extends QkBaseActivity {
     private TagEvent mTagEvent;
     private List<LabelError> errorTagList = new ArrayList<LabelError>();
 
+    @BindView(R.id.news_detail_follow_lin)
+    LinearLayout mLinFollow;//跟进按钮
+
     @Override
     public int layoutChildResID() {
         return R.layout.activity_news_detail;
@@ -54,13 +63,14 @@ public class NewsDetailActivity extends QkBaseActivity {
         mTagEvent = new TagEvent(this);
         mList = (List<NewsInfo>) getIntent().getSerializableExtra("NewsInfoList");
         currentPosition = getIntent().getIntExtra("frontPageposition", 0);
-        autoId = getIntent().getIntExtra("autoId", 0);
+        autoId = getIntent().getLongExtra("autoId", 0);
         FragmentManager fm = getSupportFragmentManager();
         mAdapter = new NewsDetailPageAdapter(fm);
         mAdapter.setList(mList);
         //绑定自定义适配器
         mViewPage.setAdapter(mAdapter);
         mViewPage.setCurrentItem(currentPosition);
+        EventBus.getDefault().register(this);
     }
 
     @Override
@@ -111,44 +121,9 @@ public class NewsDetailActivity extends QkBaseActivity {
         });
     }
 
-    private List<LabelError> checkErrorSelectTags(List<LabelError> listData) {
-        List<LabelError> list = new ArrayList<>();
-        for (LabelError model : listData) {
-            if (model.isSelect()) {
-                list.add(model);
-            }
-        }
-        return list;
-    }
-
     @OnClick(R.id.news_detail_follow_lin)//跟进
     public void onBtnFollow(View v) {
-        ToastUtil.showToast(this, "已跟进");
-        List<TagModel> listData = new ArrayList<TagModel>(3);
-        for (int i = 0; i < 5; i++) {
-            TagModel model = new TagModel();
-            if (i % 2 == 0) {
-                model.setTag(i + "个标签");
-            } else {
-                model.setTag("新闻");
-            }
-
-            model.setSelect(true);
-            listData.add(model);
-
-        }
-        PopupWindowUtil.showMorePopupWindow(this, v, mRelMak, listData, listData, new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-            }
-        }, new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent=new Intent(mContext,MoreTagEditActivity.class);
-                startActivity(intent);
-            }
-        });
+        mTagEvent.getTagList();
     }
 
     @Override
@@ -164,5 +139,62 @@ public class NewsDetailActivity extends QkBaseActivity {
         intent.putExtra("position", mViewPage.getCurrentItem());
         setResult(RESULT_OK, intent);
         finish();
+    }
+
+    @Subscribe
+    public void onEventMainThread(Event event) {
+        if (event instanceof TagEvent) {
+            ArrayList<ArrayList<ClientLabel>> list = (ArrayList<ArrayList<ClientLabel>>) event.getObject();
+            List<ClientLabel> recommendList = new ArrayList<>();
+            List<ClientLabel> myList = new ArrayList<>();
+            if (list.get(0) != null) {
+                recommendList = list.get(0);
+                if (recommendList.size() >= 6) {
+                    recommendList = recommendList.subList(0, 6);
+                }
+            }
+            if (list.get(1) != null) {
+                myList = list.get(1);
+                if (myList.size() >= 3) {
+                    myList = myList.subList(0, 3);
+                }
+            }
+
+            final List<ClientLabel> finalRecommendList = recommendList;
+            final List<ClientLabel> finalmyListList = myList;
+            PopupWindowUtil.showMorePopupWindow(this, mLinFollow, mRelMak, recommendList, myList, new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    NewsInfo newsInfo = mList.get(mViewPage.getCurrentItem());
+                    new FollowDetailEvent(mContext).doFollowEvent(String.valueOf(autoId), String.valueOf(newsInfo.getAutoId()), finalRecommendList, finalmyListList, new BaseSubscriber(true) {
+                        @Override
+                        public void onError(ExceptionHandle.ResponeThrowable e) {
+                            ToastUtil.showToast(mContext, e.codeMessage);
+                        }
+
+                        @Override
+                        public void onNext(Object o) {
+                            ToastUtil.showToast(mContext, "已跟进");
+                            if (mViewPage.getCurrentItem() != mList.size() - 1) {
+                                mViewPage.setCurrentItem(mViewPage.getCurrentItem() + 1);
+                            }
+
+                        }
+                    });
+                }
+            }, new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(mContext, MoreTagEditActivity.class);
+                    startActivity(intent);
+                }
+            });
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
     }
 }

@@ -11,7 +11,9 @@ import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 
 import com.iwangcn.qingkong.R;
+import com.iwangcn.qingkong.ui.model.ClientLabel;
 import com.iwangcn.qingkong.ui.model.LabelError;
+import com.iwangcn.qingkong.ui.view.TagWidget.PopMoreTagAdapter;
 import com.iwangcn.qingkong.ui.view.TagWidget.PopTagAdapter;
 import com.iwangcn.qingkong.ui.view.TagWidget.PopTagErrorAdapter;
 import com.iwangcn.qingkong.ui.view.TagWidget.TagModel;
@@ -100,7 +102,7 @@ public class PopupWindowUtil {
      * @param listData
      * @param onConfirmListener
      */
-    public static void showMorePopupWindow(final Context context, View popupview, final View rootView, final List<TagModel> listData, final List<TagModel> listDataMine, final View.OnClickListener onConfirmListener, final View.OnClickListener onMoreListener) {
+    public static void showMorePopupWindow(final Context context, View popupview, final View rootView, final List<ClientLabel> listData, final List<ClientLabel> listDataMine, final View.OnClickListener onConfirmListener, final View.OnClickListener onMoreListener) {
         rootView.setVisibility(View.VISIBLE);
 
         LayoutInflater layoutInflater = LayoutInflater.from(context);
@@ -110,14 +112,14 @@ public class PopupWindowUtil {
         Button btnConfig = (Button) view.findViewById(R.id.tag_btn_confirm);
         Button btnMore = (Button) view.findViewById(R.id.tag_btn_more);
 
-        final PopTagAdapter popTagAdapter = new PopTagAdapter(listData, context);
-        popTagAdapter.setSelectTagColor(1);
+        final PopMoreTagAdapter popTagAdapter = new PopMoreTagAdapter(listData, context);
+        popTagAdapter.setSelectTagColor(PopMoreTagAdapter.COLOR_RECOMMNF);
         TagFlowLayout tagFlowLayout = (TagFlowLayout) view.findViewById(R.id.tag_flowlayout);
         // 创建一个PopuWidow对象
         tagFlowLayout.setAdapter(popTagAdapter);
 
-        final PopTagAdapter popTagMinAdapter = new PopTagAdapter(listDataMine, context);
-        popTagMinAdapter.setSelectTagColor(2);
+        final PopMoreTagAdapter popTagMinAdapter = new PopMoreTagAdapter(listDataMine, context);
+        popTagMinAdapter.setSelectTagColor(PopMoreTagAdapter.COLOR_MINE);
         TagFlowLayout tagMinFlowLayoutMine = (TagFlowLayout) view.findViewById(R.id.tag_flowlayout_mine);
         tagMinFlowLayoutMine.setAdapter(popTagMinAdapter);
         final PopupWindow popupWindow = new PopupWindow(view,
@@ -142,8 +144,7 @@ public class PopupWindowUtil {
         tagFlowLayout.setOnTagClickListener(new TagFlowLayout.OnTagClickListener() {
             @Override
             public boolean onTagClick(View view, int position, FlowLayout parent) {
-                ToastUtil.showToast(context, position + "position");
-                TagModel selectModel = listData.get(position);
+                ClientLabel selectModel = listData.get(position);
                 selectModel.setSelect(!selectModel.isSelect());
                 popTagAdapter.notifyDataChanged();
                 return false;
@@ -152,8 +153,7 @@ public class PopupWindowUtil {
         tagMinFlowLayoutMine.setOnTagClickListener(new TagFlowLayout.OnTagClickListener() {
             @Override
             public boolean onTagClick(View view, int position, FlowLayout parent) {
-                ToastUtil.showToast(context, position + "position");
-                TagModel selectModel = listDataMine.get(position);
+                ClientLabel selectModel = listDataMine.get(position);
                 selectModel.setSelect(!selectModel.isSelect());
                 popTagMinAdapter.notifyDataChanged();
                 return false;
@@ -174,6 +174,7 @@ public class PopupWindowUtil {
             }
         });
     }
+
     /**
      * @param context
      * @param popupview         弹出按钮
