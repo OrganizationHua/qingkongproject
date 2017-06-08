@@ -210,7 +210,7 @@ public class HelperListModel extends BaseBean {
         }
     }
 
-    public static class HelperProcess {
+    public static class HelperProcess implements Serializable {
         /**
          * autoId : 23
          * helperId : 22

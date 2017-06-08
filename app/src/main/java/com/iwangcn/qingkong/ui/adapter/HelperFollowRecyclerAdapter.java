@@ -151,8 +151,7 @@ public class HelperFollowRecyclerAdapter extends BaseRecyclerViewAdapter<HelperL
         holder.btn_leave_message.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(mContext, MessageListActivity.class).putExtra("message", helperModel.getHelperInfo())
-                        .putExtra("autoId", helperModel.getHelperProcess().getAutoId() + "");
+                Intent intent = new Intent(mContext, MessageListActivity.class).putExtra("message", helperModel);
                 mContext.startActivity(intent);
             }
         });
