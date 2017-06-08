@@ -25,8 +25,8 @@ import com.iwangcn.qingkong.net.NetConst;
 import com.iwangcn.qingkong.ui.adapter.SearchHistoryAdapter;
 import com.iwangcn.qingkong.ui.adapter.SearchResultAdapter;
 import com.iwangcn.qingkong.ui.base.BaseActivity;
-import com.iwangcn.qingkong.ui.model.EventData;
 import com.iwangcn.qingkong.ui.model.NewsInfo;
+import com.iwangcn.qingkong.ui.model.SearchResultVo;
 import com.iwangcn.qingkong.ui.view.ClearEditText;
 import com.iwangcn.qingkong.ui.view.freshwidget.RefreshListenerAdapter;
 import com.iwangcn.qingkong.ui.view.freshwidget.ReloadRefreshLayout;
@@ -68,7 +68,7 @@ public class NewsSearchActivity extends BaseActivity {
 
 
     private List<String> mListHistory;
-    private List<EventData> mListResult = new ArrayList<EventData>();
+    private List<SearchResultVo> mListResult = new ArrayList<SearchResultVo>();
     private List<String> mListHot = new ArrayList<>();
     private SearchHistoryAdapter mHotAdapter;//热搜
     private SearchHistoryAdapter mAdapterHistory;//历史搜索
@@ -122,7 +122,7 @@ public class NewsSearchActivity extends BaseActivity {
         mClearEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent) {
-                if (actionId == EditorInfo.IME_ACTION_SEARCH ) {
+                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                     getSearchList(mClearEditText.getText().toString().trim());
                 }
                 return false;
@@ -185,12 +185,20 @@ public class NewsSearchActivity extends BaseActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int i, long id) {
                 //跟进和未跟进分别处理
-                ArrayList<NewsInfo> list = new ArrayList<NewsInfo>();
-                list.add(mListResult.get(i).getData());
-                Intent intent = new Intent(mContext, NewsDetailActivity.class);
-                intent.putExtra("NewsInfoList", (Serializable) list);
-                intent.putExtra("autoId", mListResult.get(i).getAutoId());//事件ID
-                startActivity(intent);
+                SearchResultVo searchResultVo = mListResult.get(i);
+                if (searchResultVo.isFollowUp()) {//已跟进
+                    Intent intent = new Intent(mContext, FollowDetailActivity.class)
+                            .putExtra("data", mSearchEvent.searchResultVoToHeadLineModel(searchResultVo))
+                            .putExtra("type", 1);
+                    startActivity(intent);
+                } else {//未跟进
+                    ArrayList<NewsInfo> list = new ArrayList<NewsInfo>();
+                    list.add(mSearchEvent.searchResultVoToNewsInfo(mListResult.get(i)));
+                    Intent intent = new Intent(mContext, NewsDetailActivity.class);
+                    intent.putExtra("NewsInfoList", (Serializable) list);
+                    intent.putExtra("autoId", mListResult.get(i).getEventId());//事件ID
+                    startActivity(intent);
+                }
             }
         });
         mAbPullToRefreshView.setOnRefreshListener(new RefreshListenerAdapter() {
@@ -270,7 +278,7 @@ public class NewsSearchActivity extends BaseActivity {
     @Subscribe
     public void onEventMainThread(Event event) {
         if (event instanceof NewsSearchEvent) {
-            List<EventData> list = (List<EventData>) event.getObject();
+            List<SearchResultVo> list = (List<SearchResultVo>) event.getObject();
             if (list.size() == 0 && mListResult.size() == 0) {//表示没有搜到
                 searchNoResult();
                 return;

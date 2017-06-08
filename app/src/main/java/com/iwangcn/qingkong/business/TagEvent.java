@@ -118,7 +118,7 @@ public class TagEvent extends Event implements NetConst {
         RetrofitInstance.getInstance().post(URL_REROR_LABELS, paratems, LabelError.class, baseSubscriber);
     }
 
-    /**
+    /**我要报错
      * @param autoId
      * @param listData
      */
@@ -134,15 +134,15 @@ public class TagEvent extends Event implements NetConst {
         paratems.put(USER_ID, UserManager.getUserInfo().getAutoId());
         paratems.put("infoId", autoId);
         paratems.put("tags", stringBuilder.toString());
-        RetrofitInstance.getInstance().post(URL_REPORT_ERROR, paratems, LabelError.class, new BaseSubscriber<NetResponse>(true) {
+        RetrofitInstance.getInstance().post(URL_REPORT_ERROR, paratems, BaseBean.class, new BaseSubscriber(true) {
             @Override
             public void onError(ExceptionHandle.ResponeThrowable e) {
                 ToastUtil.showToast(mContext, e.codeMessage);
             }
 
             @Override
-            public void onNext(NetResponse o) {
-                ToastUtil.showToast(mContext, o.getMessage());
+            public void onNext(Object o) {
+                ToastUtil.showToast(mContext, "已提交报错");
             }
         });
     }

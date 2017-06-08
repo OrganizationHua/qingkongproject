@@ -45,7 +45,6 @@
                 android:id="@+id/search_result_item_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="12:23"
                 android:textColor="@color/font_gray"
                 android:textSize="11sp" />
 
@@ -71,6 +70,8 @@
             android:layout_height="wrap_content"
             android:drawableLeft="@drawable/search_icon_from"
             android:drawablePadding="6dp"
+            android:ellipsize="end"
+            android:singleLine="true"
             android:textColor="@color/home_blue"
             android:textSize="12sp"
             tools:text="习近平从严治党" />

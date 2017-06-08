@@ -11,7 +11,10 @@ import com.iwangcn.qingkong.net.NetConst;
 import com.iwangcn.qingkong.net.NetResponse;
 import com.iwangcn.qingkong.net.RetrofitInstance;
 import com.iwangcn.qingkong.providers.UserManager;
-import com.iwangcn.qingkong.ui.model.EventData;
+import com.iwangcn.qingkong.ui.model.HeadLineModel;
+import com.iwangcn.qingkong.ui.model.NewsInfo;
+import com.iwangcn.qingkong.ui.model.SearchResultVo;
+import com.iwangcn.qingkong.utils.ToastUtil;
 
 import org.greenrobot.eventbus.EventBus;
 import org.json.JSONArray;
@@ -74,15 +77,16 @@ public class NewsSearchEvent extends Event implements NetConst {
         paratems.put(USER_ID, UserManager.getUserInfo().getAutoId());
         paratems.put("pageno", index);
         paratems.put("keyword", keyword);
-        RetrofitInstance.getInstance().post(URL_EVENT_SEARCH_NEWS, paratems, EventData.class, new BaseSubscriber<NetResponse<List<EventData>>>(true) {
+        RetrofitInstance.getInstance().post(URL_EVENT_SEARCH_NEWS, paratems, SearchResultVo.class, new BaseSubscriber<NetResponse<List<SearchResultVo>>>(true) {
             @Override
             public void onError(ExceptionHandle.ResponeThrowable e) {
+                ToastUtil.showToast(mContext, e.codeMessage);
                 EventBus.getDefault().post(new LoadFailEvent());
             }
 
             @Override
 
-            public void onNext(NetResponse<List<EventData>> o) {
+            public void onNext(NetResponse<List<SearchResultVo>> o) {
                 NewsSearchEvent event = new NewsSearchEvent();
                 event.setObject(o.getDataList());
                 if (index == 1) {
@@ -138,5 +142,23 @@ public class NewsSearchEvent extends Event implements NetConst {
                 }
             }
         });
+    }
+
+    //searchResult转NewsInfo
+    public NewsInfo searchResultVoToNewsInfo(SearchResultVo searchResultVo) {
+        NewsInfo newsInfo = new NewsInfo();
+        newsInfo.setTitle(searchResultVo.getTitle());
+        newsInfo.setSource(searchResultVo.getWebSite());
+        newsInfo.setUrl(searchResultVo.getUrl());
+        newsInfo.setKeywords(searchResultVo.getKeywords());
+        newsInfo.setPubtime(searchResultVo.getPubtime());
+        return newsInfo;
+    }
+
+    //searchResult转HeadLineModel
+    public HeadLineModel searchResultVoToHeadLineModel(SearchResultVo searchResultVo) {
+        HeadLineModel headLineModel = new HeadLineModel();
+        headLineModel.setAutoId(searchResultVo.getEventId());
+        return headLineModel;
     }
 }

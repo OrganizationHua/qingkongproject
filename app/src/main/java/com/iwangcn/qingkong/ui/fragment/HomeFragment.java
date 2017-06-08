@@ -135,6 +135,11 @@ public class HomeFragment extends BaseFragment {
     }
 
     @OnClick(R.id.home_rel_search)//搜索按钮
+    public void onRelSearch() {
+        Intent intent = new Intent(getActivity(), NewsSearchActivity.class);
+        startActivity(intent);
+    }
+    @OnClick(R.id.homefragment_edit_search)//搜索按钮
     public void onEditSearch() {
         Intent intent = new Intent(getActivity(), NewsSearchActivity.class);
         startActivity(intent);

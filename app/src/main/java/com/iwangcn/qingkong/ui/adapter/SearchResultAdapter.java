@@ -9,8 +9,8 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.iwangcn.qingkong.R;
-import com.iwangcn.qingkong.ui.model.EventData;
-import com.iwangcn.qingkong.ui.model.NewsInfo;
+import com.iwangcn.qingkong.ui.model.SearchResultVo;
+import com.iwangcn.qingkong.utils.AbDateUtil;
 import com.iwangcn.qingkong.utils.AbViewUtil;
 import com.zhy.view.flowlayout.FlowLayout;
 import com.zhy.view.flowlayout.TagAdapter;
@@ -25,7 +25,7 @@ import java.util.List;
  */
 public class SearchResultAdapter extends BaseAdapter {
     private LayoutInflater inflater;
-    private List<EventData> mList;
+    private List<SearchResultVo> mList;
     private Context mContext;
 
     public SearchResultAdapter(Context context) {
@@ -33,7 +33,7 @@ public class SearchResultAdapter extends BaseAdapter {
         inflater = LayoutInflater.from(context);
     }
 
-    public void setDataList(List<EventData> dataList) {
+    public void setDataList(List<SearchResultVo> dataList) {
         mList = dataList;
         notifyDataSetChanged();
     }
@@ -41,7 +41,7 @@ public class SearchResultAdapter extends BaseAdapter {
     @Override
     public int getCount() {
         if (mList == null) {
-            mList = new ArrayList<EventData>();
+            mList = new ArrayList<SearchResultVo>();
         }
         return mList.size();
     }
@@ -71,19 +71,19 @@ public class SearchResultAdapter extends BaseAdapter {
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
-        EventData eventData = mList.get(position);
-        NewsInfo bean = eventData.getData();
+        final SearchResultVo bean = mList.get(position);
         if (!TextUtils.isEmpty(bean.getTitle())) {
             viewHolder.title.setText(bean.getTitle());
         }
-//        if (!TextUtils.isEmpty(bean.getPubtime())) {
-//            viewHolder.time.setText(bean.getPubtime());
-//        }
-        if (!TextUtils.isEmpty(bean.getNumb())) {
-            viewHolder.from.setText(bean.getNumb());
+        if (bean.getPubtime() != 0) {
+            viewHolder.time.setText(AbDateUtil.formatDateStrGetDay(bean.getPubtime()));
         }
-        if (!TextUtils.isEmpty(bean.getContent())) {
-            viewHolder.tvEvent.setText(bean.getTitle());
+
+        if (!TextUtils.isEmpty(bean.getWebSite())) {
+            viewHolder.from.setText(bean.getWebSite());
+        }
+        if (!TextUtils.isEmpty(bean.getEventName())) {
+            viewHolder.tvEvent.setText(bean.getEventName());
         }
         if (!TextUtils.isEmpty(bean.getKeywords())) {
 
@@ -94,7 +94,11 @@ public class SearchResultAdapter extends BaseAdapter {
                     TextView tv = (TextView) LayoutInflater.from(mContext).inflate(R.layout.tv,
                             parent, false);
                     tv.setText(o);
-                    tv.setBackground(AbViewUtil.getShapeDrawable(mContext.getString(R.string.tag_normal)));
+                    if(bean.isFollowUp()){//如果是已经跟进的橙色
+                        tv.setBackground(AbViewUtil.getShapeDrawable(mContext.getString(R.string.tag_color_orange)));
+                    }else{
+                        tv.setBackground(AbViewUtil.getShapeDrawable(mContext.getString(R.string.tag_normal)));
+                    }
                     return tv;
                 }
             };
