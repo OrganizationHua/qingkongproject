@@ -15,6 +15,7 @@ import com.iwangcn.qingkong.business.HelperEvent;
 import com.iwangcn.qingkong.business.LoadFailEvent;
 import com.iwangcn.qingkong.net.NetConst;
 import com.iwangcn.qingkong.ui.activity.TagEditActivity;
+import com.iwangcn.qingkong.ui.activity.TagFilterActivity;
 import com.iwangcn.qingkong.ui.adapter.HelperRecyclerAdapter;
 import com.iwangcn.qingkong.ui.base.BaseFragment;
 import com.iwangcn.qingkong.ui.model.HelperInfo;
@@ -93,7 +94,7 @@ public class HelperFragment extends BaseFragment {
 
     @OnClick(R.id.home_collect_icon)//收藏
     public void btnCollect() {
-        Intent intent = new Intent(getActivity(), TagEditActivity.class);
+        Intent intent = new Intent(getActivity(), TagFilterActivity.class);
         startActivity(intent);
     }
 
@@ -105,12 +106,12 @@ public class HelperFragment extends BaseFragment {
                 mReloadRefreshView.finishRefreshing();
                 List<HelperInfo> list = (List<HelperInfo>) event.getObject();
                 if (list == null || list.isEmpty()) {
-                    if (event.isMore()){
+                    if (event.isMore()) {
                         mNoData.setVisibility(View.GONE);
-                    }else {
+                    } else {
                         mNoData.setVisibility(View.VISIBLE);
                     }
-                }else{
+                } else {
                     mNoData.setVisibility(View.GONE);
                 }
                 if (list.size() < NetConst.page) {//如果小于page条表示加载完成不能加载更多

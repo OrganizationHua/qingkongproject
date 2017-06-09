@@ -42,6 +42,8 @@ public class QueryDataTypeEvent extends Event implements NetConst {
                 for (int i = 0; i < list.size(); i++) {
                     SpUtils.put(MobileApplication.getInstance(), list.get(i).getTypeCode() + "", list.get(i).getName());
                 }
+                SpUtils.put(MobileApplication.getInstance(), "size", list.size());
+
             }
         });
     }
