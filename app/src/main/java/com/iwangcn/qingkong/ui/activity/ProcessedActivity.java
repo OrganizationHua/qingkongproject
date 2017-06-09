@@ -55,7 +55,7 @@ public class ProcessedActivity extends QkBaseActivity {
 
     @OnClick(R.id.base_act_right_lin)//APP信息
     public void onSift() {
-        Intent intent = new Intent(this, TagEditActivity.class);
+        Intent intent = new Intent(this, TagFilterActivity.class);
         startActivity(intent);
     }
 }

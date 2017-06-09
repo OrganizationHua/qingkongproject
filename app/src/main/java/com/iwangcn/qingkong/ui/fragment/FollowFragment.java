@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import com.iwangcn.qingkong.R;
 import com.iwangcn.qingkong.ui.activity.ProcessedActivity;
 import com.iwangcn.qingkong.ui.activity.TagEditActivity;
+import com.iwangcn.qingkong.ui.activity.TagFilterActivity;
 import com.iwangcn.qingkong.ui.adapter.FollowTabAdapter;
 import com.iwangcn.qingkong.ui.base.BaseFragment;
 
@@ -28,6 +29,7 @@ public class FollowFragment extends BaseFragment {
     ViewPager viewPager;
     @BindView(R.id.tabLayout)
     TabLayout mTabLayout;
+
     @Override
     public void onStart() {
         super.onStart();
@@ -38,6 +40,7 @@ public class FollowFragment extends BaseFragment {
             }
         });
     }
+
     @Override
     protected int layoutResID() {
         return R.layout.fragment_follow;
@@ -45,15 +48,11 @@ public class FollowFragment extends BaseFragment {
 
     @Override
     protected void initView(View view, Bundle savedInstanceState) {
-        final FollowTabAdapter tabLayoutAdapter = new FollowTabAdapter(getContext(), getChildFragmentManager(),0);
+        final FollowTabAdapter tabLayoutAdapter = new FollowTabAdapter(getContext(), getChildFragmentManager(), 0);
         viewPager.setAdapter(tabLayoutAdapter);
         mTabLayout.setupWithViewPager(viewPager);
     }
 
-    private void initData() {
-
-
-    }
 
     @OnClick(R.id.iv_processed)
     public void onProcessed() {
@@ -63,7 +62,7 @@ public class FollowFragment extends BaseFragment {
 
     @OnClick(R.id.iv_sift)
     public void onSift() {
-        Intent intent = new Intent(getActivity(), TagEditActivity.class);
+        Intent intent = new Intent(getActivity(), TagFilterActivity.class);
         startActivity(intent);
     }
 
