@@ -32,9 +32,9 @@ public class HelperFollowEvent extends Event implements NetConst {
         HashMap paratems = new HashMap();
         paratems.put(USER_ID, UserManager.getUserInfo().getAutoId());
         paratems.put("sourceType", sourceType);
-//        paratems.put("tags", tags);
+        paratems.put("tags", tags);
         paratems.put("pageno", index);
-        paratems.put("dealFlag",type);
+        paratems.put("dealFlag", type);
         RetrofitInstance.getInstance().post(URL_EVENT_FOLLOWUP_AIDE, paratems, HelperListModel.class, new BaseSubscriber<NetResponse<HelperListModel>>(false) {
             @Override
             public void onError(ExceptionHandle.ResponeThrowable e) {
@@ -130,6 +130,7 @@ public class HelperFollowEvent extends Event implements NetConst {
             }
         });
     }
+
     public void doFollowReprocess(String infoId, final int position) {//已处理
         HashMap paratems = new HashMap();
         paratems.put(USER_ID, UserManager.getUserInfo().getAutoId());
@@ -148,13 +149,14 @@ public class HelperFollowEvent extends Event implements NetConst {
             }
         });
     }
-    public void getMoreEvent() {
+
+    public void getMoreEvent(String sourceType, String tags) {
         indexPage++;
-        getHelperEventList(indexPage, "1", "");
+        getHelperEventList(indexPage, sourceType, tags);
     }
 
-    public void getRefreshEventList() {
+    public void getRefreshEventList(String sourceType, String tags) {
         indexPage = 1;
-        getHelperEventList(indexPage, "1", "");
+        getHelperEventList(indexPage, sourceType, tags);
     }
 }

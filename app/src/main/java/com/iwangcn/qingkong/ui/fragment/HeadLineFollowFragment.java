@@ -6,7 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.RelativeLayout;
 
@@ -23,7 +23,6 @@ import com.iwangcn.qingkong.ui.base.BaseFragment;
 import com.iwangcn.qingkong.ui.model.HeadLineModel;
 import com.iwangcn.qingkong.ui.view.freshwidget.RefreshListenerAdapter;
 import com.iwangcn.qingkong.ui.view.freshwidget.ReloadRefreshLayout;
-import com.iwangcn.qingkong.utils.ToastUtil;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -48,6 +47,8 @@ public class HeadLineFollowFragment extends BaseFragment {
     private List<HeadLineModel> mList = new ArrayList<>();
     private HeadLineFollowEvent headLineFollowEvent;
     private int type;
+    private String sourceType = "";
+    private String tags = "";
 
     public static HeadLineFollowFragment newInstance(int type) {
         HeadLineFollowFragment myFragment = new HeadLineFollowFragment();
@@ -66,12 +67,6 @@ public class HeadLineFollowFragment extends BaseFragment {
     protected void initView(View view, Bundle savedInstanceState) {
         Bundle bundle = getArguments();
         type = bundle.getInt("type");
-
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
         initData();
     }
 
@@ -83,7 +78,7 @@ public class HeadLineFollowFragment extends BaseFragment {
 
     private void initData() {
         headLineFollowEvent = new HeadLineFollowEvent(getContext(), type);
-        headLineFollowEvent.getRefreshEventList();
+        headLineFollowEvent.getRefreshEventList(sourceType, tags);
         mNewsAdapter = new HeadLineFollowRecyclerAdapter(getActivity(), mList, type, headLineFollowEvent);
         mListView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
         mListView.setAdapter(mNewsAdapter);
@@ -103,34 +98,48 @@ public class HeadLineFollowFragment extends BaseFragment {
             public void onRefresh(ReloadRefreshLayout refreshLayout) {
                 mReloadRefreshView.setEnableRefresh(true);
                 mNoData.setVisibility(View.GONE);
-                headLineFollowEvent.getRefreshEventList();
+                headLineFollowEvent.getRefreshEventList(sourceType, tags);
             }
 
             @Override
             public void onLoadMore(ReloadRefreshLayout refreshLayout) {
-                headLineFollowEvent.getMoreEvent();
+                headLineFollowEvent.getMoreEvent(sourceType, tags);
                 mNoData.setVisibility(View.GONE);
             }
         });
     }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        Bundle bundle = data.getExtras();
-        if (requestCode == 200) {
-            if (resultCode == Activity.RESULT_OK) {
-                ToastUtil.showToast(getActivity(), requestCode + bundle.getInt("sourceType") + "" + bundle.getString("tags"));
+        sourceType = "";
+        tags = "";
+
+        if (resultCode == Activity.RESULT_OK) {
+            Bundle bundle = data.getExtras();
+            sourceType = bundle.getInt("sourceType") + "";
+            tags = bundle.getString("tags");
+            headLineFollowEvent.getRefreshEventList(sourceType, tags);
+
+        }
+
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onStartActivityFromHeadLine(String tab) {
+        if (type == 0) {
+            if (TextUtils.equals(tab, "0")) {
+                Intent intent = new Intent(getActivity(), TagFilterActivity.class);
+                startActivityForResult(intent, 200);
+            }
+        } else if (type == 1) {
+            if (TextUtils.equals(tab, "2")) {
+                Intent intent = new Intent(getActivity(), TagFilterActivity.class);
+                startActivityForResult(intent, 400);
             }
         }
     }
-    @Subscribe(threadMode = ThreadMode.MAIN,sticky = true)
-    public void onEventMainThread(int tab) {
-        Log.e("fasg","agyqah");
-        if (tab == 0) {
-            Intent intent = new Intent(getActivity(), TagFilterActivity.class);
-            startActivityForResult(intent, 200);
-        }
-    }
+
     @Subscribe
     public void onEventMainThread(Event event) {
         if (event instanceof HeadLineFollowEvent) {

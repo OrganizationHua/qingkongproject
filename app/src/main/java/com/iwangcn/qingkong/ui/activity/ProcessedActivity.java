@@ -1,12 +1,14 @@
 package com.iwangcn.qingkong.ui.activity;
 
-import android.content.Intent;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 
 import com.iwangcn.qingkong.R;
 import com.iwangcn.qingkong.ui.adapter.FollowTabAdapter;
 import com.iwangcn.qingkong.ui.base.QkBaseActivity;
+
+import org.greenrobot.eventbus.EventBus;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -22,6 +24,7 @@ public class ProcessedActivity extends QkBaseActivity {
     ViewPager viewPager;
     @BindView(R.id.tabLayout)
     TabLayout mTabLayout;
+
 
     @Override
     public void onStart() {
@@ -55,7 +58,8 @@ public class ProcessedActivity extends QkBaseActivity {
 
     @OnClick(R.id.base_act_right_lin)//APP信息
     public void onSift() {
-        Intent intent = new Intent(this, TagFilterActivity.class);
-        startActivity(intent);
+        Log.e("重复","000000");
+        int tab=mTabLayout.getSelectedTabPosition()+2;
+        EventBus.getDefault().post(tab+"");
     }
 }

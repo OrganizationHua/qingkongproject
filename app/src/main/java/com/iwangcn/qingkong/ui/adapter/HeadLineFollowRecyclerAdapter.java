@@ -51,53 +51,55 @@ public class HeadLineFollowRecyclerAdapter extends BaseRecyclerViewAdapter<HeadL
             holder.llReprocess.setVisibility(View.VISIBLE);
             holder.llFragment.setVisibility(View.GONE);
         }
+        if (helperModel.getEventData().getData() != null) {
 
-        if (!TextUtils.isEmpty(helperModel.getEventData().getData().getTitle())) {
-            holder.title.setText(helperModel.getEventData().getData().getTitle());
-        }
 
-        if (!TextUtils.isEmpty(helperModel.getEventData().getData().getUpdateTime() + "")) {
-            holder.tvTime.setText(AbDateUtil.formatDateStrGetDay(helperModel.getEventData().getData().getUpdateTime()));
-        }
-        if (!TextUtils.isEmpty(helperModel.getEventData().getData().getSource())) {
-            holder.tvFrom.setText(helperModel.getEventData().getData().getSource());
-        }
-        if (!TextUtils.isEmpty(helperModel.getEventData().getData().getContent())) {
-            holder.tvContent.setText(helperModel.getEventData().getData().getContent());
-        }
-        //是否置顶
-        if (!TextUtils.equals(helperModel.getTop() + "", "0")) {
-            holder.tv_is_top.setText("置顶");
-            holder.img_is_top.setImageResource(R.drawable.genjin_btn_top);
-        } else if (!TextUtils.equals(helperModel.getTop() + "", "1")) {
-            holder.tv_is_top.setText("取消置顶");
-            holder.img_is_top.setImageResource(R.drawable.genjin_btn_untop);
-        }
-        List<QkTagModel> list = new ArrayList<>();
-        list.add(new QkTagModel(0, (String) SpUtils.get(mContext, helperModel.getEventData().getDataType() + "", "1")));
-        if (helperModel.getEventData().getDataType() == 1 || helperModel.getEventData().getDataType() == 5) {
-            if (!TextUtils.isEmpty(helperModel.getEventData().getData().getKeywords())) {
-                list.add(new QkTagModel(1, helperModel.getEventData().getData().getKeywords()));
-
+            if (!TextUtils.isEmpty(helperModel.getEventData().getData().getTitle())) {
+                holder.title.setText(helperModel.getEventData().getData().getTitle());
             }
-        }
-        if (helperModel.getBusinessLabels() != null && helperModel.getBusinessLabels().size() != 0) {
-            for (int i = 0; i < helperModel.getBusinessLabels().size(); i++) {
-                if (!TextUtils.isEmpty(helperModel.getBusinessLabels().get(i))) {
-                    list.add(new QkTagModel(2, helperModel.getBusinessLabels().get(i)));
+
+            if (!TextUtils.isEmpty(helperModel.getEventData().getData().getUpdateTime() + "")) {
+                holder.tvTime.setText(AbDateUtil.formatDateStrGetDay(helperModel.getEventData().getData().getUpdateTime()));
+            }
+            if (!TextUtils.isEmpty(helperModel.getEventData().getData().getSource())) {
+                holder.tvFrom.setText(helperModel.getEventData().getData().getSource());
+            }
+            if (!TextUtils.isEmpty(helperModel.getEventData().getData().getContent())) {
+                holder.tvContent.setText(helperModel.getEventData().getData().getContent());
+            }
+            //是否置顶
+            if (!TextUtils.equals(helperModel.getTop() + "", "0")) {
+                holder.tv_is_top.setText("置顶");
+                holder.img_is_top.setImageResource(R.drawable.genjin_btn_top);
+            } else if (!TextUtils.equals(helperModel.getTop() + "", "1")) {
+                holder.tv_is_top.setText("取消置顶");
+                holder.img_is_top.setImageResource(R.drawable.genjin_btn_untop);
+            }
+            List<QkTagModel> list = new ArrayList<>();
+            list.add(new QkTagModel(0, (String) SpUtils.get(mContext, helperModel.getEventData().getDataType() + "", "1")));
+            if (helperModel.getEventData().getDataType() == 1 || helperModel.getEventData().getDataType() == 5) {
+                if (!TextUtils.isEmpty(helperModel.getEventData().getData().getKeywords())) {
+                    list.add(new QkTagModel(1, helperModel.getEventData().getData().getKeywords()));
+
                 }
             }
-        }
-        if (helperModel.getSelfLabels() != null && helperModel.getSelfLabels().size() != 0) {
-            for (int j = 0; j < helperModel.getSelfLabels().size(); j++) {
-                if (!TextUtils.isEmpty(helperModel.getSelfLabels().get(j))) {
-                    list.add(new QkTagModel(3, helperModel.getSelfLabels().get(j)));
+            if (helperModel.getBusinessLabels() != null && helperModel.getBusinessLabels().size() != 0) {
+                for (int i = 0; i < helperModel.getBusinessLabels().size(); i++) {
+                    if (!TextUtils.isEmpty(helperModel.getBusinessLabels().get(i))) {
+                        list.add(new QkTagModel(2, helperModel.getBusinessLabels().get(i)));
+                    }
                 }
             }
+            if (helperModel.getSelfLabels() != null && helperModel.getSelfLabels().size() != 0) {
+                for (int j = 0; j < helperModel.getSelfLabels().size(); j++) {
+                    if (!TextUtils.isEmpty(helperModel.getSelfLabels().get(j))) {
+                        list.add(new QkTagModel(3, helperModel.getSelfLabels().get(j)));
+                    }
+                }
+            }
+
+            holder.tagFlowLayout.setAdapter(new QKTagAdapter(mContext, list));
         }
-
-        holder.tagFlowLayout.setAdapter(new QKTagAdapter(mContext, list));
-
         //取消跟进
         holder.llCancle.setOnClickListener(new View.OnClickListener() {
             @Override

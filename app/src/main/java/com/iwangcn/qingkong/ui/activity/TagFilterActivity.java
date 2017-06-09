@@ -1,6 +1,7 @@
 package com.iwangcn.qingkong.ui.activity;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
@@ -11,7 +12,6 @@ import com.iwangcn.qingkong.business.TagEvent;
 import com.iwangcn.qingkong.sp.SpUtils;
 import com.iwangcn.qingkong.ui.base.QkBaseActivity;
 import com.iwangcn.qingkong.ui.model.ClientLabel;
-import com.iwangcn.qingkong.utils.ToastUtil;
 import com.zhy.view.flowlayout.FlowLayout;
 import com.zhy.view.flowlayout.TagAdapter;
 import com.zhy.view.flowlayout.TagFlowLayout;
@@ -37,7 +37,6 @@ public class TagFilterActivity extends QkBaseActivity {
     private ArrayList<ArrayList<ClientLabel>> list;
     private int sourceType;
 
-
     @Override
     public int layoutChildResID() {
         return R.layout.activity_tag_filter;
@@ -50,6 +49,7 @@ public class TagFilterActivity extends QkBaseActivity {
 
     @Override
     public void initData() {
+        Log.e("重复","333333");
         EventBus.getDefault().register(this);
         mTagEvent = new TagEvent(this);
         mTagEvent.getTagList();

@@ -27,7 +27,6 @@
             android:id="@+id/tv_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="习近平视察京津冀"
             android:textSize="16sp" />
 
         <RelativeLayout
@@ -40,7 +39,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
-                android:text="三天前"
                 android:textSize="12sp" />
 
             <TextView
@@ -55,7 +53,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
-                android:text="腾讯新闻"
                 android:textSize="12sp" />
 
         </RelativeLayout>
