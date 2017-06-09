@@ -80,4 +80,5 @@
     <string name="cube_ptr_hours_ago">&#160;小时之前</string>
     <string name="tag_normal">"#5bb95c"</string>
     <string name="tag_color_orange">"#f1924e"</string>
+    <string name="tag_color_orange_my">"#e7bf3f"</string>
 </resources>

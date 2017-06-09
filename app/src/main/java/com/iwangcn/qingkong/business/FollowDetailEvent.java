@@ -8,10 +8,13 @@ import com.iwangcn.qingkong.net.NetConst;
 import com.iwangcn.qingkong.net.NetResponse;
 import com.iwangcn.qingkong.net.RetrofitInstance;
 import com.iwangcn.qingkong.providers.UserManager;
+import com.iwangcn.qingkong.ui.model.ClientLabel;
 
 import org.greenrobot.eventbus.EventBus;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * Created by RF on 2017/4/24.
@@ -97,4 +100,41 @@ public class FollowDetailEvent extends Event implements NetConst {
             }
         });
     }
+
+    public void doFollowEvent(String eventId, String infoId, List<ClientLabel> recommendList, List<ClientLabel> myList, BaseSubscriber baseSubscriber) {//头条跟进
+        StringBuilder builder = new StringBuilder();
+        ArrayList<ClientLabel>  recommendSelect=new ArrayList<>();
+        for (ClientLabel clientLabel:recommendList
+             ) {
+            if (clientLabel.isSelect()) {
+                recommendSelect.add(clientLabel);
+            }
+        }
+        for (int i = 0; i < recommendSelect.size(); i++) {
+            ClientLabel clientLabel = recommendSelect.get(i);
+            if (clientLabel.isSelect()) {
+                builder.append(clientLabel.getName());
+                if (i != recommendSelect.size()-1) {
+                    builder.append(",");
+                } else {
+                    builder.append("##");
+                }
+            }
+        }
+        for (ClientLabel clientLable : myList
+                ) {
+            if (clientLable.isSelect()) {
+                builder.append(clientLable.getName());
+                builder.append(",");
+            }
+        }
+        HashMap paratems = new HashMap();
+        paratems.put(USER_ID, UserManager.getUserInfo().getAutoId());
+        paratems.put("eventId", eventId);
+        paratems.put("infoId", infoId);
+        paratems.put("sourceType", "1");
+        paratems.put("tags", builder.toString());
+        RetrofitInstance.getInstance().post(URL_EVENT_DOFOLLOW, paratems, String.class, baseSubscriber);
+    }
+
 }

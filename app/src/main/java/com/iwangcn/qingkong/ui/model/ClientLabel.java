@@ -14,6 +14,16 @@ public class ClientLabel extends BaseBean {
     private String name;
     private long userId;
     private long updateTime;
+    private boolean isSelect;
+
+
+    public boolean isSelect() {
+        return isSelect;
+    }
+
+    public void setSelect(boolean select) {
+        isSelect = select;
+    }
 
     public long getAutoId() {
         return autoId;
