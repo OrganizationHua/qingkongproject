@@ -77,7 +77,7 @@ public class TagFilterActivity extends QkBaseActivity {
 
     @OnClick(R.id.btn_sure)
     public void onSure() {
-        ToastUtil.showToast(this, sourceType + getTags());
+//        ToastUtil.showToast(this, sourceType + getTags());
         Bundle bundle = new Bundle();
         bundle.putInt("sourceType", sourceType);
         bundle.putString("tags", getTags());

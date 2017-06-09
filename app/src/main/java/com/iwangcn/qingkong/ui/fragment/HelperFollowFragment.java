@@ -1,5 +1,7 @@
 package com.iwangcn.qingkong.ui.fragment;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
@@ -12,14 +14,17 @@ import com.iwangcn.qingkong.business.Event;
 import com.iwangcn.qingkong.business.HelperFollowEvent;
 import com.iwangcn.qingkong.business.LoadFailEvent;
 import com.iwangcn.qingkong.net.NetConst;
+import com.iwangcn.qingkong.ui.activity.TagFilterActivity;
 import com.iwangcn.qingkong.ui.adapter.HelperFollowRecyclerAdapter;
 import com.iwangcn.qingkong.ui.base.BaseFragment;
 import com.iwangcn.qingkong.ui.model.HelperListModel;
 import com.iwangcn.qingkong.ui.view.freshwidget.RefreshListenerAdapter;
 import com.iwangcn.qingkong.ui.view.freshwidget.ReloadRefreshLayout;
+import com.iwangcn.qingkong.utils.ToastUtil;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -95,6 +100,25 @@ public class HelperFollowFragment extends BaseFragment {
         });
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        Bundle bundle = data.getExtras();
+        if (requestCode == 300) {
+            if (resultCode == Activity.RESULT_OK) {
+                ToastUtil.showToast(getActivity(), requestCode + bundle.getInt("sourceType") + "" + bundle.getString("tags"));
+            }
+        }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
+    public void onEventMainThread(int tab) {
+        if (tab == 1) {
+            Intent intent = new Intent(getActivity(), TagFilterActivity.class);
+            startActivityForResult(intent, 300);
+        }
+    }
+
     @Subscribe
     public void onEventMainThread(Event event) {
         if (event instanceof HelperFollowEvent) {
@@ -102,9 +126,9 @@ public class HelperFollowFragment extends BaseFragment {
                 mReloadRefreshView.finishRefreshing();
                 List<HelperListModel> list = (List<HelperListModel>) event.getObject();
                 if (list == null || list.isEmpty()) {
-                    if (event.isMore()){
+                    if (event.isMore()) {
                         mNoData.setVisibility(View.GONE);
-                    }else {
+                    } else {
                         mNoData.setVisibility(View.VISIBLE);
                     }
                 } else {

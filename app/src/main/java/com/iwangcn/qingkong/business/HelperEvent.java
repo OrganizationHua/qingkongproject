@@ -33,8 +33,8 @@ public class HelperEvent extends Event implements NetConst {
         HashMap paratems = new HashMap();
         paratems.put(USER_ID, UserManager.getUserInfo().getAutoId());
         paratems.put("sourceType", sourceType);
-//        paratems.put("tags", tags);
-        paratems.put("pageno",index);
+        paratems.put("tags", tags);
+        paratems.put("pageno", index);
         RetrofitInstance.getInstance().post(URL_EVENT_HELP, paratems, HelperInfo.class, new BaseSubscriber<NetResponse<HelperListModel>>(false) {
             @Override
             public void onError(ExceptionHandle.ResponeThrowable e) {
@@ -94,13 +94,13 @@ public class HelperEvent extends Event implements NetConst {
         });
     }
 
-    public void getMoreEvent() {
+    public void getMoreEvent(String sourceType, String tags) {
         indexPage++;
-        getHelperEventList(indexPage, "1", "");
+        getHelperEventList(indexPage, sourceType, tags);
     }
 
-    public void getRefreshEventList() {
+    public void getRefreshEventList(String sourceType, String tags) {
         indexPage = 1;
-        getHelperEventList(indexPage, "1", "");
+        getHelperEventList(indexPage, sourceType, tags);
     }
 }

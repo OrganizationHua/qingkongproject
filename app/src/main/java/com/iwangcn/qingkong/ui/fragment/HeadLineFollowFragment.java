@@ -1,10 +1,12 @@
 package com.iwangcn.qingkong.ui.fragment;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.RelativeLayout;
 
@@ -14,15 +16,18 @@ import com.iwangcn.qingkong.business.HeadLineFollowEvent;
 import com.iwangcn.qingkong.business.LoadFailEvent;
 import com.iwangcn.qingkong.net.NetConst;
 import com.iwangcn.qingkong.ui.activity.FollowDetailActivity;
+import com.iwangcn.qingkong.ui.activity.TagFilterActivity;
 import com.iwangcn.qingkong.ui.adapter.BaseRecyclerViewAdapter;
 import com.iwangcn.qingkong.ui.adapter.HeadLineFollowRecyclerAdapter;
 import com.iwangcn.qingkong.ui.base.BaseFragment;
 import com.iwangcn.qingkong.ui.model.HeadLineModel;
 import com.iwangcn.qingkong.ui.view.freshwidget.RefreshListenerAdapter;
 import com.iwangcn.qingkong.ui.view.freshwidget.ReloadRefreshLayout;
+import com.iwangcn.qingkong.utils.ToastUtil;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -108,7 +113,24 @@ public class HeadLineFollowFragment extends BaseFragment {
             }
         });
     }
-
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        Bundle bundle = data.getExtras();
+        if (requestCode == 200) {
+            if (resultCode == Activity.RESULT_OK) {
+                ToastUtil.showToast(getActivity(), requestCode + bundle.getInt("sourceType") + "" + bundle.getString("tags"));
+            }
+        }
+    }
+    @Subscribe(threadMode = ThreadMode.MAIN,sticky = true)
+    public void onEventMainThread(int tab) {
+        Log.e("fasg","agyqah");
+        if (tab == 0) {
+            Intent intent = new Intent(getActivity(), TagFilterActivity.class);
+            startActivityForResult(intent, 200);
+        }
+    }
     @Subscribe
     public void onEventMainThread(Event event) {
         if (event instanceof HeadLineFollowEvent) {
