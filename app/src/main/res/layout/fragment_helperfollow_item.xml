@@ -225,19 +225,37 @@
         android:layout_width="match_parent"
         android:layout_height="1px"
         android:background="@color/line_gray"></View>
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center">
 
     <Button
         android:id="@+id/btn_leave_message"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="5dp"
         android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
+        android:layout_marginRight="3dp"
         android:layout_marginTop="5dp"
-        android:background="@drawable/set_button_save_select"
+        android:layout_gravity="center"
+        android:drawableLeft="@drawable/message2"
+        android:background="@null"
         android:text="留言（3）"
-        android:textColor="@color/white" />
-
+        />
+    <TextView
+        android:id="@+id/tv_message_notify"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="20dp"
+        android:layout_toRightOf="@+id/btn_leave_message"
+        android:background="@drawable/home_shape_red_circle"
+        android:gravity="center"
+        android:text=""
+        android:textColor="@android:color/white"
+        android:textSize="0sp" />
+</RelativeLayout>
     <View
         android:layout_width="match_parent"
         android:layout_height="1px"

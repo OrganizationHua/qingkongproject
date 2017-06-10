@@ -78,8 +78,12 @@ public class HelperFollowRecyclerAdapter extends BaseRecyclerViewAdapter<HelperL
             holder.tv_is_top.setText("取消置顶");
             holder.img_is_top.setImageResource(R.drawable.genjin_btn_untop);
         }
-        if (!TextUtils.isEmpty(helperModel.getHelperInfo().getFollowCount())) {
+        if (!TextUtils.isEmpty(helperModel.getHelperInfo().getFollowCount()) && Integer.valueOf(helperModel.getHelperInfo().getFollowCount()) > 0) {
             holder.btn_leave_message.setText("留言（" + helperModel.getHelperInfo().getFollowCount() + "）");
+            holder.tv_message_notify.setVisibility(View.VISIBLE);
+        } else {
+            holder.btn_leave_message.setText("留言（" + 0 + "）");
+            holder.tv_message_notify.setVisibility(View.GONE);
         }
         if (!TextUtils.isEmpty(helperModel.getHelperInfo().getPics())) {
 
@@ -207,6 +211,9 @@ public class HelperFollowRecyclerAdapter extends BaseRecyclerViewAdapter<HelperL
 
         @BindView(R.id.btn_leave_message)
         public Button btn_leave_message;//留言
+
+        @BindView(R.id.tv_message_notify)
+        public TextView tv_message_notify;//留言
 
         public HelperFollowViewHolder(View itemView) {
             super(itemView);

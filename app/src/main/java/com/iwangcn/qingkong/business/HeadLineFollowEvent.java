@@ -32,14 +32,14 @@ public class HeadLineFollowEvent extends Event implements NetConst {
 
     private void getHelperEventList(int index, String sourceType, String tags) {
         if (type == 1 && index == 1) {
-            isShowDialog = true;
+            isShowDialog = false;
         } else {
             isShowDialog = false;
         }
         HashMap paratems = new HashMap();
         paratems.put(USER_ID, UserManager.getUserInfo().getAutoId());
         paratems.put("sourceType", sourceType);
-//        paratems.put("tags", tags);
+        paratems.put("tags", tags);
         paratems.put("pageno", index);
         paratems.put("dealFlag", type);
         RetrofitInstance.getInstance().post(URL_EVENT_FOLLOWUP, paratems, HeadLineModel.class, new BaseSubscriber<NetResponse<HeadLineModel>>(isShowDialog) {
@@ -157,13 +157,13 @@ public class HeadLineFollowEvent extends Event implements NetConst {
         });
     }
 
-    public void getMoreEvent() {
+    public void getMoreEvent(String sourceType, String tags) {
         indexPage++;
-        getHelperEventList(indexPage, "1", "");
+        getHelperEventList(indexPage,  sourceType,  tags);
     }
 
-    public void getRefreshEventList() {
+    public void getRefreshEventList(String sourceType, String tags) {
         indexPage = 1;
-        getHelperEventList(indexPage, "1", "");
+        getHelperEventList(indexPage,  sourceType,  tags);
     }
 }

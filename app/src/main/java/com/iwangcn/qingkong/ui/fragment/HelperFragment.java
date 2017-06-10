@@ -1,5 +1,6 @@
 package com.iwangcn.qingkong.ui.fragment;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -15,11 +16,13 @@ import com.iwangcn.qingkong.business.HelperEvent;
 import com.iwangcn.qingkong.business.LoadFailEvent;
 import com.iwangcn.qingkong.net.NetConst;
 import com.iwangcn.qingkong.ui.activity.TagEditActivity;
+import com.iwangcn.qingkong.ui.activity.TagFilterActivity;
 import com.iwangcn.qingkong.ui.adapter.HelperRecyclerAdapter;
 import com.iwangcn.qingkong.ui.base.BaseFragment;
 import com.iwangcn.qingkong.ui.model.HelperInfo;
 import com.iwangcn.qingkong.ui.view.freshwidget.RefreshListenerAdapter;
 import com.iwangcn.qingkong.ui.view.freshwidget.ReloadRefreshLayout;
+import com.iwangcn.qingkong.utils.ToastUtil;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -43,6 +46,7 @@ public class HelperFragment extends BaseFragment {
     private HelperRecyclerAdapter mNewsAdapter;
     private List<HelperInfo> mList = new ArrayList<>();
     private HelperEvent helperEvent;
+    private String sourceType = "", tags = "";
 
     @Override
     protected int layoutResID() {
@@ -63,7 +67,7 @@ public class HelperFragment extends BaseFragment {
 
     private void initData() {
         helperEvent = new HelperEvent(getContext());
-        helperEvent.getRefreshEventList();
+        helperEvent.getRefreshEventList(sourceType, tags);
         mNewsAdapter = new HelperRecyclerAdapter(getActivity(), mList, helperEvent);
         mListView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
         mListView.setAdapter(mNewsAdapter);
@@ -80,21 +84,37 @@ public class HelperFragment extends BaseFragment {
             public void onRefresh(ReloadRefreshLayout refreshLayout) {
                 mReloadRefreshView.setEnableRefresh(true);
                 mNoData.setVisibility(View.GONE);
-                helperEvent.getRefreshEventList();
+                helperEvent.getRefreshEventList(sourceType, tags);
             }
 
             @Override
             public void onLoadMore(ReloadRefreshLayout refreshLayout) {
-                helperEvent.getMoreEvent();
+                helperEvent.getMoreEvent(sourceType, tags);
                 mNoData.setVisibility(View.GONE);
             }
         });
     }
 
-    @OnClick(R.id.home_collect_icon)//收藏
+    @OnClick(R.id.home_collect_icon)//筛选
     public void btnCollect() {
-        Intent intent = new Intent(getActivity(), TagEditActivity.class);
-        startActivity(intent);
+        Intent intent = new Intent(getActivity(), TagFilterActivity.class);
+        startActivityForResult(intent, 100);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        sourceType = "";
+        tags = "";
+        if (requestCode == 100) {
+            if (resultCode == Activity.RESULT_OK) {
+//            ToastUtil.showToast(getActivity(), sourceType + tags);
+                Bundle bundle = data.getExtras();
+                sourceType = bundle.getInt("sourceType") + "";
+                tags = bundle.getString("tags");
+                helperEvent.getRefreshEventList(sourceType, tags);
+            }
+        }
     }
 
     @Subscribe
@@ -105,12 +125,12 @@ public class HelperFragment extends BaseFragment {
                 mReloadRefreshView.finishRefreshing();
                 List<HelperInfo> list = (List<HelperInfo>) event.getObject();
                 if (list == null || list.isEmpty()) {
-                    if (event.isMore()){
+                    if (event.isMore()) {
                         mNoData.setVisibility(View.GONE);
-                    }else {
+                    } else {
                         mNoData.setVisibility(View.VISIBLE);
                     }
-                }else{
+                } else {
                     mNoData.setVisibility(View.GONE);
                 }
                 if (list.size() < NetConst.page) {//如果小于page条表示加载完成不能加载更多

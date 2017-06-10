@@ -53,7 +53,7 @@ public class ProgressDialogHelper {
     }
 
     public void dismissProgressDialog() {
-        if (pd != null) {
+        if (pd != null&&context!=null) {
             if (pd.isShowing()) {
                 pd.dismiss();
             }

@@ -9,9 +9,10 @@ import android.widget.ImageView;
 
 import com.iwangcn.qingkong.R;
 import com.iwangcn.qingkong.ui.activity.ProcessedActivity;
-import com.iwangcn.qingkong.ui.activity.TagEditActivity;
 import com.iwangcn.qingkong.ui.adapter.FollowTabAdapter;
 import com.iwangcn.qingkong.ui.base.BaseFragment;
+
+import org.greenrobot.eventbus.EventBus;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -28,6 +29,7 @@ public class FollowFragment extends BaseFragment {
     ViewPager viewPager;
     @BindView(R.id.tabLayout)
     TabLayout mTabLayout;
+
     @Override
     public void onStart() {
         super.onStart();
@@ -38,6 +40,7 @@ public class FollowFragment extends BaseFragment {
             }
         });
     }
+
     @Override
     protected int layoutResID() {
         return R.layout.fragment_follow;
@@ -45,14 +48,9 @@ public class FollowFragment extends BaseFragment {
 
     @Override
     protected void initView(View view, Bundle savedInstanceState) {
-        final FollowTabAdapter tabLayoutAdapter = new FollowTabAdapter(getContext(), getChildFragmentManager(),0);
+        final FollowTabAdapter tabLayoutAdapter = new FollowTabAdapter(getContext(), getChildFragmentManager(), 0);
         viewPager.setAdapter(tabLayoutAdapter);
         mTabLayout.setupWithViewPager(viewPager);
-    }
-
-    private void initData() {
-
-
     }
 
     @OnClick(R.id.iv_processed)
@@ -60,11 +58,10 @@ public class FollowFragment extends BaseFragment {
         Intent intent = new Intent(getActivity(), ProcessedActivity.class);
         startActivity(intent);
     }
-
     @OnClick(R.id.iv_sift)
     public void onSift() {
-        Intent intent = new Intent(getActivity(), TagEditActivity.class);
-        startActivity(intent);
+        EventBus.getDefault().post(mTabLayout.getSelectedTabPosition()+"");
+
     }
 
 }
