@@ -102,16 +102,19 @@ public class PopupWindowUtil {
      * @param listData
      * @param onConfirmListener
      */
-    public static void showMorePopupWindow(final Context context, View popupview, final View rootView, final List<ClientLabel> listData, final List<ClientLabel> listDataMine, final View.OnClickListener onConfirmListener, final View.OnClickListener onMoreListener) {
+    public static void showMorePopupWindow(final Context context, View popupview, final View rootView, final List<ClientLabel> listData, final List<ClientLabel> listDataMine, boolean isMore, final View.OnClickListener onConfirmListener, final View.OnClickListener onMoreListener) {
         rootView.setVisibility(View.VISIBLE);
-
         LayoutInflater layoutInflater = LayoutInflater.from(context);
         View view = layoutInflater.inflate(R.layout.tag_popupwindow_more, null);
         LinearLayout linbg = (LinearLayout) view.findViewById(R.id.tag_flowlayout_lin);
         linbg.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, AbViewUtil.getScreenHeight(context) / 2));
         Button btnConfig = (Button) view.findViewById(R.id.tag_btn_confirm);
         Button btnMore = (Button) view.findViewById(R.id.tag_btn_more);
-
+        if (isMore) {
+            btnMore.setVisibility(View.VISIBLE);
+        } else {
+            btnMore.setVisibility(View.GONE);
+        }
         final PopMoreTagAdapter popTagAdapter = new PopMoreTagAdapter(listData, context);
         popTagAdapter.setSelectTagColor(PopMoreTagAdapter.COLOR_RECOMMNF);
         TagFlowLayout tagFlowLayout = (TagFlowLayout) view.findViewById(R.id.tag_flowlayout);
