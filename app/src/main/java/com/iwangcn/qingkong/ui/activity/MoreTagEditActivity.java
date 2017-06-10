@@ -16,9 +16,15 @@
 
 package com.iwangcn.qingkong.ui.activity;
 
+import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
+import android.text.TextUtils;
+import android.view.KeyEvent;
+import android.view.inputmethod.EditorInfo;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.google.android.flexbox.AlignItems;
 import com.google.android.flexbox.FlexDirection;
@@ -27,18 +33,23 @@ import com.google.android.flexbox.FlexboxLayout;
 import com.google.android.flexbox.FlexboxLayoutManager;
 import com.iwangcn.qingkong.R;
 import com.iwangcn.qingkong.business.Event;
+import com.iwangcn.qingkong.business.FollowDetailEvent;
 import com.iwangcn.qingkong.business.TagEvent;
+import com.iwangcn.qingkong.net.BaseSubscriber;
+import com.iwangcn.qingkong.net.ExceptionHandle;
 import com.iwangcn.qingkong.ui.base.QkBaseActivity;
 import com.iwangcn.qingkong.ui.model.ClientLabel;
 import com.iwangcn.qingkong.ui.view.TagWidget.MoreRecycleViewTagAdapter;
 import com.iwangcn.qingkong.ui.view.TagWidget.OnRecyclerItemClickListener;
 import com.iwangcn.qingkong.ui.view.TagWidget.RecycleViewItemTouchCallback;
+import com.iwangcn.qingkong.utils.ToastUtil;
 import com.iwangcn.qingkong.utils.VibratorUtil;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.OnClick;
 
@@ -55,6 +66,11 @@ public class MoreTagEditActivity extends QkBaseActivity implements RecycleViewIt
     private boolean isActivated = false;//界面是否激活
     private TagEvent mTagEvent;
     private MoreRecycleViewTagAdapter mAdapter;
+    private Context mContext = this;
+    private ArrayList<ArrayList<ClientLabel>> mList;
+    private long autoId;//事件ID
+    private long newsId;
+    private int position;
 
     @Override
     public int layoutChildResID() {
@@ -64,8 +80,11 @@ public class MoreTagEditActivity extends QkBaseActivity implements RecycleViewIt
     @Override
     public void initView() {
         setTitle("更多业务标签");
-        setRightTitle("编辑");
-
+        setRightImg(R.drawable.toutiao_btn_edit);
+        Intent intent = getIntent();
+        autoId = intent.getLongExtra("autoId", 0);
+        newsId = intent.getLongExtra("newsInfoAutoId", 0);
+        position = intent.getIntExtra("position", 0);
     }
 
     @Override
@@ -77,28 +96,57 @@ public class MoreTagEditActivity extends QkBaseActivity implements RecycleViewIt
         //   mTagEvent.submitTags("22");
     }
 
-    @OnClick(R.id.base_tv_right)
+    @OnClick(R.id.base_act_right_lin)
     public void onClickRightButton() {
-        switchActivated();
+        Intent intent = new Intent(this, MoreTagDeleteActivity.class);
+        startActivity(intent);
+        //switchActivated();
     }
 
-    private void switchActivated() {
-        if (isActivated) {
-            isActivated = false;
-            setRightTitle("编辑");
-//            ll_sure.setVisibility(View.GONE);
-        } else {
-            isActivated = true;
-            setRightTitle("完成");
-//            ll_sure.setVisibility(View.VISIBLE);
+    @OnClick(R.id.btn_sure)
+    public void onClickBtnSure() {
+        final FollowDetailEvent followDetailEvent = new FollowDetailEvent(mContext);
+        List<ClientLabel> finalRecommendList = new ArrayList<>();
+        if (mList.get(0) != null) {
+            finalRecommendList = mList.get(0);
         }
+        List<ClientLabel> finalmyListList = new ArrayList<>();
+        if (mList.get(1) != null) {
+            finalmyListList = mList.get(1);
+        }
+        followDetailEvent.doFollowEvent(String.valueOf(autoId), String.valueOf(newsId), finalRecommendList, finalmyListList, new BaseSubscriber(true) {
+            @Override
+            public void onError(ExceptionHandle.ResponeThrowable e) {
+                ToastUtil.showToast(mContext, e.codeMessage);
+            }
+
+            @Override
+            public void onNext(Object o) {
+                ToastUtil.showToast(mContext, "已跟进");
+                EventBus.getDefault().post(followDetailEvent);
+                Intent intent = new Intent();
+                intent.putExtra("position", position);
+                setResult(RESULT_OK, intent);
+                finish();
+
+            }
+        });
+    }
+
+    @OnClick(R.id.btn_cancel)
+    public void onClickBtnCancle() {
+        finish();
     }
 
     @Subscribe
     public void onEventMainThread(Event event) {
         if (event instanceof TagEvent) {
-           ArrayList<ArrayList<ClientLabel>> list = (ArrayList<ArrayList<ClientLabel>>) event.getObject();
-            mAdapter.setDataList(list);
+            if (event.getId() == TagEvent.TAG_DELETE) {
+                mTagEvent.getTagList(false);
+            } else {
+                mList = (ArrayList<ArrayList<ClientLabel>>) event.getObject();
+                mAdapter.setDataList(mList);
+            }
         }
     }
 
@@ -143,8 +191,8 @@ public class MoreTagEditActivity extends QkBaseActivity implements RecycleViewIt
 
             @Override
             public void onItemClick(RecyclerView.ViewHolder vh) {
-                int pos = vh.getLayoutPosition();
-                if (pos == mAdapter.getThreeContentItemCount() + mAdapter.getThreeTitlePosition() + 1) {//点击加号时
+                int position = vh.getLayoutPosition();
+                if (position == mAdapter.getThreeContentItemCount() + mAdapter.getThreeTitlePosition() + 1) {//点击加号时
 //                    ToastUtil.showToast(TagEditActivity.this, "last");
                     mAdapter.isAdd = true;
                     mAdapter.notifyItemChanged(vh.getLayoutPosition());
@@ -153,10 +201,58 @@ public class MoreTagEditActivity extends QkBaseActivity implements RecycleViewIt
 //                      mAdapter.notifyItemInserted(vh.getLayoutPosition());
 //                      mAdapter.notifyItemRangeChanged(vh.getLayoutPosition()+1,mAdapter.getItemCount()-vh.getLayoutPosition());
                 }
-                if (mAdapter.isEditing && pos > mAdapter.getThreeTitlePosition() && pos < mAdapter.getThreeTitlePosition() + mAdapter.getThreeContentItemCount() + 1) {//点击自定义标签item时
-                    mAdapter.results3.remove(pos - mAdapter.getThreeTitlePosition() - 1);
-                    mAdapter.notifyItemRemoved(pos);
+//                if (mAdapter.isEditing && pos > mAdapter.getThreeTitlePosition() && pos < mAdapter.getThreeTitlePosition() + mAdapter.getThreeContentItemCount() + 1) {//点击自定义标签item时
+//                    mAdapter.results3.remove(pos - mAdapter.getThreeTitlePosition() - 1);
+//                    mAdapter.notifyItemRemoved(pos);
+//                }
+                if (position > mAdapter.getOneTitlePosition() && position < mAdapter.getTwoTitlePosition()) {
+                    ClientLabel clientLabel = mList.get(0).get(position - 1);
+                    clientLabel.setSelect(!clientLabel.isSelect());
+                    mAdapter.setDataList(mList);
+                } else if (position > mAdapter.getTwoTitlePosition() && position < mAdapter.getTwoTitlePosition() + mAdapter.getTwoContentItemCount() + 1) {
+                    ClientLabel clientLabel = mList.get(1).get(position - mAdapter.getTwoTitlePosition() - 1);
+                    clientLabel.setSelect(!clientLabel.isSelect());
+                    mAdapter.setDataList(mList);
                 }
+            }
+        });
+        mAdapter.setEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(final TextView v, int actionId, KeyEvent event) {
+
+                if (actionId >= EditorInfo.IME_ACTION_DONE && actionId <= 7) {
+                    // ClientLabel label = v.getText().toString();
+                    final String string = v.getText().toString();
+                    if (TextUtils.isEmpty(string)) {
+                        ToastUtil.showToast(mContext, "还没有输入新标签");
+                        return true;
+                    }
+                    mTagEvent.submitTags(string, new BaseSubscriber(true) {
+                        @Override
+                        public void onError(ExceptionHandle.ResponeThrowable e) {
+                            ToastUtil.showToast(mContext, e.codeMessage);
+                        }
+
+                        @Override
+                        public void onNext(Object o) {
+                            ToastUtil.showToast(mContext, "已经提交");
+                            ClientLabel clientLabel = new ClientLabel();
+                            clientLabel.setName(string);
+                            ArrayList<ClientLabel> clientLabels = new ArrayList<ClientLabel>();
+                            if (mList.get(1) != null) {
+                                mList.get(1).add(clientLabel);
+                            } else {
+                                clientLabels.add(clientLabel);
+                                mList.set(1, clientLabels);
+                            }
+                            mAdapter.setDataList(mList);
+                            v.setText("");
+                           // v.setFocusable(false);
+                        }
+                    });
+                    return true;
+                }
+                return false;
             }
         });
     }

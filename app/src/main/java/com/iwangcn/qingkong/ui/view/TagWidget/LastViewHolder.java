@@ -4,6 +4,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.iwangcn.qingkong.R;
 
@@ -32,5 +33,25 @@ public class LastViewHolder extends RecyclerView.ViewHolder {
 //            flexboxLp.setFlexGrow(1.0f);
 //        }
     }
+    void bindTo(TextView.OnEditorActionListener listener) {
+//        if (isAdd) {
+//            mEiditView.setVisibility(View.VISIBLE);
+//            mEiditView.requestFocus();
+//        } else {
+//            mEiditView.setf
+//            //mEiditView.setVisibility(View.GONE);
+//        }
+        mEiditView.setVisibility(View.GONE);
+      //  mEiditView.requestFocus();
+        if(listener!=null){
+            mEiditView.setOnEditorActionListener(listener);
+        }
 
+//        ViewGroup.LayoutParams lp = mImageView.getLayoutParams();
+//
+//        if (lp instanceof FlexboxLayoutManager.LayoutParams) {
+//            FlexboxLayoutManager.LayoutParams flexboxLp = (FlexboxLayoutManager.LayoutParams) lp;
+//            flexboxLp.setFlexGrow(1.0f);
+//        }
+    }
 }

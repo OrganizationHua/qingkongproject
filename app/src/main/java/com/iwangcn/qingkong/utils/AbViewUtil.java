@@ -24,6 +24,7 @@ import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Build.VERSION;
 import android.text.TextPaint;
+import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
 import android.view.View;
@@ -701,6 +702,27 @@ public class AbViewUtil {
         int strokeWidth = 0;     // 1dp 边框宽度
         int roundRadius = 10;     // 5dp 圆角半径
         int strokeColor = Color.parseColor("#FFFF0000");//边框颜色
+        int fillColor = Color.parseColor(colorType); //内部填充颜色
+
+        GradientDrawable gd = new GradientDrawable();//创建drawable
+        gd.setColor(fillColor);
+
+        gd.setCornerRadius(roundRadius);
+        gd.setStroke(strokeWidth, strokeColor);
+        gd.setShape(GradientDrawable.RECTANGLE);
+        return gd;
+    }
+
+    public static Drawable getShapeDrawableWithStroke(String colorType, String strStrokeColor) {
+        int strokeWidth = 1;     // 1dp 边框宽度
+        int roundRadius = 10;     // 5dp 圆角半径
+        int strokeColor = 0;
+        if (TextUtils.isEmpty(strStrokeColor)) {
+            strokeColor = Color.parseColor("#dedede");//边框颜色
+        } else {
+            strokeColor = Color.parseColor(strStrokeColor);//边框颜色
+        }
+
         int fillColor = Color.parseColor(colorType); //内部填充颜色
 
         GradientDrawable gd = new GradientDrawable();//创建drawable

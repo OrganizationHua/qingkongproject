@@ -105,7 +105,7 @@ public abstract class QkBaseActivity extends BaseActivity {
 
     protected ImageView setRightImg(int resId) {
         mImgRight.setVisibility(View.VISIBLE);
-        mImgRight.setBackgroundResource(resId);
+        mImgRight.setImageResource(resId);
         return mImgRight;
     }
 

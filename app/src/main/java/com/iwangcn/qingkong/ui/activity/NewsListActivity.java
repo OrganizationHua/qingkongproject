@@ -139,6 +139,7 @@ public class NewsListActivity extends BaseActivity {
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                if (i == 0)  return;
                 EventDataVo eventDataVo = mList.get(i - 1);
                 if (!eventDataVo.isFollowup()) {//如果没有被跟进
                     Intent intent = new Intent(mContext, NewsDetailActivity.class);
@@ -185,6 +186,14 @@ public class NewsListActivity extends BaseActivity {
                 mAdapter.setDataList(mList);
                 mListView.setSelection(position);
             }
+            if (resultCode == Activity.RESULT_OK) {
+//            ToastUtil.showToast(getActivity(), sourceType + tags);
+//                Bundle bundle = data.getExtras();
+//                int  sourceType = bundle.getInt("sourceType") + "";
+//                tags = bundle.getString("tags");
+//                helperEvent.getRefreshEventList(sourceType, tags);
+//                m
+            }
 
         }
     }
@@ -220,8 +229,10 @@ public class NewsListActivity extends BaseActivity {
 
     @OnClick(R.id.base_act_right_lin)//选择器按钮
     public void onBtnFilter() {
+//        Intent intent = new Intent(this, TagFilterActivity.class);
+//        startActivityForResult(intent, 100);
         Intent intent = new Intent(this, MoreTagEditActivity.class);
-        startActivity(intent);
+        startActivityForResult(intent, 100);
     }
 
     @OnClick(R.id.base_img_right_lin)//收藏

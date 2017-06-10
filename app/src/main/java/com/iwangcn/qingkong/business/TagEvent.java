@@ -31,6 +31,7 @@ import java.util.List;
 public class TagEvent extends Event implements NetConst {
     //来源标签是蓝的，关键字标签是绿的，业务标签是橙的，自定义标签是黄的，报错标签是红的
     private Context mContext;
+    public static final int TAG_DELETE = 1;
 
     public TagEvent() {
     }
@@ -44,6 +45,33 @@ public class TagEvent extends Event implements NetConst {
         paratems.put(USER_ID, UserManager.getUserInfo().getAutoId());
 
         RetrofitInstance.getInstance().post(URL_TAG_TAGLIST, paratems, String.class, new BaseSubscriber<NetResponse>(true) {
+            @Override
+            public void onError(ExceptionHandle.ResponeThrowable e) {
+                ToastUtil.showToast(mContext, e.codeMessage);
+            }
+
+            @Override
+            public void onNext(NetResponse o) {
+                if (!TextUtils.isEmpty(o.getData())) {
+                    ArrayList<ArrayList<ClientLabel>> list = parserTagData(o.getData());
+                    if (list != null) {
+                        // baseSubscriber.onNext(list);
+                        TagEvent event = new TagEvent();
+                        event.setObject(list);
+                        EventBus.getDefault().post(event);
+                    } else {
+                        ToastUtil.showToast(mContext, "数据异常");
+                    }
+                }
+            }
+        });
+    }
+
+    public void getTagList(boolean isShow) {
+        HashMap paratems = new HashMap();
+        paratems.put(USER_ID, UserManager.getUserInfo().getAutoId());
+
+        RetrofitInstance.getInstance().post(URL_TAG_TAGLIST, paratems, String.class, new BaseSubscriber<NetResponse>(isShow) {
             @Override
             public void onError(ExceptionHandle.ResponeThrowable e) {
                 ToastUtil.showToast(mContext, e.codeMessage);
@@ -97,7 +125,7 @@ public class TagEvent extends Event implements NetConst {
         HashMap paratems = new HashMap();
         paratems.put(USER_ID, UserManager.getUserInfo().getAutoId());
         paratems.put("tags", tags);
-        RetrofitInstance.getInstance().post(URL_TAG_SUBMITTAGS, paratems, BaseBean.class, baseSubscriber);
+        RetrofitInstance.getInstance().post(URL_TAG_SUBMITTAGS, paratems, String.class, baseSubscriber);
     }
 
     public void deleteTags(ClientLabel clientLabel, BaseSubscriber baseSubscriber) {
@@ -118,7 +146,9 @@ public class TagEvent extends Event implements NetConst {
         RetrofitInstance.getInstance().post(URL_REROR_LABELS, paratems, LabelError.class, baseSubscriber);
     }
 
-    /**我要报错
+    /**
+     * 我要报错
+     *
      * @param autoId
      * @param listData
      */

@@ -47,7 +47,7 @@ public class NewsDetailActivity extends QkBaseActivity {
     private long autoId;//事件ID
     private TagEvent mTagEvent;
     private List<LabelError> errorTagList = new ArrayList<LabelError>();
-
+    private int REQUEST_CODE=10;
     @BindView(R.id.news_detail_follow_lin)
     LinearLayout mLinFollow;//跟进按钮
 
@@ -149,7 +149,7 @@ public class NewsDetailActivity extends QkBaseActivity {
             List<ClientLabel> myList = new ArrayList<>();
             boolean isMore = false;
             if (list.get(0) != null && list.get(1) != null) {
-                if (list.get(0).size() > 6 && list.get(1).size() > 3) {
+                if (list.get(0).size() > 6 || list.get(1).size() > 3) {
                     isMore = true;
                 }
             }
@@ -191,13 +191,27 @@ public class NewsDetailActivity extends QkBaseActivity {
             }, new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    NewsInfo newsInfo = mList.get(mViewPage.getCurrentItem());
                     Intent intent = new Intent(mContext, MoreTagEditActivity.class);
-                    startActivity(intent);
+                    intent.putExtra("autoId",autoId);
+                    intent.putExtra("newsInfoAutoId",newsInfo.getAutoId());
+                    startActivityForResult(intent,REQUEST_CODE);
                 }
             });
         }
     }
-
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK) {
+            if (requestCode == REQUEST_CODE) {
+                ToastUtil.showToast(mContext,"有个bug");
+//                int position = data.getIntExtra("position", 0);
+//                mList.remove(position);
+//                mAdapter.setList(mList);
+            }
+        }
+    }
     @Override
     protected void onDestroy() {
         super.onDestroy();

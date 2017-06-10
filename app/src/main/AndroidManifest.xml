@@ -56,7 +56,8 @@
             android:windowSoftInputMode="stateHidden|adjustPan" />
         <activity android:name=".ui.activity.UpdateActivity" />
         <activity android:name=".ui.activity.BGABannerActivity" />
-        <activity android:name=".ui.activity.TagFilterActivity"></activity>
+        <activity android:name=".ui.activity.TagFilterActivity" />
+        <activity android:name=".ui.activity.MoreTagDeleteActivity"></activity>
     </application>
 
 </manifest>
