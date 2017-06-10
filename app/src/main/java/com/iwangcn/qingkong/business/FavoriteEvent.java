@@ -83,12 +83,12 @@ public class FavoriteEvent extends Event implements NetConst {
     /**
      * 取消收藏
      *
-     * @param fId
+     * @param eventId
      */
-    public void removeFavoritet(String fId, BaseSubscriber baseSubscriber) {
+    public void removeFavoritet(String eventId, BaseSubscriber baseSubscriber) {
         HashMap paratems = new HashMap();
         paratems.put(USER_ID, UserManager.getUserInfo().getAutoId());
-        paratems.put("fId", fId);
+        paratems.put("eventId", eventId);
         RetrofitInstance.getInstance().post(URL_EVENT_REMOVE, paratems, BaseBean.class, baseSubscriber);
     }
 

@@ -16,6 +16,8 @@
     <color name="background_gray">#f5f5f5</color>
     <!--分割线颜色-->
     <color name="line_gray">#dddddd</color>
+    <!--分割线颜色-->
+    <color name="font_green">#59b95e</color>
 
     <!--home-->
     <color name="home_blue">#0a83c9</color>

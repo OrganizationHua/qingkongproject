@@ -12,6 +12,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.iwangcn.qingkong.R;
+import com.iwangcn.qingkong.ui.model.EventDataVo;
 import com.iwangcn.qingkong.ui.model.NewsInfo;
 import com.iwangcn.qingkong.utils.AbDateUtil;
 import com.iwangcn.qingkong.utils.AbViewUtil;
@@ -31,14 +32,14 @@ import butterknife.ButterKnife;
  */
 
 public class NewsListAdapter extends BaseAdapter {
-    private List<NewsInfo> mList;
+    private List<EventDataVo> mList;
     private Context mContext;
 
     public NewsListAdapter(Context context) {
         this.mContext = context;
     }
 
-    public void setDataList(List<NewsInfo> dataList) {
+    public void setDataList(List<EventDataVo> dataList) {
         mList = dataList;
         notifyDataSetChanged();
     }
@@ -46,7 +47,7 @@ public class NewsListAdapter extends BaseAdapter {
     @Override
     public int getCount() {
         if (mList == null) {
-            mList = new ArrayList<NewsInfo>();
+            mList = new ArrayList<EventDataVo>();
         }
         return mList.size();
     }
@@ -73,7 +74,8 @@ public class NewsListAdapter extends BaseAdapter {
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
-        NewsInfo model = mList.get(position);
+        final EventDataVo eventDataVo = mList.get(position);
+        NewsInfo model = eventDataVo.getData();
         if (position == 0) {
             viewHolder.imgIconUp.setVisibility(View.VISIBLE);
         } else {
@@ -88,12 +90,15 @@ public class NewsListAdapter extends BaseAdapter {
             viewHolder.imgBlueCircle.setVisibility(View.GONE);
             viewHolder.imgGreenCircl.setVisibility(View.VISIBLE);
             viewHolder.linContent.setVisibility(View.VISIBLE);
+            viewHolder.newsYear.setTextColor(mContext.getResources().getColor(R.color.font_green));
+            viewHolder.newsDay.setTextColor(mContext.getResources().getColor(R.color.font_green));
         } else {
             viewHolder.imgBlueCircle.setVisibility(View.VISIBLE);
             viewHolder.imgGreenCircl.setVisibility(View.GONE);
             //  AbViewUtil.collapse(viewHolder.linContent);
             viewHolder.linContent.setVisibility(View.GONE);
-
+            viewHolder.newsYear.setTextColor(mContext.getResources().getColor(R.color.font_gray));
+            viewHolder.newsDay.setTextColor(mContext.getResources().getColor(R.color.font_gray));
         }
         if (!TextUtils.isEmpty(model.getTitle())) {
             viewHolder.tvTitle.setText(model.getTitle());
@@ -108,7 +113,7 @@ public class NewsListAdapter extends BaseAdapter {
         viewHolder.newsYear.setText(AbDateUtil.getStringByFormat(model.getPubtime(), "yyyy"));
         viewHolder.newsDay.setText(AbDateUtil.getStringByFormat(model.getPubtime(), "MM-dd"));
         if (position != 0) {//判断是否显示年份
-            if (AbDateUtil.getYear(mList.get(position).getPubtime()) != AbDateUtil.getYear(mList.get(position - 1).getPubtime())) {
+            if (AbDateUtil.getYear(model.getPubtime()) != AbDateUtil.getYear(mList.get(position - 1).getData().getPubtime())) {
                 viewHolder.newsYear.setVisibility(View.VISIBLE);
             } else {
                 viewHolder.newsYear.setVisibility(View.INVISIBLE);
@@ -117,18 +122,18 @@ public class NewsListAdapter extends BaseAdapter {
         viewHolder.linBlueCircl.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (mList.get(position).isSelect()) {
+                if (mList.get(position).getData().isSelect()) {
                     return;
                 } else {
                     //把之前选中的取消
                     for (int i = 0; i < mList.size() - 1; i++) {
-                        if (mList.get(i).isSelect()) {
-                            mList.get(i).setSelect(false);
+                        if (mList.get(i).getData().isSelect()) {
+                            mList.get(i).getData().setSelect(false);
                             break;
                         }
                     }
                     //选中当前的
-                    mList.get(position).setSelect(true);
+                    mList.get(position).getData().setSelect(true);
                     AbViewUtil.expand(viewHolder.linContent);
                     notifyDataSetChanged();
                 }
@@ -143,7 +148,11 @@ public class NewsListAdapter extends BaseAdapter {
                     TextView tv = (TextView) LayoutInflater.from(mContext).inflate(R.layout.tv,
                             parent, false);
                     tv.setText(o);
-                    tv.setBackground(AbViewUtil.getShapeDrawable(mContext.getString(R.string.tag_normal)));
+                    if (eventDataVo.isFollowup()) {
+                        tv.setBackground(AbViewUtil.getShapeDrawable(mContext.getString(R.string.tag_color_orange)));
+                    } else {
+                        tv.setBackground(AbViewUtil.getShapeDrawable(mContext.getString(R.string.tag_normal)));
+                    }
                     return tv;
                 }
             };

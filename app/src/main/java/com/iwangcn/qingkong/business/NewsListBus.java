@@ -8,8 +8,8 @@ import com.iwangcn.qingkong.net.NetConst;
 import com.iwangcn.qingkong.net.NetResponse;
 import com.iwangcn.qingkong.net.RetrofitInstance;
 import com.iwangcn.qingkong.providers.UserManager;
+import com.iwangcn.qingkong.ui.model.EventDataVo;
 import com.iwangcn.qingkong.ui.model.EventInfo;
-import com.iwangcn.qingkong.ui.model.NewsInfo;
 import com.iwangcn.qingkong.utils.ToastUtil;
 
 import org.greenrobot.eventbus.EventBus;
@@ -43,7 +43,7 @@ public class NewsListBus extends Event implements NetConst {
         paratems.put("pageno", indexPage);
         paratems.put("sourceType", 1);
         paratems.put("eventId", eventInfo.getAutoId());
-        RetrofitInstance.getInstance().post(URL_EVENT_RELINFO, paratems, NewsInfo.class, new BaseSubscriber<NetResponse<List<NewsInfo>>>(true) {
+        RetrofitInstance.getInstance().post(URL_EVENT_RELINFO, paratems, EventDataVo.class, new BaseSubscriber<NetResponse<List<EventDataVo>>>(true) {
             @Override
             public void onError(ExceptionHandle.ResponeThrowable e) {
                 EventBus.getDefault().post(new LoadFailEvent());
@@ -51,10 +51,15 @@ public class NewsListBus extends Event implements NetConst {
 
             @Override
 
-            public void onNext(NetResponse<List<NewsInfo>> o) {
-                NewsListBus event = new NewsListBus();
-                event.setObject(o.getDataList());
-                EventBus.getDefault().post(event);
+            public void onNext(NetResponse<List<EventDataVo>> o) {
+                if (o.getDataList() == null) {
+                    ToastUtil.showToast(mContext, "暂无相关数据");
+                } else {
+                    NewsListBus event = new NewsListBus();
+                    event.setObject(o.getDataList());
+                    EventBus.getDefault().post(event);
+                }
+
             }
         });
     }

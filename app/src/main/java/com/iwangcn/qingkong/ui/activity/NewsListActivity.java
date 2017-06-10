@@ -16,6 +16,7 @@ import android.widget.TextView;
 import com.iwangcn.qingkong.R;
 import com.iwangcn.qingkong.business.Event;
 import com.iwangcn.qingkong.business.FavoriteEvent;
+import com.iwangcn.qingkong.business.FollowDetailEvent;
 import com.iwangcn.qingkong.business.LoadFailEvent;
 import com.iwangcn.qingkong.business.NewsListBus;
 import com.iwangcn.qingkong.net.BaseSubscriber;
@@ -23,8 +24,10 @@ import com.iwangcn.qingkong.net.ExceptionHandle;
 import com.iwangcn.qingkong.net.NetConst;
 import com.iwangcn.qingkong.ui.adapter.NewsListAdapter;
 import com.iwangcn.qingkong.ui.base.BaseActivity;
+import com.iwangcn.qingkong.ui.model.EventDataVo;
 import com.iwangcn.qingkong.ui.model.EventInfo;
 import com.iwangcn.qingkong.ui.model.EventInfoVo;
+import com.iwangcn.qingkong.ui.model.HeadLineModel;
 import com.iwangcn.qingkong.ui.model.NewsInfo;
 import com.iwangcn.qingkong.ui.view.freshwidget.RefreshListenerAdapter;
 import com.iwangcn.qingkong.ui.view.freshwidget.ReloadRefreshLayout;
@@ -57,10 +60,9 @@ public class NewsListActivity extends BaseActivity {
 
     private Activity mContext = this;
     private NewsListAdapter mAdapter;
-    private List<NewsInfo> mList = new ArrayList<>();
+    private List<EventDataVo> mList = new ArrayList<>();
 
     private EventInfoVo mIntentEventInfo;//上个界面传递过来的事件
-    // private FavoriteStateModel mFavoriteStateModel;//上个界面传过来的收藏状态
     private final int REQUEST_CODE = 10;
     private NewsListBus mEventBus;
     private FavoriteEvent mFavoriteEvent;//收藏
@@ -79,7 +81,6 @@ public class NewsListActivity extends BaseActivity {
         mEventBus = new NewsListBus(this);
         mFavoriteEvent = new FavoriteEvent(this);
         mIntentEventInfo = (EventInfoVo) getIntent().getSerializableExtra("EventInfoVo");
-        // mFavoriteStateModel = (FavoriteStateModel) getIntent().getSerializableExtra("FavoriteStateModel");
         if (mIntentEventInfo != null) {
             if (mIntentEventInfo.getFavoriteFlag() == 0) {
                 mCollcetImage.setSelected(false);
@@ -120,7 +121,7 @@ public class NewsListActivity extends BaseActivity {
             if (!TextUtils.isEmpty(eventInfo.getName())) {
                 tvTitle.setText(eventInfo.getName());
             }
-            tvNumb.setText(eventInfo.getNewsNum() + "条数据");
+            tvNumb.setText(mIntentEventInfo.getInfoCount() + "条数据");
             tvTime.setText(AbDateUtil.getStringByFormat(eventInfo.getUpdateTime(), "yyyy-MM-dd"));
         }
         return headView;
@@ -138,13 +139,33 @@ public class NewsListActivity extends BaseActivity {
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Intent intent = new Intent(mContext, NewsDetailActivity.class);
-                intent.putExtra("NewsInfoList", (Serializable) mList);
-                intent.putExtra("frontPageposition", i - 1);
-                intent.putExtra("autoId", mIntentEventInfo.getEventInfo().getAutoId());//事件ID
-                startActivityForResult(intent, REQUEST_CODE);
+                EventDataVo eventDataVo = mList.get(i - 1);
+                if (!eventDataVo.isFollowup()) {//如果没有被跟进
+                    Intent intent = new Intent(mContext, NewsDetailActivity.class);
+                    intent.putExtra("NewsInfoList", (Serializable) getUnFollowNewsInfoList(mList));
+                    intent.putExtra("frontPageposition", i - 1);
+                    intent.putExtra("autoId", mIntentEventInfo.getEventInfo().getAutoId());//事件ID
+                    startActivityForResult(intent, REQUEST_CODE);
+                } else if (eventDataVo.isFollowup()) {//已跟进
+                    HeadLineModel headLineModel = new HeadLineModel();
+                    headLineModel.setAutoId((int) eventDataVo.getEventId());
+                    Intent intent = new Intent(mContext, FollowDetailActivity.class)
+                            .putExtra("data", headLineModel)
+                            .putExtra("type", 1);
+                    startActivity(intent);
+                }
             }
         });
+    }
+
+    private List<NewsInfo> getUnFollowNewsInfoList(List<EventDataVo> mList) {
+        List<NewsInfo> newsList = new ArrayList<>();
+        for (EventDataVo model : mList) {
+            if (!model.isFollowup()) {
+                newsList.add(model.getData());
+            }
+        }
+        return newsList;
     }
 
     @Override
@@ -156,9 +177,9 @@ public class NewsListActivity extends BaseActivity {
                 mListView.setSelection(position);
                 for (int i = 0; i < mList.size(); i++) {
                     if (i == position) {
-                        mList.get(i).setSelect(true);
+                        mList.get(i).getData().setSelect(true);
                     } else {
-                        mList.get(i).setSelect(false);
+                        mList.get(i).getData().setSelect(false);
                     }
                 }
                 mAdapter.setDataList(mList);
@@ -172,7 +193,7 @@ public class NewsListActivity extends BaseActivity {
     public void onEventMainThread(Event event) {
         if (event instanceof NewsListBus) {
             mAbPullToRefreshView.finishRefreshing();
-            List<NewsInfo> list = (List<NewsInfo>) event.getObject();
+            List<EventDataVo> list = (List<EventDataVo>) event.getObject();
             if (list.size() < NetConst.page) {//如果小于page条表示加载完成不能加载更多
                 mAbPullToRefreshView.setEnableLoadmore(false);
             }
@@ -182,7 +203,7 @@ public class NewsListActivity extends BaseActivity {
                 if (list.size() == 0) {
                     ToastUtil.showToast(this, "暂无相关新闻");
                 } else {
-                    list.get(0).setSelect(true);
+                    list.get(0).getData().setSelect(true);
                 }
                 mAbPullToRefreshView.finishRefreshing();
                 mList.clear();
@@ -192,6 +213,8 @@ public class NewsListActivity extends BaseActivity {
         } else if (event instanceof LoadFailEvent) {
             mAbPullToRefreshView.finishLoadmore();
             mAbPullToRefreshView.finishRefreshing();
+        } else if (event instanceof FollowDetailEvent) {
+            mEventBus.getRefreshEventList(mIntentEventInfo.getEventInfo());
         }
     }
 
@@ -223,7 +246,7 @@ public class NewsListActivity extends BaseActivity {
                     }
                 });
             } else {
-                mFavoriteEvent.removeFavoritet(String.valueOf(mIntentEventInfo.getFavoriteId()), new BaseSubscriber(true) {
+                mFavoriteEvent.removeFavoritet(String.valueOf(mIntentEventInfo.getEventInfo().getAutoId()), new BaseSubscriber(true) {
                     @Override
                     public void onError(ExceptionHandle.ResponeThrowable e) {
                         ToastUtil.showToast(mContext, e.codeMessage);

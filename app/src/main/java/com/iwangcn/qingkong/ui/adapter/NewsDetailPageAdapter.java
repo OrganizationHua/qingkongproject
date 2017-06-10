@@ -16,6 +16,7 @@ import java.util.List;
 
 public class NewsDetailPageAdapter extends FragmentStatePagerAdapter {
     private List<NewsInfo> mList;
+    private ArrayList<Fragment> mFragmentList;
 
     public NewsDetailPageAdapter(FragmentManager fm) {
         super(fm);
@@ -23,11 +24,17 @@ public class NewsDetailPageAdapter extends FragmentStatePagerAdapter {
 
     public void setList(List<NewsInfo> mList) {
         this.mList = mList;
+        ArrayList<Fragment> fragments = new ArrayList<>();
+        for (int i = 0, size = mList.size(); i < size; i++) {
+            fragments.add(NewsInfoFragment.newInstance(i, mList.get(i)));
+        }
+        setFragmentList(fragments);
     }
 
     @Override
     public Fragment getItem(int position) {
-        return NewsInfoFragment.newInstance(position,mList.get(position));
+        //return NewsInfoFragment.newInstance(position,mList.get(position));
+        return mFragmentList.get(position);
     }
 
     @Override
@@ -37,4 +44,17 @@ public class NewsDetailPageAdapter extends FragmentStatePagerAdapter {
         }
         return mList.size();
     }
+
+    public int getItemPosition(Object object) {
+        return POSITION_NONE;
+    }
+
+    private void setFragmentList(ArrayList<Fragment> fragmentList) {
+        if (this.mFragmentList != null) {
+            mFragmentList.clear();
+        }
+        this.mFragmentList = fragmentList;
+        notifyDataSetChanged();
+    }
+
 }

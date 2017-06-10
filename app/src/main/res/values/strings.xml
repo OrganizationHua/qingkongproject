@@ -21,7 +21,7 @@
     <string name="toutiao_collect">头条收藏簿</string>
     <string name="collect">收藏</string>
     <string name="cancle">取消</string>
-    <string name="news_detail">消息详情</string>
+    <string name="news_detail">信息详情</string>
     <string name="originalText">查看原文</string>
     <string name="search_no_result">爬出还在路上抓取信息，未及时返回...</string>
     <string name="search_helper_finish">谢谢，小助手已着手处理</string>

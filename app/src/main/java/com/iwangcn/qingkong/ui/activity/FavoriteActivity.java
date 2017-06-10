@@ -88,7 +88,7 @@ public class FavoriteActivity extends QkBaseActivity {
             @Override
             public void onClickCancleCollect(final int position) {
                 EventInfoVo info = (EventInfoVo) mAdapter.getItem(position);
-                mBusEvent.removeFavoritet(String.valueOf(info.getFavoriteId()), new BaseSubscriber(true) {
+                mBusEvent.removeFavoritet(String.valueOf(info.getEventInfo().getAutoId()), new BaseSubscriber(true) {
                     @Override
                     public void onError(ExceptionHandle.ResponeThrowable e) {
                         ToastUtil.showToast(mContext, e.codeMessage);

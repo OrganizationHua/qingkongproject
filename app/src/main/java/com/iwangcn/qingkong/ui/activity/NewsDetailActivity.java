@@ -166,7 +166,8 @@ public class NewsDetailActivity extends QkBaseActivity {
                 @Override
                 public void onClick(View view) {
                     NewsInfo newsInfo = mList.get(mViewPage.getCurrentItem());
-                    new FollowDetailEvent(mContext).doFollowEvent(String.valueOf(autoId), String.valueOf(newsInfo.getAutoId()), finalRecommendList, finalmyListList, new BaseSubscriber(true) {
+                    final FollowDetailEvent followDetailEvent = new FollowDetailEvent(mContext);
+                    followDetailEvent.doFollowEvent(String.valueOf(autoId), String.valueOf(newsInfo.getAutoId()), finalRecommendList, finalmyListList, new BaseSubscriber(true) {
                         @Override
                         public void onError(ExceptionHandle.ResponeThrowable e) {
                             ToastUtil.showToast(mContext, e.codeMessage);
@@ -175,10 +176,9 @@ public class NewsDetailActivity extends QkBaseActivity {
                         @Override
                         public void onNext(Object o) {
                             ToastUtil.showToast(mContext, "已跟进");
-                            if (mViewPage.getCurrentItem() != mList.size() - 1) {
-                                mViewPage.setCurrentItem(mViewPage.getCurrentItem() + 1);
-                            }
-
+                            mList.remove(mViewPage.getCurrentItem());
+                            mAdapter.setList(mList);
+                            EventBus.getDefault().post(followDetailEvent);
                         }
                     });
                 }
