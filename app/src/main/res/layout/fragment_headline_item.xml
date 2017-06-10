@@ -79,9 +79,11 @@
 
             <TextView
                 android:id="@+id/tv_content"
+                android:textColor="@color/font_gray"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="12sp" />
+                android:textSize="14sp"
+                android:lineSpacingExtra="5dp"/>
 
             <TextView
                 android:id="@+id/tv_scan"
@@ -127,6 +129,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@null"
+                android:layout_marginLeft="3dp"
                 android:text="取消跟进"
                 android:textSize="16sp" />
         </LinearLayout>
@@ -159,6 +162,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@null"
+                android:layout_marginLeft="3dp"
                 android:text="取消置顶"
                 android:textSize="16sp" />
         </LinearLayout>
@@ -187,6 +191,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="3dp"
                 android:background="@null"
                 android:text="处理完成"
                 android:textSize="16sp" />
@@ -214,6 +219,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@null"
+            android:layout_marginLeft="3dp"
             android:text="重新处理"
             android:textSize="16sp" />
     </LinearLayout>
