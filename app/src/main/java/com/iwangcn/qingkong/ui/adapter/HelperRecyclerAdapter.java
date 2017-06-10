@@ -1,7 +1,6 @@
 package com.iwangcn.qingkong.ui.adapter;
 
 import android.content.Context;
-import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
@@ -13,9 +12,9 @@ import com.alibaba.fastjson.JSON;
 import com.iwangcn.qingkong.R;
 import com.iwangcn.qingkong.business.HelperEvent;
 import com.iwangcn.qingkong.sp.SpUtils;
-import com.iwangcn.qingkong.ui.activity.FollowDetailActivity;
 import com.iwangcn.qingkong.ui.model.HelperInfo;
 import com.iwangcn.qingkong.ui.model.QkTagModel;
+import com.iwangcn.qingkong.utils.AbAppUtil;
 import com.iwangcn.qingkong.utils.AbDateUtil;
 import com.iwangcn.qingkong.utils.GlideUtils;
 import com.zhy.view.flowlayout.TagFlowLayout;
@@ -94,8 +93,10 @@ public class HelperRecyclerAdapter extends BaseRecyclerViewAdapter<HelperInfo> {
         holder.tvScan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(mContext, FollowDetailActivity.class).putExtra("url", helperInfo.getUrl() != null ? helperInfo.getUrl() : "");
-                mContext.startActivity(intent);
+                {
+                    AbAppUtil.openBrowser(mContext, helperInfo.getUrl() != null ? helperInfo.getUrl() : "");
+                }
+
             }
         });
     }

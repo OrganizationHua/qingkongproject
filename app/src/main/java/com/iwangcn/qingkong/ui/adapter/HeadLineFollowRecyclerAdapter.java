@@ -65,7 +65,12 @@ public class HeadLineFollowRecyclerAdapter extends BaseRecyclerViewAdapter<HeadL
                 holder.tvFrom.setText(helperModel.getEventData().getData().getSource());
             }
             if (!TextUtils.isEmpty(helperModel.getEventData().getData().getContent())) {
-                holder.tvContent.setText(helperModel.getEventData().getData().getContent());
+                if (type == 0) {
+                    holder.tvContent.setVisibility(View.VISIBLE);
+                    holder.tvContent.setText(helperModel.getEventData().getData().getContent());
+                } else {
+                    holder.tvContent.setVisibility(View.GONE);
+                }
             }
             //是否置顶
             if (!TextUtils.equals(helperModel.getTop() + "", "0")) {

@@ -10,11 +10,11 @@ import android.widget.TextView;
 
 import com.iwangcn.qingkong.R;
 import com.iwangcn.qingkong.business.FollowDetailEvent;
-import com.iwangcn.qingkong.sp.SpUtils;
 import com.iwangcn.qingkong.ui.adapter.QKTagAdapter;
 import com.iwangcn.qingkong.ui.base.QkBaseActivity;
 import com.iwangcn.qingkong.ui.model.HeadLineModel;
 import com.iwangcn.qingkong.ui.model.QkTagModel;
+import com.iwangcn.qingkong.utils.AbAppUtil;
 import com.iwangcn.qingkong.utils.AbDateUtil;
 import com.zhy.view.flowlayout.TagFlowLayout;
 
@@ -55,7 +55,7 @@ public class FollowDetailActivity extends QkBaseActivity {
     @Override
     public void initView() {
         setTitle(getString(R.string.news_detail));
-//        setRightTitle(getString(R.string.originalText));
+        setRightTitle(getString(R.string.originalText));
         if (getIntent().getIntExtra("type", 1) == 1) {
             data = (HeadLineModel) getIntent().getSerializableExtra("data");
         }
@@ -78,13 +78,13 @@ public class FollowDetailActivity extends QkBaseActivity {
         mNewsFrom.setText(data.getEventData().getData().getSource() == null ? "" : data.getEventData().getData().getSource());
         mNewsTime.setText(AbDateUtil.formatDateStrGetDay(data.getEventData().getData().getUpdateTime()));
         List<QkTagModel> list = new ArrayList<>();
-        list.add(new QkTagModel(0, (String) SpUtils.get(this, data.getEventData().getDataType() + "", "1")));
-        if (data.getEventData().getDataType() == 1 || data.getEventData().getDataType() == 5) {
-            if (!TextUtils.isEmpty(data.getEventData().getData().getKeywords())) {
-                list.add(new QkTagModel(1, data.getEventData().getData().getKeywords()));
-
-            }
-        }
+//        list.add(new QkTagModel(0, (String) SpUtils.get(this, data.getEventData().getDataType() + "", "1")));
+//        if (data.getEventData().getDataType() == 1 || data.getEventData().getDataType() == 5) {
+//            if (!TextUtils.isEmpty(data.getEventData().getData().getKeywords())) {
+//                list.add(new QkTagModel(1, data.getEventData().getData().getKeywords()));
+//
+//            }
+//        }
         if (data.getBusinessLabels() != null && data.getBusinessLabels().size() != 0) {
             for (int i = 0; i < data.getBusinessLabels().size(); i++) {
                 if (!TextUtils.isEmpty(data.getBusinessLabels().get(i))) {
@@ -160,6 +160,7 @@ public class FollowDetailActivity extends QkBaseActivity {
 
     @OnClick(R.id.base_act_right_lin)//APP信息
     public void onBtnWebView() {
+        AbAppUtil.openBrowser(this,data.getEventData().getData().getUrl() == null ? "" : data.getEventData().getData().getUrl());
 
     }
 }

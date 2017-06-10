@@ -22,7 +22,7 @@ import java.util.List;
 public class QKTagAdapter extends TagAdapter<QkTagModel> {
     private List<QkTagModel> mList;
     private Context mContext;
-    private String[] tagColors = new String[]{"#0a83c9", "#00FF00", "#ff8400", "#efbf00"};
+    private String[] tagColors = new String[]{"#0a83c9", "#59b95e", "#ff8400", "#efbf00"};
     public QKTagAdapter(Context context,List<QkTagModel> data) {
         super(data);
         this.mList = data;
