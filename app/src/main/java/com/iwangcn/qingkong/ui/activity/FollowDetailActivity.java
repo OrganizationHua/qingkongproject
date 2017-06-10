@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.iwangcn.qingkong.R;
+import com.iwangcn.qingkong.business.Event;
 import com.iwangcn.qingkong.business.FollowDetailEvent;
 import com.iwangcn.qingkong.ui.adapter.QKTagAdapter;
 import com.iwangcn.qingkong.ui.base.QkBaseActivity;
@@ -17,6 +18,10 @@ import com.iwangcn.qingkong.ui.model.QkTagModel;
 import com.iwangcn.qingkong.utils.AbAppUtil;
 import com.iwangcn.qingkong.utils.AbDateUtil;
 import com.zhy.view.flowlayout.TagFlowLayout;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -59,13 +64,19 @@ public class FollowDetailActivity extends QkBaseActivity {
         if (getIntent().getIntExtra("type", 1) == 1) {
             data = (HeadLineModel) getIntent().getSerializableExtra("data");
         }
-
-        initWebView(data.getEventData().getData().getUrl() == null ? "" : data.getEventData().getData().getUrl());
+        EventBus.getDefault().register(this);
+        initWebView();
     }
 
     @Override
     public void initData() {
         headLineFollowEvent = new FollowDetailEvent(this);
+        headLineFollowEvent.getDetailData(data.getAutoId() + "");
+    }
+
+    private void initTag(HeadLineModel data) {
+        mWebView.loadUrl(data.getEventData().getData().getUrl() == null ? "" : data.getEventData().getData().getUrl());
+
         //是否置顶
         if (!TextUtils.equals(data.getTop() + "", "0")) {
             tv_is_top.setText("置顶");
@@ -101,7 +112,6 @@ public class FollowDetailActivity extends QkBaseActivity {
         }
 
         tagFlowLayout.setAdapter(new QKTagAdapter(this, list));
-
     }
 
     @OnClick(R.id.ll_cancle_follow)
@@ -126,7 +136,7 @@ public class FollowDetailActivity extends QkBaseActivity {
 
     }
 
-    private void initWebView(String url) {
+    private void initWebView() {
         WebSettings webSettings = this.mWebView.getSettings();
         webSettings.setJavaScriptCanOpenWindowsAutomatically(true);//设置js可以直接打开窗口，如window.open()，默认为false
         webSettings.setJavaScriptEnabled(true);//是否允许执行js，默认为false。设置true时，会提醒可能造成XSS漏洞
@@ -155,12 +165,26 @@ public class FollowDetailActivity extends QkBaseActivity {
                 return true;
             }
         });
-        this.mWebView.loadUrl(url);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEvent(Event event) {
+        if (event instanceof FollowDetailEvent) {
+            if (event.getId() == 0) {
+                initTag((HeadLineModel) event.getObject());
+            }
+        }
     }
 
     @OnClick(R.id.base_act_right_lin)//APP信息
     public void onBtnWebView() {
-        AbAppUtil.openBrowser(this,data.getEventData().getData().getUrl() == null ? "" : data.getEventData().getData().getUrl());
+        AbAppUtil.openBrowser(this, data.getEventData().getData().getUrl() == null ? "" : data.getEventData().getData().getUrl());
 
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
     }
 }
