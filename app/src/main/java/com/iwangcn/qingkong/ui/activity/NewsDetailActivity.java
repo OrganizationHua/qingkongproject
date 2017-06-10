@@ -147,6 +147,12 @@ public class NewsDetailActivity extends QkBaseActivity {
             ArrayList<ArrayList<ClientLabel>> list = (ArrayList<ArrayList<ClientLabel>>) event.getObject();
             List<ClientLabel> recommendList = new ArrayList<>();
             List<ClientLabel> myList = new ArrayList<>();
+            boolean isMore = false;
+            if (list.get(0) != null && list.get(1) != null) {
+                if (list.get(0).size() > 6 && list.get(1).size() > 3) {
+                    isMore = true;
+                }
+            }
             if (list.get(0) != null) {
                 recommendList = list.get(0);
                 if (recommendList.size() >= 6) {
@@ -162,7 +168,7 @@ public class NewsDetailActivity extends QkBaseActivity {
 
             final List<ClientLabel> finalRecommendList = recommendList;
             final List<ClientLabel> finalmyListList = myList;
-            PopupWindowUtil.showMorePopupWindow(this, mLinFollow, mRelMak, recommendList, myList, new View.OnClickListener() {
+            PopupWindowUtil.showMorePopupWindow(this, mLinFollow, mRelMak, recommendList, myList,isMore,new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     NewsInfo newsInfo = mList.get(mViewPage.getCurrentItem());
