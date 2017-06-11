@@ -139,7 +139,6 @@ public class MessageListActivity extends QkBaseActivity {
 
     public void initTag(HelperListModel helperInfo) {
         if (helperInfo != null) {
-            Log.e("fjg====", helperInfo.getHelperInfo().getTitle());
             mNewsTitle.setText(helperInfo.getHelperInfo().getTitle());
             mNewsFrom.setText(helperInfo.getHelperInfo().getSource());
             mNewsTime.setText(AbDateUtil.formatDateStrGetDay(helperInfo.getHelperInfo().getUpdateTime()));
