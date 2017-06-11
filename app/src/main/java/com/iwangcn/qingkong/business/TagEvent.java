@@ -33,8 +33,7 @@ public class TagEvent extends Event implements NetConst {
     private Context mContext;
     public static final int TAG_GETLIST = 0;
     public static final int TAG_DELETE = 1;
-    public static final int TAG_UPDATE_TOUTIAO = 2;//头条标签更新
-    public static final int TAG_UPDATE_HELP = 3;//助手标签更新
+
 
     public TagEvent() {
     }
@@ -181,44 +180,5 @@ public class TagEvent extends Event implements NetConst {
         });
     }
 
-    public void updateLabels(final int type, String autoId, List<ClientLabel> listData, List<ClientLabel> myListData) {
-        StringBuilder strListData = new StringBuilder();
-        for (ClientLabel model : listData) {
-            if (model.isSelect()) {
-                strListData.append(model.getName());
-                strListData.append(",");
-            }
-        }
-        StringBuilder strMyListData = new StringBuilder();
-        for (ClientLabel model : myListData) {
-            if (model.isSelect()) {
-                strMyListData.append(model.getName());
-                strMyListData.append(",");
-            }
-        }
-        HashMap paratems = new HashMap();
-        paratems.put(USER_ID, UserManager.getUserInfo().getAutoId());
-        paratems.put(type, String.valueOf(type));
-        paratems.put("processId", autoId);
-        paratems.put("businessTags", strListData.toString());
-        paratems.put("selfTags", strMyListData.toString());
-        RetrofitInstance.getInstance().post(URL_UPDATE_LABELS, paratems, BaseBean.class, new BaseSubscriber(true) {
-            @Override
-            public void onError(ExceptionHandle.ResponeThrowable e) {
-                ToastUtil.showToast(mContext, e.codeMessage);
-            }
-
-            @Override
-            public void onNext(Object o) {
-                ToastUtil.showToast(mContext, "更新成功");
-
-                if (type == 2) {
-                    TagEvent tagEvent = new TagEvent();
-                    tagEvent.setId(TAG_UPDATE_HELP);
-                    EventBus.getDefault().post(tagEvent);
-                }
-            }
-        });
-    }
 
 }

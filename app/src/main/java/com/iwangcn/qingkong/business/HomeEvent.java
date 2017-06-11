@@ -3,8 +3,7 @@ package com.iwangcn.qingkong.business;
 import android.content.Context;
 
 import com.alibaba.fastjson.JSON;
-import com.iwangcn.qingkong.dao.imp.EventInfoDao;
-import com.iwangcn.qingkong.dao.manager.DaoFactory;
+
 import com.iwangcn.qingkong.net.ACache;
 import com.iwangcn.qingkong.net.BaseSubscriber;
 import com.iwangcn.qingkong.net.ExceptionHandle;
@@ -27,7 +26,7 @@ import java.util.List;
 
 public class HomeEvent extends Event implements NetConst {
     private Context mContext;
-    private EventInfoDao mDao;
+
     private int indexPage = 1;//当前页数
 
     public HomeEvent() {
@@ -36,7 +35,6 @@ public class HomeEvent extends Event implements NetConst {
 
     public HomeEvent(Context context) {
         mContext = context;
-        mDao = (EventInfoDao) DaoFactory.getDao(DaoFactory.DaoType.EVENT_INFO);
     }
 
     private void getNewsEventList(int indexPage) {
