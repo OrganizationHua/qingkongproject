@@ -9,6 +9,7 @@ import com.iwangcn.qingkong.net.NetResponse;
 import com.iwangcn.qingkong.net.RetrofitInstance;
 import com.iwangcn.qingkong.providers.UserManager;
 import com.iwangcn.qingkong.ui.model.HelperListModel;
+import com.iwangcn.qingkong.utils.ToastUtil;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -62,7 +63,7 @@ public class HelperFollowEvent extends Event implements NetConst {
         RetrofitInstance.getInstance().post(URL_EVENT_AIDE_CANCELFOLLOW, paratems, String.class, new BaseSubscriber<NetResponse<String>>(false) {
             @Override
             public void onError(ExceptionHandle.ResponeThrowable e) {
-
+                ToastUtil.showToast(mContext,e.codeMessage);
             }
 
             @Override
@@ -81,7 +82,7 @@ public class HelperFollowEvent extends Event implements NetConst {
         RetrofitInstance.getInstance().post(URL_EVENT_AIDE_SETTOP, paratems, String.class, new BaseSubscriber<NetResponse<String>>(false) {
             @Override
             public void onError(ExceptionHandle.ResponeThrowable e) {
-
+                ToastUtil.showToast(mContext,e.codeMessage);
             }
 
             @Override
@@ -100,7 +101,7 @@ public class HelperFollowEvent extends Event implements NetConst {
         RetrofitInstance.getInstance().post(URL_EVENT_AIDE_CANCELTOP, paratems, String.class, new BaseSubscriber<NetResponse<String>>(false) {
             @Override
             public void onError(ExceptionHandle.ResponeThrowable e) {
-
+                ToastUtil.showToast(mContext,e.codeMessage);
             }
 
             @Override
@@ -119,7 +120,7 @@ public class HelperFollowEvent extends Event implements NetConst {
         RetrofitInstance.getInstance().post(URL_EVENT_AIDE_DONE, paratems, String.class, new BaseSubscriber<NetResponse<String>>(false) {
             @Override
             public void onError(ExceptionHandle.ResponeThrowable e) {
-
+                ToastUtil.showToast(mContext,e.codeMessage);
             }
 
             @Override
@@ -138,7 +139,7 @@ public class HelperFollowEvent extends Event implements NetConst {
         RetrofitInstance.getInstance().post(URL_EVENT_AIDE_REPROCESS, paratems, String.class, new BaseSubscriber<NetResponse<String>>(false) {
             @Override
             public void onError(ExceptionHandle.ResponeThrowable e) {
-
+                ToastUtil.showToast(mContext,e.codeMessage);
             }
 
             @Override
