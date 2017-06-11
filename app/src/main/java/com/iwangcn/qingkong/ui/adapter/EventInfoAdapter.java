@@ -86,10 +86,11 @@ public class EventInfoAdapter extends BaseRecyclerViewAdapter<EventInfoVo> {
 //            } else {
 //                viewHolder.imgNote.setVisibility(View.GONE);
 //            }
-            if (!TextUtils.isEmpty(model.getPicUrl())) {
-                GlideUtils.loadImageView(mContext, model.getPicUrl(), viewHolder.imgIcon);
+            if (model != null) {
+                if (!TextUtils.isEmpty(model.getPicUrl())) {
+                    GlideUtils.loadImageView(mContext, model.getPicUrl(), viewHolder.imgIcon);
+                }
             }
-
             viewHolder.linCollect.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(final View view) {

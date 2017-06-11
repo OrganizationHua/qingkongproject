@@ -33,8 +33,13 @@ public class QKTagAdapter extends TagAdapter<QkTagModel> {
     public View getView(FlowLayout parent, int position, QkTagModel qkTagModel) {
         TextView tv = (TextView) LayoutInflater.from(mContext).inflate(R.layout.tv,
                 parent, false);
+
         tv.setText(qkTagModel.getTagText());
-        tv.setBackground(getShapeDrawable(qkTagModel.getColorType()));
+        if (qkTagModel.getColorType()!=4){
+            tv.setBackground(getShapeDrawable(qkTagModel.getColorType()));
+        }else if (qkTagModel.getColorType()==4){
+            tv.setBackgroundResource(R.drawable.toutiao_btn_edit);
+        }
         return tv;
     }
     private Drawable getShapeDrawable(int colorType) {

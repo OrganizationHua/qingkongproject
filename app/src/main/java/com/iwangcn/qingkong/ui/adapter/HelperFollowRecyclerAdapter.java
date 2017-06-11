@@ -109,6 +109,7 @@ public class HelperFollowRecyclerAdapter extends BaseRecyclerViewAdapter<HelperL
                     list.add(new QkTagModel(3, helperModel.getHelperProcess().getSelfLabels().get(j)));
                 }
             }
+            list.add(new QkTagModel(4, "图片"));
         }
 
         holder.tagFlowLayout.setAdapter(new QKTagAdapter(mContext, list));

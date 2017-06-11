@@ -59,7 +59,7 @@ public class FollowDetailActivity extends QkBaseActivity {
 
     @Override
     public void initView() {
-        setTitle(getString(R.string.news_detail));
+        setTitle("消息");
         setRightTitle(getString(R.string.originalText));
         if (getIntent().getIntExtra("type", 1) == 1) {
             data = (HeadLineModel) getIntent().getSerializableExtra("data");
@@ -75,6 +75,7 @@ public class FollowDetailActivity extends QkBaseActivity {
     }
 
     private void initTag(HeadLineModel data) {
+        if (data == null) return;
         mWebView.loadUrl(data.getEventData().getData().getUrl() == null ? "" : data.getEventData().getData().getUrl());
 
         //是否置顶
@@ -109,6 +110,7 @@ public class FollowDetailActivity extends QkBaseActivity {
                     list.add(new QkTagModel(3, data.getSelfLabels().get(j)));
                 }
             }
+            list.add(new QkTagModel(4, "图片"));
         }
 
         tagFlowLayout.setAdapter(new QKTagAdapter(this, list));
