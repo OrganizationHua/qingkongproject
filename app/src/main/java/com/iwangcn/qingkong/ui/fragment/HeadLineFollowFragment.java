@@ -2,6 +2,7 @@ package com.iwangcn.qingkong.ui.fragment;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
@@ -33,8 +34,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 
 public class HeadLineFollowFragment extends BaseFragment {
+    @BindView(R.id.systemLin_loding)
+    RelativeLayout mLinLoading;//正在加载
+
     @BindView(R.id.system_no_data)
     RelativeLayout mNoData;//暂时没有数据
 
@@ -94,6 +99,24 @@ public class HeadLineFollowFragment extends BaseFragment {
                 startActivity(intent);
             }
         });
+        new AsyncTask<Object, Object, List<HeadLineModel>>() {
+
+            @Override
+            protected List<HeadLineModel> doInBackground(Object... strings) {
+                return headLineFollowEvent.getCache();
+            }
+
+            @Override
+            protected void onPostExecute(List<HeadLineModel> eventInfos) {
+                if (eventInfos != null) {
+                    mList.addAll(eventInfos);
+                    mNewsAdapter.notifyDataSetChanged();
+                } else {
+                    mLinLoading.setVisibility(View.VISIBLE);
+                }
+                headLineFollowEvent.getRefreshEventList(sourceType,tags);
+            }
+        }.execute();
         mReloadRefreshView.setOnRefreshListener(new RefreshListenerAdapter() {
             @Override
             public void onRefresh(ReloadRefreshLayout refreshLayout) {
@@ -140,11 +163,17 @@ public class HeadLineFollowFragment extends BaseFragment {
             }
         }
     }
-
+    @OnClick(R.id.system_no_data_lin)
+    public void systemNoDataLin() {
+        mNoData.setVisibility(View.GONE);
+        mLinLoading.setVisibility(View.VISIBLE);
+        headLineFollowEvent.getRefreshEventList(sourceType,tags);
+    }
     @Subscribe
     public void onEventMainThread(Event event) {
         if (event instanceof HeadLineFollowEvent) {
             if (headLineFollowEvent.getId() == 0) {
+                mLinLoading.setVisibility(View.GONE);
                 mReloadRefreshView.finishRefreshing();
                 List<HeadLineModel> list = (List<HeadLineModel>) event.getObject();
                 if (list == null || list.isEmpty()) {

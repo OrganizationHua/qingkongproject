@@ -82,7 +82,7 @@ public class HelperFollowRecyclerAdapter extends BaseRecyclerViewAdapter<HelperL
             holder.btn_leave_message.setText("留言（" + helperModel.getHelperInfo().getFollowCount() + "）");
             holder.tv_message_notify.setVisibility(View.VISIBLE);
         } else {
-            holder.btn_leave_message.setText("留言（" + 0 + "）");
+            holder.btn_leave_message.setText("留言");
             holder.tv_message_notify.setVisibility(View.GONE);
         }
         if (!TextUtils.isEmpty(helperModel.getHelperInfo().getPics())) {

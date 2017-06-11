@@ -2,11 +2,11 @@ package com.iwangcn.qingkong.ui.fragment;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.widget.RelativeLayout;
 
@@ -15,14 +15,12 @@ import com.iwangcn.qingkong.business.Event;
 import com.iwangcn.qingkong.business.HelperEvent;
 import com.iwangcn.qingkong.business.LoadFailEvent;
 import com.iwangcn.qingkong.net.NetConst;
-import com.iwangcn.qingkong.ui.activity.TagEditActivity;
 import com.iwangcn.qingkong.ui.activity.TagFilterActivity;
 import com.iwangcn.qingkong.ui.adapter.HelperRecyclerAdapter;
 import com.iwangcn.qingkong.ui.base.BaseFragment;
 import com.iwangcn.qingkong.ui.model.HelperInfo;
 import com.iwangcn.qingkong.ui.view.freshwidget.RefreshListenerAdapter;
 import com.iwangcn.qingkong.ui.view.freshwidget.ReloadRefreshLayout;
-import com.iwangcn.qingkong.utils.ToastUtil;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -34,8 +32,10 @@ import butterknife.BindView;
 import butterknife.OnClick;
 
 public class HelperFragment extends BaseFragment {
+    @BindView(R.id.systemLin_loding)
+    RelativeLayout mLinLoading;//正在加载
     @BindView(R.id.system_no_data)
-    RelativeLayout mNoData;//暂时没有数据
+    RelativeLayout mSystemNoData;//加载无数据
     @BindView(R.id.home_list_news)
     RecyclerView mListView;
 
@@ -71,26 +71,36 @@ public class HelperFragment extends BaseFragment {
         mNewsAdapter = new HelperRecyclerAdapter(getActivity(), mList, helperEvent);
         mListView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
         mListView.setAdapter(mNewsAdapter);
-//        mNewsAdapter.setOnItemClickListener(new BaseRecyclerViewAdapter.OnRecyclerItemClickListener() {
-//            @Override
-//            public void onItemClickListener(RecyclerView.ViewHolder viewHolder, int pos) {
-//                String url = mList.get(pos).getUrl();
-//                Intent intent = new Intent(getActivity(), FollowDetailActivity.class).putExtra("url", url != null ? url : "");
-//                startActivity(intent);
-//            }
-//        });
+        new AsyncTask<Object, Object, List<HelperInfo>>() {
+
+            @Override
+            protected List<HelperInfo> doInBackground(Object... strings) {
+                return helperEvent.getCacheHelper();
+            }
+
+            @Override
+            protected void onPostExecute(List<HelperInfo> eventInfos) {
+                if (eventInfos != null) {
+                    mList.addAll(eventInfos);
+                    mNewsAdapter.notifyDataSetChanged();
+                } else {
+                    mLinLoading.setVisibility(View.VISIBLE);
+                }
+                helperEvent.getRefreshEventList(sourceType, tags);
+            }
+        }.execute();
         mReloadRefreshView.setOnRefreshListener(new RefreshListenerAdapter() {
             @Override
             public void onRefresh(ReloadRefreshLayout refreshLayout) {
                 mReloadRefreshView.setEnableRefresh(true);
-                mNoData.setVisibility(View.GONE);
+                mSystemNoData.setVisibility(View.GONE);
                 helperEvent.getRefreshEventList(sourceType, tags);
             }
 
             @Override
             public void onLoadMore(ReloadRefreshLayout refreshLayout) {
                 helperEvent.getMoreEvent(sourceType, tags);
-                mNoData.setVisibility(View.GONE);
+                mSystemNoData.setVisibility(View.GONE);
             }
         });
     }
@@ -100,7 +110,12 @@ public class HelperFragment extends BaseFragment {
         Intent intent = new Intent(getActivity(), TagFilterActivity.class);
         startActivityForResult(intent, 100);
     }
-
+    @OnClick(R.id.system_no_data_lin)//搜索按钮
+    public void systemNoDataLin() {
+        mSystemNoData.setVisibility(View.GONE);
+        mLinLoading.setVisibility(View.VISIBLE);
+        helperEvent.getRefreshEventList(sourceType, tags);
+    }
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -120,26 +135,26 @@ public class HelperFragment extends BaseFragment {
     @Subscribe
     public void onEventMainThread(Event event) {
         if (event instanceof HelperEvent) {
-            Log.e("fjg", "====");
             if (helperEvent.getId() == 0) {
+                mLinLoading.setVisibility(View.GONE);
                 mReloadRefreshView.finishRefreshing();
                 List<HelperInfo> list = (List<HelperInfo>) event.getObject();
                 if (list == null || list.isEmpty()) {
                     if (event.isMore()) {
-                        mNoData.setVisibility(View.GONE);
+                        mSystemNoData.setVisibility(View.GONE);
                     } else {
-                        mNoData.setVisibility(View.VISIBLE);
+                        mSystemNoData.setVisibility(View.VISIBLE);
                     }
                 } else {
-                    mNoData.setVisibility(View.GONE);
+                    mSystemNoData.setVisibility(View.GONE);
                 }
                 if (list.size() < NetConst.page) {//如果小于page条表示加载完成不能加载更多
-                    mReloadRefreshView.finishLoadmore();
+                    mReloadRefreshView.setEnableLoadmore(false);
                 }
                 if (event.isMore()) {
-                    mReloadRefreshView.setEnableLoadmore(false);
+                    mReloadRefreshView.finishLoadmore();
                 } else {
-                    mReloadRefreshView.setEnableRefresh(true);
+                    mReloadRefreshView.finishRefreshing();
                     mList.clear();
 
                 }

@@ -2,6 +2,8 @@ package com.iwangcn.qingkong.business;
 
 import android.content.Context;
 
+import com.alibaba.fastjson.JSON;
+import com.iwangcn.qingkong.net.ACache;
 import com.iwangcn.qingkong.net.BaseSubscriber;
 import com.iwangcn.qingkong.net.ExceptionHandle;
 import com.iwangcn.qingkong.net.NetConst;
@@ -13,7 +15,9 @@ import com.iwangcn.qingkong.utils.ToastUtil;
 
 import org.greenrobot.eventbus.EventBus;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * Created by RF on 2017/4/24.
@@ -128,6 +132,7 @@ public class HelperFollowEvent extends Event implements NetConst {
                 HelperFollowEvent.this.setId(4);
                 HelperFollowEvent.this.setObject(position);
                 EventBus.getDefault().post(HelperFollowEvent.this);
+                ACache.get(mContext).put(URL_EVENT_AIDE_DONE, JSON.toJSONString(netResponse.getDataList()));
             }
         });
     }
@@ -159,5 +164,14 @@ public class HelperFollowEvent extends Event implements NetConst {
     public void getRefreshEventList(String sourceType, String tags) {
         indexPage = 1;
         getHelperEventList(indexPage, sourceType, tags);
+    }
+    public List<HelperListModel> getCache() {
+        List mList = new ArrayList<>();
+        try {
+            mList = JSON.parseArray(ACache.get(mContext).getAsString(URL_EVENT_FOLLOWUP_AIDE), HelperListModel.class);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return mList;
     }
 }
