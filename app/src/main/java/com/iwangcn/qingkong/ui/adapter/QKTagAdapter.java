@@ -45,7 +45,7 @@ public class QKTagAdapter extends TagAdapter<QkTagModel> {
             tv.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    mContext.startActivity(new Intent(mContext, MoreTagEditActivity.class).putExtra("type", qkTagModel.getType()).putExtra("processTd", qkTagModel.getProcessId()));
+                    mContext.startActivity(new Intent(mContext, MoreTagEditActivity.class).putExtra("type", qkTagModel.getType()).putExtra("processId", qkTagModel.getProcessId()));
                 }
             });
         }
