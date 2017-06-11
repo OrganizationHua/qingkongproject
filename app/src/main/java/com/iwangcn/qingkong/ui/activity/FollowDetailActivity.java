@@ -100,17 +100,17 @@ public class FollowDetailActivity extends QkBaseActivity {
         if (data.getBusinessLabels() != null && data.getBusinessLabels().size() != 0) {
             for (int i = 0; i < data.getBusinessLabels().size(); i++) {
                 if (!TextUtils.isEmpty(data.getBusinessLabels().get(i))) {
-                    list.add(new QkTagModel(2, data.getBusinessLabels().get(i)));
+                    list.add(new QkTagModel(2, data.getBusinessLabels().get(i), 1, data.getAutoId()));
                 }
             }
         }
         if (data.getSelfLabels() != null && data.getSelfLabels().size() != 0) {
             for (int j = 0; j < data.getSelfLabels().size(); j++) {
                 if (!TextUtils.isEmpty(data.getSelfLabels().get(j))) {
-                    list.add(new QkTagModel(3, data.getSelfLabels().get(j)));
+                    list.add(new QkTagModel(3, data.getSelfLabels().get(j), 1, data.getAutoId()));
                 }
             }
-            list.add(new QkTagModel(4, "图片"));
+            list.add(new QkTagModel(4, "图片", 1, data.getAutoId()));
         }
 
         tagFlowLayout.setAdapter(new QKTagAdapter(this, list));

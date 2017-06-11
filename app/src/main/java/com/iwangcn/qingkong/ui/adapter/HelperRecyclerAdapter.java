@@ -1,6 +1,7 @@
 package com.iwangcn.qingkong.ui.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
@@ -12,6 +13,7 @@ import com.alibaba.fastjson.JSON;
 import com.iwangcn.qingkong.R;
 import com.iwangcn.qingkong.business.HelperEvent;
 import com.iwangcn.qingkong.sp.SpUtils;
+import com.iwangcn.qingkong.ui.activity.PicActivity;
 import com.iwangcn.qingkong.ui.model.HelperInfo;
 import com.iwangcn.qingkong.ui.model.QkTagModel;
 import com.iwangcn.qingkong.utils.AbAppUtil;
@@ -61,19 +63,26 @@ public class HelperRecyclerAdapter extends BaseRecyclerViewAdapter<HelperInfo> {
         if (!TextUtils.isEmpty(helperInfo.getPics())) {
             List<String> listPic = Arrays.asList(helperInfo.getPics().split(","));
             for (int i = 0; i < listPic.size(); i++) {
-                GlideUtils.loadImageView(mContext, listPic.get(i), holder.imageView, R.drawable.default_icon_bg, R.drawable.default_icon_bg);
+                GlideUtils.loadImageView(mContext, listPic.get(i), holder.imageView, R.drawable.default_icon, R.drawable.default_icon);
             }
+            holder.imageView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(mContext, PicActivity.class).putExtra("imgurl", helperInfo.getPics());
+                    mContext.startActivity(intent);
+                }
+            });
         }
         List<QkTagModel> list = new ArrayList<>();
-        list.add(new QkTagModel(0, (String) SpUtils.get(mContext, helperInfo.getDataType() + "", "1")));
+        list.add(new QkTagModel(0, (String) SpUtils.get(mContext, helperInfo.getDataType() + "", "1"), 2, helperInfo.getAutoId()));
         List<String> listTag = JSON.parseArray(helperInfo.getLabels(), String.class);
         if (listTag != null && listTag.size() != 0) {
             for (int j = 0; j < listTag.size(); j++) {
                 if (!TextUtils.isEmpty(listTag.get(j))) {
-                    list.add(new QkTagModel(3, listTag.get(j)));
+                    list.add(new QkTagModel(3, listTag.get(j), 2, helperInfo.getAutoId()));
                 }
             }
-            list.add(new QkTagModel(4, "图片"));
+            list.add(new QkTagModel(4, "图片", 2, helperInfo.getAutoId()));
         }
 
         holder.tagFlowLayout.setAdapter(new QKTagAdapter(mContext, list));

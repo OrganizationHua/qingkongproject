@@ -4,13 +4,10 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.alibaba.fastjson.JSON;
 import com.iwangcn.qingkong.R;
 import com.iwangcn.qingkong.business.Event;
 import com.iwangcn.qingkong.business.LoadFailEvent;
@@ -26,8 +23,6 @@ import com.iwangcn.qingkong.ui.model.QkTagModel;
 import com.iwangcn.qingkong.ui.view.freshwidget.RefreshListenerAdapter;
 import com.iwangcn.qingkong.ui.view.freshwidget.ReloadRefreshLayout;
 import com.iwangcn.qingkong.utils.AbDateUtil;
-import com.zhy.view.flowlayout.FlowLayout;
-import com.zhy.view.flowlayout.TagAdapter;
 import com.zhy.view.flowlayout.TagFlowLayout;
 
 import org.greenrobot.eventbus.EventBus;
@@ -83,7 +78,7 @@ public class MessageListActivity extends QkBaseActivity {
     @Override
     public void initData() {
         helperInfo = (HelperListModel) getIntent().getSerializableExtra("message");
-        autoId = helperInfo.getHelperProcess().getAutoId()+"";
+        autoId = helperInfo.getHelperProcess().getAutoId() + "";
         initTag(helperInfo);
         helperEvent = new MessageListEvent(this, autoId);
         helperEvent.getRefreshEventList();
@@ -166,7 +161,7 @@ public class MessageListActivity extends QkBaseActivity {
                 }
             }
 
-           tagFlowLayout.setAdapter(new QKTagAdapter(this, list));
+            tagFlowLayout.setAdapter(new QKTagAdapter(this, list));
 
         }
     }

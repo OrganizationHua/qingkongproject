@@ -31,11 +31,11 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     compile 'com.android.support:design:25.3.1'
+    compile 'com.android.support:design:25.3.1'
     compile 'com.google.android:flexbox:0.3.0-alpha3'
     compile 'com.android.support:appcompat-v7:25.3.1'
     compile 'com.android.support:recyclerview-v7:25.3.1'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
-    compile 'com.android.support:design:25.3.1'
     compile 'com.android.support:support-v4:25.3.1'
     compile 'com.jakewharton:butterknife:8.5.1'
     compile 'com.orhanobut:logger:1.15'
@@ -52,6 +52,7 @@ dependencies {
     compile 'com.nhaarman.listviewanimations:lib-core:3.1.0'
     compile 'cn.bingoogolapple:bga-banner:2.1.7'
     compile 'jp.wasabeef:recyclerview-animators:2.2.6'
+    compile ('com.alibaba.android:ultraviewpager:1.0.4@aar')
     testCompile 'junit:junit:4.12'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
 }

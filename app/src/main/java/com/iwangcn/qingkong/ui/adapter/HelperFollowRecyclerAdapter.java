@@ -14,6 +14,7 @@ import com.iwangcn.qingkong.R;
 import com.iwangcn.qingkong.business.HelperFollowEvent;
 import com.iwangcn.qingkong.sp.SpUtils;
 import com.iwangcn.qingkong.ui.activity.MessageListActivity;
+import com.iwangcn.qingkong.ui.activity.PicActivity;
 import com.iwangcn.qingkong.ui.model.HelperListModel;
 import com.iwangcn.qingkong.ui.model.QkTagModel;
 import com.iwangcn.qingkong.utils.AbDateUtil;
@@ -87,32 +88,40 @@ public class HelperFollowRecyclerAdapter extends BaseRecyclerViewAdapter<HelperL
         }
         if (!TextUtils.isEmpty(helperModel.getHelperInfo().getPics())) {
 
-            List<String> listPic = Arrays.asList(helperModel.getHelperInfo().getPics().split(","));
+            final List<String> listPic = Arrays.asList(helperModel.getHelperInfo().getPics().split(","));
             for (int i = 0; i < listPic.size(); i++) {
-                GlideUtils.loadImageView(mContext, listPic.get(i), holder.imageView, R.drawable.default_icon_bg, R.drawable.default_icon_bg);
+                GlideUtils.loadImageView(mContext, listPic.get(i), holder.imageView, R.drawable.default_icon, R.drawable.default_icon);
             }
+            holder.imageView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(mContext, PicActivity.class).putExtra("imgurl", helperModel.getHelperInfo().getPics());
+                    mContext.startActivity(intent);
+                }
+            });
         }
 
         List<QkTagModel> list = new ArrayList<>();
-        list.add(new QkTagModel(0, (String) SpUtils.get(mContext, helperModel.getHelperInfo().getDataType() + "", "1")));
+        list.add(new QkTagModel(0, (String) SpUtils.get(mContext, helperModel.getHelperInfo().getDataType() + "", "1"),2,helperModel.getHelperProcess().getAutoId()));
 
         if (helperModel.getHelperProcess().getBusinessLabels() != null && helperModel.getHelperProcess().getBusinessLabels().size() != 0) {
             for (int i = 0; i < helperModel.getHelperProcess().getBusinessLabels().size(); i++) {
                 if (!TextUtils.isEmpty(helperModel.getHelperProcess().getBusinessLabels().get(i))) {
-                    list.add(new QkTagModel(2, helperModel.getHelperProcess().getBusinessLabels().get(i)));
+                    list.add(new QkTagModel(2, helperModel.getHelperProcess().getBusinessLabels().get(i),2,helperModel.getHelperProcess().getAutoId()));
                 }
             }
         }
         if (helperModel.getHelperProcess().getSelfLabels() != null && helperModel.getHelperProcess().getSelfLabels().size() != 0) {
             for (int j = 0; j < helperModel.getHelperProcess().getSelfLabels().size(); j++) {
                 if (!TextUtils.isEmpty(helperModel.getHelperProcess().getSelfLabels().get(j))) {
-                    list.add(new QkTagModel(3, helperModel.getHelperProcess().getSelfLabels().get(j)));
+                    list.add(new QkTagModel(3, helperModel.getHelperProcess().getSelfLabels().get(j),2,helperModel.getHelperProcess().getAutoId()));
                 }
             }
-            list.add(new QkTagModel(4, "图片"));
+            list.add(new QkTagModel(4, "图片",2,helperModel.getHelperProcess().getAutoId()));
         }
 
         holder.tagFlowLayout.setAdapter(new QKTagAdapter(mContext, list));
+
 
         //取消跟进
         holder.llCancle.setOnClickListener(new View.OnClickListener() {
