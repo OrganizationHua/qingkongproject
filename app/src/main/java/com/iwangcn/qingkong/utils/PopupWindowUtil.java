@@ -102,7 +102,7 @@ public class PopupWindowUtil {
      * @param listData
      * @param onConfirmListener
      */
-    public static void showMorePopupWindow(final Context context, View popupview, final View rootView, final List<ClientLabel> listData, final List<ClientLabel> listDataMine, boolean isMore, final View.OnClickListener onConfirmListener, final View.OnClickListener onMoreListener) {
+    public static PopupWindow showMorePopupWindow(final Context context, View popupview, final View rootView, final List<ClientLabel> listData, final List<ClientLabel> listDataMine, boolean isMore, final View.OnClickListener onConfirmListener, final View.OnClickListener onMoreListener) {
         rootView.setVisibility(View.VISIBLE);
         LayoutInflater layoutInflater = LayoutInflater.from(context);
         View view = layoutInflater.inflate(R.layout.tag_popupwindow_more, null);
@@ -165,17 +165,19 @@ public class PopupWindowUtil {
         btnMore.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                popupWindow.dismiss();
                 onMoreListener.onClick(view);
+                popupWindow.dismiss();
+
             }
         });
         btnConfig.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                popupWindow.dismiss();
                 onConfirmListener.onClick(view);
+                popupWindow.dismiss();
             }
         });
+        return  popupWindow;
     }
 
     /**

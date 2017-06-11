@@ -8,6 +8,7 @@ import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 
 import com.iwangcn.qingkong.R;
 import com.iwangcn.qingkong.business.Event;
@@ -47,10 +48,10 @@ public class NewsDetailActivity extends QkBaseActivity {
     private long autoId;//事件ID
     private TagEvent mTagEvent;
     private List<LabelError> errorTagList = new ArrayList<LabelError>();
-    private int REQUEST_CODE=10;
+    private int REQUEST_CODE = 10;
     @BindView(R.id.news_detail_follow_lin)
     LinearLayout mLinFollow;//跟进按钮
-
+    private PopupWindow mPopupWindow;
     @Override
     public int layoutChildResID() {
         return R.layout.activity_news_detail;
@@ -168,7 +169,7 @@ public class NewsDetailActivity extends QkBaseActivity {
 
             final List<ClientLabel> finalRecommendList = recommendList;
             final List<ClientLabel> finalmyListList = myList;
-            PopupWindowUtil.showMorePopupWindow(this, mLinFollow, mRelMak, recommendList, myList,isMore,new View.OnClickListener() {
+            mPopupWindow=PopupWindowUtil.showMorePopupWindow(this, mLinFollow, mRelMak, recommendList, myList, isMore, new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     NewsInfo newsInfo = mList.get(mViewPage.getCurrentItem());
@@ -185,33 +186,40 @@ public class NewsDetailActivity extends QkBaseActivity {
                             mList.remove(mViewPage.getCurrentItem());
                             mAdapter.setList(mList);
                             EventBus.getDefault().post(followDetailEvent);
+
                         }
                     });
                 }
             }, new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+
                     NewsInfo newsInfo = mList.get(mViewPage.getCurrentItem());
                     Intent intent = new Intent(mContext, MoreTagEditActivity.class);
-                    intent.putExtra("autoId",autoId);
-                    intent.putExtra("newsInfoAutoId",newsInfo.getAutoId());
-                    startActivityForResult(intent,REQUEST_CODE);
+                    intent.putExtra("autoId", autoId);
+                    intent.putExtra("newsInfoAutoId", newsInfo.getAutoId());
+                    startActivityForResult(intent, REQUEST_CODE);
+
                 }
             });
         }
     }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
             if (requestCode == REQUEST_CODE) {
-                ToastUtil.showToast(mContext,"有个bug");
-//                int position = data.getIntExtra("position", 0);
-//                mList.remove(position);
-//                mAdapter.setList(mList);
+                if(mPopupWindow!=null&&mPopupWindow.isShowing()){
+                    mPopupWindow.dismiss();
+                }
+                int position = data.getIntExtra("position", 0);
+                mList.remove(position);
+                mAdapter.setList(mList);
             }
         }
     }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();

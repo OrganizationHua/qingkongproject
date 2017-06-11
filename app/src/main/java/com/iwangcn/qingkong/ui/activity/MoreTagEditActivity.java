@@ -22,6 +22,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.text.TextUtils;
 import android.view.KeyEvent;
+import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -93,7 +94,6 @@ public class MoreTagEditActivity extends QkBaseActivity implements RecycleViewIt
         mTagEvent = new TagEvent(this);
         initRecommend();
         mTagEvent.getTagList();
-        //   mTagEvent.submitTags("22");
     }
 
     @OnClick(R.id.base_act_right_lin)
@@ -123,11 +123,11 @@ public class MoreTagEditActivity extends QkBaseActivity implements RecycleViewIt
             @Override
             public void onNext(Object o) {
                 ToastUtil.showToast(mContext, "已跟进");
-                EventBus.getDefault().post(followDetailEvent);
                 Intent intent = new Intent();
                 intent.putExtra("position", position);
                 setResult(RESULT_OK, intent);
                 finish();
+                //EventBus.getDefault().post(followDetailEvent);
 
             }
         });
@@ -192,27 +192,23 @@ public class MoreTagEditActivity extends QkBaseActivity implements RecycleViewIt
             @Override
             public void onItemClick(RecyclerView.ViewHolder vh) {
                 int position = vh.getLayoutPosition();
-                if (position == mAdapter.getThreeContentItemCount() + mAdapter.getThreeTitlePosition() + 1) {//点击加号时
-//                    ToastUtil.showToast(TagEditActivity.this, "last");
-                    mAdapter.isAdd = true;
-                    mAdapter.notifyItemChanged(vh.getLayoutPosition());
 
-//                      mAdapter.results3.add("新增");
-//                      mAdapter.notifyItemInserted(vh.getLayoutPosition());
-//                      mAdapter.notifyItemRangeChanged(vh.getLayoutPosition()+1,mAdapter.getItemCount()-vh.getLayoutPosition());
-                }
-//                if (mAdapter.isEditing && pos > mAdapter.getThreeTitlePosition() && pos < mAdapter.getThreeTitlePosition() + mAdapter.getThreeContentItemCount() + 1) {//点击自定义标签item时
-//                    mAdapter.results3.remove(pos - mAdapter.getThreeTitlePosition() - 1);
-//                    mAdapter.notifyItemRemoved(pos);
-//                }
                 if (position > mAdapter.getOneTitlePosition() && position < mAdapter.getTwoTitlePosition()) {
                     ClientLabel clientLabel = mList.get(0).get(position - 1);
                     clientLabel.setSelect(!clientLabel.isSelect());
+                    setIsAddTag(false);
                     mAdapter.setDataList(mList);
                 } else if (position > mAdapter.getTwoTitlePosition() && position < mAdapter.getTwoTitlePosition() + mAdapter.getTwoContentItemCount() + 1) {
                     ClientLabel clientLabel = mList.get(1).get(position - mAdapter.getTwoTitlePosition() - 1);
                     clientLabel.setSelect(!clientLabel.isSelect());
+                    setIsAddTag(false);
                     mAdapter.setDataList(mList);
+                } else if (position == mAdapter.getTwoTitlePosition() + mAdapter.getTwoContentItemCount() + 1) {
+                    setIsAddTag(true);
+                    mAdapter.notifyItemChanged(vh.getLayoutPosition());
+                } else {
+                    setIsAddTag(false);
+                    mAdapter.notifyItemChanged(vh.getLayoutPosition());
                 }
             }
         });
@@ -245,9 +241,9 @@ public class MoreTagEditActivity extends QkBaseActivity implements RecycleViewIt
                                 clientLabels.add(clientLabel);
                                 mList.set(1, clientLabels);
                             }
+                            setIsAddTag(false);
                             mAdapter.setDataList(mList);
                             v.setText("");
-                           // v.setFocusable(false);
                         }
                     });
                     return true;
@@ -257,6 +253,14 @@ public class MoreTagEditActivity extends QkBaseActivity implements RecycleViewIt
         });
     }
 
+    private void setIsAddTag(boolean isAdd) {
+        mAdapter.isAdd = isAdd;
+        if (isAdd) {
+            ll_sure.setVisibility(View.GONE);
+        } else {
+            ll_sure.setVisibility(View.VISIBLE);
+        }
+    }
 
     @Override
     public void onFinishDrag() {

@@ -33,17 +33,19 @@ public class LastViewHolder extends RecyclerView.ViewHolder {
 //            flexboxLp.setFlexGrow(1.0f);
 //        }
     }
-    void bindTo(TextView.OnEditorActionListener listener) {
-//        if (isAdd) {
-//            mEiditView.setVisibility(View.VISIBLE);
-//            mEiditView.requestFocus();
-//        } else {
-//            mEiditView.setf
-//            //mEiditView.setVisibility(View.GONE);
-//        }
-        mEiditView.setVisibility(View.GONE);
-      //  mEiditView.requestFocus();
-        if(listener!=null){
+
+    void bindTo(TextView.OnEditorActionListener listener, boolean isAdd) {
+        if (isAdd) {
+            mEiditView.setFocusable(true);
+            mEiditView.setFocusableInTouchMode(true);
+
+            mEiditView.requestFocus();
+        } else {
+            mEiditView.setFocusable(false);
+
+        }
+        //  mEiditView.requestFocus();
+        if (listener != null) {
             mEiditView.setOnEditorActionListener(listener);
         }
 
