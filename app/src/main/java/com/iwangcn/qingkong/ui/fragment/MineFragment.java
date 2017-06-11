@@ -42,7 +42,7 @@ public class MineFragment extends BaseFragment {
     @BindView(R.id.mine_email)
     TextView mTvEmail;//邮箱
     @BindView(R.id.min_version_img_circle)
-    ImageView mImgCircle;//小圆圈
+    ImageView mImgCircle;//小圆圈  暂时隐藏
     @BindView(R.id.min_version_img_next)
     ImageView mImgNext;//下一步icon
     private boolean isNewVersion;//是否是最新版本
@@ -89,6 +89,9 @@ public class MineFragment extends BaseFragment {
             mImgCircle.setVisibility(View.GONE);
             mImgNext.setVisibility(View.GONE);
         }
+        //
+        mImgCircle.setVisibility(View.GONE);
+
     }
 
     @OnClick(R.id.mine_rel_set)//系统设置

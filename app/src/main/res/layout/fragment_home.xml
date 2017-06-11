@@ -130,6 +130,7 @@
             </com.iwangcn.qingkong.ui.view.freshwidget.ReloadRefreshLayout>
 
             <include layout="@layout/system_loading" />
+            <include layout="@layout/system_no_data" />
 
         </RelativeLayout>
     </LinearLayout>

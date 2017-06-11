@@ -41,7 +41,10 @@ import jp.wasabeef.recyclerview.animators.SlideInLeftAnimator;
 
 public class HomeFragment extends BaseFragment {
     @BindView(R.id.systemLin_loding)
-    RelativeLayout mLinLoading;//再次刷新
+    RelativeLayout mLinLoading;//正在加载
+    @BindView(R.id.system_no_data)
+    RelativeLayout mSystemNoData;//加载无数据
+
 
     @BindView(R.id.home_list_news)
     RecyclerView mListView;//
@@ -134,11 +137,20 @@ public class HomeFragment extends BaseFragment {
         });
     }
 
+
+    @OnClick(R.id.system_no_data_lin)//搜索按钮
+    public void systemNoDataLin() {
+        mSystemNoData.setVisibility(View.GONE);
+        mLinLoading.setVisibility(View.VISIBLE);
+        mHomeEvent.getRefreshEventList();
+    }
+
     @OnClick(R.id.home_rel_search)//搜索按钮
     public void onRelSearch() {
         Intent intent = new Intent(getActivity(), NewsSearchActivity.class);
         startActivity(intent);
     }
+
     @OnClick(R.id.homefragment_edit_search)//搜索按钮
     public void onEditSearch() {
         Intent intent = new Intent(getActivity(), NewsSearchActivity.class);
@@ -157,6 +169,11 @@ public class HomeFragment extends BaseFragment {
             mLinLoading.setVisibility(View.GONE);
             mAbPullToRefreshView.finishRefreshing();
             List<EventInfoVo> list = (List<EventInfoVo>) event.getObject();
+            if (list.size() == 0) {
+                mSystemNoData.setVisibility(View.VISIBLE);
+            } else {
+                mSystemNoData.setVisibility(View.GONE);
+            }
             if (list.size() < NetConst.page) {//如果小于page条表示加载完成不能加载更多
                 mAbPullToRefreshView.setEnableLoadmore(false);
             }
@@ -171,8 +188,8 @@ public class HomeFragment extends BaseFragment {
         } else if (event instanceof LoadFailEvent) {
             mAbPullToRefreshView.finishLoadmore();
             mAbPullToRefreshView.finishRefreshing();
-        }else if(event instanceof FavoriteEvent){
-            if(event.getId()==FavoriteEvent.FAVORITE_FINISH){
+        } else if (event instanceof FavoriteEvent) {
+            if (event.getId() == FavoriteEvent.FAVORITE_FINISH) {
                 mHomeEvent.getRefreshEventList();
             }
         }

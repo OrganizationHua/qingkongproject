@@ -10,17 +10,31 @@
 
 
     <LinearLayout
+        android:id="@+id/system_no_data_lin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/background_gray"
         android:gravity="center"
-        android:orientation="vertical">
+        android:orientation="horizontal">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:text="暂无数据"
+            android:text="暂无数据,点击"
+            android:textColor="@color/home_gray"
+            android:textSize="14sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="此处"
+            android:textColor="@color/home_blue"
+            android:textSize="14sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="重新刷新"
             android:textColor="@color/home_gray"
             android:textSize="14sp" />
     </LinearLayout>
