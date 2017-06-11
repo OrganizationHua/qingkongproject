@@ -49,7 +49,7 @@ public class TagFilterActivity extends QkBaseActivity {
 
     @Override
     public void initData() {
-        Log.e("重复","333333");
+        Log.e("重复", "333333");
         EventBus.getDefault().register(this);
         mTagEvent = new TagEvent(this);
         mTagEvent.getTagList();
@@ -88,36 +88,38 @@ public class TagFilterActivity extends QkBaseActivity {
     @Subscribe
     public void onEventMainThread(Event event) {
         if (event instanceof TagEvent) {
-            list = (ArrayList<ArrayList<ClientLabel>>) event.getObject();
+            if (event.getId() == TagEvent.TAG_GETLIST) {
+                list = (ArrayList<ArrayList<ClientLabel>>) event.getObject();
 
-            tag_source.setAdapter(new TagAdapter(sourceList) {
-                @Override
-                public View getView(FlowLayout parent, int position, Object o) {
-                    TextView tv = (TextView) LayoutInflater.from(TagFilterActivity.this).inflate(R.layout.tag_source,
-                            parent, false);
-                    tv.setText(sourceList.get(position));
-                    return tv;
-                }
-            });
+                tag_source.setAdapter(new TagAdapter(sourceList) {
+                    @Override
+                    public View getView(FlowLayout parent, int position, Object o) {
+                        TextView tv = (TextView) LayoutInflater.from(TagFilterActivity.this).inflate(R.layout.tag_source,
+                                parent, false);
+                        tv.setText(sourceList.get(position));
+                        return tv;
+                    }
+                });
 
-            tag_biz.setAdapter(new TagAdapter(list.get(0)) {
-                @Override
-                public View getView(FlowLayout parent, int position, Object o) {
-                    TextView tv = (TextView) LayoutInflater.from(TagFilterActivity.this).inflate(R.layout.tag_biz,
-                            parent, false);
-                    tv.setText(list.get(0).get(position).getName());
-                    return tv;
-                }
-            });
-            tag_diy.setAdapter(new TagAdapter(list.get(1)) {
-                @Override
-                public View getView(FlowLayout parent, int position, Object o) {
-                    TextView tv = (TextView) LayoutInflater.from(TagFilterActivity.this).inflate(R.layout.tag_diy,
-                            parent, false);
-                    tv.setText(list.get(1).get(position).getName());
-                    return tv;
-                }
-            });
+                tag_biz.setAdapter(new TagAdapter(list.get(0)) {
+                    @Override
+                    public View getView(FlowLayout parent, int position, Object o) {
+                        TextView tv = (TextView) LayoutInflater.from(TagFilterActivity.this).inflate(R.layout.tag_biz,
+                                parent, false);
+                        tv.setText(list.get(0).get(position).getName());
+                        return tv;
+                    }
+                });
+                tag_diy.setAdapter(new TagAdapter(list.get(1)) {
+                    @Override
+                    public View getView(FlowLayout parent, int position, Object o) {
+                        TextView tv = (TextView) LayoutInflater.from(TagFilterActivity.this).inflate(R.layout.tag_diy,
+                                parent, false);
+                        tv.setText(list.get(1).get(position).getName());
+                        return tv;
+                    }
+                });
+            }
         }
     }
 

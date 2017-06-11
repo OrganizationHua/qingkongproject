@@ -143,7 +143,7 @@ public class MoreTagEditActivity extends QkBaseActivity implements RecycleViewIt
         if (event instanceof TagEvent) {
             if (event.getId() == TagEvent.TAG_DELETE) {
                 mTagEvent.getTagList(false);
-            } else {
+            } else if(event.getId()==TagEvent.TAG_GETLIST){
                 mList = (ArrayList<ArrayList<ClientLabel>>) event.getObject();
                 mAdapter.setDataList(mList);
             }

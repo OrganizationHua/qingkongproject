@@ -96,8 +96,10 @@ public class TagEditActivity extends QkBaseActivity implements RecycleViewItemTo
     @Subscribe
     public void onEventMainThread(Event event) {
         if (event instanceof TagEvent) {
-            ArrayList<ArrayList<ClientLabel>> list = (ArrayList<ArrayList<ClientLabel>>) event.getObject();
-            mAdapter.setDataList(list);
+            if (event.getId() == TagEvent.TAG_GETLIST) {
+                ArrayList<ArrayList<ClientLabel>> list = (ArrayList<ArrayList<ClientLabel>>) event.getObject();
+                mAdapter.setDataList(list);
+            }
         }
     }
 

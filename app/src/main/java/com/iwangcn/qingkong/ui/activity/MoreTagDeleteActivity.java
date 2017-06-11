@@ -94,11 +94,13 @@ public class MoreTagDeleteActivity extends QkBaseActivity {
     @Subscribe
     public void onEventMainThread(Event event) {
         if (event instanceof TagEvent) {
-            ArrayList<ArrayList<ClientLabel>> list = (ArrayList<ArrayList<ClientLabel>>) event.getObject();
-            if (list.get(1) != null) {
-                mList = list.get(1);
+            if(event.getId()==TagEvent.TAG_GETLIST){
+                ArrayList<ArrayList<ClientLabel>> list = (ArrayList<ArrayList<ClientLabel>>) event.getObject();
+                if (list.get(1) != null) {
+                    mList = list.get(1);
+                }
+                tag_source.setAdapter(new MyTagAdapter(mList));
             }
-            tag_source.setAdapter(new MyTagAdapter(mList));
             //  mAdapter.setDataList(mList);
         }
 
