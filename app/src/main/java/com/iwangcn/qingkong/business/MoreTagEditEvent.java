@@ -2,7 +2,6 @@ package com.iwangcn.qingkong.business;
 
 import android.content.Context;
 
-import com.iwangcn.qingkong.net.BaseBean;
 import com.iwangcn.qingkong.net.BaseSubscriber;
 import com.iwangcn.qingkong.net.ExceptionHandle;
 import com.iwangcn.qingkong.net.NetConst;
@@ -54,7 +53,7 @@ public class MoreTagEditEvent extends Event implements NetConst {
         paratems.put("processId", autoId);
         paratems.put("businessTags", strListData.toString());
         paratems.put("selfTags", strMyListData.toString());
-        RetrofitInstance.getInstance().post(URL_UPDATE_LABELS, paratems, BaseBean.class, new BaseSubscriber(true) {
+        RetrofitInstance.getInstance().post(URL_UPDATE_LABELS, paratems, String.class, new BaseSubscriber(true) {
             @Override
             public void onError(ExceptionHandle.ResponeThrowable e) {
                 ToastUtil.showToast(mContext, e.codeMessage);
