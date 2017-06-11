@@ -42,6 +42,7 @@ public class UserManager {
      * 清除用户信息
      */
     public static void clearUserInfo() {
+        loginInfo=null;
         userInfo = null;
         ACache.get(MobileApplication.getInstance()).clear();
         SpUtils.put(MobileApplication.getInstance(), SpConstant.IS_LOGIN, false);

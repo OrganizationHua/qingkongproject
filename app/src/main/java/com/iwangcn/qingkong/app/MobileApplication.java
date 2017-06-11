@@ -11,6 +11,7 @@ import android.os.Bundle;
 public class MobileApplication extends Application {
     private static MobileApplication instance;
     private Activity currentActivity;
+
     public MobileApplication() {
         instance = this;
     }
@@ -26,6 +27,7 @@ public class MobileApplication extends Application {
         super.onCreate();
         registerActivityLifecycleCallbacks(activityLifecycleCallbacks);
     }
+
     @Override
     public void onTerminate() {
         unregisterActivityLifecycleCallbacks(activityLifecycleCallbacks);
@@ -42,6 +44,7 @@ public class MobileApplication extends Application {
     public void setCurrentActivity(Activity currentActivity) {
         this.currentActivity = currentActivity;
     }
+
     /**
      * 声明一个监听Activity们生命周期的接口
      */
@@ -53,6 +56,7 @@ public class MobileApplication extends Application {
         public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
 
             setCurrentActivity(activity);
+            AbActivityManager.getInstance().addActivity(activity);
         }
 
         @Override
@@ -82,7 +86,8 @@ public class MobileApplication extends Application {
 
         @Override
         public void onActivityDestroyed(Activity activity) {
-
+            AbActivityManager.getInstance().removeActivity(activity);
         }
     };
+
 }
