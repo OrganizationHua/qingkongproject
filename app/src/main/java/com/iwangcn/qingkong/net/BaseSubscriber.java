@@ -47,6 +47,7 @@ public abstract class BaseSubscriber<T> extends Subscriber<T> implements CancelL
 
     @Override
     public void onError(Throwable e) {
+        e.printStackTrace();
         dismissProgressDialog();
         if (e instanceof ExceptionHandle.ResponeThrowable) {
 
