@@ -35,6 +35,7 @@ import com.google.android.flexbox.FlexboxLayoutManager;
 import com.iwangcn.qingkong.R;
 import com.iwangcn.qingkong.business.Event;
 import com.iwangcn.qingkong.business.FollowDetailEvent;
+import com.iwangcn.qingkong.business.MoreTagEditEvent;
 import com.iwangcn.qingkong.business.TagEvent;
 import com.iwangcn.qingkong.net.BaseSubscriber;
 import com.iwangcn.qingkong.net.ExceptionHandle;
@@ -44,7 +45,6 @@ import com.iwangcn.qingkong.ui.view.TagWidget.MoreRecycleViewTagAdapter;
 import com.iwangcn.qingkong.ui.view.TagWidget.OnRecyclerItemClickListener;
 import com.iwangcn.qingkong.ui.view.TagWidget.RecycleViewItemTouchCallback;
 import com.iwangcn.qingkong.utils.ToastUtil;
-import com.iwangcn.qingkong.utils.VibratorUtil;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -69,9 +69,6 @@ public class MoreTagEditActivity extends QkBaseActivity implements RecycleViewIt
     private MoreRecycleViewTagAdapter mAdapter;
     private Context mContext = this;
     private ArrayList<ArrayList<ClientLabel>> mList;
-    private long autoId;//事件ID
-    private long newsId;
-    private int position;
 
     @Override
     public int layoutChildResID() {
@@ -82,10 +79,7 @@ public class MoreTagEditActivity extends QkBaseActivity implements RecycleViewIt
     public void initView() {
         setTitle("更多业务标签");
         setRightImg(R.drawable.toutiao_btn_edit);
-        Intent intent = getIntent();
-        autoId = intent.getLongExtra("autoId", 0);
-        newsId = intent.getLongExtra("newsInfoAutoId", 0);
-        position = intent.getIntExtra("position", 0);
+
     }
 
     @Override
@@ -100,12 +94,10 @@ public class MoreTagEditActivity extends QkBaseActivity implements RecycleViewIt
     public void onClickRightButton() {
         Intent intent = new Intent(this, MoreTagDeleteActivity.class);
         startActivity(intent);
-        //switchActivated();
     }
 
     @OnClick(R.id.btn_sure)
     public void onClickBtnSure() {
-        final FollowDetailEvent followDetailEvent = new FollowDetailEvent(mContext);
         List<ClientLabel> finalRecommendList = new ArrayList<>();
         if (mList.get(0) != null) {
             finalRecommendList = mList.get(0);
@@ -114,6 +106,31 @@ public class MoreTagEditActivity extends QkBaseActivity implements RecycleViewIt
         if (mList.get(1) != null) {
             finalmyListList = mList.get(1);
         }
+        Intent intent = getIntent();
+        int type = intent.getIntExtra("type", 0);//0是跟进，1是头条跟进 2是助手跟进
+        if (type == 0) {
+            doFollowEvent(intent, finalRecommendList, finalmyListList);
+        } else if (type == 2) {
+           updateTags(intent, finalRecommendList, finalmyListList);
+        }
+    }
+
+    private void updateTags(Intent intent,List<ClientLabel> finalRecommendList, List<ClientLabel> finalmyListList) {
+        long processId = intent.getLongExtra("processId", 0);
+        int type = intent.getIntExtra("type", 0);
+        MoreTagEditEvent moreTagEditEvent = new MoreTagEditEvent(this);
+        moreTagEditEvent.updateLabels(type,String.valueOf(processId),finalRecommendList,finalmyListList);
+    }
+
+    /**
+     * 头条跟进
+     *
+     * @param intent
+     */
+    private void doFollowEvent(Intent intent, List<ClientLabel> finalRecommendList, List<ClientLabel> finalmyListList) {
+        long autoId = intent.getLongExtra("autoId", 0);
+        long newsId = intent.getLongExtra("newsInfoAutoId", 0);
+        final FollowDetailEvent followDetailEvent = new FollowDetailEvent(mContext);
         followDetailEvent.doFollowEvent(String.valueOf(autoId), String.valueOf(newsId), finalRecommendList, finalmyListList, new BaseSubscriber(true) {
             @Override
             public void onError(ExceptionHandle.ResponeThrowable e) {
@@ -124,11 +141,9 @@ public class MoreTagEditActivity extends QkBaseActivity implements RecycleViewIt
             public void onNext(Object o) {
                 ToastUtil.showToast(mContext, "已跟进");
                 Intent intent = new Intent();
-                intent.putExtra("position", position);
                 setResult(RESULT_OK, intent);
                 finish();
                 //EventBus.getDefault().post(followDetailEvent);
-
             }
         });
     }
@@ -143,7 +158,7 @@ public class MoreTagEditActivity extends QkBaseActivity implements RecycleViewIt
         if (event instanceof TagEvent) {
             if (event.getId() == TagEvent.TAG_DELETE) {
                 mTagEvent.getTagList(false);
-            } else if(event.getId()==TagEvent.TAG_GETLIST){
+            } else if (event.getId() == TagEvent.TAG_GETLIST) {
                 mList = (ArrayList<ArrayList<ClientLabel>>) event.getObject();
                 mAdapter.setDataList(mList);
             }
@@ -169,24 +184,6 @@ public class MoreTagEditActivity extends QkBaseActivity implements RecycleViewIt
         recycle_recommend.addOnItemTouchListener(new OnRecyclerItemClickListener(recycle_recommend) {
             @Override
             public void onLongClick(RecyclerView.ViewHolder vh) {
-                /*激活界面*/
-                isActivated = true;
-                setRightTitle("完成");
-
-                int pos = vh.getLayoutPosition();
-                if (pos > mAdapter.getOneTitlePosition() && pos < mAdapter.getTwoTitlePosition()) {//
-                    recommendItemTouchHelper.startDrag(vh);
-                    VibratorUtil.Vibrate(MoreTagEditActivity.this, 100);
-                } else if (pos > mAdapter.getTwoTitlePosition() && pos < mAdapter.getThreeTitlePosition()) {
-//                    if (mAdapter.isEditing) return;
-//                    mAdapter.isEditing = true;
-//                    mAdapter.notifyItemRangeChanged(mAdapter.getTwoTitlePosition() + 1, mAdapter.getTwoContentItemCount());
-                } else if (pos > mAdapter.getThreeTitlePosition() && pos < (mAdapter.getThreeTitlePosition() + mAdapter.getThreeContentItemCount() + 1)) {
-                    if (mAdapter.isEditing) return;
-                    mAdapter.isEditing = true;
-                    mAdapter.notifyItemRangeChanged(mAdapter.getThreeTitlePosition() + 1, mAdapter.getThreeContentItemCount());
-                }
-
             }
 
             @Override

@@ -200,6 +200,7 @@ public class NewsDetailActivity extends QkBaseActivity {
                         Intent intent = new Intent(mContext, MoreTagEditActivity.class);
                         intent.putExtra("autoId", autoId);
                         intent.putExtra("newsInfoAutoId", newsInfo.getAutoId());
+                        intent.putExtra("type", 0);
                         startActivityForResult(intent, REQUEST_CODE);
 
                     }
@@ -216,8 +217,7 @@ public class NewsDetailActivity extends QkBaseActivity {
                 if (mPopupWindow != null && mPopupWindow.isShowing()) {
                     mPopupWindow.dismiss();
                 }
-                int position = data.getIntExtra("position", 0);
-                mList.remove(position);
+                mList.remove(mViewPage.getCurrentItem());
                 mAdapter.setList(mList);
             }
         }
