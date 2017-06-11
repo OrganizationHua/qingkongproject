@@ -23,6 +23,7 @@ import com.iwangcn.qingkong.ui.base.BaseFragment;
 import com.iwangcn.qingkong.ui.model.HeadLineModel;
 import com.iwangcn.qingkong.ui.view.freshwidget.RefreshListenerAdapter;
 import com.iwangcn.qingkong.ui.view.freshwidget.ReloadRefreshLayout;
+import com.iwangcn.qingkong.utils.ToastUtil;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -173,11 +174,13 @@ public class HeadLineFollowFragment extends BaseFragment {
                 mList.remove((int) headLineFollowEvent.getObject());
                 mNewsAdapter.notifyItemRemoved((int) headLineFollowEvent.getObject());
             } else if (headLineFollowEvent.getId() == 2) {//置顶
-                mList.remove((int) headLineFollowEvent.getObject());
-                mNewsAdapter.notifyItemRemoved((int) headLineFollowEvent.getObject());
+                ToastUtil.showToast(getActivity(), "已置顶");
+//                mList.remove((int) headLineFollowEvent.getObject());
+//                mNewsAdapter.notifyItemRemoved((int) headLineFollowEvent.getObject());
             } else if (headLineFollowEvent.getId() == 3) {////取消置顶
-                mList.remove((int) headLineFollowEvent.getObject());
-                mNewsAdapter.notifyItemRemoved((int) headLineFollowEvent.getObject());
+                ToastUtil.showToast(getActivity(), "已取消置顶");
+//                mList.remove((int) headLineFollowEvent.getObject());
+//                mNewsAdapter.notifyItemRemoved((int) headLineFollowEvent.getObject());
             } else if (headLineFollowEvent.getId() == 4) {//已处理
                 mList.remove((int) headLineFollowEvent.getObject());
                 mNewsAdapter.notifyItemRemoved((int) headLineFollowEvent.getObject());

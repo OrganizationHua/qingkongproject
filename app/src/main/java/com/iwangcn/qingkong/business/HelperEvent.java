@@ -11,6 +11,7 @@ import com.iwangcn.qingkong.net.RetrofitInstance;
 import com.iwangcn.qingkong.providers.UserManager;
 import com.iwangcn.qingkong.ui.model.HelperInfo;
 import com.iwangcn.qingkong.ui.model.HelperListModel;
+import com.iwangcn.qingkong.utils.ToastUtil;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -63,7 +64,7 @@ public class HelperEvent extends Event implements NetConst {
         RetrofitInstance.getInstance().post(URL_EVENT_DOFOllOW, paratems, String.class, new BaseSubscriber<NetResponse<String>>(false) {
             @Override
             public void onError(ExceptionHandle.ResponeThrowable e) {
-
+                ToastUtil.showToast(mContext,e.codeMessage);
             }
 
             @Override
@@ -82,7 +83,7 @@ public class HelperEvent extends Event implements NetConst {
         RetrofitInstance.getInstance().post(URL_EVENT_DELETE, paratems, String.class, new BaseSubscriber<NetResponse<String>>(false) {
             @Override
             public void onError(ExceptionHandle.ResponeThrowable e) {
-
+                ToastUtil.showToast(mContext,e.codeMessage);
             }
 
             @Override
