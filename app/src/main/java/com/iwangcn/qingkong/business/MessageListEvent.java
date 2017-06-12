@@ -64,7 +64,7 @@ public class MessageListEvent extends Event implements NetConst {
         RetrofitInstance.getInstance().post(URL_EVENT_AIDE_SUBMIT, paratems, String.class, new BaseSubscriber<NetResponse<String>>(false) {
             @Override
             public void onError(ExceptionHandle.ResponeThrowable e) {
-
+               ToastUtil.showToast(mContext,e.codeMessage);
             }
 
             @Override
