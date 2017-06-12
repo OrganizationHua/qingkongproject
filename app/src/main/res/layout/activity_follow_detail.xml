@@ -86,7 +86,7 @@
         android:orientation="horizontal">
 
         <LinearLayout
-            android:id="@+id/ll_cancle_follow"
+            android:id="@+id/ll_follow"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -97,11 +97,13 @@
             android:paddingTop="10dp">
 
             <ImageView
+                android:id="@+id/img"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/genjin_btn_cancel" />
 
             <TextView
+                android:id="@+id/tv_follow"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@null"

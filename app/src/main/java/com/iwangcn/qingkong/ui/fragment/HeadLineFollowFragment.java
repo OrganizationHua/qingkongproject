@@ -204,12 +204,12 @@ public class HeadLineFollowFragment extends BaseFragment {
                 mNewsAdapter.notifyItemRemoved((int) headLineFollowEvent.getObject());
             } else if (headLineFollowEvent.getId() == 2) {//置顶
                 ToastUtil.showToast(getActivity(), "已置顶");
-//                mList.remove((int) headLineFollowEvent.getObject());
-//                mNewsAdapter.notifyItemRemoved((int) headLineFollowEvent.getObject());
+                mList.get((int) headLineFollowEvent.getObject()).setTop(1);
+                mNewsAdapter.notifyItemChanged((int) headLineFollowEvent.getObject());
             } else if (headLineFollowEvent.getId() == 3) {////取消置顶
                 ToastUtil.showToast(getActivity(), "已取消置顶");
-//                mList.remove((int) headLineFollowEvent.getObject());
-//                mNewsAdapter.notifyItemRemoved((int) headLineFollowEvent.getObject());
+                mList.get((int) headLineFollowEvent.getObject()).setTop(0);
+                mNewsAdapter.notifyItemChanged((int) headLineFollowEvent.getObject());
             } else if (headLineFollowEvent.getId() == 4) {//已处理
                 mList.remove((int) headLineFollowEvent.getObject());
                 mNewsAdapter.notifyItemRemoved((int) headLineFollowEvent.getObject());

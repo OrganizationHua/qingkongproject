@@ -65,8 +65,8 @@ public class FollowDetailEvent extends Event implements NetConst {
             @Override
             public void onNext(NetResponse<String> netResponse) {
                 ToastUtil.showToast(mContext, "取消跟进成功");
-//                FollowDetailEvent.this.setId(1);
-//                EventBus.getDefault().post(FollowDetailEvent.this);
+                FollowDetailEvent.this.setId(1);
+                EventBus.getDefault().post(FollowDetailEvent.this);
             }
         });
     }
@@ -84,8 +84,8 @@ public class FollowDetailEvent extends Event implements NetConst {
             @Override
             public void onNext(NetResponse<String> netResponse) {
                 ToastUtil.showToast(mContext, "置顶成功");
-//                FollowDetailEvent.this.setId(2);
-//                EventBus.getDefault().post(FollowDetailEvent.this);
+                FollowDetailEvent.this.setId(2);
+                EventBus.getDefault().post(FollowDetailEvent.this);
             }
         });
     }
@@ -103,8 +103,8 @@ public class FollowDetailEvent extends Event implements NetConst {
             @Override
             public void onNext(NetResponse<String> netResponse) {
                 ToastUtil.showToast(mContext, "取消置顶成功");
-//                FollowDetailEvent.this.setId(3);
-//                EventBus.getDefault().post(FollowDetailEvent.this);
+                FollowDetailEvent.this.setId(3);
+                EventBus.getDefault().post(FollowDetailEvent.this);
             }
         });
     }

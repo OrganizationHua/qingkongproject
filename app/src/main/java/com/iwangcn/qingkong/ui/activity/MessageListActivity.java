@@ -123,7 +123,7 @@ public class MessageListActivity extends QkBaseActivity {
                 mList.addAll(list);
                 mNewsAdapter.notifyDataSetChanged();
             } else if (helperEvent.getId() == 1) {//提交留言
-
+                helperEvent.getRefreshEventList();
             }
         } else if (event instanceof LoadFailEvent) {
             mReloadRefreshView.finishRefreshing();

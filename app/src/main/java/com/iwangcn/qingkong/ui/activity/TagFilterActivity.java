@@ -73,6 +73,7 @@ public class TagFilterActivity extends QkBaseActivity {
         tag_source.onChanged();
         tag_biz.onChanged();
         tag_diy.onChanged();
+        finish();
     }
 
     @OnClick(R.id.btn_sure)

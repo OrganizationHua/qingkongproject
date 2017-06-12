@@ -72,10 +72,10 @@ public class HelperFollowRecyclerAdapter extends BaseRecyclerViewAdapter<HelperL
             holder.tvContent.setText(helperModel.getHelperInfo().getContent());
         }
         //是否置顶
-        if (!TextUtils.equals(helperModel.getHelperProcess().getTop() + "", "0")) {
+        if (TextUtils.equals(helperModel.getHelperProcess().getTop() + "", "0")) {
             holder.tv_is_top.setText("置顶");
             holder.img_is_top.setImageResource(R.drawable.genjin_btn_top);
-        } else if (!TextUtils.equals(helperModel.getHelperProcess().getTop() + "", "1")) {
+        } else if (TextUtils.equals(helperModel.getHelperProcess().getTop() + "", "1")) {
             holder.tv_is_top.setText("取消置顶");
             holder.img_is_top.setImageResource(R.drawable.genjin_btn_untop);
         }
@@ -102,22 +102,22 @@ public class HelperFollowRecyclerAdapter extends BaseRecyclerViewAdapter<HelperL
         }
 
         List<QkTagModel> list = new ArrayList<>();
-        list.add(new QkTagModel(0, (String) SpUtils.get(mContext, helperModel.getHelperInfo().getDataType() + "", "1"),2,helperModel.getHelperProcess().getAutoId()));
+        list.add(new QkTagModel(0, (String) SpUtils.get(mContext, helperModel.getHelperInfo().getDataType() + "", "1"), 2, helperModel.getHelperProcess().getAutoId()));
 
         if (helperModel.getHelperProcess().getBusinessLabels() != null && helperModel.getHelperProcess().getBusinessLabels().size() != 0) {
             for (int i = 0; i < helperModel.getHelperProcess().getBusinessLabels().size(); i++) {
                 if (!TextUtils.isEmpty(helperModel.getHelperProcess().getBusinessLabels().get(i))) {
-                    list.add(new QkTagModel(2, helperModel.getHelperProcess().getBusinessLabels().get(i),2,helperModel.getHelperProcess().getAutoId()));
+                    list.add(new QkTagModel(2, helperModel.getHelperProcess().getBusinessLabels().get(i), 2, helperModel.getHelperProcess().getAutoId()));
                 }
             }
         }
         if (helperModel.getHelperProcess().getSelfLabels() != null && helperModel.getHelperProcess().getSelfLabels().size() != 0) {
             for (int j = 0; j < helperModel.getHelperProcess().getSelfLabels().size(); j++) {
                 if (!TextUtils.isEmpty(helperModel.getHelperProcess().getSelfLabels().get(j))) {
-                    list.add(new QkTagModel(3, helperModel.getHelperProcess().getSelfLabels().get(j),2,helperModel.getHelperProcess().getAutoId()));
+                    list.add(new QkTagModel(3, helperModel.getHelperProcess().getSelfLabels().get(j), 2, helperModel.getHelperProcess().getAutoId()));
                 }
             }
-            list.add(new QkTagModel(4, "图片",2,helperModel.getHelperProcess().getAutoId()));
+            list.add(new QkTagModel(4, "图片", 2, helperModel.getHelperProcess().getAutoId()));
         }
 
         holder.tagFlowLayout.setAdapter(new QKTagAdapter(mContext, list));
@@ -134,9 +134,9 @@ public class HelperFollowRecyclerAdapter extends BaseRecyclerViewAdapter<HelperL
         holder.llSet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!TextUtils.equals(helperModel.getHelperProcess().getTop() + "", "0")) {
+                if (TextUtils.equals(helperModel.getHelperProcess().getTop() + "", "0")) {
                     helperFollowEvent.doFollowSetUp(helperModel.getHelperProcess().getAutoId() + "", pos);
-                } else if (!TextUtils.equals(helperModel.getHelperProcess().getTop() + "", "1")) {
+                } else if (TextUtils.equals(helperModel.getHelperProcess().getTop() + "", "1")) {
                     helperFollowEvent.doFollowSetUpCancleTop(helperModel.getHelperProcess().getAutoId() + "", pos);
                 }
             }
@@ -162,7 +162,7 @@ public class HelperFollowRecyclerAdapter extends BaseRecyclerViewAdapter<HelperL
             }
         });
         //留言
-        holder.btn_leave_message.setOnClickListener(new View.OnClickListener() {
+        holder.ll_leave_message.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(mContext, MessageListActivity.class).putExtra("message", helperModel);
@@ -219,8 +219,10 @@ public class HelperFollowRecyclerAdapter extends BaseRecyclerViewAdapter<HelperL
         @BindView(R.id.tag_flowlayout)
         public TagFlowLayout tagFlowLayout;//标签
 
+        @BindView(R.id.ll_leave_message)
+        public LinearLayout ll_leave_message;//留言
         @BindView(R.id.btn_leave_message)
-        public Button btn_leave_message;//留言
+        public TextView btn_leave_message;//留言
 
         @BindView(R.id.tv_message_notify)
         public TextView tv_message_notify;//留言

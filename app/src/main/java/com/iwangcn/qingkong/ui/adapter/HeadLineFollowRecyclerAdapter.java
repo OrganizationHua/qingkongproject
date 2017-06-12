@@ -73,10 +73,10 @@ public class HeadLineFollowRecyclerAdapter extends BaseRecyclerViewAdapter<HeadL
                 }
             }
             //是否置顶
-            if (!TextUtils.equals(helperModel.getTop() + "", "0")) {
+            if (TextUtils.equals(helperModel.getTop() + "", "0")) {
                 holder.tv_is_top.setText("置顶");
                 holder.img_is_top.setImageResource(R.drawable.genjin_btn_top);
-            } else if (!TextUtils.equals(helperModel.getTop() + "", "1")) {
+            } else if (TextUtils.equals(helperModel.getTop() + "", "1")) {
                 holder.tv_is_top.setText("取消置顶");
                 holder.img_is_top.setImageResource(R.drawable.genjin_btn_untop);
             }
@@ -116,9 +116,9 @@ public class HeadLineFollowRecyclerAdapter extends BaseRecyclerViewAdapter<HeadL
         holder.llSet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!TextUtils.equals(helperModel.getTop() + "", "0")) {
+                if (TextUtils.equals(helperModel.getTop() + "", "0")) {
                     headLineFollowEvent.doFollowSetUp(helperModel.getAutoId() + "", pos);
-                } else if (!TextUtils.equals(helperModel.getTop() + "", "1")) {
+                } else if (TextUtils.equals(helperModel.getTop() + "", "1")) {
                     headLineFollowEvent.doFollowSetUpCancleTop(helperModel.getAutoId() + "", pos);
                 }
 
