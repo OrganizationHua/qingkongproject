@@ -63,7 +63,7 @@ public class HeadLineFollowEvent extends Event implements NetConst {
                     HeadLineFollowEvent.this.setIsMore(true);
                 }
                 EventBus.getDefault().post(HeadLineFollowEvent.this);
-                ACache.get(mContext).put(URL_EVENT, JSON.toJSONString(netResponse.getDataList()));
+                ACache.get(mContext).put(URL_EVENT_FOLLOWUP, JSON.toJSONString(netResponse.getDataList()));
 
             }
         });

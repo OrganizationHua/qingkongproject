@@ -60,11 +60,14 @@ public class HomeEvent extends Event implements NetConst {
                 homeEvent.setObject(o.getDataList());
                 if (indexPage == 1) {
                     homeEvent.setIsMore(false);
+                    String test= JSON.toJSONString(o.getDataList());
+
+                    ACache.get(mContext).put(URL_EVENT, JSON.toJSONString(o.getDataList()));
                 } else {
                     homeEvent.setIsMore(true);
                 }
                 EventBus.getDefault().post(homeEvent);
-                ACache.get(mContext).put(URL_EVENT, JSON.toJSONString(o.getDataList()));
+
             }
         });
     }
@@ -82,6 +85,7 @@ public class HomeEvent extends Event implements NetConst {
     public List<EventInfoVo> getCacheNews() {
         List mList = new ArrayList<>();
         try {
+           String test= ACache.get(mContext).getAsString(URL_EVENT);
             mList = JSON.parseArray(ACache.get(mContext).getAsString(URL_EVENT), EventInfoVo.class);
         } catch (Exception e) {
             e.printStackTrace();
