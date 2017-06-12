@@ -24,6 +24,7 @@
             android:background="@color/line_gray"></View>
 
         <LinearLayout
+            android:id="@+id/news_detail_lin_Nofollow"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="center_vertical">
@@ -79,6 +80,99 @@
                     android:layout_marginLeft="9dp"
                     android:gravity="center"
                     android:text="我要报错"
+                    android:textColor="#666666"
+                    android:textSize="18sp" />
+            </LinearLayout>
+        </LinearLayout>
+        <!--已跟进-->
+        <LinearLayout
+            android:id="@+id/news_detail_lin_hasfollow"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_vertical"
+            android:visibility="gone">
+
+            <LinearLayout
+                android:id="@+id/ll_cancle_follow"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/gray_btn_select"
+                android:gravity="center">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/genjin_btn_cancel" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="9dp"
+                    android:gravity="center"
+                    android:text="取消跟进"
+                    android:textColor="#666666"
+                    android:textSize="18sp" />
+            </LinearLayout>
+
+
+            <View
+                android:layout_width="1px"
+                android:layout_height="30dp"
+                android:layout_gravity="center"
+                android:background="@color/line_gray"></View>
+
+            <LinearLayout
+                android:id="@+id/ll_set_top"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/gray_btn_select"
+                android:gravity="center">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/genjin_btn_top" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="9dp"
+                    android:gravity="center"
+                    android:text="取消置顶"
+                    android:textColor="#666666"
+                    android:textSize="18sp" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="1px"
+                android:layout_height="30dp"
+                android:layout_gravity="center"
+                android:background="@color/line_gray"></View>
+
+            <LinearLayout
+                android:id="@+id/ll_processed_finished"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/gray_btn_select"
+                android:gravity="center">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/genjin_btn_done" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="9dp"
+                    android:gravity="center"
+                    android:text="处理完成"
                     android:textColor="#666666"
                     android:textSize="18sp" />
             </LinearLayout>

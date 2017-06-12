@@ -27,7 +27,6 @@ import com.iwangcn.qingkong.ui.base.BaseActivity;
 import com.iwangcn.qingkong.ui.model.EventDataVo;
 import com.iwangcn.qingkong.ui.model.EventInfo;
 import com.iwangcn.qingkong.ui.model.EventInfoVo;
-import com.iwangcn.qingkong.ui.model.HeadLineModel;
 import com.iwangcn.qingkong.ui.model.NewsInfo;
 import com.iwangcn.qingkong.ui.view.freshwidget.RefreshListenerAdapter;
 import com.iwangcn.qingkong.ui.view.freshwidget.ReloadRefreshLayout;
@@ -140,32 +139,36 @@ public class NewsListActivity extends BaseActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 if (i == 0)  return;
-                EventDataVo eventDataVo = mList.get(i - 1);
-                if (!eventDataVo.isFollowup()) {//如果没有被跟进
-                    Intent intent = new Intent(mContext, NewsDetailActivity.class);
-                    intent.putExtra("NewsInfoList", (Serializable) getUnFollowNewsInfoList(mList));
-                    intent.putExtra("frontPageposition", (int)(i - 1));
-                    long autoId=mIntentEventInfo.getEventInfo().getAutoId();
-                    intent.putExtra("autoId", autoId);//事件ID
-                    startActivityForResult(intent, REQUEST_CODE);
-                } else if (eventDataVo.isFollowup()) {//已跟进
-                    HeadLineModel headLineModel = new HeadLineModel();
-                    headLineModel.setAutoId((int) eventDataVo.getEventId());
-                    Intent intent = new Intent(mContext, FollowDetailActivity.class)
-                            .putExtra("data", headLineModel)
-                            .putExtra("type", 1);
-                    startActivity(intent);
-                }
+                Intent intent = new Intent(mContext, NewsDetailActivity.class);
+                intent.putExtra("eventDataVoList", (Serializable) mList);
+                intent.putExtra("frontPageposition", (int)(i - 1));
+                startActivityForResult(intent, REQUEST_CODE);
+
+//                EventDataVo eventDataVo = mList.get(i - 1);
+//                if (!eventDataVo.isFollowup()) {//如果没有被跟进
+//                    Intent intent = new Intent(mContext, NewsDetailActivity.class);
+//                    intent.putExtra("NewsInfoList", (Serializable) getUnFollowNewsInfoList(mList));
+//                    intent.putExtra("frontPageposition", (int)(i - 1));
+//                    long autoId=mIntentEventInfo.getEventInfo().getAutoId();
+//                    intent.putExtra("autoId", autoId);//事件ID
+//                    startActivityForResult(intent, REQUEST_CODE);
+//                } else if (eventDataVo.isFollowup()) {//已跟进
+//                    HeadLineModel headLineModel = new HeadLineModel();
+//                    headLineModel.setAutoId((int) eventDataVo.getEventId());
+//                    Intent intent = new Intent(mContext, FollowDetailActivity.class)
+//                            .putExtra("data", headLineModel)
+//                            .putExtra("type", 1);
+//                    startActivity(intent);
+//                }
             }
         });
     }
 
     private List<NewsInfo> getUnFollowNewsInfoList(List<EventDataVo> mList) {
         List<NewsInfo> newsList = new ArrayList<>();
+
         for (EventDataVo model : mList) {
-            if (!model.isFollowup()) {
-                newsList.add(model.getData());
-            }
+            newsList.add(model.getData());
         }
         return newsList;
     }

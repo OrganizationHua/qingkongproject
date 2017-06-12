@@ -1,6 +1,7 @@
 package com.iwangcn.qingkong.business;
 
 import android.content.Context;
+import android.text.TextUtils;
 
 import com.iwangcn.qingkong.net.BaseSubscriber;
 import com.iwangcn.qingkong.net.ExceptionHandle;
@@ -153,6 +154,10 @@ public class FollowDetailEvent extends Event implements NetConst {
                 builder.append(clientLable.getName());
                 builder.append(",");
             }
+        }
+        if(TextUtils.isEmpty(builder.toString())){
+            ToastUtil.showToast(mContext,"请至少选择一个标签");
+            return;
         }
         HashMap paratems = new HashMap();
         paratems.put(USER_ID, UserManager.getUserInfo().getAutoId());

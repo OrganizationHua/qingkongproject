@@ -5,7 +5,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
 import com.iwangcn.qingkong.ui.fragment.NewsInfoFragment;
-import com.iwangcn.qingkong.ui.model.NewsInfo;
+import com.iwangcn.qingkong.ui.model.EventDataVo;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,14 +15,14 @@ import java.util.List;
  */
 
 public class NewsDetailPageAdapter extends FragmentStatePagerAdapter {
-    private List<NewsInfo> mList;
+    private List<EventDataVo> mList;
     private ArrayList<Fragment> mFragmentList;
 
     public NewsDetailPageAdapter(FragmentManager fm) {
         super(fm);
     }
 
-    public void setList(List<NewsInfo> mList) {
+    public void setList(List<EventDataVo> mList) {
         this.mList = mList;
         ArrayList<Fragment> fragments = new ArrayList<>();
         for (int i = 0, size = mList.size(); i < size; i++) {

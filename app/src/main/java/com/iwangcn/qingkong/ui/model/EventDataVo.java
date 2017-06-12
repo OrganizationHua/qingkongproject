@@ -1,11 +1,13 @@
 package com.iwangcn.qingkong.ui.model;
 
+import com.iwangcn.qingkong.net.BaseBean;
+
 /**
  * Created by czh on 2017/6/10.
  * 事件相关信息Model
  */
 
-public class EventDataVo {
+public class EventDataVo extends BaseBean {
     long autoId;//  主键id
     long eventId;// 事件id
     int dataType;//原始数据类型

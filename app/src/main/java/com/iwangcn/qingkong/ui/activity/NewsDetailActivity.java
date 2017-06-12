@@ -20,6 +20,7 @@ import com.iwangcn.qingkong.net.NetResponse;
 import com.iwangcn.qingkong.ui.adapter.NewsDetailPageAdapter;
 import com.iwangcn.qingkong.ui.base.QkBaseActivity;
 import com.iwangcn.qingkong.ui.model.ClientLabel;
+import com.iwangcn.qingkong.ui.model.EventDataVo;
 import com.iwangcn.qingkong.ui.model.LabelError;
 import com.iwangcn.qingkong.ui.model.NewsInfo;
 import com.iwangcn.qingkong.utils.AbAppUtil;
@@ -42,16 +43,21 @@ public class NewsDetailActivity extends QkBaseActivity {
     @BindView(R.id.viewpager)
     public ViewPager mViewPage;
     private NewsDetailPageAdapter mAdapter;
-    private List<NewsInfo> mList;
+    private List<EventDataVo> mList;
     private Context mContext = this;
     private int currentPosition = 0;
-    private long autoId;//事件ID
     private TagEvent mTagEvent;
     private List<LabelError> errorTagList = new ArrayList<LabelError>();
     private int REQUEST_CODE = 10;
     @BindView(R.id.news_detail_follow_lin)
     LinearLayout mLinFollow;//跟进按钮
     private PopupWindow mPopupWindow;
+
+    @BindView(R.id.news_detail_lin_hasfollow)
+    LinearLayout mLinHasFollow;//已跟进布局
+    @BindView(R.id.news_detail_lin_Nofollow)
+    LinearLayout mLinNoFollow;//未跟进布局
+    private FollowDetailEvent mFollowDetailEvent;
 
     @Override
     public int layoutChildResID() {
@@ -63,9 +69,9 @@ public class NewsDetailActivity extends QkBaseActivity {
         setTitle(getString(R.string.news_detail));
         setRightTitle(getString(R.string.originalText));
         mTagEvent = new TagEvent(this);
-        mList = (List<NewsInfo>) getIntent().getSerializableExtra("NewsInfoList");
+        mFollowDetailEvent = new FollowDetailEvent(this);
+        mList = (List<EventDataVo>) getIntent().getSerializableExtra("eventDataVoList");
         currentPosition = getIntent().getIntExtra("frontPageposition", 0);
-        autoId = getIntent().getLongExtra("autoId", 0);
         FragmentManager fm = getSupportFragmentManager();
         mAdapter = new NewsDetailPageAdapter(fm);
         mAdapter.setList(mList);
@@ -73,6 +79,30 @@ public class NewsDetailActivity extends QkBaseActivity {
         mViewPage.setAdapter(mAdapter);
         mViewPage.setCurrentItem(currentPosition);
         EventBus.getDefault().register(this);
+        mViewPage.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                EventDataVo eventDataVo = mList.get(position);
+                if (eventDataVo.isFollowup()) {
+                    mLinHasFollow.setVisibility(View.VISIBLE);
+                    mLinNoFollow.setVisibility(View.GONE);
+                } else {
+                    mLinHasFollow.setVisibility(View.GONE);
+                    mLinNoFollow.setVisibility(View.VISIBLE);
+
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
     }
 
     @Override
@@ -87,7 +117,7 @@ public class NewsDetailActivity extends QkBaseActivity {
 
     @OnClick(R.id.base_act_right_lin)//APP信息
     public void onBtnWebView(View view) {
-        NewsInfo newsInfo = mList.get(mViewPage.getCurrentItem());
+        NewsInfo newsInfo = mList.get(mViewPage.getCurrentItem()).getData();
         if (!TextUtils.isEmpty(newsInfo.getUrl())) {
             AbAppUtil.openBrowser(this, newsInfo.getUrl());
         }
@@ -118,7 +148,7 @@ public class NewsDetailActivity extends QkBaseActivity {
         PopupWindowUtil.showPopupErrorWindow(this, parent, mRelMak, listData, new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mTagEvent.reportLabels(String.valueOf(autoId), listData);
+                mTagEvent.reportLabels(String.valueOf(mList.get(mViewPage.getCurrentItem()).getAutoId()), listData);
             }
         });
     }
@@ -174,9 +204,10 @@ public class NewsDetailActivity extends QkBaseActivity {
                 mPopupWindow = PopupWindowUtil.showMorePopupWindow(this, mLinFollow, mRelMak, recommendList, myList, isMore, new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        NewsInfo newsInfo = mList.get(mViewPage.getCurrentItem());
+                        EventDataVo eventDataVo = mList.get(mViewPage.getCurrentItem());
+                        NewsInfo newsInfo = eventDataVo.getData();
                         final FollowDetailEvent followDetailEvent = new FollowDetailEvent(mContext);
-                        followDetailEvent.doFollowEvent(String.valueOf(autoId), String.valueOf(newsInfo.getAutoId()), finalRecommendList, finalmyListList, new BaseSubscriber(true) {
+                        followDetailEvent.doFollowEvent(String.valueOf(eventDataVo.getEventId()), String.valueOf(newsInfo.getAutoId()), finalRecommendList, finalmyListList, new BaseSubscriber(true) {
                             @Override
                             public void onError(ExceptionHandle.ResponeThrowable e) {
                                 ToastUtil.showToast(mContext, e.codeMessage);
@@ -184,6 +215,10 @@ public class NewsDetailActivity extends QkBaseActivity {
 
                             @Override
                             public void onNext(Object o) {
+                                if(mPopupWindow!=null&&mPopupWindow.isShowing()){
+                                    mPopupWindow.dismiss();
+                                    mPopupWindow=null;
+                                }
                                 ToastUtil.showToast(mContext, "已跟进");
                                 mList.remove(mViewPage.getCurrentItem());
                                 mAdapter.setList(mList);
@@ -195,10 +230,10 @@ public class NewsDetailActivity extends QkBaseActivity {
                 }, new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-
-                        NewsInfo newsInfo = mList.get(mViewPage.getCurrentItem());
+                        EventDataVo eventDataVo = mList.get(mViewPage.getCurrentItem());
+                        NewsInfo newsInfo = eventDataVo.getData();
                         Intent intent = new Intent(mContext, MoreTagEditActivity.class);
-                        intent.putExtra("autoId", autoId);
+                        intent.putExtra("autoId", eventDataVo.getAutoId());
                         intent.putExtra("newsInfoAutoId", newsInfo.getAutoId());
                         intent.putExtra("type", 0);
                         startActivityForResult(intent, REQUEST_CODE);
@@ -207,6 +242,33 @@ public class NewsDetailActivity extends QkBaseActivity {
                 });
             }
         }
+    }
+
+    @OnClick(R.id.ll_cancle_follow)
+    public void clickCancel() {
+        ToastUtil.showToast(this, "头条取消跟进");
+        //mFollowDetailEvent.doCancleFollow(data.getAutoId() + "");
+        mLinHasFollow.setVisibility(View.GONE);
+        mLinNoFollow.setVisibility(View.VISIBLE);
+
+    }
+
+    @OnClick(R.id.ll_set_top)
+    public void clickSetUpTop() {
+        ToastUtil.showToast(this, "头条置顶");
+//        if (!TextUtils.equals(data.getTop() + "", "0")) {
+//            mFollowDetailEvent.doFollowSetUp(data.getAutoId() + "");
+//        } else if (!TextUtils.equals(data.getTop() + "", "1")) {
+//            mFollowDetailEvent.doFollowSetUpCancleTop(data.getAutoId() + "");
+//        }
+    }
+
+
+    @OnClick(R.id.ll_processed_finished)
+    public void clickProcess() {
+        ToastUtil.showToast(this, "处理完成");
+        // mFollowDetailEvent.doFollowDone(data.getAutoId() + "");
+
     }
 
     @Override

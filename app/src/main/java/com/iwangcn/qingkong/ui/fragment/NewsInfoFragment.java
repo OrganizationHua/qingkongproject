@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.iwangcn.qingkong.R;
 import com.iwangcn.qingkong.ui.base.BaseFragment;
+import com.iwangcn.qingkong.ui.model.EventDataVo;
 import com.iwangcn.qingkong.ui.model.NewsInfo;
 import com.iwangcn.qingkong.utils.AbDateUtil;
 import com.iwangcn.qingkong.utils.AbViewUtil;
@@ -51,12 +52,13 @@ public class NewsInfoFragment extends BaseFragment {
 
     private int position; //页号
     private NewsInfo mNewsInfo;
+    private EventDataVo mEventDataVo;
 
-    public static NewsInfoFragment newInstance(int position, NewsInfo newsInfo) {
+    public static NewsInfoFragment newInstance(int position, EventDataVo eventDataVo) {
         NewsInfoFragment fragment = new NewsInfoFragment();
         // Supply num input as an argument.
         Bundle args = new Bundle();
-        args.putSerializable("newsInfo", newsInfo);
+        args.putSerializable("eventDataVo", eventDataVo);
         args.putInt("position", position);
         fragment.setArguments(args);
         return fragment;
@@ -67,7 +69,8 @@ public class NewsInfoFragment extends BaseFragment {
         super.onCreate(savedInstanceState);
         //这里我只是简单的用num区别标签，其实具体应用中可以使用真实的fragment对象来作为叶片
         position = getArguments() != null ? getArguments().getInt("position") : 1;
-        mNewsInfo = getArguments() != null ? (NewsInfo) getArguments().getSerializable("newsInfo") : null;
+        mEventDataVo = getArguments() != null ? (EventDataVo) getArguments().getSerializable("eventDataVo") : null;
+        mNewsInfo=mEventDataVo.getData();
     }
 
     @Override
@@ -137,7 +140,11 @@ public class NewsInfoFragment extends BaseFragment {
                 TextView tv = (TextView) LayoutInflater.from(mContext).inflate(R.layout.tv,
                         parent, false);
                 tv.setText(o);
-                tv.setBackground(AbViewUtil.getShapeDrawable(mContext.getString(R.string.tag_normal)));
+                if (mEventDataVo.isFollowup()) {
+                    tv.setBackground(AbViewUtil.getShapeDrawable(mContext.getString(R.string.tag_color_orange)));
+                } else {
+                    tv.setBackground(AbViewUtil.getShapeDrawable(mContext.getString(R.string.tag_normal)));
+                }
                 return tv;
             }
         };

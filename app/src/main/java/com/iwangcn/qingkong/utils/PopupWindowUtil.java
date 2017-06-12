@@ -174,7 +174,7 @@ public class PopupWindowUtil {
             @Override
             public void onClick(View view) {
                 onConfirmListener.onClick(view);
-                popupWindow.dismiss();
+               // popupWindow.dismiss();
             }
         });
         return  popupWindow;
