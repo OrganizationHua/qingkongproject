@@ -74,10 +74,10 @@ public class HelperFollowRecyclerAdapter extends BaseRecyclerViewAdapter<HelperL
         //是否置顶
         if (TextUtils.equals(helperModel.getHelperProcess().getTop() + "", "0")) {
             holder.tv_is_top.setText("置顶");
-            holder.img_is_top.setImageResource(R.drawable.genjin_btn_untop);
-        } else if (!TextUtils.equals(helperModel.getHelperProcess().getTop() + "", "1")) {
-            holder.tv_is_top.setText("取消置顶");
             holder.img_is_top.setImageResource(R.drawable.genjin_btn_top);
+        } else if (TextUtils.equals(helperModel.getHelperProcess().getTop() + "", "1")) {
+            holder.tv_is_top.setText("取消置顶");
+            holder.img_is_top.setImageResource(R.drawable.genjin_btn_untop);
         }
         if (!TextUtils.isEmpty(helperModel.getHelperInfo().getFollowCount()) && Integer.valueOf(helperModel.getHelperInfo().getFollowCount()) > 0) {
             holder.btn_leave_message.setText("留言（" + helperModel.getHelperInfo().getFollowCount() + "）");

@@ -76,7 +76,7 @@ public class HeadLineFollowRecyclerAdapter extends BaseRecyclerViewAdapter<HeadL
             if (TextUtils.equals(helperModel.getTop() + "", "0")) {
                 holder.tv_is_top.setText("置顶");
                 holder.img_is_top.setImageResource(R.drawable.genjin_btn_top);
-            } else if (!TextUtils.equals(helperModel.getTop() + "", "1")) {
+            } else if (TextUtils.equals(helperModel.getTop() + "", "1")) {
                 holder.tv_is_top.setText("取消置顶");
                 holder.img_is_top.setImageResource(R.drawable.genjin_btn_untop);
             }
