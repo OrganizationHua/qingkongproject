@@ -145,7 +145,7 @@ public class NewsListAdapter extends BaseAdapter {
                 @Override
                 public View getView(FlowLayout parent, int position, String o) {
 
-                    TextView tv = (TextView) LayoutInflater.from(mContext).inflate(R.layout.tv,
+                    TextView tv = (TextView) LayoutInflater.from(mContext).inflate(R.layout.tag_tv_item,
                             parent, false);
                     tv.setText(o);
                     if (eventDataVo.isFollowup()) {

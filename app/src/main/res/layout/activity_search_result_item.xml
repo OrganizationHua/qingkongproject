@@ -38,7 +38,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="13dp"
+            android:layout_marginBottom="11dp"
             android:layout_marginTop="13dp">
 
             <TextView
@@ -68,6 +68,7 @@
             android:id="@+id/search_result_item_event"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="11dp"
             android:drawableLeft="@drawable/search_icon_from"
             android:drawablePadding="6dp"
             android:ellipsize="end"

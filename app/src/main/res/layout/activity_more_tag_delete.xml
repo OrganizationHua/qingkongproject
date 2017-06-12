@@ -29,12 +29,11 @@
     </LinearLayout>
 
     <com.zhy.view.flowlayout.TagFlowLayout
-        android:id="@+id/tag_source"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="9dp"
+        android:layout_marginTop="15dp"
+        android:id="@+id/more_tag_source"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingBottom="17dp"
-        android:paddingLeft="23dp"
-        android:paddingRight="23dp"
-        android:paddingTop="17dp"
         zhy:max_select="-1" />
 </LinearLayout>

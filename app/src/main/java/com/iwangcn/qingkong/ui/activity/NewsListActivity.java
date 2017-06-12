@@ -144,8 +144,9 @@ public class NewsListActivity extends BaseActivity {
                 if (!eventDataVo.isFollowup()) {//如果没有被跟进
                     Intent intent = new Intent(mContext, NewsDetailActivity.class);
                     intent.putExtra("NewsInfoList", (Serializable) getUnFollowNewsInfoList(mList));
-                    intent.putExtra("frontPageposition", i - 1);
-                    intent.putExtra("autoId", mIntentEventInfo.getEventInfo().getAutoId());//事件ID
+                    intent.putExtra("frontPageposition", (int)(i - 1));
+                    long autoId=mIntentEventInfo.getEventInfo().getAutoId();
+                    intent.putExtra("autoId", autoId);//事件ID
                     startActivityForResult(intent, REQUEST_CODE);
                 } else if (eventDataVo.isFollowup()) {//已跟进
                     HeadLineModel headLineModel = new HeadLineModel();
@@ -232,8 +233,8 @@ public class NewsListActivity extends BaseActivity {
         ToastUtil.showToast(this,"暂不支持");
 //        Intent intent = new Intent(this, TagFilterActivity.class);
 //        startActivityForResult(intent, 100);
-      // Intent intent = new Intent(this, MoreTagEditActivity.class);
-       // startActivityForResult(intent, 100);
+       Intent intent = new Intent(this, MoreTagEditActivity.class);
+        startActivityForResult(intent, 100);
     }
 
     @OnClick(R.id.base_img_right_lin)//收藏

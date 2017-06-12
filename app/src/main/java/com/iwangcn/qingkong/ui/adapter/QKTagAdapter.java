@@ -36,7 +36,7 @@ public class QKTagAdapter extends TagAdapter<QkTagModel> {
 
     @Override
     public View getView(FlowLayout parent, int position, final QkTagModel qkTagModel) {
-        LinearLayout ll = (LinearLayout) LayoutInflater.from(mContext).inflate(R.layout.tv,
+        LinearLayout ll = (LinearLayout) LayoutInflater.from(mContext).inflate(R.layout.tag_qk_tv,
                 parent, false);
         TextView tv = (TextView) ll.findViewById(R.id.tv);
         ImageView img = (ImageView) ll.findViewById(R.id.img_edit);

@@ -64,7 +64,6 @@ import butterknife.OnClick;
 public class MoreTagEditActivity extends QkBaseActivity implements RecycleViewItemTouchCallback.OnDragListener {
     private RecyclerView recycle_recommend;
     private LinearLayout ll_sure;
-    private boolean isActivated = false;//界面是否激活
     private TagEvent mTagEvent;
     private MoreRecycleViewTagAdapter mAdapter;
     private Context mContext = this;
