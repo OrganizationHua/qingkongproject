@@ -6,7 +6,9 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.iwangcn.qingkong.R;
 import com.iwangcn.qingkong.business.Event;
@@ -44,7 +46,12 @@ public class FollowDetailActivity extends QkBaseActivity {
 
     @BindView(R.id.tag_flowlayout)
     public TagFlowLayout tagFlowLayout;//标签
-
+    @BindView(R.id.ll_follow)
+    LinearLayout ll_follow;
+    @BindView(R.id.tv_follow)
+    TextView tv_follow;
+    @BindView(R.id.img)
+    ImageView img;
     @BindView(R.id.tv_is_top)
     TextView tv_is_top;
     @BindView(R.id.img_is_top)
@@ -79,10 +86,10 @@ public class FollowDetailActivity extends QkBaseActivity {
         mWebView.loadUrl(data.getEventData().getData().getUrl() == null ? "" : data.getEventData().getData().getUrl());
 
         //是否置顶
-        if (!TextUtils.equals(data.getTop() + "", "0")) {
+        if (TextUtils.equals(data.getTop() + "", "0")) {
             tv_is_top.setText("置顶");
             img_is_top.setImageResource(R.drawable.genjin_btn_top);
-        } else if (!TextUtils.equals(data.getTop() + "", "1")) {
+        } else if (TextUtils.equals(data.getTop() + "", "1")) {
             tv_is_top.setText("取消置顶");
             img_is_top.setImageResource(R.drawable.genjin_btn_untop);
         }
@@ -116,7 +123,7 @@ public class FollowDetailActivity extends QkBaseActivity {
         tagFlowLayout.setAdapter(new QKTagAdapter(this, list));
     }
 
-    @OnClick(R.id.ll_cancle_follow)
+    @OnClick(R.id.ll_follow)
     public void clickCancel() {
         headLineFollowEvent.doCancleFollow(data.getAutoId() + "");
 
@@ -124,9 +131,10 @@ public class FollowDetailActivity extends QkBaseActivity {
 
     @OnClick(R.id.ll_set_top)
     public void clickSetUpTop() {
-        if (!TextUtils.equals(data.getTop() + "", "0")) {
+        //是否置顶
+        if (TextUtils.equals(data.getTop() + "", "0")) {
             headLineFollowEvent.doFollowSetUp(data.getAutoId() + "");
-        } else if (!TextUtils.equals(data.getTop() + "", "1")) {
+        } else if (TextUtils.equals(data.getTop() + "", "1")) {
             headLineFollowEvent.doFollowSetUpCancleTop(data.getAutoId() + "");
         }
     }
@@ -174,6 +182,16 @@ public class FollowDetailActivity extends QkBaseActivity {
         if (event instanceof FollowDetailEvent) {
             if (event.getId() == 0) {
                 initTag((HeadLineModel) event.getObject());
+            } else if (event.getId() == 1) {
+                finish();
+            } else if (event.getId() == 2) {
+                data.setTop(1);
+                tv_is_top.setText("取消置顶");
+                img_is_top.setImageResource(R.drawable.genjin_btn_untop);
+            } else if (event.getId() == 3) {
+                data.setTop(0);
+                tv_is_top.setText("置顶");
+                img_is_top.setImageResource(R.drawable.genjin_btn_top);
             }
         }
     }
