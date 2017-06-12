@@ -192,12 +192,12 @@ public class HelperFollowFragment extends BaseFragment {
                 mNewsAdapter.notifyItemRemoved((int) helperFollowEvent.getObject());
             } else if (helperFollowEvent.getId() == 2) {//置顶
                 ToastUtil.showToast(getActivity(), "已置顶");
-//                mList.remove((int) helperFollowEvent.getObject());
-//                mNewsAdapter.notifyItemRemoved((int) helperFollowEvent.getObject());
+                mList.get((int) helperFollowEvent.getObject()).getHelperProcess().setTop(1);
+                mNewsAdapter.notifyItemChanged((int) helperFollowEvent.getObject());
             } else if (helperFollowEvent.getId() == 3) {////取消置顶
                 ToastUtil.showToast(getActivity(), "已取消置顶");
-//                mList.remove((int) helperFollowEvent.getObject());
-//                mNewsAdapter.notifyItemRemoved((int) helperFollowEvent.getObject());
+                mList.get((int) helperFollowEvent.getObject()).getHelperProcess().setTop(0);
+                mNewsAdapter.notifyItemChanged((int) helperFollowEvent.getObject());
             } else if (helperFollowEvent.getId() == 4) {//已处理
                 mList.remove((int) helperFollowEvent.getObject());
                 mNewsAdapter.notifyItemRemoved((int) helperFollowEvent.getObject());
