@@ -103,6 +103,7 @@
         android:layout_height="1px"
         android:background="@color/line_gray"></View>
     <RelativeLayout
+        android:id="@+id/rl_leave_message"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         >

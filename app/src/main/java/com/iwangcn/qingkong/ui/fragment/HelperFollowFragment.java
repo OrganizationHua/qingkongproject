@@ -190,6 +190,7 @@ public class HelperFollowFragment extends BaseFragment {
             } else if (helperFollowEvent.getId() == 1) {//取消跟进
                 mList.remove((int) helperFollowEvent.getObject());
                 mNewsAdapter.notifyItemRemoved((int) helperFollowEvent.getObject());
+                mNewsAdapter.notifyItemRangeChanged(0,mList.size()-((int)helperFollowEvent.getObject()));
             } else if (helperFollowEvent.getId() == 2) {//置顶
                 ToastUtil.showToast(getActivity(), "已置顶");
                 mList.get((int) helperFollowEvent.getObject()).getHelperProcess().setTop(1);
@@ -201,9 +202,11 @@ public class HelperFollowFragment extends BaseFragment {
             } else if (helperFollowEvent.getId() == 4) {//已处理
                 mList.remove((int) helperFollowEvent.getObject());
                 mNewsAdapter.notifyItemRemoved((int) helperFollowEvent.getObject());
+                mNewsAdapter.notifyItemRangeChanged(0,mList.size()-((int)helperFollowEvent.getObject()));
             } else if (helperFollowEvent.getId() == 5) {//重新处理
                 mList.remove((int) helperFollowEvent.getObject());
                 mNewsAdapter.notifyItemRemoved((int) helperFollowEvent.getObject());
+                mNewsAdapter.notifyItemRangeChanged(0,mList.size()-((int)helperFollowEvent.getObject()));
             } else if(event instanceof MoreTagEditEvent){
                 if(event.getId()==MoreTagEditEvent.TAG_UPDATE_HELP){
                     helperFollowEvent.getRefreshEventList(sourceType, tags);

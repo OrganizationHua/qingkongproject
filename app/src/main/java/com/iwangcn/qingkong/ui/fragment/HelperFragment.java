@@ -164,9 +164,11 @@ public class HelperFragment extends BaseFragment {
             } else if (helperEvent.getId() == 1) {//已跟进
                 mList.remove((int) helperEvent.getObject());
                 mNewsAdapter.notifyItemRemoved((int) helperEvent.getObject());
+                mNewsAdapter.notifyItemRangeChanged(0,mList.size()-((int)helperEvent.getObject()));
             } else if (helperEvent.getId() == 2) {//与我无关
                 mList.remove((int) helperEvent.getObject());
                 mNewsAdapter.notifyItemRemoved((int) helperEvent.getObject());
+                mNewsAdapter.notifyItemRangeChanged(0,mList.size()-((int)helperEvent.getObject()));
             }
         } else if (event instanceof LoadFailEvent) {
             mReloadRefreshView.finishRefreshing();

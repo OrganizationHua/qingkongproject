@@ -114,7 +114,7 @@ public class HeadLineFollowFragment extends BaseFragment {
                 } else {
                     mLinLoading.setVisibility(View.VISIBLE);
                 }
-                headLineFollowEvent.getRefreshEventList(sourceType,tags);
+                headLineFollowEvent.getRefreshEventList(sourceType, tags);
             }
         }.execute();
         mReloadRefreshView.setOnRefreshListener(new RefreshListenerAdapter() {
@@ -163,12 +163,14 @@ public class HeadLineFollowFragment extends BaseFragment {
             }
         }
     }
+
     @OnClick(R.id.system_no_data_lin)
     public void systemNoDataLin() {
         mNoData.setVisibility(View.GONE);
         mLinLoading.setVisibility(View.VISIBLE);
-        headLineFollowEvent.getRefreshEventList(sourceType,tags);
+        headLineFollowEvent.getRefreshEventList(sourceType, tags);
     }
+
     @Subscribe
     public void onEventMainThread(Event event) {
         if (event instanceof HeadLineFollowEvent) {
@@ -202,6 +204,7 @@ public class HeadLineFollowFragment extends BaseFragment {
             } else if (headLineFollowEvent.getId() == 1) {//取消跟进
                 mList.remove((int) headLineFollowEvent.getObject());
                 mNewsAdapter.notifyItemRemoved((int) headLineFollowEvent.getObject());
+                mNewsAdapter.notifyItemRangeChanged(0, mList.size() - ((int) headLineFollowEvent.getObject()));
             } else if (headLineFollowEvent.getId() == 2) {//置顶
                 ToastUtil.showToast(getActivity(), "已置顶");
                 mList.get((int) headLineFollowEvent.getObject()).setTop(1);
@@ -213,9 +216,11 @@ public class HeadLineFollowFragment extends BaseFragment {
             } else if (headLineFollowEvent.getId() == 4) {//已处理
                 mList.remove((int) headLineFollowEvent.getObject());
                 mNewsAdapter.notifyItemRemoved((int) headLineFollowEvent.getObject());
+                mNewsAdapter.notifyItemRangeChanged(0, mList.size() - ((int) headLineFollowEvent.getObject()));
             } else if (headLineFollowEvent.getId() == 5) {//重新处理
                 mList.remove((int) headLineFollowEvent.getObject());
                 mNewsAdapter.notifyItemRemoved((int) headLineFollowEvent.getObject());
+                mNewsAdapter.notifyItemRangeChanged(0, mList.size() - ((int) headLineFollowEvent.getObject()));
             }
         } else if (event instanceof LoadFailEvent) {
             mReloadRefreshView.finishRefreshing();

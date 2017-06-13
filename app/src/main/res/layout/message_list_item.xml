@@ -49,11 +49,11 @@
                 android:id="@+id/tv_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
                 android:layout_below="@+id/tv_message"
                 android:layout_centerInParent="true"
                 android:textSize="12sp" />
         </RelativeLayout>
-
 
     </LinearLayout>
 

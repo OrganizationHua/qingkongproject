@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.iwangcn.qingkong.R;
@@ -162,7 +163,7 @@ public class HelperFollowRecyclerAdapter extends BaseRecyclerViewAdapter<HelperL
             }
         });
         //留言
-        holder.ll_leave_message.setOnClickListener(new View.OnClickListener() {
+        holder.rl_leave_message.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(mContext, MessageListActivity.class).putExtra("message", helperModel);
@@ -219,8 +220,8 @@ public class HelperFollowRecyclerAdapter extends BaseRecyclerViewAdapter<HelperL
         @BindView(R.id.tag_flowlayout)
         public TagFlowLayout tagFlowLayout;//标签
 
-        @BindView(R.id.ll_leave_message)
-        public LinearLayout ll_leave_message;//留言
+        @BindView(R.id.rl_leave_message)
+        public RelativeLayout rl_leave_message;//留言
         @BindView(R.id.btn_leave_message)
         public TextView btn_leave_message;//留言
 
