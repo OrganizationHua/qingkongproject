@@ -233,11 +233,11 @@ public class NewsListActivity extends BaseActivity {
 
     @OnClick(R.id.base_act_right_lin)//选择器按钮
     public void onBtnFilter() {
-        ToastUtil.showToast(this,"暂不支持");
+        ToastUtil.showToast(this,"暂不支持筛选功能");
 //        Intent intent = new Intent(this, TagFilterActivity.class);
 //        startActivityForResult(intent, 100);
-       Intent intent = new Intent(this, MoreTagEditActivity.class);
-        startActivityForResult(intent, 100);
+//       Intent intent = new Intent(this, MoreTagEditActivity.class);
+//        startActivityForResult(intent, 100);
     }
 
     @OnClick(R.id.base_img_right_lin)//收藏

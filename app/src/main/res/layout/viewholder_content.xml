@@ -16,7 +16,7 @@ limitations under the License.
 <TextView xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/textview"
     android:layout_width="wrap_content"
-    android:layout_height="@dimen/tag_height"
+    android:layout_height="35dp"
     android:layout_marginBottom="9dp"
     android:layout_marginRight="9dp"
     android:background="@drawable/normal_bg"
