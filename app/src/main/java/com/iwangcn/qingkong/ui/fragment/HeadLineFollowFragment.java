@@ -55,7 +55,7 @@ public class HeadLineFollowFragment extends BaseFragment {
     private int type;
     private String sourceType = "";
     private String tags = "";
-
+    private int pos;//点击进入详情页的位置标记
     public static HeadLineFollowFragment newInstance(int type) {
         HeadLineFollowFragment myFragment = new HeadLineFollowFragment();
         Bundle bundle = new Bundle();
@@ -96,7 +96,8 @@ public class HeadLineFollowFragment extends BaseFragment {
                 Intent intent = new Intent(getActivity(), FollowDetailActivity.class)
                         .putExtra("data", data)
                         .putExtra("type", type);
-                startActivity(intent);
+                startActivityForResult(intent,1000);
+                pos=position;//记录进入详情页位置 用于详情页操作后删除列表页数据
             }
         });
         new AsyncTask<Object, Object, List<HeadLineModel>>() {
@@ -139,12 +140,16 @@ public class HeadLineFollowFragment extends BaseFragment {
         sourceType = "";
         tags = "";
 
-        if (resultCode == Activity.RESULT_OK) {
+        if (resultCode == Activity.RESULT_OK) {//筛选页返回
             Bundle bundle = data.getExtras();
             sourceType = bundle.getInt("sourceType") + "";
             tags = bundle.getString("tags");
             headLineFollowEvent.getRefreshEventList(sourceType, tags);
 
+        }else if (resultCode==1000){//从详情页返回
+            mList.remove(pos);
+            mNewsAdapter.notifyItemRemoved(pos);
+            mNewsAdapter.notifyItemRangeChanged(0, mList.size() - pos);
         }
 
     }
