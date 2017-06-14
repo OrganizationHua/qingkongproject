@@ -122,8 +122,8 @@ public class FollowDetailEvent extends Event implements NetConst {
             @Override
             public void onNext(NetResponse<String> netResponse) {
                 ToastUtil.showToast(mContext, "已处理成功");
-//                FollowDetailEvent.this.setId(4);
-//                EventBus.getDefault().post(FollowDetailEvent.this);
+                FollowDetailEvent.this.setId(4);
+                EventBus.getDefault().post(FollowDetailEvent.this);
             }
         });
     }

@@ -183,6 +183,7 @@ public class FollowDetailActivity extends QkBaseActivity {
             if (event.getId() == 0) {
                 initTag((HeadLineModel) event.getObject());
             } else if (event.getId() == 1) {
+                setResult(1000);
                 finish();
             } else if (event.getId() == 2) {
                 data.setTop(1);
@@ -192,6 +193,9 @@ public class FollowDetailActivity extends QkBaseActivity {
                 data.setTop(0);
                 tv_is_top.setText("置顶");
                 img_is_top.setImageResource(R.drawable.genjin_btn_top);
+            } else if (event.getId() == 4) {
+                setResult(1000);
+                finish();
             }
         }
     }
