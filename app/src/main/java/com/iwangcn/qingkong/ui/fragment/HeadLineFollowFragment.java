@@ -97,7 +97,7 @@ public class HeadLineFollowFragment extends BaseFragment {
                         .putExtra("data", data)
                         .putExtra("type", type);
                 startActivityForResult(intent,1000);
-                pos=position;
+                pos=position;//记录进入详情页位置 用于详情页操作后删除列表页数据
             }
         });
         new AsyncTask<Object, Object, List<HeadLineModel>>() {
