@@ -111,7 +111,7 @@ public class MoreRecycleViewTagAdapter extends BaseMultipleItemAdapter implement
                 ((FlexboxViewHolder) holder).bindTo(results2.get(position - getTwoTitlePosition() - 1), mContext,2);
             }
         } else if (holder instanceof LastViewHolder) {
-            ((LastViewHolder) holder).bindTo(editorActionListener,isAdd);
+            ((LastViewHolder) holder).bindTo(editorActionListener,isAdd,mContext);
         }
     }
 

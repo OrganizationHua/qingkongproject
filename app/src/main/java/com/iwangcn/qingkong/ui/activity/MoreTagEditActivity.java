@@ -110,15 +110,15 @@ public class MoreTagEditActivity extends QkBaseActivity implements RecycleViewIt
         if (type == 0) {
             doFollowEvent(intent, finalRecommendList, finalmyListList);
         } else if (type == 2) {
-           updateTags(intent, finalRecommendList, finalmyListList);
+            updateTags(intent, finalRecommendList, finalmyListList);
         }
     }
 
-    private void updateTags(Intent intent,List<ClientLabel> finalRecommendList, List<ClientLabel> finalmyListList) {
+    private void updateTags(Intent intent, List<ClientLabel> finalRecommendList, List<ClientLabel> finalmyListList) {
         long processId = intent.getLongExtra("processId", 0);
         int type = intent.getIntExtra("type", 0);
         MoreTagEditEvent moreTagEditEvent = new MoreTagEditEvent(this);
-        moreTagEditEvent.updateLabels(type,String.valueOf(processId),finalRecommendList,finalmyListList);
+        moreTagEditEvent.updateLabels(type, String.valueOf(processId), finalRecommendList, finalmyListList);
     }
 
     /**
@@ -127,10 +127,10 @@ public class MoreTagEditActivity extends QkBaseActivity implements RecycleViewIt
      * @param intent
      */
     private void doFollowEvent(Intent intent, List<ClientLabel> finalRecommendList, List<ClientLabel> finalmyListList) {
-        long autoId = intent.getLongExtra("autoId", 0);
+        long eventId = intent.getLongExtra("eventId", 0);
         long newsId = intent.getLongExtra("newsInfoAutoId", 0);
         final FollowDetailEvent followDetailEvent = new FollowDetailEvent(mContext);
-        followDetailEvent.doFollowEvent(String.valueOf(autoId), String.valueOf(newsId), finalRecommendList, finalmyListList, new BaseSubscriber(true) {
+        followDetailEvent.doFollowEvent(String.valueOf(eventId), String.valueOf(newsId), finalRecommendList, finalmyListList, new BaseSubscriber(true) {
             @Override
             public void onError(ExceptionHandle.ResponeThrowable e) {
                 ToastUtil.showToast(mContext, e.codeMessage);

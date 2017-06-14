@@ -233,7 +233,7 @@ public class NewsDetailActivity extends QkBaseActivity {
                         EventDataVo eventDataVo = mList.get(mViewPage.getCurrentItem());
                         NewsInfo newsInfo = eventDataVo.getData();
                         Intent intent = new Intent(mContext, MoreTagEditActivity.class);
-                        intent.putExtra("autoId", eventDataVo.getAutoId());
+                        intent.putExtra("eventId", eventDataVo.getEventId());
                         intent.putExtra("newsInfoAutoId", newsInfo.getAutoId());
                         intent.putExtra("type", 0);
                         startActivityForResult(intent, REQUEST_CODE);

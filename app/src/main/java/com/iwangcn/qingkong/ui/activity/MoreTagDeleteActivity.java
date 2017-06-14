@@ -36,8 +36,7 @@ public class MoreTagDeleteActivity extends QkBaseActivity {
 
     @Override
     public void initView() {
-        setTitle("更多业务标签");
-        setRightImg(R.drawable.toutiao_btn_done);
+        setTitle("编辑标签");
     }
 
     @Override
