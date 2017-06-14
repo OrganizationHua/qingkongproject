@@ -106,8 +106,9 @@ public class PopupWindowUtil {
         rootView.setVisibility(View.VISIBLE);
         LayoutInflater layoutInflater = LayoutInflater.from(context);
         View view = layoutInflater.inflate(R.layout.tag_popupwindow_more, null);
-        LinearLayout linbg = (LinearLayout) view.findViewById(R.id.tag_flowlayout_lin);
-        linbg.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, AbViewUtil.getScreenHeight(context) / 2));
+        LinearLayout linbg = (LinearLayout) view.findViewById(R.id.tag_flowlayout_lin);//574
+        //linbg.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, AbViewUtil.getScreenHeight(context) / 2));
+        linbg.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,620));
         Button btnConfig = (Button) view.findViewById(R.id.tag_btn_confirm);
         Button btnMore = (Button) view.findViewById(R.id.tag_btn_more);
         if (isMore) {

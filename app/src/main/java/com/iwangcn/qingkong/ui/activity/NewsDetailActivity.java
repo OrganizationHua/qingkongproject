@@ -215,9 +215,9 @@ public class NewsDetailActivity extends QkBaseActivity {
 
                             @Override
                             public void onNext(Object o) {
-                                if(mPopupWindow!=null&&mPopupWindow.isShowing()){
+                                if (mPopupWindow != null && mPopupWindow.isShowing()) {
                                     mPopupWindow.dismiss();
-                                    mPopupWindow=null;
+                                    mPopupWindow = null;
                                 }
                                 ToastUtil.showToast(mContext, "已跟进");
                                 mList.remove(mViewPage.getCurrentItem());
@@ -246,16 +246,18 @@ public class NewsDetailActivity extends QkBaseActivity {
 
     @OnClick(R.id.ll_cancle_follow)
     public void clickCancel() {
-        ToastUtil.showToast(this, "头条取消跟进");
-        //mFollowDetailEvent.doCancleFollow(data.getAutoId() + "");
-        mLinHasFollow.setVisibility(View.GONE);
-        mLinNoFollow.setVisibility(View.VISIBLE);
+        ToastUtil.showToast(this, "暂不支持");
+//        ToastUtil.showToast(this, "头条取消跟进");
+//        //mFollowDetailEvent.doCancleFollow(data.getAutoId() + "");
+//        mLinHasFollow.setVisibility(View.GONE);
+//        mLinNoFollow.setVisibility(View.VISIBLE);
 
     }
 
     @OnClick(R.id.ll_set_top)
     public void clickSetUpTop() {
-        ToastUtil.showToast(this, "头条置顶");
+        ToastUtil.showToast(this, "暂不支持");
+        // ToastUtil.showToast(this, "头条置顶");
 //        if (!TextUtils.equals(data.getTop() + "", "0")) {
 //            mFollowDetailEvent.doFollowSetUp(data.getAutoId() + "");
 //        } else if (!TextUtils.equals(data.getTop() + "", "1")) {
@@ -266,7 +268,8 @@ public class NewsDetailActivity extends QkBaseActivity {
 
     @OnClick(R.id.ll_processed_finished)
     public void clickProcess() {
-        ToastUtil.showToast(this, "处理完成");
+        ToastUtil.showToast(this, "暂不支持");
+        //  ToastUtil.showToast(this, "处理完成");
         // mFollowDetailEvent.doFollowDone(data.getAutoId() + "");
 
     }

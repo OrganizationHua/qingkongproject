@@ -91,7 +91,7 @@ public class NewsListActivity extends BaseActivity {
         mAbPullToRefreshView.setOnRefreshListener(new RefreshListenerAdapter() {
             @Override
             public void onRefresh(ReloadRefreshLayout refreshLayout) {
-                mEventBus.getRefreshEventList(mIntentEventInfo.getEventInfo());
+                mEventBus.getRefreshEventList(mIntentEventInfo.getEventInfo(), true);
             }
 
             @Override
@@ -134,32 +134,15 @@ public class NewsListActivity extends BaseActivity {
         mAnimAdapter.setAbsListView(mListView);
         mListView.setAdapter(mAnimAdapter);
         ViewCompat.setNestedScrollingEnabled(mListView, true);
-        mEventBus.getRefreshEventList(mIntentEventInfo.getEventInfo());
+        mEventBus.getRefreshEventList(mIntentEventInfo.getEventInfo(), true);
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                if (i == 0)  return;
+                if (i == 0) return;
                 Intent intent = new Intent(mContext, NewsDetailActivity.class);
                 intent.putExtra("eventDataVoList", (Serializable) mList);
-                intent.putExtra("frontPageposition", (int)(i - 1));
+                intent.putExtra("frontPageposition", (int) (i - 1));
                 startActivityForResult(intent, REQUEST_CODE);
-
-//                EventDataVo eventDataVo = mList.get(i - 1);
-//                if (!eventDataVo.isFollowup()) {//如果没有被跟进
-//                    Intent intent = new Intent(mContext, NewsDetailActivity.class);
-//                    intent.putExtra("NewsInfoList", (Serializable) getUnFollowNewsInfoList(mList));
-//                    intent.putExtra("frontPageposition", (int)(i - 1));
-//                    long autoId=mIntentEventInfo.getEventInfo().getAutoId();
-//                    intent.putExtra("autoId", autoId);//事件ID
-//                    startActivityForResult(intent, REQUEST_CODE);
-//                } else if (eventDataVo.isFollowup()) {//已跟进
-//                    HeadLineModel headLineModel = new HeadLineModel();
-//                    headLineModel.setAutoId((int) eventDataVo.getEventId());
-//                    Intent intent = new Intent(mContext, FollowDetailActivity.class)
-//                            .putExtra("data", headLineModel)
-//                            .putExtra("type", 1);
-//                    startActivity(intent);
-//                }
             }
         });
     }
@@ -227,13 +210,13 @@ public class NewsListActivity extends BaseActivity {
             mAbPullToRefreshView.finishLoadmore();
             mAbPullToRefreshView.finishRefreshing();
         } else if (event instanceof FollowDetailEvent) {
-            mEventBus.getRefreshEventList(mIntentEventInfo.getEventInfo());
+            mEventBus.getRefreshEventList(mIntentEventInfo.getEventInfo(), false);
         }
     }
 
     @OnClick(R.id.base_act_right_lin)//选择器按钮
     public void onBtnFilter() {
-        ToastUtil.showToast(this,"暂不支持筛选功能");
+        ToastUtil.showToast(this, "暂不支持筛选功能");
 //        Intent intent = new Intent(this, TagFilterActivity.class);
 //        startActivityForResult(intent, 100);
 //       Intent intent = new Intent(this, MoreTagEditActivity.class);

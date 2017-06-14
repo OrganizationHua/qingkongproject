@@ -33,7 +33,7 @@ public class NewsListBus extends Event implements NetConst {
         this.mContext = context;
     }
 
-    private void getDataList(int indexPage, EventInfo eventInfo) {
+    private void getDataList(int indexPage, EventInfo eventInfo,boolean isShow) {
         if (eventInfo == null) {
             ToastUtil.showToast(mContext, "数据异常");
             return;
@@ -43,7 +43,7 @@ public class NewsListBus extends Event implements NetConst {
         paratems.put("pageno", indexPage);
         paratems.put("sourceType", 1);
         paratems.put("eventId", eventInfo.getAutoId());
-        RetrofitInstance.getInstance().post(URL_EVENT_RELINFO, paratems, EventDataVo.class, new BaseSubscriber<NetResponse<List<EventDataVo>>>(true) {
+        RetrofitInstance.getInstance().post(URL_EVENT_RELINFO, paratems, EventDataVo.class, new BaseSubscriber<NetResponse<List<EventDataVo>>>(isShow) {
             @Override
             public void onError(ExceptionHandle.ResponeThrowable e) {
                 EventBus.getDefault().post(new LoadFailEvent());
@@ -66,11 +66,11 @@ public class NewsListBus extends Event implements NetConst {
 
     public void getMoreEvent(EventInfo eventInfoVo) {
         indexPage++;
-        getDataList(indexPage, eventInfoVo);
+        getDataList(indexPage, eventInfoVo,true);
     }
 
-    public void getRefreshEventList(EventInfo eventInfoVo) {
+    public void getRefreshEventList(EventInfo eventInfoVo,boolean isShow) {
         indexPage = 1;
-        getDataList(indexPage, eventInfoVo);
+        getDataList(indexPage, eventInfoVo,isShow);
     }
 }
