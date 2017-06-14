@@ -33,10 +33,10 @@
                         android:id="@+id/tag_flowlayout"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:paddingBottom="17dp"
-                        android:paddingLeft="23dp"
-                        android:paddingRight="23dp"
-                        android:paddingTop="17dp"
+                        android:layout_marginBottom="18dp"
+                        android:layout_marginLeft="16dp"
+                        android:layout_marginRight="9dp"
+                        android:layout_marginTop="9dp"
                         zhy:max_select="-1" />
 
                     <View
@@ -48,10 +48,10 @@
                         android:id="@+id/tag_flowlayout_mine"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:paddingBottom="17dp"
-                        android:paddingLeft="23dp"
-                        android:paddingRight="23dp"
-                        android:paddingTop="17dp"
+                        android:layout_marginBottom="18dp"
+                        android:layout_marginLeft="16dp"
+                        android:layout_marginRight="9dp"
+                        android:layout_marginTop="9dp"
                         zhy:max_select="-1" />
                 </LinearLayout>
 

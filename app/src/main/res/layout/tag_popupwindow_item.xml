@@ -2,14 +2,12 @@
 <TextView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="36dp"
-    android:layout_marginBottom="10dp"
     android:layout_marginRight="9dp"
+    android:layout_marginTop="9dp"
     android:background="@drawable/tag_popupwindown_select_norml"
     android:gravity="center"
-    android:paddingBottom="3dp"
     android:paddingLeft="9dp"
     android:paddingRight="9dp"
-    android:paddingTop="3dp"
     android:textColor="@color/font_gray"
     android:textSize="16sp">
 
