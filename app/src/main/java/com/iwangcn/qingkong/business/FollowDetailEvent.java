@@ -52,7 +52,7 @@ public class FollowDetailEvent extends Event implements NetConst {
         });
     }
 
-    public void doCancleFollow(String infoId) {//取消跟进
+    public void doCancleFollow(String infoId,final BaseSubscriber baseSubscriber) {//取消跟进
         HashMap paratems = new HashMap();
         paratems.put(USER_ID, UserManager.getUserInfo().getAutoId());
         paratems.put("infoId", infoId);
@@ -65,12 +65,14 @@ public class FollowDetailEvent extends Event implements NetConst {
             @Override
             public void onNext(NetResponse<String> netResponse) {
                 ToastUtil.showToast(mContext, "取消跟进成功");
+                if(baseSubscriber!=null){
+                    baseSubscriber.onNext(netResponse);
+                }
                 FollowDetailEvent.this.setId(1);
                 EventBus.getDefault().post(FollowDetailEvent.this);
             }
         });
     }
-
     public void doFollowSetUp(String infoId) {//置顶
         HashMap paratems = new HashMap();
         paratems.put(USER_ID, UserManager.getUserInfo().getAutoId());
@@ -85,6 +87,25 @@ public class FollowDetailEvent extends Event implements NetConst {
             public void onNext(NetResponse<String> netResponse) {
                 ToastUtil.showToast(mContext, "置顶成功");
                 FollowDetailEvent.this.setId(2);
+                EventBus.getDefault().post(FollowDetailEvent.this);
+            }
+        });
+    }
+    public void doFollowSetUp(String infoId,final BaseSubscriber baseSubscriber) {//置顶
+        HashMap paratems = new HashMap();
+        paratems.put(USER_ID, UserManager.getUserInfo().getAutoId());
+        paratems.put("infoId", infoId);
+        RetrofitInstance.getInstance().post(URL_EVENT_FOLLOWUP_SETTOP, paratems, String.class, new BaseSubscriber<NetResponse<String>>(false) {
+            @Override
+            public void onError(ExceptionHandle.ResponeThrowable e) {
+                ToastUtil.showToast(mContext, e.codeMessage);
+            }
+
+            @Override
+            public void onNext(NetResponse<String> netResponse) {
+                ToastUtil.showToast(mContext, "置顶成功");
+                FollowDetailEvent.this.setId(2);
+                baseSubscriber.onNext(netResponse);
                 EventBus.getDefault().post(FollowDetailEvent.this);
             }
         });
@@ -108,8 +129,27 @@ public class FollowDetailEvent extends Event implements NetConst {
             }
         });
     }
+    public void doFollowSetUpCancleTop(String infoId,final BaseSubscriber baseSubscriber) {//取消置顶
+        HashMap paratems = new HashMap();
+        paratems.put(USER_ID, UserManager.getUserInfo().getAutoId());
+        paratems.put("infoId", infoId);
+        RetrofitInstance.getInstance().post(URL_EVENT_FOLLOWUP_CANCELTOP, paratems, String.class, new BaseSubscriber<NetResponse<String>>(false) {
+            @Override
+            public void onError(ExceptionHandle.ResponeThrowable e) {
+                ToastUtil.showToast(mContext, e.codeMessage);
+            }
 
-    public void doFollowDone(String infoId) {//已处理
+            @Override
+            public void onNext(NetResponse<String> netResponse) {
+                ToastUtil.showToast(mContext, "取消置顶成功");
+                FollowDetailEvent.this.setId(3);
+                baseSubscriber.onNext(netResponse);
+                EventBus.getDefault().post(FollowDetailEvent.this);
+            }
+        });
+    }
+
+    public void doFollowDone(String infoId,final BaseSubscriber baseSubscriber) {//已处理
         HashMap paratems = new HashMap();
         paratems.put(USER_ID, UserManager.getUserInfo().getAutoId());
         paratems.put("infoId", infoId);
@@ -122,8 +162,9 @@ public class FollowDetailEvent extends Event implements NetConst {
             @Override
             public void onNext(NetResponse<String> netResponse) {
                 ToastUtil.showToast(mContext, "已处理成功");
-//                FollowDetailEvent.this.setId(4);
-//                EventBus.getDefault().post(FollowDetailEvent.this);
+                if(baseSubscriber!=null){
+                    baseSubscriber.onNext(netResponse);
+                }
             }
         });
     }

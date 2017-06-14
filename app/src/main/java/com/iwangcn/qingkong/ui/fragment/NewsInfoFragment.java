@@ -4,7 +4,6 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -13,13 +12,13 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.iwangcn.qingkong.R;
+import com.iwangcn.qingkong.ui.adapter.QKTagAdapter;
 import com.iwangcn.qingkong.ui.base.BaseFragment;
+import com.iwangcn.qingkong.ui.model.EventData;
 import com.iwangcn.qingkong.ui.model.EventDataVo;
 import com.iwangcn.qingkong.ui.model.NewsInfo;
+import com.iwangcn.qingkong.ui.model.QkTagModel;
 import com.iwangcn.qingkong.utils.AbDateUtil;
-import com.iwangcn.qingkong.utils.AbViewUtil;
-import com.zhy.view.flowlayout.FlowLayout;
-import com.zhy.view.flowlayout.TagAdapter;
 import com.zhy.view.flowlayout.TagFlowLayout;
 
 import java.util.ArrayList;
@@ -70,7 +69,7 @@ public class NewsInfoFragment extends BaseFragment {
         //这里我只是简单的用num区别标签，其实具体应用中可以使用真实的fragment对象来作为叶片
         position = getArguments() != null ? getArguments().getInt("position") : 1;
         mEventDataVo = getArguments() != null ? (EventDataVo) getArguments().getSerializable("eventDataVo") : null;
-        mNewsInfo=mEventDataVo.getData();
+        mNewsInfo = mEventDataVo.getEventData().getData();
     }
 
     @Override
@@ -93,9 +92,8 @@ public class NewsInfoFragment extends BaseFragment {
             }
             mNewsTime.setText(AbDateUtil.getStringByFormat(mNewsInfo.getPubtime(), "yyyy-MM-dd"));
         }
-        if (!TextUtils.isEmpty(mNewsInfo.getKeywords())) {
-            initTabLayout(mNewsInfo.getKeywords());
-        }
+
+        tagFlowLayout.setAdapter(new QKTagAdapter(getActivity(),getTagList(mEventDataVo)));
     }
 
     private void initWebView(String url) {
@@ -130,24 +128,32 @@ public class NewsInfoFragment extends BaseFragment {
         this.mWebView.loadUrl(url);
     }
 
-    private void initTabLayout(String keywords) {
-        List<String> itemData = new ArrayList<String>(3);
-        itemData.add(keywords);
-        TagAdapter<String> tagAdapter = new TagAdapter<String>(itemData) {
-            @Override
-            public View getView(FlowLayout parent, int position, String o) {
-
-                TextView tv = (TextView) LayoutInflater.from(mContext).inflate(R.layout.tv,
-                        parent, false);
-                tv.setText(o);
-                if (mEventDataVo.isFollowup()) {
-                    tv.setBackground(AbViewUtil.getShapeDrawable(mContext.getString(R.string.tag_color_orange)));
-                } else {
-                    tv.setBackground(AbViewUtil.getShapeDrawable(mContext.getString(R.string.tag_normal)));
+    private List<QkTagModel> getTagList(EventDataVo eventDataVo) {
+        EventData eventData = eventDataVo.getEventData();
+        NewsInfo model = eventData.getData();
+        List<QkTagModel> list = new ArrayList<>();
+        if (!TextUtils.isEmpty(model.getKeywords())) {
+            String[] keyworsArr = model.getKeywords().split(",");
+            for (String tagString : keyworsArr) {
+                if(!TextUtils.isEmpty(tagString)){
+                    list.add(new QkTagModel(1, tagString, 1, eventDataVo.getAutoId()));
                 }
-                return tv;
             }
-        };
-        tagFlowLayout.setAdapter(tagAdapter);
+        }
+        if (eventDataVo.getBusinessLabels() != null) {
+            for (String tagString : eventDataVo.getBusinessLabels()) {
+                if(!TextUtils.isEmpty(tagString)){
+                    list.add(new QkTagModel(2, tagString, 1, eventDataVo.getAutoId()));
+                }
+            }
+        }
+        if (eventDataVo.getSelfLabels() != null) {
+            for (String tagString : eventDataVo.getSelfLabels()) {
+                if(!TextUtils.isEmpty(tagString)){
+                    list.add(new QkTagModel(3, tagString, 1, eventDataVo.getAutoId()));
+                }
+            }
+        }
+        return list;
     }
 }

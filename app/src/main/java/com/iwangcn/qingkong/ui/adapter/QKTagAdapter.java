@@ -26,7 +26,8 @@ import java.util.List;
 public class QKTagAdapter extends TagAdapter<QkTagModel> {
     private List<QkTagModel> mList;
     private Context mContext;
-    private String[] tagColors = new String[]{"#0a83c9", "#59b95e", "#ff8400", "#efbf00"};
+    //0:蓝色  1//绿色  //2橙色 //3橙色-我的
+    private String[] tagColors = new String[]{"#0a83c9", "#59b95e", "#f1924e", "#e7bf3f"};
 
     public QKTagAdapter(Context context, List<QkTagModel> data) {
         super(data);

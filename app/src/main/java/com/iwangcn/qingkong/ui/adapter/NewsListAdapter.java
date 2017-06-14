@@ -12,12 +12,12 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.iwangcn.qingkong.R;
+import com.iwangcn.qingkong.ui.model.EventData;
 import com.iwangcn.qingkong.ui.model.EventDataVo;
 import com.iwangcn.qingkong.ui.model.NewsInfo;
+import com.iwangcn.qingkong.ui.model.QkTagModel;
 import com.iwangcn.qingkong.utils.AbDateUtil;
 import com.iwangcn.qingkong.utils.AbViewUtil;
-import com.zhy.view.flowlayout.FlowLayout;
-import com.zhy.view.flowlayout.TagAdapter;
 import com.zhy.view.flowlayout.TagFlowLayout;
 
 import java.util.ArrayList;
@@ -75,7 +75,8 @@ public class NewsListAdapter extends BaseAdapter {
             viewHolder = (ViewHolder) convertView.getTag();
         }
         final EventDataVo eventDataVo = mList.get(position);
-        NewsInfo model = eventDataVo.getData();
+        EventData eventData = eventDataVo.getEventData();
+        NewsInfo model = eventData.getData();
         if (position == 0) {
             viewHolder.imgIconUp.setVisibility(View.VISIBLE);
         } else {
@@ -86,7 +87,7 @@ public class NewsListAdapter extends BaseAdapter {
         } else {
             viewHolder.imgIconDown.setVisibility(View.GONE);
         }
-        if (model.isSelect()) {
+        if (eventDataVo.isSelect()) {
             viewHolder.imgBlueCircle.setVisibility(View.GONE);
             viewHolder.imgGreenCircl.setVisibility(View.VISIBLE);
             viewHolder.linContent.setVisibility(View.VISIBLE);
@@ -113,7 +114,7 @@ public class NewsListAdapter extends BaseAdapter {
         viewHolder.newsYear.setText(AbDateUtil.getStringByFormat(model.getPubtime(), "yyyy"));
         viewHolder.newsDay.setText(AbDateUtil.getStringByFormat(model.getPubtime(), "MM-dd"));
         if (position != 0) {//判断是否显示年份
-            if (AbDateUtil.getYear(model.getPubtime()) != AbDateUtil.getYear(mList.get(position - 1).getData().getPubtime())) {
+            if (AbDateUtil.getYear(model.getPubtime()) != AbDateUtil.getYear(mList.get(position - 1).getEventData().getUpdateTime())) {
                 viewHolder.newsYear.setVisibility(View.VISIBLE);
             } else {
                 viewHolder.newsYear.setVisibility(View.INVISIBLE);
@@ -122,43 +123,54 @@ public class NewsListAdapter extends BaseAdapter {
         viewHolder.linBlueCircl.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (mList.get(position).getData().isSelect()) {
+                if (mList.get(position).isSelect()) {
                     return;
                 } else {
                     //把之前选中的取消
                     for (int i = 0; i < mList.size() - 1; i++) {
-                        if (mList.get(i).getData().isSelect()) {
-                            mList.get(i).getData().setSelect(false);
+                        if (mList.get(i).isSelect()) {
+                            mList.get(i).setSelect(false);
                             break;
                         }
                     }
                     //选中当前的
-                    mList.get(position).getData().setSelect(true);
+                    mList.get(position).setSelect(true);
                     AbViewUtil.expand(viewHolder.linContent);
                     notifyDataSetChanged();
                 }
             }
         });
-        if (!TextUtils.isEmpty(model.getKeywords())) {
-
-            TagAdapter<String> tagAdapter = new TagAdapter<String>(initDatas(model.getKeywords())) {
-                @Override
-                public View getView(FlowLayout parent, int position, String o) {
-
-                    TextView tv = (TextView) LayoutInflater.from(mContext).inflate(R.layout.tag_tv_item,
-                            parent, false);
-                    tv.setText(o);
-                    if (eventDataVo.isFollowup()) {
-                        tv.setBackground(AbViewUtil.getShapeDrawable(mContext.getString(R.string.tag_color_orange)));
-                    } else {
-                        tv.setBackground(AbViewUtil.getShapeDrawable(mContext.getString(R.string.tag_normal)));
-                    }
-                    return tv;
-                }
-            };
-            viewHolder.tagFlowLayout.setAdapter(tagAdapter);
-        }
+        viewHolder.tagFlowLayout.setAdapter(new QKTagAdapter(mContext, getTagList(mList.get(position))));
         return convertView;
+    }
+
+    private List<QkTagModel> getTagList(EventDataVo eventDataVo) {
+        EventData eventData = eventDataVo.getEventData();
+        NewsInfo model = eventData.getData();
+        List<QkTagModel> list = new ArrayList<>();
+        if (!TextUtils.isEmpty(model.getKeywords())) {
+            String[] keyworsArr = model.getKeywords().split(",");
+            for (String tagString : keyworsArr) {
+                if(!TextUtils.isEmpty(tagString)){
+                    list.add(new QkTagModel(1, tagString, 1, eventDataVo.getAutoId()));
+                }
+            }
+        }
+        if (eventDataVo.getBusinessLabels() != null) {
+            for (String tagString : eventDataVo.getBusinessLabels()) {
+                if(!TextUtils.isEmpty(tagString)){
+                    list.add(new QkTagModel(2, tagString, 1, eventDataVo.getAutoId()));
+                }
+            }
+        }
+        if (eventDataVo.getSelfLabels() != null) {
+            for (String tagString : eventDataVo.getSelfLabels()) {
+                if(!TextUtils.isEmpty(tagString)){
+                    list.add(new QkTagModel(3, tagString, 1, eventDataVo.getAutoId()));
+                }
+            }
+        }
+        return list;
     }
 
     //自定义的ViewHolder，持有每个Item的的所有界面元素

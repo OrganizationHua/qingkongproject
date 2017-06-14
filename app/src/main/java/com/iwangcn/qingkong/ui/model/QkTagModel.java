@@ -7,7 +7,7 @@ package com.iwangcn.qingkong.ui.model;
 public class QkTagModel {
     private int colorType = 0;
     private String tagText;
-    private int type;
+    private int type;//1：头条跟进消息 2：助手跟进数据
     private long processId;
 
     public int getType() {

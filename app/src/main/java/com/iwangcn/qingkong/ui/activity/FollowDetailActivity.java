@@ -8,7 +8,6 @@ import android.webkit.WebViewClient;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.iwangcn.qingkong.R;
 import com.iwangcn.qingkong.business.Event;
@@ -99,8 +98,8 @@ public class FollowDetailActivity extends QkBaseActivity {
         List<QkTagModel> list = new ArrayList<>();
 //        list.add(new QkTagModel(0, (String) SpUtils.get(this, data.getEventData().getDataType() + "", "1")));
 //        if (data.getEventData().getDataType() == 1 || data.getEventData().getDataType() == 5) {
-//            if (!TextUtils.isEmpty(data.getEventData().getData().getKeywords())) {
-//                list.add(new QkTagModel(1, data.getEventData().getData().getKeywords()));
+//            if (!TextUtils.isEmpty(data.getEventData().getEventData().getKeywords())) {
+//                list.add(new QkTagModel(1, data.getEventData().getEventData().getKeywords()));
 //
 //            }
 //        }
@@ -125,7 +124,7 @@ public class FollowDetailActivity extends QkBaseActivity {
 
     @OnClick(R.id.ll_follow)
     public void clickCancel() {
-        headLineFollowEvent.doCancleFollow(data.getAutoId() + "");
+        headLineFollowEvent.doCancleFollow(data.getAutoId() + "",null);
 
     }
 
@@ -142,7 +141,7 @@ public class FollowDetailActivity extends QkBaseActivity {
 
     @OnClick(R.id.ll_processed_finished)
     public void clickProcess() {
-        headLineFollowEvent.doFollowDone(data.getAutoId() + "");
+        headLineFollowEvent.doFollowDone(data.getAutoId() + "",null);
 
     }
 

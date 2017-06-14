@@ -132,11 +132,13 @@
                 android:gravity="center">
 
                 <ImageView
+                    android:id="@+id/news_detail_set_top_img"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/genjin_btn_top" />
 
                 <TextView
+                    android:id="@+id/news_detail_set_top_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_gravity="center"

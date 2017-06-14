@@ -49,6 +49,7 @@ import com.iwangcn.qingkong.utils.ToastUtil;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -126,7 +127,7 @@ public class MoreTagEditActivity extends QkBaseActivity implements RecycleViewIt
      *
      * @param intent
      */
-    private void doFollowEvent(Intent intent, List<ClientLabel> finalRecommendList, List<ClientLabel> finalmyListList) {
+    private void doFollowEvent(Intent intent, final List<ClientLabel> finalRecommendList, final List<ClientLabel> finalmyListList) {
         long eventId = intent.getLongExtra("eventId", 0);
         long newsId = intent.getLongExtra("newsInfoAutoId", 0);
         final FollowDetailEvent followDetailEvent = new FollowDetailEvent(mContext);
@@ -140,6 +141,8 @@ public class MoreTagEditActivity extends QkBaseActivity implements RecycleViewIt
             public void onNext(Object o) {
                 ToastUtil.showToast(mContext, "已跟进");
                 Intent intent = new Intent();
+                intent.putExtra("finalRecommendList", (Serializable) finalRecommendList);
+                intent.putExtra("finalmyListList", (Serializable) finalmyListList);
                 setResult(RESULT_OK, intent);
                 finish();
                 //EventBus.getDefault().post(followDetailEvent);

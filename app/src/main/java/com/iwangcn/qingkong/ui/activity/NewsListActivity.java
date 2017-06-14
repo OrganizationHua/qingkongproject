@@ -27,7 +27,6 @@ import com.iwangcn.qingkong.ui.base.BaseActivity;
 import com.iwangcn.qingkong.ui.model.EventDataVo;
 import com.iwangcn.qingkong.ui.model.EventInfo;
 import com.iwangcn.qingkong.ui.model.EventInfoVo;
-import com.iwangcn.qingkong.ui.model.NewsInfo;
 import com.iwangcn.qingkong.ui.view.freshwidget.RefreshListenerAdapter;
 import com.iwangcn.qingkong.ui.view.freshwidget.ReloadRefreshLayout;
 import com.iwangcn.qingkong.utils.AbDateUtil;
@@ -147,15 +146,6 @@ public class NewsListActivity extends BaseActivity {
         });
     }
 
-    private List<NewsInfo> getUnFollowNewsInfoList(List<EventDataVo> mList) {
-        List<NewsInfo> newsList = new ArrayList<>();
-
-        for (EventDataVo model : mList) {
-            newsList.add(model.getData());
-        }
-        return newsList;
-    }
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -165,9 +155,9 @@ public class NewsListActivity extends BaseActivity {
                 mListView.setSelection(position);
                 for (int i = 0; i < mList.size(); i++) {
                     if (i == position) {
-                        mList.get(i).getData().setSelect(true);
+                        mList.get(i).setSelect(true);
                     } else {
-                        mList.get(i).getData().setSelect(false);
+                        mList.get(i).setSelect(false);
                     }
                 }
                 mAdapter.setDataList(mList);
@@ -199,7 +189,7 @@ public class NewsListActivity extends BaseActivity {
                 if (list.size() == 0) {
                     ToastUtil.showToast(this, "暂无相关新闻");
                 } else {
-                    list.get(0).getData().setSelect(true);
+                    list.get(0).setSelect(true);
                 }
                 mAbPullToRefreshView.finishRefreshing();
                 mList.clear();

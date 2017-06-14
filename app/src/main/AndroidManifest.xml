@@ -58,7 +58,11 @@
         <activity android:name=".ui.activity.BGABannerActivity" />
         <activity android:name=".ui.activity.TagFilterActivity" />
         <activity android:name=".ui.activity.MoreTagDeleteActivity" />
-        <activity android:name=".ui.activity.PicActivity"></activity>
+        <activity android:name=".ui.activity.PicActivity"></activity><!-- ATTENTION: This was auto-generated to add Google Play services to your project for
+     App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information. -->
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
     </application>
 
 </manifest>

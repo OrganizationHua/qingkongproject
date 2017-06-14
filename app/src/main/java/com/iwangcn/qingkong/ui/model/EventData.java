@@ -116,4 +116,5 @@ public class EventData extends BaseBean {
     public void setUpdateTime(long updateTime) {
         this.updateTime = updateTime;
     }
+
 }

@@ -8,21 +8,18 @@ import com.iwangcn.qingkong.net.BaseBean;
  */
 
 public class EventDataVo extends BaseBean {
-    long autoId;//  主键id
-    long eventId;// 事件id
-    int dataType;//原始数据类型
-    long dataId;//原始数据id
-    NewsInfo data;
-    int validity;//暂不用
-    String feature;//运营段处理后增加的关键词
-    int status;//状态
-    int userId;//处理该数据的用户id
-    int process;//是否已处理
-    long insertTime;
-    long updateTime;
-    String[] businessLabels;//业务标签
-    String[] selfLabels;//自定义标签
-    boolean followup;//是否跟进
+    private long autoId;//  主键id
+    private long eventDataId;// 事件id
+    private EventData eventData;
+    private int type;
+    private String[] businessLabels;//业务标签
+    private String[] selfLabels;//自定义标签
+    private int process;//是否已处理
+    private long updateTime;
+    private int top;
+    private int display;
+    private int status;//状态
+    private boolean isSelect;//是否被选中
 
     public long getAutoId() {
         return autoId;
@@ -32,92 +29,28 @@ public class EventDataVo extends BaseBean {
         this.autoId = autoId;
     }
 
-    public long getEventId() {
-        return eventId;
+    public long getEventDataId() {
+        return eventDataId;
     }
 
-    public void setEventId(long eventId) {
-        this.eventId = eventId;
+    public void setEventDataId(long eventDataId) {
+        this.eventDataId = eventDataId;
     }
 
-    public int getDataType() {
-        return dataType;
+    public EventData getEventData() {
+        return eventData;
     }
 
-    public void setDataType(int dataType) {
-        this.dataType = dataType;
+    public void setEventData(EventData eventData) {
+        this.eventData = eventData;
     }
 
-    public long getDataId() {
-        return dataId;
+    public int getType() {
+        return type;
     }
 
-    public void setDataId(long dataId) {
-        this.dataId = dataId;
-    }
-
-    public NewsInfo getData() {
-        return data;
-    }
-
-    public void setData(NewsInfo data) {
-        this.data = data;
-    }
-
-    public int getValidity() {
-        return validity;
-    }
-
-    public void setValidity(int validity) {
-        this.validity = validity;
-    }
-
-    public String getFeature() {
-        return feature;
-    }
-
-    public void setFeature(String feature) {
-        this.feature = feature;
-    }
-
-    public int getStatus() {
-        return status;
-    }
-
-    public void setStatus(int status) {
-        this.status = status;
-    }
-
-    public int getUserId() {
-        return userId;
-    }
-
-    public void setUserId(int userId) {
-        this.userId = userId;
-    }
-
-    public int getProcess() {
-        return process;
-    }
-
-    public void setProcess(int process) {
-        this.process = process;
-    }
-
-    public long getInsertTime() {
-        return insertTime;
-    }
-
-    public void setInsertTime(long insertTime) {
-        this.insertTime = insertTime;
-    }
-
-    public long getUpdateTime() {
-        return updateTime;
-    }
-
-    public void setUpdateTime(long updateTime) {
-        this.updateTime = updateTime;
+    public void setType(int type) {
+        this.type = type;
     }
 
     public String[] getBusinessLabels() {
@@ -136,13 +69,51 @@ public class EventDataVo extends BaseBean {
         this.selfLabels = selfLabels;
     }
 
-    public boolean isFollowup() {
-        return followup;
+    public int getProcess() {
+        return process;
     }
 
-    public void setFollowup(boolean followup) {
-        this.followup = followup;
+    public void setProcess(int process) {
+        this.process = process;
     }
 
+    public long getUpdateTime() {
+        return updateTime;
+    }
 
+    public void setUpdateTime(long updateTime) {
+        this.updateTime = updateTime;
+    }
+
+    public int getTop() {
+        return top;
+    }
+
+    public void setTop(int top) {
+        this.top = top;
+    }
+
+    public int getDisplay() {
+        return display;
+    }
+
+    public void setDisplay(int display) {
+        this.display = display;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
+
+    public boolean isSelect() {
+        return isSelect;
+    }
+
+    public void setSelect(boolean select) {
+        isSelect = select;
+    }
 }
