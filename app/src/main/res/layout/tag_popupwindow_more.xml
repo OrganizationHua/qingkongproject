@@ -17,7 +17,7 @@
         <LinearLayout
             android:id="@+id/tag_flowlayout_lin"
             android:layout_width="match_parent"
-            android:layout_height="328dp"
+            android:layout_height="wrap_content"
             android:background="@drawable/tag_popup_gray_bg">
 
             <ScrollView

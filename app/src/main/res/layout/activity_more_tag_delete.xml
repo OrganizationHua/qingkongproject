@@ -11,6 +11,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/background_gray"
         android:orientation="vertical">
 
         <TextView
@@ -18,15 +19,16 @@
             android:layout_height="50dp"
             android:layout_marginLeft="14dp"
             android:gravity="center_vertical"
-            android:text="点击自定标签可删除"
+            android:text="点击自定义标签可删除"
             android:textColor="@color/font_gray"
             android:textSize="15sp" />
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1px"
-            android:background="@color/line_gray"></View>
     </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/line_gray"></View>
 
     <com.zhy.view.flowlayout.TagFlowLayout
         android:id="@+id/more_tag_source"

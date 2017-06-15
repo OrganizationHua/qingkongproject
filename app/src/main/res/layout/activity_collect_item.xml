@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:background="@android:color/white"
     android:orientation="vertical">
 
@@ -30,6 +30,12 @@
             android:scaleType="fitXY"
             android:src="@drawable/default_icon" />
 
+        <ImageView
+            android:layout_width="85dp"
+            android:layout_height="85dp"
+            android:layout_alignLeft="@+id/home_fragment_item_icon"
+            android:layout_alignTop="@+id/home_fragment_item_icon"
+            android:src="@drawable/home_fragment_itme_img_mark" />
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -43,7 +49,7 @@
                 android:layout_height="0dp"
                 android:layout_marginRight="18dp"
                 android:layout_weight="5"
-                android:gravity="center_vertical">
+                android:gravity="top">
 
                 <TextView
                     android:id="@+id/news_title"
@@ -73,7 +79,7 @@
                     android:gravity="center">
 
                     <ImageView
-                        
+
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
@@ -120,8 +126,8 @@
         </LinearLayout>
 
     </RelativeLayout>
-
     <View
+        android:layout_alignBottom="@+id/home_fragment_item_icon"
         android:layout_width="match_parent"
         android:layout_height="1px"
         android:background="@color/line_gray"></View>

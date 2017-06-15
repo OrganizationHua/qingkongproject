@@ -84,7 +84,7 @@ public class FacoriteAdapter extends ArrayAdapter implements UndoAdapter {
             @Override
             public void onClick(View view) {
                 final MyCommonDialog dialog = new MyCommonDialog(mContext);
-                dialog.setContent("确认取消？");
+                dialog.setContent("确认取消收藏？");
                 dialog.setOnDialogClick(new MyCommonDialog.DialogInterface() {
                     @Override
                     public void onCancle() {

@@ -102,7 +102,7 @@ public class NewsListActivity extends BaseActivity {
     }
 
     private View initListHeadView() {
-        View headView = LayoutInflater.from(this).inflate(R.layout.activity_eventinfo_headview, null);
+        View headView = LayoutInflater.from(this).inflate(R.layout.news_list_head_item, null);
         ImageView imageIcon = (ImageView) headView.findViewById(R.id.home_fragment_item_icon);
         TextView tvTitle = (TextView) headView.findViewById(R.id.news_title);
         TextView tvNumb = (TextView) headView.findViewById(R.id.new_item_num);

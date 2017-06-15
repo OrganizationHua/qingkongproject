@@ -16,18 +16,21 @@
         android:orientation="vertical">
 
         <TextView
+            android:gravity="center"
+            android:layout_weight="1"
             android:id="@+id/newslist_item_year"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:text="2017"
             android:textColor="@color/font_gray"
             android:textSize="11dp" />
 
         <TextView
+            android:gravity="center"
+            android:layout_height="0dp"
             android:id="@+id/newslist_item_day"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
+            android:layout_weight="1"
             android:text="02"
             android:textColor="@color/font_gray"
             android:textSize="11dp" />
@@ -100,7 +103,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_marginTop="22dp"
+            android:layout_marginTop="18dp"
             android:orientation="vertical">
 
             <LinearLayout
@@ -120,6 +123,7 @@
                         android:layout_height="wrap_content"
                         android:gravity="center_vertical"
                         android:maxLines="2"
+                        android:lineSpacingMultiplier="1.2"
                         android:textColor="@color/font_black"
                         android:textSize="18sp" />
                 </LinearLayout>
@@ -160,6 +164,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:maxLines="2"
+                        android:lineSpacingMultiplier="1.2"
                         android:textColor="@color/font_gray"
                         android:textSize="14sp" />
 
@@ -176,7 +181,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="1px"
                 android:layout_alignParentBottom="true"
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="18dp"
                 android:background="@color/line_gray"></View>
         </LinearLayout>
     </RelativeLayout>

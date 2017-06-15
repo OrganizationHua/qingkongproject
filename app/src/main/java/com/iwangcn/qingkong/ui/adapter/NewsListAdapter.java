@@ -117,7 +117,7 @@ public class NewsListAdapter extends BaseAdapter {
             if (AbDateUtil.getYear(model.getPubtime()) != AbDateUtil.getYear(mList.get(position - 1).getEventData().getUpdateTime())) {
                 viewHolder.newsYear.setVisibility(View.VISIBLE);
             } else {
-                viewHolder.newsYear.setVisibility(View.INVISIBLE);
+                viewHolder.newsYear.setVisibility(View.GONE);
             }
         }
         viewHolder.linBlueCircl.setOnClickListener(new View.OnClickListener() {

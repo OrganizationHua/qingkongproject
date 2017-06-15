@@ -55,7 +55,7 @@ public class MoreTagDeleteActivity extends QkBaseActivity {
 
     private void deleteTag(final int position) {
         final MyCommonDialog dialog = new MyCommonDialog(mContext);
-        dialog.setContent("确认取消？");
+        dialog.setContent("确认删除标签？");
         dialog.setOnDialogClick(new MyCommonDialog.DialogInterface() {
             @Override
             public void onCancle() {

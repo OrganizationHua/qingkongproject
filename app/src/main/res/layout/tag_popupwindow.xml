@@ -18,18 +18,19 @@
             android:layout_width="match_parent"
             android:layout_height="170dp"
             android:background="@drawable/tag_popup_gray_bg">
+
             <ScrollView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
                 <com.zhy.view.flowlayout.TagFlowLayout
-                    android:paddingBottom="17dp"
-                    android:paddingLeft="23dp"
-                    android:paddingRight="23dp"
-                    android:paddingTop="17dp"
                     android:id="@+id/tag_flowlayout"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:layout_marginBottom="18dp"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="9dp"
+                    android:layout_marginTop="9dp"
                     zhy:max_select="-1" />
             </ScrollView>
 
@@ -42,11 +43,11 @@
             android:background="@color/line_gray"></View>
 
         <Button
-            android:background="@drawable/gray_btn_select"
             android:id="@+id/tag_btn_confirm"
             style="?android:attr/borderlessButtonStyle"
             android:layout_width="match_parent"
             android:layout_height="50dp"
+            android:background="@drawable/gray_btn_select"
             android:gravity="center"
             android:text="确定"
             android:textColor="@color/font_gray_666"
