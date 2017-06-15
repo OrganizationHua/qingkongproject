@@ -23,6 +23,7 @@ import com.iwangcn.qingkong.ui.model.QkTagModel;
 import com.iwangcn.qingkong.ui.view.freshwidget.RefreshListenerAdapter;
 import com.iwangcn.qingkong.ui.view.freshwidget.ReloadRefreshLayout;
 import com.iwangcn.qingkong.utils.AbDateUtil;
+import com.iwangcn.qingkong.utils.ToastUtil;
 import com.zhy.view.flowlayout.TagFlowLayout;
 
 import org.greenrobot.eventbus.EventBus;
@@ -133,6 +134,10 @@ public class MessageListActivity extends QkBaseActivity {
 
     @OnClick(R.id.img_send)//APP信息
     public void onSendMessage() {
+        if (TextUtils.isEmpty(tv_content.getText().toString().trim())) {
+            ToastUtil.showToast(this, "请输入晴空留言");
+            return;
+        }
         helperEvent.commitMessage(autoId, tv_content.getText().toString().trim());
         tv_content.setText("");
     }
@@ -144,7 +149,7 @@ public class MessageListActivity extends QkBaseActivity {
             mNewsFrom.setText(helperInfo.getHelperInfo().getSource());
             mNewsTime.setText(AbDateUtil.formatDateStrGetDay(helperInfo.getHelperInfo().getUpdateTime()));
             List<QkTagModel> list = new ArrayList<>();
-            list.add(new QkTagModel(0, (String) SpUtils.get(this, helperInfo.getHelperInfo().getDataType() + "", "1")));
+//            list.add(new QkTagModel(0, (String) SpUtils.get(this, helperInfo.getHelperInfo().getDataType() + "", "1")));
 
             if (helperInfo.getHelperProcess().getBusinessLabels() != null && helperInfo.getHelperProcess().getBusinessLabels().size() != 0) {
                 for (int i = 0; i < helperInfo.getHelperProcess().getBusinessLabels().size(); i++) {

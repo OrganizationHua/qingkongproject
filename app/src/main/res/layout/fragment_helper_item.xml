@@ -36,7 +36,8 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="3dp">
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp">
 
             <TextView
                 android:id="@+id/tv_time"
@@ -70,8 +71,6 @@
             android:id="@+id/tag_flowlayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="5dp"
-            android:layout_marginTop="5dp"
             zhy:max_select="-1" />
 
         <LinearLayout
@@ -83,21 +82,22 @@
             <ImageView
                 android:id="@+id/img_pic"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp" />
 
             <TextView
                 android:id="@+id/tv_content"
-                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="12sp" />
+                android:textSize="12sp"
+                android:visibility="gone" />
 
             <TextView
                 android:id="@+id/tv_scan"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingBottom="14dp"
-                android:paddingTop="8dp"
+                android:paddingBottom="8dp"
+                android:paddingTop="14dp"
                 android:text="@string/originalText"
                 android:textColor="@color/colorPrimary"
                 android:textSize="13sp" />
@@ -112,8 +112,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:orientation="horizontal"
-        android:gravity="center">
+        android:gravity="center"
+        android:orientation="horizontal">
 
         <LinearLayout
             android:id="@+id/ll_follow"
@@ -122,8 +122,7 @@
             android:layout_weight="1"
             android:clickable="true"
             android:gravity="center"
-            android:orientation="horizontal"
-           >
+            android:orientation="horizontal">
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -154,8 +153,7 @@
             android:layout_weight="1"
             android:clickable="true"
             android:gravity="center"
-            android:orientation="horizontal"
-          >
+            android:orientation="horizontal">
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -167,8 +165,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
                 android:background="@null"
-                android:textColor="@color/grey"
                 android:text="与我无关"
+                android:textColor="@color/grey"
                 android:textSize="18sp" />
         </LinearLayout>
 
