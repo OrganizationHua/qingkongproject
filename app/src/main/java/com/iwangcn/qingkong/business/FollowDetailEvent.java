@@ -52,7 +52,7 @@ public class FollowDetailEvent extends Event implements NetConst {
         });
     }
 
-    public void doCancleFollow(String infoId,final BaseSubscriber baseSubscriber) {//取消跟进
+    public void doCancleFollow(String infoId) {//取消跟进
         HashMap paratems = new HashMap();
         paratems.put(USER_ID, UserManager.getUserInfo().getAutoId());
         paratems.put("infoId", infoId);
@@ -65,14 +65,19 @@ public class FollowDetailEvent extends Event implements NetConst {
             @Override
             public void onNext(NetResponse<String> netResponse) {
                 ToastUtil.showToast(mContext, "取消跟进成功");
-                if(baseSubscriber!=null){
-                    baseSubscriber.onNext(netResponse);
-                }
                 FollowDetailEvent.this.setId(1);
                 EventBus.getDefault().post(FollowDetailEvent.this);
             }
         });
     }
+
+    public void doCancleFollow(String infoId, BaseSubscriber baseSubscriber) {//取消跟进
+        HashMap paratems = new HashMap();
+        paratems.put(USER_ID, UserManager.getUserInfo().getAutoId());
+        paratems.put("infoId", infoId);
+        RetrofitInstance.getInstance().post(URL_EVENT_FOLLOWUP_CANCELFOLLOW, paratems, String.class, baseSubscriber);
+    }
+
     public void doFollowSetUp(String infoId) {//置顶
         HashMap paratems = new HashMap();
         paratems.put(USER_ID, UserManager.getUserInfo().getAutoId());
@@ -91,24 +96,12 @@ public class FollowDetailEvent extends Event implements NetConst {
             }
         });
     }
-    public void doFollowSetUp(String infoId,final BaseSubscriber baseSubscriber) {//置顶
+
+    public void doFollowSetUp(String infoId, BaseSubscriber baseSubscriber) {//置顶
         HashMap paratems = new HashMap();
         paratems.put(USER_ID, UserManager.getUserInfo().getAutoId());
         paratems.put("infoId", infoId);
-        RetrofitInstance.getInstance().post(URL_EVENT_FOLLOWUP_SETTOP, paratems, String.class, new BaseSubscriber<NetResponse<String>>(false) {
-            @Override
-            public void onError(ExceptionHandle.ResponeThrowable e) {
-                ToastUtil.showToast(mContext, e.codeMessage);
-            }
-
-            @Override
-            public void onNext(NetResponse<String> netResponse) {
-                ToastUtil.showToast(mContext, "置顶成功");
-                FollowDetailEvent.this.setId(2);
-                baseSubscriber.onNext(netResponse);
-                EventBus.getDefault().post(FollowDetailEvent.this);
-            }
-        });
+        RetrofitInstance.getInstance().post(URL_EVENT_FOLLOWUP_SETTOP, paratems, String.class, baseSubscriber);
     }
 
     public void doFollowSetUpCancleTop(String infoId) {//取消置顶
@@ -129,27 +122,16 @@ public class FollowDetailEvent extends Event implements NetConst {
             }
         });
     }
-    public void doFollowSetUpCancleTop(String infoId,final BaseSubscriber baseSubscriber) {//取消置顶
+
+    public void doFollowSetUpCancleTop(String infoId, BaseSubscriber baseSubscriber) {//取消置顶
         HashMap paratems = new HashMap();
         paratems.put(USER_ID, UserManager.getUserInfo().getAutoId());
         paratems.put("infoId", infoId);
-        RetrofitInstance.getInstance().post(URL_EVENT_FOLLOWUP_CANCELTOP, paratems, String.class, new BaseSubscriber<NetResponse<String>>(false) {
-            @Override
-            public void onError(ExceptionHandle.ResponeThrowable e) {
-                ToastUtil.showToast(mContext, e.codeMessage);
-            }
-
-            @Override
-            public void onNext(NetResponse<String> netResponse) {
-                ToastUtil.showToast(mContext, "取消置顶成功");
-                FollowDetailEvent.this.setId(3);
-                baseSubscriber.onNext(netResponse);
-                EventBus.getDefault().post(FollowDetailEvent.this);
-            }
-        });
+        RetrofitInstance.getInstance().post(URL_EVENT_FOLLOWUP_CANCELTOP, paratems, String.class, baseSubscriber);
     }
 
-    public void doFollowDone(String infoId,final BaseSubscriber baseSubscriber) {//已处理
+
+    public void doFollowDone(String infoId) {//已处理
         HashMap paratems = new HashMap();
         paratems.put(USER_ID, UserManager.getUserInfo().getAutoId());
         paratems.put("infoId", infoId);
@@ -162,11 +144,17 @@ public class FollowDetailEvent extends Event implements NetConst {
             @Override
             public void onNext(NetResponse<String> netResponse) {
                 ToastUtil.showToast(mContext, "已处理成功");
-                if(baseSubscriber!=null){
-                    baseSubscriber.onNext(netResponse);
-                }
+                FollowDetailEvent.this.setId(4);
+                EventBus.getDefault().post(FollowDetailEvent.this);
             }
         });
+    }
+
+    public void doFollowDone(String infoId, BaseSubscriber baseSubscriber) {//已处理
+        HashMap paratems = new HashMap();
+        paratems.put(USER_ID, UserManager.getUserInfo().getAutoId());
+        paratems.put("infoId", infoId);
+        RetrofitInstance.getInstance().post(URL_EVENT_FOLLOWUP_DONE, paratems, String.class, baseSubscriber);
     }
 
     public void doFollowEvent(String eventId, String infoId, List<ClientLabel> recommendList, List<ClientLabel> myList, BaseSubscriber baseSubscriber) {//头条跟进
@@ -196,8 +184,8 @@ public class FollowDetailEvent extends Event implements NetConst {
                 builder.append(",");
             }
         }
-        if(TextUtils.isEmpty(builder.toString())){
-            ToastUtil.showToast(mContext,"请至少选择一个标签");
+        if (TextUtils.isEmpty(builder.toString())) {
+            ToastUtil.showToast(mContext, "请至少选择一个标签");
             return;
         }
         HashMap paratems = new HashMap();

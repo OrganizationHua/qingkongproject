@@ -224,22 +224,25 @@ public class NewsDetailActivity extends QkBaseActivity {
                     public void onClick(View view) {
                         EventDataVo eventDataVo = mList.get(mViewPage.getCurrentItem());
                         final FollowDetailEvent followDetailEvent = new FollowDetailEvent(mContext);
-                        followDetailEvent.doFollowEvent(String.valueOf(eventDataVo.getEventData().getEventId()), String.valueOf(eventDataVo.getEventData().getData().getAutoId()), finalRecommendList, finalmyListList, new BaseSubscriber(true) {
+                        followDetailEvent.doFollowEvent(String.valueOf(eventDataVo.getEventData().getEventId()), String.valueOf(eventDataVo.getEventData().getData().getAutoId()), finalRecommendList, finalmyListList, new BaseSubscriber<NetResponse>(true) {
                             @Override
                             public void onError(ExceptionHandle.ResponeThrowable e) {
                                 ToastUtil.showToast(mContext, e.codeMessage);
                             }
 
                             @Override
-                            public void onNext(Object o) {
+                            public void onNext(NetResponse o) {
                                 if (mPopupWindow != null && mPopupWindow.isShowing()) {
                                     mPopupWindow.dismiss();
                                     mPopupWindow = null;
                                 }
-                                ToastUtil.showToast(mContext, "已跟进");
-                                updateList(finalRecommendList, finalmyListList);
-                                EventBus.getDefault().post(followDetailEvent);
-
+                                if (!TextUtils.isEmpty(o.getData())) {
+                                    ToastUtil.showToast(mContext, "已跟进");
+                                    updateList(finalRecommendList, finalmyListList, o.getData());
+                                    EventBus.getDefault().post(followDetailEvent);
+                                } else {
+                                    ToastUtil.showToast(mContext, "数据异常");
+                                }
                             }
                         });
                     }
@@ -249,7 +252,7 @@ public class NewsDetailActivity extends QkBaseActivity {
                         EventDataVo eventDataVo = mList.get(mViewPage.getCurrentItem());
                         NewsInfo newsInfo = eventDataVo.getEventData().getData();
                         Intent intent = new Intent(mContext, MoreTagEditActivity.class);
-                        intent.putExtra("eventId", eventDataVo.getEventDataId());
+                        intent.putExtra("eventId", eventDataVo.getEventData().getEventId());
                         intent.putExtra("newsInfoAutoId", newsInfo.getAutoId());
                         intent.putExtra("type", 0);
                         startActivityForResult(intent, REQUEST_CODE);
@@ -260,18 +263,18 @@ public class NewsDetailActivity extends QkBaseActivity {
         }
     }
 
-    private void updateList(List<ClientLabel> finalRecommendList, List<ClientLabel> finalmyListList) {
+    private void updateList(List<ClientLabel> finalRecommendList, List<ClientLabel> finalmyListList, String autoId) {
         int currentPosition = mViewPage.getCurrentItem();
         EventDataVo eventDataVo1 = mList.get(currentPosition);
         eventDataVo1.setBusinessLabels(listToStringAr(getSelectTagList(finalRecommendList)));
         eventDataVo1.setSelfLabels(listToStringAr(getSelectTagList(finalmyListList)));
         eventDataVo1.setType(1);
         eventDataVo1.setTop(0);
+        eventDataVo1.setAutoId(Long.parseLong(autoId));
         mAdapter.setList(mList);
         if (mViewPage.getCurrentItem() < mList.size()) {
             mViewPage.setCurrentItem(mViewPage.getCurrentItem() + 1);
         }
-        setBottomVisiable(eventDataVo1);
     }
 
     /**
@@ -308,14 +311,15 @@ public class NewsDetailActivity extends QkBaseActivity {
     @OnClick(R.id.ll_cancle_follow)
     public void clickCancel() {
         EventDataVo data = mList.get(mViewPage.getCurrentItem());
-        mFollowDetailEvent.doCancleFollow(data.getAutoId() + "", new BaseSubscriber(false) {
+        mFollowDetailEvent.doCancleFollow(data.getAutoId() + "", new BaseSubscriber(true) {
             @Override
             public void onError(ExceptionHandle.ResponeThrowable e) {
-
+                ToastUtil.showToast(mContext, e.codeMessage);
             }
 
             @Override
             public void onNext(Object o) {
+                ToastUtil.showToast(mContext, "取消跟进成功");
                 EventDataVo eventDataVo = mList.get(mViewPage.getCurrentItem());
                 eventDataVo.setType(0);
                 setBottomVisiable(eventDataVo);
@@ -328,28 +332,30 @@ public class NewsDetailActivity extends QkBaseActivity {
     public void clickSetUpTop() {
         EventDataVo data = mList.get(mViewPage.getCurrentItem());
         if (!TextUtils.equals(data.getTop() + "", "0")) {
-            mFollowDetailEvent.doFollowSetUp(data.getAutoId() + "", new BaseSubscriber(false) {
+            mFollowDetailEvent.doFollowSetUp(data.getAutoId() + "", new BaseSubscriber(true) {
                 @Override
                 public void onError(ExceptionHandle.ResponeThrowable e) {
-
+                    ToastUtil.showToast(mContext, e.codeMessage);
                 }
 
                 @Override
                 public void onNext(Object o) {
+                    ToastUtil.showToast(mContext, "置顶成功");
                     EventDataVo eventDataVo = mList.get(mViewPage.getCurrentItem());
                     eventDataVo.setTop(0);
-                     setBottomVisiable(eventDataVo);
+                    setBottomVisiable(eventDataVo);
                 }
             });
         } else if (!TextUtils.equals(data.getTop() + "", "1")) {
-            mFollowDetailEvent.doFollowSetUpCancleTop(data.getAutoId() + "", new BaseSubscriber(false) {
+            mFollowDetailEvent.doFollowSetUpCancleTop(data.getAutoId() + "", new BaseSubscriber(true) {
                 @Override
                 public void onError(ExceptionHandle.ResponeThrowable e) {
-
+                    ToastUtil.showToast(mContext, e.codeMessage);
                 }
 
                 @Override
                 public void onNext(Object o) {
+                    ToastUtil.showToast(mContext, "取消置顶成功");
                     EventDataVo eventDataVo = mList.get(mViewPage.getCurrentItem());
                     eventDataVo.setTop(1);
                     setBottomVisiable(eventDataVo);
@@ -360,18 +366,22 @@ public class NewsDetailActivity extends QkBaseActivity {
 
 
     @OnClick(R.id.ll_processed_finished)
-    public void clickProcess() {
+    public void clickProcess() {//处理完成
         EventDataVo data = mList.get(mViewPage.getCurrentItem());
-        mFollowDetailEvent.doFollowDone(data.getAutoId() + "", new BaseSubscriber(false) {
+        mFollowDetailEvent.doFollowDone(data.getAutoId() + "", new BaseSubscriber(true) {
             @Override
             public void onError(ExceptionHandle.ResponeThrowable e) {
-
+                ToastUtil.showToast(mContext, e.codeMessage);
             }
 
             @Override
             public void onNext(Object o) {
-                mList.get(mViewPage.getCurrentItem()).setType(1);
+                //处理完成删除当前条目
+                ToastUtil.showToast(mContext, "已处理成功");
+                mList.remove(mViewPage.getCurrentItem());
                 mAdapter.setList(mList);
+                //通知列表更新
+                EventBus.getDefault().post(new FollowDetailEvent(mContext));
             }
         });
 
@@ -388,7 +398,8 @@ public class NewsDetailActivity extends QkBaseActivity {
                 }
                 List<ClientLabel> finalRecommendList = (List<ClientLabel>) data.getSerializableExtra("finalRecommendList");
                 List<ClientLabel> finalmyListList = (List<ClientLabel>) data.getSerializableExtra("finalmyListList");
-                updateList(finalRecommendList, finalmyListList);
+                String autoId = data.getStringExtra("autoId");
+                updateList(finalRecommendList, finalmyListList, autoId);
                 //需求需要显示
 //                mList.remove(mViewPage.getCurrentItem());
 //                mAdapter.setList(mList);

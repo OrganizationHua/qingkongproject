@@ -124,7 +124,7 @@ public class FollowDetailActivity extends QkBaseActivity {
 
     @OnClick(R.id.ll_follow)
     public void clickCancel() {
-        headLineFollowEvent.doCancleFollow(data.getAutoId() + "",null);
+        headLineFollowEvent.doCancleFollow(data.getAutoId() + "");
 
     }
 
@@ -141,7 +141,7 @@ public class FollowDetailActivity extends QkBaseActivity {
 
     @OnClick(R.id.ll_processed_finished)
     public void clickProcess() {
-        headLineFollowEvent.doFollowDone(data.getAutoId() + "",null);
+        headLineFollowEvent.doFollowDone(data.getAutoId() + "");
 
     }
 

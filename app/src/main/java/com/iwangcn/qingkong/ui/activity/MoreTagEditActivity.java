@@ -39,6 +39,7 @@ import com.iwangcn.qingkong.business.MoreTagEditEvent;
 import com.iwangcn.qingkong.business.TagEvent;
 import com.iwangcn.qingkong.net.BaseSubscriber;
 import com.iwangcn.qingkong.net.ExceptionHandle;
+import com.iwangcn.qingkong.net.NetResponse;
 import com.iwangcn.qingkong.ui.base.QkBaseActivity;
 import com.iwangcn.qingkong.ui.model.ClientLabel;
 import com.iwangcn.qingkong.ui.view.TagWidget.MoreRecycleViewTagAdapter;
@@ -131,18 +132,21 @@ public class MoreTagEditActivity extends QkBaseActivity implements RecycleViewIt
         long eventId = intent.getLongExtra("eventId", 0);
         long newsId = intent.getLongExtra("newsInfoAutoId", 0);
         final FollowDetailEvent followDetailEvent = new FollowDetailEvent(mContext);
-        followDetailEvent.doFollowEvent(String.valueOf(eventId), String.valueOf(newsId), finalRecommendList, finalmyListList, new BaseSubscriber(true) {
+        followDetailEvent.doFollowEvent(String.valueOf(eventId), String.valueOf(newsId), finalRecommendList, finalmyListList, new BaseSubscriber<NetResponse>(true) {
             @Override
             public void onError(ExceptionHandle.ResponeThrowable e) {
                 ToastUtil.showToast(mContext, e.codeMessage);
             }
 
             @Override
-            public void onNext(Object o) {
+            public void onNext(NetResponse o) {
                 ToastUtil.showToast(mContext, "已跟进");
                 Intent intent = new Intent();
                 intent.putExtra("finalRecommendList", (Serializable) finalRecommendList);
                 intent.putExtra("finalmyListList", (Serializable) finalmyListList);
+                if (!TextUtils.isEmpty(o.getData())) {
+                    intent.putExtra("autoId", o.getData());
+                }
                 setResult(RESULT_OK, intent);
                 finish();
                 //EventBus.getDefault().post(followDetailEvent);
