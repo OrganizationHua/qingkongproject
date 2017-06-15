@@ -60,9 +60,9 @@ public class QKTagAdapter extends TagAdapter<QkTagModel> {
     }
 
     private Drawable getShapeDrawable(int colorType) {
-        int strokeWidth = 0;     // 1dp 边框宽度
-        int roundRadius = 10;     // 5dp 圆角半径
-        int strokeColor = Color.parseColor("#FFFF0000");//边框颜色
+        int strokeWidth = 0;     // 0px 边框宽度
+        int roundRadius = 8;     // 8px 圆角半径
+        int strokeColor = Color.parseColor("#f0914f");//边框颜色
         int fillColor = Color.parseColor(tagColors[colorType]); //内部填充颜色
 
         GradientDrawable gd = new GradientDrawable();//创建drawable

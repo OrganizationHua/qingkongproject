@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.iwangcn.qingkong.R;
@@ -26,16 +27,23 @@ import butterknife.OnClick;
 
 
 public class TagFilterActivity extends QkBaseActivity {
+    @BindView(R.id.ll_source)
+    LinearLayout ll_source;
     @BindView(R.id.tag_source)
     TagFlowLayout tag_source;
+    @BindView(R.id.ll_biz)
+    LinearLayout ll_biz;
     @BindView(R.id.tag_biz)
     TagFlowLayout tag_biz;
+    @BindView(R.id.ll_diy)
+    LinearLayout ll_diy;
     @BindView(R.id.tag_diy)
     TagFlowLayout tag_diy;
     private TagEvent mTagEvent;
     private ArrayList<String> sourceList;
     private ArrayList<ArrayList<ClientLabel>> list;
     private int sourceType;
+    private int from;
 
     @Override
     public int layoutChildResID() {
@@ -49,7 +57,14 @@ public class TagFilterActivity extends QkBaseActivity {
 
     @Override
     public void initData() {
-        Log.e("重复", "333333");
+        if (getIntent() != null) {
+            from = getIntent().getIntExtra("from", 0);
+            if (from == 1) {
+                ll_diy.setVisibility(View.GONE);
+            } else {
+                ll_diy.setVisibility(View.VISIBLE);
+            }
+        }
         EventBus.getDefault().register(this);
         mTagEvent = new TagEvent(this);
         mTagEvent.getTagList();

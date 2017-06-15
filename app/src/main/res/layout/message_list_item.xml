@@ -3,20 +3,9 @@
     xmlns:zhy="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@android:color/white"
+    android:background="@color/background_gray"
     android:descendantFocusability="blocksDescendants"
     android:orientation="vertical">
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="9dp"
-        android:background="@color/background_gray"></View>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1px"
-        android:background="@color/line_gray"></View>
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -43,7 +32,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:layout_toRightOf="@+id/tv_username"
-                android:textSize="12sp" />
+                android:textColor="@color/font_black"
+                android:textSize="16sp"  />
 
             <TextView
                 android:id="@+id/tv_time"
@@ -52,13 +42,9 @@
                 android:layout_alignParentRight="true"
                 android:layout_below="@+id/tv_message"
                 android:layout_centerInParent="true"
+                android:textColor="@color/home_gray"
                 android:textSize="12sp" />
         </RelativeLayout>
 
     </LinearLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1px"
-        android:background="@color/line_gray"></View>
 </LinearLayout>

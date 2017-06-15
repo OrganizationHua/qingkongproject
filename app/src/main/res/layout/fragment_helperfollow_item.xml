@@ -19,6 +19,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/white"
         android:gravity="center_vertical"
         android:orientation="vertical"
         android:padding="16dp">
@@ -28,26 +29,32 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="澳大利亚"
-            android:textSize="16sp" />
+            android:textColor="@color/font_black"
+            android:textSize="18sp" />
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="3dp">
+            android:layout_height="wrap_content">
 
             <TextView
                 android:id="@+id/tv_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
                 android:text="三天前"
+                android:textColor="@color/home_gray"
                 android:textSize="12sp" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
                 android:layout_toLeftOf="@+id/tv_from"
                 android:text="来源："
+                android:textColor="@color/home_gray"
                 android:textSize="12sp" />
 
             <TextView
@@ -55,7 +62,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
                 android:text="腾讯新闻"
+                android:textColor="@color/home_gray"
                 android:textSize="12sp" />
 
         </RelativeLayout>
@@ -64,8 +74,6 @@
             android:id="@+id/tag_flowlayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="5dp"
-            android:layout_marginTop="5dp"
             zhy:max_select="-1" />
 
         <LinearLayout
@@ -78,13 +86,16 @@
                 android:id="@+id/img_pic"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                />
+                android:layout_marginBottom="16dp"
+                android:layout_marginTop="24dp" />
 
             <TextView
                 android:id="@+id/tv_content"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="12sp" />
+                android:textColor="@color/home_gray"
+                android:textSize="12sp"
+                android:visibility="gone" />
 
             <TextView
                 android:id="@+id/tv_scan"
@@ -98,20 +109,22 @@
                 android:visibility="gone" />
         </LinearLayout>
     </LinearLayout>
+
     <View
         android:layout_width="match_parent"
         android:layout_height="1px"
         android:background="@color/line_gray"></View>
+
     <RelativeLayout
         android:id="@+id/rl_leave_message"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        >
+        android:clickable="true">
+
         <LinearLayout
             android:id="@+id/ll_leave_message"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:clickable="true"
             android:layout_centerInParent="true"
             android:gravity="center"
             android:orientation="horizontal"
@@ -127,9 +140,10 @@
                 android:id="@+id/btn_leave_message"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@null"
                 android:layout_marginLeft="3dp"
+                android:background="@null"
                 android:text="留言（3）"
+                android:textColor="@color/grey"
                 android:textSize="16sp" />
         </LinearLayout>
 
@@ -138,7 +152,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
-          android:layout_marginTop="10dp"
+            android:layout_marginTop="10dp"
             android:layout_toRightOf="@+id/ll_leave_message"
             android:background="@drawable/home_shape_red_circle"
             android:gravity="center"
@@ -146,6 +160,7 @@
             android:textColor="@android:color/white"
             android:textSize="0sp" />
     </RelativeLayout>
+
     <View
         android:layout_width="match_parent"
         android:layout_height="1px"
@@ -154,7 +169,8 @@
     <LinearLayout
         android:id="@+id/ll_fragment"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
+        android:gravity="center"
         android:orientation="horizontal">
 
         <LinearLayout
@@ -164,9 +180,7 @@
             android:layout_weight="1"
             android:clickable="true"
             android:gravity="center"
-            android:orientation="horizontal"
-            android:paddingBottom="10dp"
-            android:paddingTop="10dp">
+            android:orientation="horizontal">
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -176,16 +190,19 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@null"
                 android:layout_marginLeft="3dp"
+                android:background="@null"
                 android:text="取消跟进"
-                android:textSize="16sp" />
+                android:textColor="@color/grey"
+                android:textSize="15sp" />
         </LinearLayout>
 
 
         <View
             android:layout_width="1px"
-            android:layout_height="match_parent"
+            android:layout_height="30dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
             android:background="@color/line_gray"></View>
 
         <LinearLayout
@@ -195,9 +212,7 @@
             android:layout_weight="1"
             android:clickable="true"
             android:gravity="center"
-            android:orientation="horizontal"
-            android:paddingBottom="10dp"
-            android:paddingTop="10dp">
+            android:orientation="horizontal">
 
             <ImageView
                 android:id="@+id/img_is_top"
@@ -209,15 +224,18 @@
                 android:id="@+id/tv_is_top"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@null"
                 android:layout_marginLeft="3dp"
+                android:background="@null"
                 android:text="取消置顶"
-                android:textSize="16sp" />
+                android:textColor="@color/grey"
+                android:textSize="15sp" />
         </LinearLayout>
 
         <View
             android:layout_width="1px"
-            android:layout_height="match_parent"
+            android:layout_height="30dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
             android:background="@color/line_gray"></View>
 
         <LinearLayout
@@ -227,9 +245,7 @@
             android:layout_weight="1"
             android:clickable="true"
             android:gravity="center"
-            android:orientation="horizontal"
-            android:paddingBottom="10dp"
-            android:paddingTop="10dp">
+            android:orientation="horizontal">
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -239,10 +255,11 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@null"
                 android:layout_marginLeft="3dp"
+                android:background="@null"
                 android:text="处理完成"
-                android:textSize="16sp" />
+                android:textColor="@color/grey"
+                android:textSize="15sp" />
         </LinearLayout>
     </LinearLayout>
 
@@ -269,7 +286,8 @@
             android:layout_marginLeft="3dp"
             android:background="@null"
             android:text="重新处理"
-            android:textSize="16sp" />
+            android:textColor="@color/grey"
+            android:textSize="15sp" />
     </LinearLayout>
 
 
