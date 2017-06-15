@@ -108,7 +108,7 @@ public class HelperFragment extends BaseFragment {
 
     @OnClick(R.id.home_collect_icon)//筛选
     public void btnCollect() {
-        Intent intent = new Intent(getActivity(), TagFilterActivity.class);
+        Intent intent = new Intent(getActivity(), TagFilterActivity.class).putExtra("from",1);
         startActivityForResult(intent, 100);
     }
     @OnClick(R.id.system_no_data_lin)//搜索按钮

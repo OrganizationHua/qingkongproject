@@ -9,11 +9,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_margin="15dp"
             android:orientation="vertical">
 
             <LinearLayout
@@ -22,21 +20,28 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:background="@color/line_gray"></View>
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="10dp"
-                    android:layout_marginTop="10dp"
-                    android:text="来源" />
+                    android:layout_marginLeft="24dp"
+                    android:layout_marginRight="24dp"
+                    android:layout_marginBottom="19dp"
+                    android:layout_marginTop="19dp"
+                    android:text="来源"
+                    android:textSize="12sp" />
 
                 <com.zhy.view.flowlayout.TagFlowLayout
                     android:id="@+id/tag_source"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:paddingBottom="17dp"
-                    android:paddingLeft="23dp"
-                    android:paddingRight="23dp"
-                    android:paddingTop="17dp"
+                    android:layout_marginBottom="19dp"
+                    android:paddingLeft="24dp"
+                    android:paddingRight="24dp"
                     zhy:max_select="1" />
             </LinearLayout>
 
@@ -47,21 +52,28 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:background="@color/line_gray"></View>
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="10dp"
-                    android:layout_marginTop="10dp"
-                    android:text="业务" />
+                    android:layout_marginLeft="24dp"
+                    android:layout_marginRight="24dp"
+                    android:layout_marginBottom="19dp"
+                    android:layout_marginTop="19dp"
+                    android:text="业务"
+                    android:textSize="12sp" />
 
                 <com.zhy.view.flowlayout.TagFlowLayout
                     android:id="@+id/tag_biz"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:paddingBottom="17dp"
-                    android:paddingLeft="23dp"
-                    android:paddingRight="23dp"
-                    android:paddingTop="17dp"
+                    android:paddingLeft="24dp"
+                    android:paddingRight="24dp"
+                    android:layout_marginBottom="19dp"
                     zhy:max_select="-1" />
             </LinearLayout>
 
@@ -71,21 +83,28 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:background="@color/line_gray"></View>
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="10dp"
-                    android:layout_marginTop="10dp"
-                    android:text="自定义" />
+                    android:layout_marginLeft="24dp"
+                    android:layout_marginRight="24dp"
+                    android:layout_marginBottom="19dp"
+                    android:layout_marginTop="19dp"
+                    android:text="自定义"
+                    android:textSize="12sp" />
 
                 <com.zhy.view.flowlayout.TagFlowLayout
                     android:id="@+id/tag_diy"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:paddingBottom="17dp"
-                    android:paddingLeft="23dp"
-                    android:paddingRight="23dp"
-                    android:paddingTop="17dp"
+                    android:paddingLeft="24dp"
+                    android:paddingRight="24dp"
+                    android:layout_marginBottom="19dp"
                     zhy:max_select="-1" />
             </LinearLayout>
         </LinearLayout>
@@ -104,8 +123,8 @@
             android:layout_weight="1"
             android:background="@color/white"
             android:text="取消"
-            android:textColor="@color/font_gray"
-            android:textSize="20sp" />
+            android:textColor="@color/black7"
+            android:textSize="18sp" />
 
         <Button
             android:id="@+id/btn_sure"
@@ -114,7 +133,7 @@
             android:layout_weight="1"
             android:background="@color/white"
             android:text="确定"
-            android:textColor="@color/font_gray"
-            android:textSize="20sp" />
+            android:textColor="@color/black7"
+            android:textSize="18sp" />
     </LinearLayout>
 </RelativeLayout>
