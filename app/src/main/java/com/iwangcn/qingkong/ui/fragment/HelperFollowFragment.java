@@ -195,10 +195,12 @@ public class HelperFollowFragment extends BaseFragment {
                 ToastUtil.showToast(getActivity(), "已置顶");
                 mList.get((int) helperFollowEvent.getObject()).getHelperProcess().setTop(1);
                 mNewsAdapter.notifyItemChanged((int) helperFollowEvent.getObject());
+                helperFollowEvent.getRefreshEventList(sourceType, tags);
             } else if (helperFollowEvent.getId() == 3) {////取消置顶
                 ToastUtil.showToast(getActivity(), "已取消置顶");
                 mList.get((int) helperFollowEvent.getObject()).getHelperProcess().setTop(0);
                 mNewsAdapter.notifyItemChanged((int) helperFollowEvent.getObject());
+                helperFollowEvent.getRefreshEventList(sourceType, tags);
             } else if (helperFollowEvent.getId() == 4) {//已处理
                 mList.remove((int) helperFollowEvent.getObject());
                 mNewsAdapter.notifyItemRemoved((int) helperFollowEvent.getObject());
