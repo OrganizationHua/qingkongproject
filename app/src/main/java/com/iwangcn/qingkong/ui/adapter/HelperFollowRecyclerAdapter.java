@@ -54,7 +54,7 @@ public class HelperFollowRecyclerAdapter extends BaseRecyclerViewAdapter<HelperL
         if (type == 0) {
             holder.llReprocess.setVisibility(View.GONE);
             holder.llFragment.setVisibility(View.VISIBLE);
-        } else {
+        } else {//已完成
             holder.llReprocess.setVisibility(View.VISIBLE);
             holder.llFragment.setVisibility(View.GONE);
         }
@@ -120,7 +120,7 @@ public class HelperFollowRecyclerAdapter extends BaseRecyclerViewAdapter<HelperL
             }
 
         }
-        if (helperModel.getHelperProcess().getBusinessLabels() != null && helperModel.getHelperProcess().getBusinessLabels().size() != 0) {
+        if (type == 0 && helperModel.getHelperProcess().getBusinessLabels() != null && helperModel.getHelperProcess().getBusinessLabels().size() != 0) {
             list.add(new QkTagModel(4, "图片", 2, helperModel.getHelperProcess().getAutoId()));
         }
         holder.tagFlowLayout.setAdapter(new QKTagAdapter(mContext, list));
