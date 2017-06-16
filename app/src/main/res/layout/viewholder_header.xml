@@ -6,18 +6,20 @@
     android:orientation="vertical">
 
     <LinearLayout
-        android:id="@+id/head_line"
+        android:id="@+id/head_line_lin"
         android:layout_width="match_parent"
-        android:layout_height="8dp"
-        android:background="@android:color/transparent">
+        android:layout_height="12dp"
+        android:background="@android:color/transparent"
+        android:orientation="vertical">
 
-        <View
-            android:layout_gravity="bottom"
-            android:layout_width="match_parent"
-            android:layout_height="1px"
-            android:background="@color/line_gray"></View>
     </LinearLayout>
 
+    <View
+        android:id="@+id/head_line"
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_gravity="bottom"
+        android:background="@color/line_gray"></View>
 
     <TextView
         android:id="@+id/textview"

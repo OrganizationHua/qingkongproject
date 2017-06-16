@@ -16,21 +16,21 @@
         android:orientation="vertical">
 
         <TextView
-            android:gravity="center"
-            android:layout_weight="1"
             android:id="@+id/newslist_item_year"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
+            android:layout_weight="1"
+            android:gravity="center"
             android:text="2017"
             android:textColor="@color/font_gray"
             android:textSize="11dp" />
 
         <TextView
-            android:gravity="center"
-            android:layout_height="0dp"
             android:id="@+id/newslist_item_day"
             android:layout_width="wrap_content"
+            android:layout_height="0dp"
             android:layout_weight="1"
+            android:gravity="center"
             android:text="02"
             android:textColor="@color/font_gray"
             android:textSize="11dp" />
@@ -103,6 +103,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
+            android:layout_marginBottom="18dp"
             android:layout_marginTop="18dp"
             android:orientation="vertical">
 
@@ -122,8 +123,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="center_vertical"
-                        android:maxLines="2"
                         android:lineSpacingMultiplier="1.2"
+                        android:maxLines="2"
                         android:textColor="@color/font_black"
                         android:textSize="18sp" />
                 </LinearLayout>
@@ -163,8 +164,8 @@
                         android:id="@+id/newsevent_brief"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:maxLines="2"
                         android:lineSpacingMultiplier="1.2"
+                        android:maxLines="2"
                         android:textColor="@color/font_gray"
                         android:textSize="14sp" />
 
@@ -176,13 +177,12 @@
                         zhy:max_select="-1" />
                 </LinearLayout>
             </LinearLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1px"
-                android:layout_alignParentBottom="true"
-                android:layout_marginTop="18dp"
-                android:background="@color/line_gray"></View>
         </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_alignParentBottom="true"
+            android:background="@color/line_gray"></View>
     </RelativeLayout>
 </LinearLayout>
