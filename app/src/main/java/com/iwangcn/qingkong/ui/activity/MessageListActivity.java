@@ -2,6 +2,7 @@ package com.iwangcn.qingkong.ui.activity;
 
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
 import android.text.TextUtils;
 import android.util.Log;
 import android.widget.EditText;
@@ -34,6 +35,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import butterknife.OnTextChanged;
 
 /**
  * 留言列表界面
@@ -73,6 +75,7 @@ public class MessageListActivity extends QkBaseActivity {
     @Override
     public void initView() {
         setTitle("留言");
+        img_send.setImageResource(R.drawable.genjin_btn_send_disabled);
         EventBus.getDefault().register(this);
     }
 
@@ -98,6 +101,25 @@ public class MessageListActivity extends QkBaseActivity {
                 helperEvent.getMoreEvent();
             }
         });
+    }
+
+    @OnTextChanged(value = R.id.tv_content, callback = OnTextChanged.Callback.BEFORE_TEXT_CHANGED)
+    void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+    }
+
+    @OnTextChanged(value = R.id.tv_content, callback = OnTextChanged.Callback.TEXT_CHANGED)
+    void onTextChanged(CharSequence s, int start, int before, int count) {
+        if (s.length() == 0) {
+            img_send.setImageResource(R.drawable.genjin_btn_send_disabled);
+        } else {
+            img_send.setImageResource(R.drawable.genjin_btn_send);
+        }
+    }
+
+    @OnTextChanged(value = R.id.tv_content, callback = OnTextChanged.Callback.AFTER_TEXT_CHANGED)
+    void afterTextChanged(Editable s) {
+
     }
 
     @Subscribe

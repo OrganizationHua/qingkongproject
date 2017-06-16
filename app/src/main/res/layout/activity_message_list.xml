@@ -112,7 +112,7 @@
             android:layout_height="36dp"
             android:layout_marginLeft="24dp"
             android:layout_weight="1"
-            android:background="@drawable/news_search_edit"
+            android:background="@drawable/message_list_edit"
             android:hint="请输入晴空留言"
             android:paddingLeft="9dp"
             android:textCursorDrawable="@drawable/color_cursor"
