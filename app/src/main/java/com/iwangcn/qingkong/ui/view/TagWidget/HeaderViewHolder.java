@@ -12,19 +12,22 @@ import com.iwangcn.qingkong.R;
 
 public class HeaderViewHolder extends RecyclerView.ViewHolder {
     private TextView mImageView;
-    private LinearLayout mHeadLine;
+    private LinearLayout mHeadLineLin;
+    private View mHeadLineView;
 
     HeaderViewHolder(View itemView) {
         super(itemView);
         mImageView = (TextView) itemView.findViewById(R.id.textview);
-        mHeadLine = (LinearLayout) itemView.findViewById(R.id.head_line);
+        mHeadLineLin = (LinearLayout) itemView.findViewById(R.id.head_line_lin);
+        mHeadLineView = (View) itemView.findViewById(R.id.head_line);
     }
 
     void bindTo(String string) {
         if (string.equals("推荐标签")) {
-            mHeadLine.setVisibility(View.GONE);
-        }else{
-            mHeadLine.setVisibility(View.VISIBLE);
+            mHeadLineLin.setVisibility(View.GONE);
+            mHeadLineView.setVisibility(View.INVISIBLE);
+        } else {
+            mHeadLineLin.setVisibility(View.VISIBLE);
         }
         mImageView.setText(string);
         mImageView.setBackgroundColor(Color.TRANSPARENT);

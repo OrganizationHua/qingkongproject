@@ -82,7 +82,7 @@ public class NewsInfoFragment extends BaseFragment {
         mContext = getActivity();
         if (mNewsInfo != null) {
             if (!TextUtils.isEmpty(mNewsInfo.getTitle())) {
-                mNewsTitle.setText(mNewsInfo.getTitle());
+                mNewsTitle.setText(mNewsInfo.getTitle().trim());
             }
             if (!TextUtils.isEmpty(mNewsInfo.getSource())) {
                 mNewsFrom.setText(mNewsInfo.getSource());
@@ -93,7 +93,7 @@ public class NewsInfoFragment extends BaseFragment {
             mNewsTime.setText(AbDateUtil.getStringByFormat(mNewsInfo.getPubtime(), "yyyy-MM-dd"));
         }
 
-        tagFlowLayout.setAdapter(new QKTagAdapter(getActivity(),getTagList(mEventDataVo)));
+        tagFlowLayout.setAdapter(new QKTagAdapter(getActivity(), getTagList(mEventDataVo)));
     }
 
     private void initWebView(String url) {
@@ -135,21 +135,21 @@ public class NewsInfoFragment extends BaseFragment {
         if (!TextUtils.isEmpty(model.getKeywords())) {
             String[] keyworsArr = model.getKeywords().split(",");
             for (String tagString : keyworsArr) {
-                if(!TextUtils.isEmpty(tagString)){
+                if (!TextUtils.isEmpty(tagString)) {
                     list.add(new QkTagModel(1, tagString, 1, eventDataVo.getAutoId()));
                 }
             }
         }
         if (eventDataVo.getBusinessLabels() != null) {
             for (String tagString : eventDataVo.getBusinessLabels()) {
-                if(!TextUtils.isEmpty(tagString)){
+                if (!TextUtils.isEmpty(tagString)) {
                     list.add(new QkTagModel(2, tagString, 1, eventDataVo.getAutoId()));
                 }
             }
         }
         if (eventDataVo.getSelfLabels() != null) {
             for (String tagString : eventDataVo.getSelfLabels()) {
-                if(!TextUtils.isEmpty(tagString)){
+                if (!TextUtils.isEmpty(tagString)) {
                     list.add(new QkTagModel(3, tagString, 1, eventDataVo.getAutoId()));
                 }
             }
