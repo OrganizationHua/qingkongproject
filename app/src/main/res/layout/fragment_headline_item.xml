@@ -236,7 +236,7 @@
             android:background="@null"
             android:text="重新处理"
             android:textColor="@color/grey"
-            android:textSize="15sp" />
+            android:textSize="18sp" />
     </LinearLayout>
 
     <View
