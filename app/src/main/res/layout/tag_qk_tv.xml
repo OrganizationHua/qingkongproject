@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
+    android:layout_height="20dp"
     android:layout_marginBottom="2dp"
     android:layout_marginRight="2dp"
     android:gravity="center">
@@ -9,7 +9,7 @@
     <TextView
         android:id="@+id/tv"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="20dp"
         android:background="@drawable/normal_bg"
         android:paddingBottom="2dp"
         android:paddingLeft="4dp"
@@ -20,9 +20,10 @@
 
     <ImageView
         android:id="@+id/img_edit"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="2dp"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
         android:src="@drawable/edit"
+        android:padding="1dp"
+        android:layout_centerVertical="true"
         android:visibility="gone" />
 </RelativeLayout>
