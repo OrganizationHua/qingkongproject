@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.iwangcn.qingkong.R;
@@ -37,7 +38,7 @@ public class QKTagAdapter extends TagAdapter<QkTagModel> {
 
     @Override
     public View getView(FlowLayout parent, int position, final QkTagModel qkTagModel) {
-        LinearLayout ll = (LinearLayout) LayoutInflater.from(mContext).inflate(R.layout.tag_qk_tv,
+        RelativeLayout ll = (RelativeLayout) LayoutInflater.from(mContext).inflate(R.layout.tag_qk_tv,
                 parent, false);
         TextView tv = (TextView) ll.findViewById(R.id.tv);
         ImageView img = (ImageView) ll.findViewById(R.id.img_edit);
