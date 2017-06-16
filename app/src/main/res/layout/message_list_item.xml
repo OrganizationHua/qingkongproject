@@ -34,7 +34,7 @@
                 android:layout_height="wrap_content"
                 android:layout_toRightOf="@+id/tv_username"
                 android:textColor="@color/font_black"
-                android:layout_marginRight="100dp"
+                android:layout_marginRight="84dp"
                 android:textSize="14sp" />
 
             <TextView
