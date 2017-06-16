@@ -116,9 +116,10 @@ public class FollowDetailActivity extends QkBaseActivity {
                     list.add(new QkTagModel(3, data.getSelfLabels().get(j), 1, data.getAutoId()));
                 }
             }
-            list.add(new QkTagModel(4, "图片", 1, data.getAutoId()));
         }
-
+        if (data.getBusinessLabels() != null && data.getBusinessLabels().size() != 0) {
+            list.add(new QkTagModel(4, "图片", 2, data.getAutoId()));
+        }
         tagFlowLayout.setAdapter(new QKTagAdapter(this, list));
     }
 
