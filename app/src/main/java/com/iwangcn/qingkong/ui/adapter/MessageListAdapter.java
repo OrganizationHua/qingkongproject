@@ -1,28 +1,17 @@
 package com.iwangcn.qingkong.ui.adapter;
 
 import android.content.Context;
-import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.iwangcn.qingkong.R;
-
 import com.iwangcn.qingkong.business.MessageListEvent;
-import com.iwangcn.qingkong.ui.activity.FollowDetailActivity;
+import com.iwangcn.qingkong.providers.UserManager;
 import com.iwangcn.qingkong.ui.model.HelperFeedbackDetail;
-import com.iwangcn.qingkong.ui.model.HelperInfo;
 import com.iwangcn.qingkong.utils.AbDateUtil;
 
-import com.zhy.view.flowlayout.FlowLayout;
-import com.zhy.view.flowlayout.TagAdapter;
-import com.zhy.view.flowlayout.TagFlowLayout;
-
-import java.util.Arrays;
 import java.util.List;
 
 import butterknife.BindView;
@@ -47,8 +36,15 @@ public class MessageListAdapter extends BaseRecyclerViewAdapter<HelperFeedbackDe
     @Override
     public void bindData(RecyclerView.ViewHolder viewholder, final HelperFeedbackDetail helperInfo, final int position) {
         HelperViewHolder holder = (HelperViewHolder) viewholder;
+        if (!TextUtils.equals(UserManager.getUserInfo().getAutoId() + "", helperInfo.getUserId() + "")) {
+            holder.tv_username.setTextColor(mContext.getResources().getColor(R.color.home_blue));
+            holder.tv_message.setTextColor(mContext.getResources().getColor(R.color.home_blue));
+        } else {
+            holder.tv_username.setTextColor(mContext.getResources().getColor(R.color.font_black));
+            holder.tv_message.setTextColor(mContext.getResources().getColor(R.color.font_black));
+        }
         if (!TextUtils.isEmpty(helperInfo.getUserName())) {
-            holder.tv_username.setText(helperInfo.getUserName());
+            holder.tv_username.setText(helperInfo.getUserName() + ":");
         }
 
         if (!TextUtils.isEmpty(helperInfo.getUpdateTime() + "")) {
