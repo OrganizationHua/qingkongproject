@@ -1,11 +1,10 @@
 package com.iwangcn.qingkong.ui.adapter;
 
 import android.content.Context;
-import android.content.Intent;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -13,12 +12,10 @@ import com.alibaba.fastjson.JSON;
 import com.iwangcn.qingkong.R;
 import com.iwangcn.qingkong.business.HelperEvent;
 import com.iwangcn.qingkong.sp.SpUtils;
-import com.iwangcn.qingkong.ui.activity.PicActivity;
 import com.iwangcn.qingkong.ui.model.HelperInfo;
 import com.iwangcn.qingkong.ui.model.QkTagModel;
 import com.iwangcn.qingkong.utils.AbAppUtil;
 import com.iwangcn.qingkong.utils.AbDateUtil;
-import com.iwangcn.qingkong.utils.GlideUtils;
 import com.zhy.view.flowlayout.TagFlowLayout;
 
 import java.util.ArrayList;
@@ -62,17 +59,24 @@ public class HelperRecyclerAdapter extends BaseRecyclerViewAdapter<HelperInfo> {
         }
         if (!TextUtils.isEmpty(helperInfo.getPics())) {
             List<String> listPic = Arrays.asList(helperInfo.getPics().split(","));
-            for (int i = 0; i < listPic.size(); i++) {
-                GlideUtils.loadImageView(mContext, listPic.get(i), holder.imageView, R.drawable.default_icon, R.drawable.default_icon);
-            }
-            holder.imageView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent(mContext, PicActivity.class).putExtra("imgurl", helperInfo.getPics());
-                    mContext.startActivity(intent);
-                }
-            });
+            ImageAdapter imageAdapter = new ImageAdapter(mContext, listPic);
+            holder.rv_grid.setLayoutManager(new GridLayoutManager(mContext, 3));
+            holder.rv_grid.setAdapter(imageAdapter);
+            holder.rv_grid.setVisibility(View.VISIBLE);
+        } else {
+            holder.rv_grid.setVisibility(View.GONE);
         }
+//            for (int i = 0; i < listPic.size(); i++) {
+//                GlideUtils.loadImageView(mContext, listPic.get(i), holder.imageView, R.drawable.default_icon, R.drawable.default_icon);
+//            }
+//            holder.imageView.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    Intent intent = new Intent(mContext, PicActivity.class).putExtra("imgurl", helperInfo.getPics());
+//                    mContext.startActivity(intent);
+//                }
+//            });
+//        }
         List<QkTagModel> list = new ArrayList<>();
         list.add(new QkTagModel(0, (String) SpUtils.get(mContext, helperInfo.getDataType() + "", "1"), 2, helperInfo.getAutoId()));
         List<String> listTag = JSON.parseArray(helperInfo.getLabels(), String.class);
@@ -129,8 +133,8 @@ public class HelperRecyclerAdapter extends BaseRecyclerViewAdapter<HelperInfo> {
         @BindView(R.id.tv_content)
         public TextView tvContent;//内容
 
-        @BindView(R.id.img_pic)
-        public ImageView imageView;//内容
+        @BindView(R.id.rv_grid)
+        public RecyclerView rv_grid;//内容
 
         @BindView(R.id.ll_follow)
         public LinearLayout btnFollow;//跟进

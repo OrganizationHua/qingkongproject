@@ -2,10 +2,10 @@ package com.iwangcn.qingkong.ui.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -15,11 +15,9 @@ import com.iwangcn.qingkong.R;
 import com.iwangcn.qingkong.business.HelperFollowEvent;
 import com.iwangcn.qingkong.sp.SpUtils;
 import com.iwangcn.qingkong.ui.activity.MessageListActivity;
-import com.iwangcn.qingkong.ui.activity.PicActivity;
 import com.iwangcn.qingkong.ui.model.HelperListModel;
 import com.iwangcn.qingkong.ui.model.QkTagModel;
 import com.iwangcn.qingkong.utils.AbDateUtil;
-import com.iwangcn.qingkong.utils.GlideUtils;
 import com.iwangcn.qingkong.utils.ToastUtil;
 import com.zhy.view.flowlayout.TagFlowLayout;
 
@@ -90,17 +88,25 @@ public class HelperFollowRecyclerAdapter extends BaseRecyclerViewAdapter<HelperL
         if (!TextUtils.isEmpty(helperModel.getHelperInfo().getPics())) {
 
             final List<String> listPic = Arrays.asList(helperModel.getHelperInfo().getPics().split(","));
-            for (int i = 0; i < listPic.size(); i++) {
-                GlideUtils.loadImageView(mContext, listPic.get(i), holder.imageView, R.drawable.default_icon, R.drawable.default_icon);
-            }
-            holder.imageView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent(mContext, PicActivity.class).putExtra("imgurl", helperModel.getHelperInfo().getPics());
-                    mContext.startActivity(intent);
-                }
-            });
+            ImageAdapter imageAdapter = new ImageAdapter(mContext, listPic);
+            holder.rv_grid.setLayoutManager(new GridLayoutManager(mContext, 3));
+            holder.rv_grid.setAdapter(imageAdapter);
+            holder.rv_grid.setVisibility(View.VISIBLE);
+        } else {
+            holder.rv_grid.setVisibility(View.GONE);
         }
+//            for (int i = 0; i < listPic.size(); i++) {
+//                GlideUtils.loadImageView(mContext, listPic.get(i), holder.imageView, R.drawable.default_icon, R.drawable.default_icon);
+//            }
+
+//            holder.imageView.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    Intent intent = new Intent(mContext, PicActivity.class).putExtra("imgurl", helperModel.getHelperInfo().getPics());
+//                    mContext.startActivity(intent);
+//                }
+//            });
+
 
         List<QkTagModel> list = new ArrayList<>();
         list.add(new QkTagModel(0, (String) SpUtils.get(mContext, helperModel.getHelperInfo().getDataType() + "", "1"), 2, helperModel.getHelperProcess().getAutoId()));
@@ -179,6 +185,7 @@ public class HelperFollowRecyclerAdapter extends BaseRecyclerViewAdapter<HelperL
         return new HelperFollowViewHolder(view);
     }
 
+
     static class HelperFollowViewHolder extends BaseViewHolder {
         @BindView(R.id.tv_title)
         public TextView title;//标题
@@ -192,8 +199,8 @@ public class HelperFollowRecyclerAdapter extends BaseRecyclerViewAdapter<HelperL
         @BindView(R.id.tv_content)
         public TextView tvContent;//内容
 
-        @BindView(R.id.img_pic)
-        public ImageView imageView;//内容
+        @BindView(R.id.rv_grid)
+        public RecyclerView rv_grid;//内容
 
         @BindView(R.id.ll_cancle_follow)
         public LinearLayout llCancle;//取消跟进
