@@ -23,8 +23,9 @@ public class PicActivity extends QkBaseActivity {
     @BindView(R.id.rc_ad)
     UltraViewPager ultraViewPager;
     private UltraPagerAdapter adapter;
-    String url;
-    private List<String> listPic=new ArrayList<>();
+
+    private List<String> listPic = new ArrayList<>();
+    private int position;
 
     @Override
     public int layoutChildResID() {
@@ -33,11 +34,11 @@ public class PicActivity extends QkBaseActivity {
 
     @Override
     public void initView() {
-        setTitle("跟进");
+        setTitle("图片");
         initViewPager();
-        url = getIntent().getStringExtra("imgurl");
-        if (!TextUtils.isEmpty(url)) {
-            listPic.add(url);
+        listPic = getIntent().getStringArrayListExtra("url");
+        position = getIntent().getIntExtra("position", 0);
+        if (!listPic.isEmpty()) {
             setData(listPic);
         }
     }
@@ -76,7 +77,6 @@ public class PicActivity extends QkBaseActivity {
         //set an infinite loop
         ultraViewPager.setInfiniteLoop(false);
         ultraViewPager.disableAutoScroll();
-
-
+        ultraViewPager.setCurrentItem(position);
     }
 }

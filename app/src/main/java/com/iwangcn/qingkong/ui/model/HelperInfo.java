@@ -2,6 +2,8 @@ package com.iwangcn.qingkong.ui.model;
 
 import com.iwangcn.qingkong.net.BaseBean;
 
+import java.util.List;
+
 /**
  * Created by RF on 2017/4/24.
  */
@@ -20,6 +22,17 @@ public class HelperInfo extends BaseBean {
     private String labels;
     private String pics;
     private long updateTime;
+
+    private List<String> picList;
+
+    public List<String> getPicList() {
+        return picList;
+    }
+
+    public void setPicList(List<String> picList) {
+        this.picList = picList;
+    }
+
 
     public long getAutoId() {
         return autoId;

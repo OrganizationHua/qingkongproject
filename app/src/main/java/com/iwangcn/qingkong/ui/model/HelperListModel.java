@@ -73,6 +73,16 @@ public class HelperListModel extends BaseBean {
         private String followCount;
         private String helperFeedbackDetail;
 
+        private List<String> picList;
+
+        public List<String> getPicList() {
+            return picList;
+        }
+
+        public void setPicList(List<String> picList) {
+            this.picList = picList;
+        }
+
         public String getFollowCount() {
             return followCount;
         }
@@ -236,6 +246,7 @@ public class HelperListModel extends BaseBean {
         private String helperFeedbackDetail;
         private List<String> businessLabels;
         private List<String> selfLabels;
+
         public List<String> getBusinessLabels() {
             return businessLabels;
         }
@@ -251,6 +262,7 @@ public class HelperListModel extends BaseBean {
         public void setSelfLabels(List<String> selfLabels) {
             this.selfLabels = selfLabels;
         }
+
         public int getAutoId() {
             return autoId;
         }

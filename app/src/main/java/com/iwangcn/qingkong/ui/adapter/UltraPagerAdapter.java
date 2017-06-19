@@ -32,6 +32,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 import com.iwangcn.qingkong.R;
 import com.iwangcn.qingkong.utils.GlideUtils;
@@ -68,17 +69,21 @@ public class UltraPagerAdapter extends PagerAdapter {
 
     @Override
     public Object instantiateItem(ViewGroup container, int position) {
-        LinearLayout linearLayout = (LinearLayout) LayoutInflater.from(container.getContext()).inflate(R.layout.layout_child, null);
-        ImageView imageView = (ImageView) linearLayout.findViewById(R.id.pager_img);
-        GlideUtils.loadImageView(imageView.getContext(), urlList.get(position), imageView, R.drawable.default_icon_bg, R.drawable.default_icon_bg);
-        linearLayout.setId(R.id.item_id);
-        container.addView(linearLayout);
-        return linearLayout;
+        RelativeLayout relativeLayout = (RelativeLayout) LayoutInflater.from(container.getContext()).inflate(R.layout.layout_child, null);
+        ImageView imageView = (ImageView) relativeLayout.findViewById(R.id.pager_img);
+        if (!urlList.get(position).endsWith(".gif")) {
+            GlideUtils.loadImageView(imageView.getContext(), urlList.get(position), imageView, R.drawable.default_icon_bg, R.drawable.default_icon_bg);
+        } else {
+            GlideUtils.loadGIf(imageView.getContext(), urlList.get(position), imageView,R.drawable.default_icon_bg);
+        }
+        relativeLayout.setId(R.id.item_id);
+        container.addView(relativeLayout);
+        return relativeLayout;
     }
 
     @Override
     public void destroyItem(ViewGroup container, int position, Object object) {
-        LinearLayout view = (LinearLayout) object;
+        RelativeLayout view = (RelativeLayout) object;
         container.removeView(view);
     }
 }

@@ -42,7 +42,9 @@ public class GlideUtils {
     public static void loadImageView(Context mContext, String path, ImageView mImageView, int lodingImage, int errorImageView) {
         Glide.with(mContext).load(path).placeholder(lodingImage).error(errorImageView).into(mImageView);
     }
-
+    //设置加载中以及加载失败图片
+    public static void loadGIf(Context mContext, String path, ImageView mImageView,int errorImageView) {
+        Glide.with(mContext).load(path).asGif().error(errorImageView).diskCacheStrategy(DiskCacheStrategy.SOURCE).into(mImageView);    }
     //设置加载中以及加载失败图片并且指定大小
     public static void loadImageViewLodingSize(Context mContext, String path, int width, int height, ImageView mImageView, int lodingImage, int errorImageView) {
         Glide.with(mContext).load(path).override(width, height).placeholder(lodingImage).error(errorImageView).into(mImageView);

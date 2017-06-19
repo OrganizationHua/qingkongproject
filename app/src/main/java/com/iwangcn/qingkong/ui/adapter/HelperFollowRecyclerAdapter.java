@@ -85,10 +85,8 @@ public class HelperFollowRecyclerAdapter extends BaseRecyclerViewAdapter<HelperL
             holder.btn_leave_message.setText("留言");
             holder.tv_message_notify.setVisibility(View.GONE);
         }
-        if (!TextUtils.isEmpty(helperModel.getHelperInfo().getPics())) {
-
-            final List<String> listPic = Arrays.asList(helperModel.getHelperInfo().getPics().split(","));
-            ImageAdapter imageAdapter = new ImageAdapter(mContext, listPic);
+        if (helperModel.getHelperInfo().getPicList()!=null) {
+            ImageAdapter imageAdapter = new ImageAdapter(mContext, helperModel.getHelperInfo().getPicList());
             holder.rv_grid.setLayoutManager(new GridLayoutManager(mContext, 3));
             holder.rv_grid.setAdapter(imageAdapter);
             holder.rv_grid.setVisibility(View.VISIBLE);
