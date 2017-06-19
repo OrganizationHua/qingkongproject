@@ -21,6 +21,7 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
+import java.util.Set;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -44,6 +45,7 @@ public class TagFilterActivity extends QkBaseActivity {
     private ArrayList<ArrayList<ClientLabel>> list;
     private int sourceType;
     private int from;
+    private static Set<Integer> selectPosSetSource, selectPosSetbiz, selectPosSetdiy;
 
     @Override
     public int layoutChildResID() {
@@ -81,6 +83,16 @@ public class TagFilterActivity extends QkBaseActivity {
                 return true;
             }
         });
+
+    }
+
+    @Override
+    public void goBack() {
+        super.goBack();
+        tag_source.onChanged();
+        tag_biz.onChanged();
+        tag_diy.onChanged();
+        markSelectedTags();
     }
 
     @OnClick(R.id.btn_cancel)
@@ -88,7 +100,14 @@ public class TagFilterActivity extends QkBaseActivity {
         tag_source.onChanged();
         tag_biz.onChanged();
         tag_diy.onChanged();
+        markSelectedTags();
         finish();
+    }
+
+    private void markSelectedTags() {
+        selectPosSetSource = tag_source.getSelectedList();
+        selectPosSetbiz = tag_biz.getSelectedList();
+        selectPosSetdiy = tag_diy.getSelectedList();
     }
 
     @OnClick(R.id.btn_sure)
@@ -98,6 +117,7 @@ public class TagFilterActivity extends QkBaseActivity {
         bundle.putInt("sourceType", sourceType);
         bundle.putString("tags", getTags());
         setResult(RESULT_OK, getIntent().putExtras(bundle));
+        markSelectedTags();
         finish();
     }
 
@@ -116,7 +136,7 @@ public class TagFilterActivity extends QkBaseActivity {
                         return tv;
                     }
                 });
-
+                tag_source.getAdapter().setSelectedList(selectPosSetSource);
                 tag_biz.setAdapter(new TagAdapter(list.get(0)) {
                     @Override
                     public View getView(FlowLayout parent, int position, Object o) {
@@ -126,6 +146,7 @@ public class TagFilterActivity extends QkBaseActivity {
                         return tv;
                     }
                 });
+                tag_biz.getAdapter().setSelectedList(selectPosSetbiz);
                 tag_diy.setAdapter(new TagAdapter(list.get(1)) {
                     @Override
                     public View getView(FlowLayout parent, int position, Object o) {
@@ -135,6 +156,7 @@ public class TagFilterActivity extends QkBaseActivity {
                         return tv;
                     }
                 });
+                tag_diy.getAdapter().setSelectedList(selectPosSetdiy);
             }
         }
     }
