@@ -2,9 +2,11 @@ package com.iwangcn.qingkong.business;
 
 import android.content.Context;
 
+import com.iwangcn.qingkong.net.BaseBean;
 import com.iwangcn.qingkong.net.BaseSubscriber;
 import com.iwangcn.qingkong.net.ExceptionHandle;
 import com.iwangcn.qingkong.net.NetConst;
+import com.iwangcn.qingkong.net.NetResponse;
 import com.iwangcn.qingkong.net.RetrofitInstance;
 import com.iwangcn.qingkong.providers.UserManager;
 import com.iwangcn.qingkong.ui.model.ClientLabel;
@@ -49,18 +51,18 @@ public class MoreTagEditEvent extends Event implements NetConst {
         }
         HashMap paratems = new HashMap();
         paratems.put(USER_ID, UserManager.getUserInfo().getAutoId());
-        paratems.put(type, String.valueOf(type));
+        paratems.put("type", String.valueOf(type));
         paratems.put("processId", autoId);
         paratems.put("businessTags", strListData.toString());
         paratems.put("selfTags", strMyListData.toString());
-        RetrofitInstance.getInstance().post(URL_UPDATE_LABELS, paratems, String.class, new BaseSubscriber(true) {
+        RetrofitInstance.getInstance().post(URL_UPDATE_LABELS, paratems, String.class, new BaseSubscriber<NetResponse<String>>(true) {
             @Override
             public void onError(ExceptionHandle.ResponeThrowable e) {
                 ToastUtil.showToast(mContext, e.codeMessage);
             }
 
             @Override
-            public void onNext(Object o) {
+            public void onNext(NetResponse<String> o) {
                 ToastUtil.showToast(mContext, "更新成功");
                 if (type == 2) {
                     MoreTagEditEvent tagEvent = new MoreTagEditEvent();
