@@ -58,7 +58,6 @@ public class ProcessedActivity extends QkBaseActivity {
 
     @OnClick(R.id.base_act_right_lin)//APP信息
     public void onSift() {
-        Log.e("重复","000000");
         int tab=mTabLayout.getSelectedTabPosition()+2;
         EventBus.getDefault().post(tab+"");
     }

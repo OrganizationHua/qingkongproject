@@ -50,7 +50,7 @@ public class HelperFollowFragment extends BaseFragment {
     private HelperFollowRecyclerAdapter mNewsAdapter;
     private List<HelperListModel> mList = new ArrayList<>();
     private HelperFollowEvent helperFollowEvent;
-    private int type;
+    private int type;//该fragment复用标记  0=tab页 1=已处理
     private String sourceType = "";
     private String tags = "";
 
@@ -103,7 +103,7 @@ public class HelperFollowFragment extends BaseFragment {
                 } else {
                     mLinLoading.setVisibility(View.VISIBLE);
                 }
-                helperFollowEvent.getRefreshEventList(sourceType,tags);
+                helperFollowEvent.getRefreshEventList(sourceType, tags);
             }
         }.execute();
         mReloadRefreshView.setOnRefreshListener(new RefreshListenerAdapter() {
@@ -129,7 +129,7 @@ public class HelperFollowFragment extends BaseFragment {
         tags = "";
         if (resultCode == Activity.RESULT_OK) {
             Bundle bundle = data.getExtras();
-            sourceType = bundle.getInt("sourceType") + "";
+            sourceType = bundle.getString("sourceType");
             tags = bundle.getString("tags");
             helperFollowEvent.getRefreshEventList(sourceType, tags);
         }
@@ -140,24 +140,26 @@ public class HelperFollowFragment extends BaseFragment {
     public void onStartActivityFromHelp(String tab) {
 
         if (type == 0) {
-            if (TextUtils.equals(tab, "1")) {
-                Intent intent = new Intent(getActivity(), TagFilterActivity.class);
+            if (TextUtils.equals(tab, "1")) {//tab--助手跟进列表-->筛选页
+                Intent intent = new Intent(getActivity(), TagFilterActivity.class).putExtra("from", 3);
                 startActivityForResult(intent, 300);
             }
         } else if (type == 1) {
-            if (TextUtils.equals(tab, "3")) {
-                Intent intent = new Intent(getActivity(), TagFilterActivity.class);
+            if (TextUtils.equals(tab, "3")) {//已处理-助手跟进列表-->筛选页
+                Intent intent = new Intent(getActivity(), TagFilterActivity.class).putExtra("from", 5);
                 startActivityForResult(intent, 500);
             }
         }
 
     }
+
     @OnClick(R.id.system_no_data_lin)//搜索按钮
     public void systemNoDataLin() {
         mNoData.setVisibility(View.GONE);
         mLinLoading.setVisibility(View.VISIBLE);
-        helperFollowEvent.getRefreshEventList(sourceType,tags);
+        helperFollowEvent.getRefreshEventList(sourceType, tags);
     }
+
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEventMainx(Event event) {
         if (event instanceof HelperFollowEvent) {
@@ -190,7 +192,7 @@ public class HelperFollowFragment extends BaseFragment {
             } else if (helperFollowEvent.getId() == 1) {//取消跟进
                 mList.remove((int) helperFollowEvent.getObject());
                 mNewsAdapter.notifyItemRemoved((int) helperFollowEvent.getObject());
-                mNewsAdapter.notifyItemRangeChanged(0,mList.size()-((int)helperFollowEvent.getObject()));
+                mNewsAdapter.notifyItemRangeChanged(0, mList.size() - ((int) helperFollowEvent.getObject()));
             } else if (helperFollowEvent.getId() == 2) {//置顶
                 ToastUtil.showToast(getActivity(), "已置顶");
                 mList.get((int) helperFollowEvent.getObject()).getHelperProcess().setTop(1);
@@ -204,13 +206,13 @@ public class HelperFollowFragment extends BaseFragment {
             } else if (helperFollowEvent.getId() == 4) {//已处理
                 mList.remove((int) helperFollowEvent.getObject());
                 mNewsAdapter.notifyItemRemoved((int) helperFollowEvent.getObject());
-                mNewsAdapter.notifyItemRangeChanged(0,mList.size()-((int)helperFollowEvent.getObject()));
+                mNewsAdapter.notifyItemRangeChanged(0, mList.size() - ((int) helperFollowEvent.getObject()));
             } else if (helperFollowEvent.getId() == 5) {//重新处理
                 mList.remove((int) helperFollowEvent.getObject());
                 mNewsAdapter.notifyItemRemoved((int) helperFollowEvent.getObject());
-                mNewsAdapter.notifyItemRangeChanged(0,mList.size()-((int)helperFollowEvent.getObject()));
-            } else if(event instanceof MoreTagEditEvent){
-                if(event.getId()==MoreTagEditEvent.TAG_UPDATE_HELP){
+                mNewsAdapter.notifyItemRangeChanged(0, mList.size() - ((int) helperFollowEvent.getObject()));
+            } else if (event instanceof MoreTagEditEvent) {
+                if (event.getId() == MoreTagEditEvent.TAG_UPDATE_HELP) {
                     helperFollowEvent.getRefreshEventList(sourceType, tags);
                 }
             }

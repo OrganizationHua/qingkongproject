@@ -52,7 +52,7 @@ public class HeadLineFollowFragment extends BaseFragment {
     private HeadLineFollowRecyclerAdapter mNewsAdapter;
     private List<HeadLineModel> mList = new ArrayList<>();
     private HeadLineFollowEvent headLineFollowEvent;
-    private int type;
+    private int type;//该fragment复用标记  0=tab页 1=已处理
     private String sourceType = "";
     private String tags = "";
     private int pos;//点击进入详情页的位置标记
@@ -142,7 +142,7 @@ public class HeadLineFollowFragment extends BaseFragment {
 
         if (resultCode == Activity.RESULT_OK) {//筛选页返回
             Bundle bundle = data.getExtras();
-            sourceType = bundle.getInt("sourceType") + "";
+            sourceType = bundle.getString("sourceType");
             tags = bundle.getString("tags");
             headLineFollowEvent.getRefreshEventList(sourceType, tags);
 
@@ -157,13 +157,13 @@ public class HeadLineFollowFragment extends BaseFragment {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onStartActivityFromHeadLine(String tab) {
         if (type == 0) {
-            if (TextUtils.equals(tab, "0")) {
-                Intent intent = new Intent(getActivity(), TagFilterActivity.class);
+            if (TextUtils.equals(tab, "0")) {//tab--头条跟进列表-->筛选页
+                Intent intent = new Intent(getActivity(), TagFilterActivity.class).putExtra("from",2);
                 startActivityForResult(intent, 200);
             }
         } else if (type == 1) {
-            if (TextUtils.equals(tab, "2")) {
-                Intent intent = new Intent(getActivity(), TagFilterActivity.class);
+            if (TextUtils.equals(tab, "2")) {//已处理-助手跟进列表--->筛选页
+                Intent intent = new Intent(getActivity(), TagFilterActivity.class).putExtra("from",4);
                 startActivityForResult(intent, 400);
             }
         }

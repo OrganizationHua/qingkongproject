@@ -126,7 +126,7 @@ public class HelperFragment extends BaseFragment {
             if (resultCode == Activity.RESULT_OK) {
 //            ToastUtil.showToast(getActivity(), sourceType + tags);
                 Bundle bundle = data.getExtras();
-                sourceType = bundle.getInt("sourceType") + "";
+                sourceType = bundle.getString("sourceType");
                 tags = bundle.getString("tags");
                 helperEvent.getRefreshEventList(sourceType, tags);
             }

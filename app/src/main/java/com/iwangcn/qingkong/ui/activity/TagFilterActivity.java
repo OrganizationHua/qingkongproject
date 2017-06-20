@@ -43,8 +43,9 @@ public class TagFilterActivity extends QkBaseActivity {
     private TagEvent mTagEvent;
     private ArrayList<String> sourceList;
     private ArrayList<ArrayList<ClientLabel>> list;
-    private int sourceType;
+    private static String sourceType;
     private int from;
+    private static int fromDiff;//是否与上次进入时的界面相同
     private static Set<Integer> selectPosSetSource, selectPosSetbiz, selectPosSetdiy;
 
     @Override
@@ -61,6 +62,18 @@ public class TagFilterActivity extends QkBaseActivity {
     public void initData() {
         if (getIntent() != null) {
             from = getIntent().getIntExtra("from", 0);
+            if (fromDiff != from) {
+                fromDiff = from;
+                if (selectPosSetSource != null) {
+                    selectPosSetSource.clear();
+                }
+                if (selectPosSetbiz != null) {
+                    selectPosSetbiz.clear();
+                }
+                if (selectPosSetdiy != null) {
+                    selectPosSetdiy.clear();
+                }
+            }
             if (from == 1) {
                 ll_diy.setVisibility(View.GONE);
             } else {
@@ -79,7 +92,7 @@ public class TagFilterActivity extends QkBaseActivity {
         tag_source.setOnTagClickListener(new TagFlowLayout.OnTagClickListener() {
             @Override
             public boolean onTagClick(View view, int position, FlowLayout parent) {
-                sourceType = (int) SpUtils.get(TagFilterActivity.this, sourceList.get(position), 1);
+                sourceType = (int) SpUtils.get(TagFilterActivity.this, sourceList.get(position), 1) + "";
                 return true;
             }
         });
@@ -113,11 +126,14 @@ public class TagFilterActivity extends QkBaseActivity {
     @OnClick(R.id.btn_sure)
     public void onSure() {
 //        ToastUtil.showToast(this, sourceType + getTags());
+        markSelectedTags();
+        if (selectPosSetSource.isEmpty()) {
+            sourceType = "";
+        }
         Bundle bundle = new Bundle();
-        bundle.putInt("sourceType", sourceType);
+        bundle.putString("sourceType", sourceType);
         bundle.putString("tags", getTags());
         setResult(RESULT_OK, getIntent().putExtras(bundle));
-        markSelectedTags();
         finish();
     }
 
