@@ -85,7 +85,7 @@ public class HelperRecyclerAdapter extends BaseRecyclerViewAdapter<HelperInfo> {
                     list.add(new QkTagModel(3, listTag.get(j), 2, helperInfo.getAutoId()));
                 }
             }
-            list.add(new QkTagModel(4, "图片", 2, helperInfo.getAutoId()));
+//            list.add(new QkTagModel(4, "图片", 2, helperInfo.getAutoId()));
         }
 
         holder.tagFlowLayout.setAdapter(new QKTagAdapter(mContext, list));
