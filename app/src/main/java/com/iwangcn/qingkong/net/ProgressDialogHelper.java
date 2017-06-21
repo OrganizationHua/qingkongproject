@@ -1,5 +1,6 @@
 package com.iwangcn.qingkong.net;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -45,6 +46,10 @@ public class ProgressDialogHelper {
             }
 
             if (!pd.isShowing() && context != null) {
+                Activity activity = (Activity) context;
+                if (activity == null || activity.isDestroyed() || activity.isFinishing()) {
+                    return;
+                }
                 pd.show();
                 pd.setCanceledOnTouchOutside(false);
             }
