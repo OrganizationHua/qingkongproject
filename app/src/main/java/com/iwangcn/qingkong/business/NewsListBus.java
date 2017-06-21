@@ -56,7 +56,7 @@ public class NewsListBus extends Event implements NetConst {
 
             public void onNext(NetResponse<List<EventDataVo>> o) {
                 if (o.getDataList() == null) {
-                    ToastUtil.showToast(mContext, "暂无相关数据");
+                 //   ToastUtil.showToast(mContext, "暂无相关数据");
                     o.setDataList(new ArrayList<List<EventDataVo>>());
                 }
                 NewsListBus event = new NewsListBus();

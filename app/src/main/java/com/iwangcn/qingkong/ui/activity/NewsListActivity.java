@@ -185,7 +185,7 @@ public class NewsListActivity extends BaseActivity {
                 mAbPullToRefreshView.finishLoadmore();
             } else {
                 if (list.size() == 0) {
-                    ToastUtil.showToast(this, "暂无相关新闻");
+                    ToastUtil.showToast(this, "暂无相关数据");
                 } else {
                     list.get(0).setSelect(true);
                 }
