@@ -14,6 +14,7 @@ import com.iwangcn.qingkong.utils.ToastUtil;
 
 import org.greenrobot.eventbus.EventBus;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -33,7 +34,7 @@ public class NewsListBus extends Event implements NetConst {
         this.mContext = context;
     }
 
-    private void getDataList(int indexPage, EventInfo eventInfo,boolean isShow) {
+    private void getDataList(int indexPage, EventInfo eventInfo, boolean isShow, String tags, String sourceType) {
         if (eventInfo == null) {
             ToastUtil.showToast(mContext, "数据异常");
             return;
@@ -41,8 +42,10 @@ public class NewsListBus extends Event implements NetConst {
         HashMap paratems = new HashMap();
         paratems.put(USER_ID, UserManager.getUserInfo().getAutoId());
         paratems.put("pageno", indexPage);
-        paratems.put("sourceType", 1);
+        paratems.put("sourceType", sourceType);
         paratems.put("eventId", eventInfo.getAutoId());
+        paratems.put("tags", tags);
+
         RetrofitInstance.getInstance().post(URL_EVENT_RELINFO, paratems, EventDataVo.class, new BaseSubscriber<NetResponse<List<EventDataVo>>>(isShow) {
             @Override
             public void onError(ExceptionHandle.ResponeThrowable e) {
@@ -54,23 +57,22 @@ public class NewsListBus extends Event implements NetConst {
             public void onNext(NetResponse<List<EventDataVo>> o) {
                 if (o.getDataList() == null) {
                     ToastUtil.showToast(mContext, "暂无相关数据");
-                } else {
-                    NewsListBus event = new NewsListBus();
-                    event.setObject(o.getDataList());
-                    EventBus.getDefault().post(event);
+                    o.setDataList(new ArrayList<List<EventDataVo>>());
                 }
-
+                NewsListBus event = new NewsListBus();
+                event.setObject(o.getDataList());
+                EventBus.getDefault().post(event);
             }
         });
     }
 
-    public void getMoreEvent(EventInfo eventInfoVo) {
+    public void getMoreEvent(EventInfo eventInfoVo, String tags, String sourceType) {
         indexPage++;
-        getDataList(indexPage, eventInfoVo,true);
+        getDataList(indexPage, eventInfoVo, true, tags, sourceType);
     }
 
-    public void getRefreshEventList(EventInfo eventInfoVo,boolean isShow) {
+    public void getRefreshEventList(EventInfo eventInfoVo, boolean isShow, String tags, String sourceType) {
         indexPage = 1;
-        getDataList(indexPage, eventInfoVo,isShow);
+        getDataList(indexPage, eventInfoVo, isShow, tags, sourceType);
     }
 }

@@ -1,7 +1,6 @@
 package com.iwangcn.qingkong.ui.activity;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -186,5 +185,11 @@ public class TagFilterActivity extends QkBaseActivity {
             sb.append(list.get(1).get((int) tag_diy.getSelectedList().toArray()[j]).getName()).append(",");
         }
         return sb.toString();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
     }
 }

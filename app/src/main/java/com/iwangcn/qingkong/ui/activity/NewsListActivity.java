@@ -64,6 +64,7 @@ public class NewsListActivity extends BaseActivity {
     private final int REQUEST_CODE = 10;
     private NewsListBus mEventBus;
     private FavoriteEvent mFavoriteEvent;//收藏
+    private String tags = "", sourceType = "1";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -90,13 +91,13 @@ public class NewsListActivity extends BaseActivity {
         mAbPullToRefreshView.setOnRefreshListener(new RefreshListenerAdapter() {
             @Override
             public void onRefresh(ReloadRefreshLayout refreshLayout) {
-                mEventBus.getRefreshEventList(mIntentEventInfo.getEventInfo(), true);
+                mEventBus.getRefreshEventList(mIntentEventInfo.getEventInfo(), true, tags, sourceType);
             }
 
             @Override
             public void onLoadMore(ReloadRefreshLayout refreshLayout) {
                 super.onLoadMore(refreshLayout);
-                mEventBus.getMoreEvent(mIntentEventInfo.getEventInfo());
+                mEventBus.getMoreEvent(mIntentEventInfo.getEventInfo(), tags, sourceType);
             }
         });
     }
@@ -133,7 +134,7 @@ public class NewsListActivity extends BaseActivity {
         mAnimAdapter.setAbsListView(mListView);
         mListView.setAdapter(mAnimAdapter);
         ViewCompat.setNestedScrollingEnabled(mListView, true);
-        mEventBus.getRefreshEventList(mIntentEventInfo.getEventInfo(), true);
+        mEventBus.getRefreshEventList(mIntentEventInfo.getEventInfo(), true, tags, sourceType);
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -162,14 +163,11 @@ public class NewsListActivity extends BaseActivity {
                 }
                 mAdapter.setDataList(mList);
                 mListView.setSelection(position);
-            }
-            if (resultCode == Activity.RESULT_OK) {
-//            ToastUtil.showToast(getActivity(), sourceType + tags);
-//                Bundle bundle = data.getExtras();
-//                int  sourceType = bundle.getInt("sourceType") + "";
-//                tags = bundle.getString("tags");
-//                helperEvent.getRefreshEventList(sourceType, tags);
-//                m
+            } else if (requestCode == 100) {
+                Bundle bundle = data.getExtras();
+                sourceType = bundle.getString("sourceType");
+                tags = bundle.getString("tags");
+                new NewsListBus(this).getRefreshEventList(mIntentEventInfo.getEventInfo(), true, tags, sourceType);
             }
 
         }
@@ -200,15 +198,15 @@ public class NewsListActivity extends BaseActivity {
             mAbPullToRefreshView.finishLoadmore();
             mAbPullToRefreshView.finishRefreshing();
         } else if (event instanceof FollowDetailEvent) {
-            mEventBus.getRefreshEventList(mIntentEventInfo.getEventInfo(), false);
+            mEventBus.getRefreshEventList(mIntentEventInfo.getEventInfo(), false, tags, sourceType);
         }
     }
 
     @OnClick(R.id.base_act_right_lin)//选择器按钮
     public void onBtnFilter() {
-        ToastUtil.showToast(this, "暂不支持筛选功能");
-//        Intent intent = new Intent(this, TagFilterActivity.class);
-//        startActivityForResult(intent, 100);
+        //    ToastUtil.showToast(this, "暂不支持筛选功能");
+        Intent intent = new Intent(this, TagFilterActivity.class).putExtra("from", 6);
+        startActivityForResult(intent, 100);
 //       Intent intent = new Intent(this, MoreTagEditActivity.class);
 //        startActivityForResult(intent, 100);
     }
