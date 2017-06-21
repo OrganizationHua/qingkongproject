@@ -8,7 +8,6 @@ import android.graphics.drawable.GradientDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -18,6 +17,7 @@ import com.iwangcn.qingkong.ui.model.QkTagModel;
 import com.zhy.view.flowlayout.FlowLayout;
 import com.zhy.view.flowlayout.TagAdapter;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -53,7 +53,11 @@ public class QKTagAdapter extends TagAdapter<QkTagModel> {
             img.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    mContext.startActivity(new Intent(mContext, MoreTagEditActivity.class).putExtra("type", qkTagModel.getType()).putExtra("processId", qkTagModel.getProcessId()));
+                    Intent intent = new Intent(mContext, MoreTagEditActivity.class);
+                    intent.putExtra("type", qkTagModel.getType());
+                    intent.putExtra("processId", qkTagModel.getProcessId());
+                    intent.putExtra("qkTagList", (Serializable) mList);
+                    mContext.startActivity(intent);
                 }
             });
         }

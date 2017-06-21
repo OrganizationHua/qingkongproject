@@ -2,7 +2,6 @@ package com.iwangcn.qingkong.business;
 
 import android.content.Context;
 
-import com.iwangcn.qingkong.net.BaseBean;
 import com.iwangcn.qingkong.net.BaseSubscriber;
 import com.iwangcn.qingkong.net.ExceptionHandle;
 import com.iwangcn.qingkong.net.NetConst;
@@ -34,7 +33,7 @@ public class MoreTagEditEvent extends Event implements NetConst {
         mContext = context;
     }
 
-    public void updateLabels(final int type, String autoId, List<ClientLabel> listData, List<ClientLabel> myListData) {
+    public void updateLabels(final int type, String autoId, List<ClientLabel> listData, List<ClientLabel> myListData, final BaseSubscriber baseSubscriber) {
         StringBuilder strListData = new StringBuilder();
         for (ClientLabel model : listData) {
             if (model.isSelect()) {
@@ -68,6 +67,7 @@ public class MoreTagEditEvent extends Event implements NetConst {
                     MoreTagEditEvent tagEvent = new MoreTagEditEvent();
                     tagEvent.setId(TAG_UPDATE_HELP);
                     EventBus.getDefault().post(tagEvent);
+                    baseSubscriber.onNext(o);
                 }
             }
         });

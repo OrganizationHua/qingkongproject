@@ -42,6 +42,7 @@ import com.iwangcn.qingkong.net.ExceptionHandle;
 import com.iwangcn.qingkong.net.NetResponse;
 import com.iwangcn.qingkong.ui.base.QkBaseActivity;
 import com.iwangcn.qingkong.ui.model.ClientLabel;
+import com.iwangcn.qingkong.ui.model.QkTagModel;
 import com.iwangcn.qingkong.ui.view.TagWidget.MoreRecycleViewTagAdapter;
 import com.iwangcn.qingkong.ui.view.TagWidget.OnRecyclerItemClickListener;
 import com.iwangcn.qingkong.ui.view.TagWidget.RecycleViewItemTouchCallback;
@@ -120,7 +121,17 @@ public class MoreTagEditActivity extends QkBaseActivity implements RecycleViewIt
         long processId = intent.getLongExtra("processId", 0);
         int type = intent.getIntExtra("type", 0);
         MoreTagEditEvent moreTagEditEvent = new MoreTagEditEvent(this);
-        moreTagEditEvent.updateLabels(type, String.valueOf(processId), finalRecommendList, finalmyListList);
+        moreTagEditEvent.updateLabels(type, String.valueOf(processId), finalRecommendList, finalmyListList, new BaseSubscriber(false) {
+            @Override
+            public void onError(ExceptionHandle.ResponeThrowable e) {
+
+            }
+
+            @Override
+            public void onNext(Object o) {
+                finish();
+            }
+        });
     }
 
     /**
@@ -166,7 +177,34 @@ public class MoreTagEditActivity extends QkBaseActivity implements RecycleViewIt
                 mTagEvent.getTagList(false);
             } else if (event.getId() == TagEvent.TAG_GETLIST) {
                 mList = (ArrayList<ArrayList<ClientLabel>>) event.getObject();
+                setSelectList();
                 mAdapter.setDataList(mList);
+            }
+        }
+    }
+
+    /**
+     * 设置回显
+     */
+    private void setSelectList() {
+        Intent intent = getIntent();
+        int type = intent.getIntExtra("type", 0);
+        if (type == 2) {
+            List<QkTagModel> list = (List<QkTagModel>) intent.getSerializableExtra("qkTagList");
+            if (list == null) {
+                return;
+            }
+            for (int i = 0; i < mList.size(); i++) {
+                ArrayList<ClientLabel> tempList = mList.get(i);
+                for (ClientLabel clientLabel : tempList) {
+                    for (QkTagModel qkTagModel : list
+                            ) {
+                        if (qkTagModel.getTagText().equals(clientLabel.getName())) {
+                            clientLabel.setSelect(true);
+                            break;
+                        }
+                    }
+                }
             }
         }
     }

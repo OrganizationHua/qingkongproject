@@ -211,14 +211,14 @@ public class HelperFollowFragment extends BaseFragment {
                 mList.remove((int) helperFollowEvent.getObject());
                 mNewsAdapter.notifyItemRemoved((int) helperFollowEvent.getObject());
                 mNewsAdapter.notifyItemRangeChanged(0, mList.size() - ((int) helperFollowEvent.getObject()));
-            } else if (event instanceof MoreTagEditEvent) {
-                if (event.getId() == MoreTagEditEvent.TAG_UPDATE_HELP) {
-                    helperFollowEvent.getRefreshEventList(sourceType, tags);
-                }
             }
         } else if (event instanceof LoadFailEvent) {
             mReloadRefreshView.finishRefreshing();
             mReloadRefreshView.finishLoadmore();
+        } else if (event instanceof MoreTagEditEvent) {
+            if (event.getId() == MoreTagEditEvent.TAG_UPDATE_HELP) {
+                helperFollowEvent.getRefreshEventList(sourceType, tags);
+            }
         }
     }
 

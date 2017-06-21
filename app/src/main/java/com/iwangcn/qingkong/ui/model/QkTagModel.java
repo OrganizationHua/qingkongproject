@@ -1,10 +1,12 @@
 package com.iwangcn.qingkong.ui.model;
 
+import com.iwangcn.qingkong.net.BaseBean;
+
 /**
  * Created by zzjs on 2017/6/7.
  */
 
-public class QkTagModel {
+public class QkTagModel extends BaseBean{
     private int colorType = 0;
     private String tagText;
     private int type;//1：头条跟进消息 2：助手跟进数据
