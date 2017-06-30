@@ -20,12 +20,15 @@ import com.iwangcn.qingkong.sp.SpUtils;
 import com.iwangcn.qingkong.ui.base.BaseActivity;
 import com.iwangcn.qingkong.ui.model.ClientUserInfoVo;
 import com.iwangcn.qingkong.utils.ToastUtil;
+import com.orhanobut.logger.Logger;
 
 import java.util.HashMap;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+
+import static cn.jpush.android.api.JPushInterface.getRegistrationID;
 
 public class LoginActivity extends BaseActivity implements NetConst {
     @BindView(R.id.login_ed_userName)
@@ -45,6 +48,9 @@ public class LoginActivity extends BaseActivity implements NetConst {
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
         initData();
+        //获取极光推送的RegistrationID，发送请求保存或者更新后台
+        String registrationID = getRegistrationID(mContext);
+        Logger.e("registrationID", registrationID);
     }
 
     private void initData() {

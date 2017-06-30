@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.app.Application;
 import android.os.Bundle;
 
+import cn.jpush.android.api.JPushInterface;
+
 /**
  * Created by czh on 2017/3/30.
  */
@@ -26,6 +28,30 @@ public class MobileApplication extends Application {
     public void onCreate() {
         super.onCreate();
         registerActivityLifecycleCallbacks(activityLifecycleCallbacks);
+        initJpush();
+    }
+
+    // 初始化 JPush
+    private void initJpush() {
+        JPushInterface.setDebugMode(true);    // 设置开启日志,发布时请关闭日志
+        JPushInterface.init(this);
+//        BasicPushNotificationBuilder builder = new BasicPushNotificationBuilder(this);
+//        builder.statusBarDrawable = R.drawable.ic_launcher;
+//        builder.notificationFlags = Notification.FLAG_AUTO_CANCEL;  //设置为自动消失
+//        JPushInterface.setPushNotificationBuilder(1, builder);
+//        CustomPushNotificationBuilder builder = new
+//                CustomPushNotificationBuilder(this,
+//                R.layout.customer_notitfication_layout,
+//                R.id.icon,
+//                R.id.title,
+//                R.id.text);
+//        // 指定定制的 Notification Layout
+//        builder.statusBarDrawable = R.drawable.zhushou_btn_close;
+//        // 指定最顶层状态栏小图标
+//        builder.layoutIconDrawable = R.drawable.zhushou_btn_close;
+//        // 指定下拉状态栏时显示的通知图标
+//        JPushInterface.setPushNotificationBuilder(2, builder);
+
     }
 
     @Override
