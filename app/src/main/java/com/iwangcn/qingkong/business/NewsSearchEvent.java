@@ -77,6 +77,7 @@ public class NewsSearchEvent extends Event implements NetConst {
         paratems.put(USER_ID, UserManager.getUserInfo().getAutoId());
         paratems.put("pageno", index);
         paratems.put("keyword", keyword);
+        paratems.put("sourceType", 1);
         RetrofitInstance.getInstance().post(URL_EVENT_SEARCH_NEWS, paratems, SearchResultVo.class, new BaseSubscriber<NetResponse<List<SearchResultVo>>>(true) {
             @Override
             public void onError(ExceptionHandle.ResponeThrowable e) {

@@ -43,7 +43,10 @@
         <activity android:name=".ui.activity.LoginActivity" />
         <activity android:name=".ui.activity.FavoriteActivity" />
         <activity android:name=".ui.activity.NewsDetailActivity" />
-        <activity android:name=".ui.activity.NewsSearchActivity" />
+        <activity
+            android:name=".ui.activity.NewsSearchActivity"
+            android:windowSoftInputMode="adjustResize"
+            />
         <activity android:name=".ui.activity.NewsListActivity" />
         <activity android:name=".ui.activity.ProcessedActivity" />
         <activity android:name=".ui.activity.FollowDetailActivity" />

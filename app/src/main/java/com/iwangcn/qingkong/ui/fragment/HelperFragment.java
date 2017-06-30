@@ -14,7 +14,6 @@ import com.iwangcn.qingkong.R;
 import com.iwangcn.qingkong.business.Event;
 import com.iwangcn.qingkong.business.HelperEvent;
 import com.iwangcn.qingkong.business.LoadFailEvent;
-import com.iwangcn.qingkong.business.MoreTagEditEvent;
 import com.iwangcn.qingkong.net.NetConst;
 import com.iwangcn.qingkong.ui.activity.TagFilterActivity;
 import com.iwangcn.qingkong.ui.adapter.HelperRecyclerAdapter;
@@ -173,11 +172,12 @@ public class HelperFragment extends BaseFragment {
         } else if (event instanceof LoadFailEvent) {
             mReloadRefreshView.finishRefreshing();
             mReloadRefreshView.finishLoadmore();
-        } else if(event instanceof MoreTagEditEvent){
-            if(event.getId()==MoreTagEditEvent.TAG_UPDATE_HELP){
-                helperEvent.getRefreshEventList(sourceType, tags);
-            }
         }
+//        else if(event instanceof MoreTagEditEvent){
+//            if(event.getId()==MoreTagEditEvent.TAG_UPDATE_HELP){
+//                helperEvent.getRefreshEventList(sourceType, tags);
+//            }
+//        }
     }
 
     @Override

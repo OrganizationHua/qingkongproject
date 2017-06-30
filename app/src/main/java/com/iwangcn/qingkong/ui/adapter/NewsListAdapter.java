@@ -10,7 +10,8 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import com.iwangcn.qingkong.R;
 import com.iwangcn.qingkong.ui.model.EventData;
 import com.iwangcn.qingkong.ui.model.EventDataVo;
@@ -22,9 +23,6 @@ import com.zhy.view.flowlayout.TagFlowLayout;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
 
 /**
  * 新闻事件Adapter
@@ -107,8 +105,8 @@ public class NewsListAdapter extends BaseAdapter {
         if (!TextUtils.isEmpty(model.getAuthor())) {
             viewHolder.newsFrom.setText(model.getAuthor());
         }
-        if (!TextUtils.isEmpty(model.getTitle())) {
-            viewHolder.newsBrief.setText(model.getTitle());
+        if (!TextUtils.isEmpty(model.getContent())) {
+            viewHolder.newsBrief.setText(model.getContent());
         }
         viewHolder.newsTime.setText(AbDateUtil.getStringByFormat(model.getPubtime(), "yyyy-MM-dd"));
         viewHolder.newsYear.setText(AbDateUtil.getStringByFormat(model.getPubtime(), "yyyy"));
@@ -151,21 +149,21 @@ public class NewsListAdapter extends BaseAdapter {
         if (!TextUtils.isEmpty(model.getKeywords())) {
             String[] keyworsArr = model.getKeywords().split(",");
             for (String tagString : keyworsArr) {
-                if(!TextUtils.isEmpty(tagString)){
+                if (!TextUtils.isEmpty(tagString)) {
                     list.add(new QkTagModel(1, tagString, 1, eventDataVo.getAutoId()));
                 }
             }
         }
         if (eventDataVo.getBusinessLabels() != null) {
             for (String tagString : eventDataVo.getBusinessLabels()) {
-                if(!TextUtils.isEmpty(tagString)){
+                if (!TextUtils.isEmpty(tagString)) {
                     list.add(new QkTagModel(2, tagString, 1, eventDataVo.getAutoId()));
                 }
             }
         }
         if (eventDataVo.getSelfLabels() != null) {
             for (String tagString : eventDataVo.getSelfLabels()) {
-                if(!TextUtils.isEmpty(tagString)){
+                if (!TextUtils.isEmpty(tagString)) {
                     list.add(new QkTagModel(3, tagString, 1, eventDataVo.getAutoId()));
                 }
             }

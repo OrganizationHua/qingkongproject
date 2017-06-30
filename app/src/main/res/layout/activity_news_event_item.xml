@@ -125,6 +125,7 @@
                         android:gravity="center_vertical"
                         android:lineSpacingMultiplier="1.2"
                         android:maxLines="2"
+                        android:ellipsize="end"
                         android:textColor="@color/font_black"
                         android:textSize="18sp" />
                 </LinearLayout>
@@ -164,6 +165,7 @@
                         android:id="@+id/newsevent_brief"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:ellipsize="end"
                         android:lineSpacingMultiplier="1.2"
                         android:maxLines="2"
                         android:textColor="@color/font_gray"
