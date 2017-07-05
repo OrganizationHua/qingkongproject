@@ -34,7 +34,7 @@ public class NewsListBus extends Event implements NetConst {
         this.mContext = context;
     }
 
-    private void getDataList(int indexPage, EventInfo eventInfo, boolean isShow, String tags, String sourceType) {
+    private void getDataList(final int indexPage, EventInfo eventInfo, boolean isShow, String tags, String sourceType) {
         if (eventInfo == null) {
             ToastUtil.showToast(mContext, "数据异常");
             return;
@@ -61,6 +61,11 @@ public class NewsListBus extends Event implements NetConst {
                 }
                 NewsListBus event = new NewsListBus();
                 event.setObject(o.getDataList());
+                if(indexPage>1){
+                    event.setIsMore(true);
+                }else {
+                    event.setIsMore(false);
+                }
                 EventBus.getDefault().post(event);
             }
         });
