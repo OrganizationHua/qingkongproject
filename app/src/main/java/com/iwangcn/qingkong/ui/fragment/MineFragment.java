@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 import com.iwangcn.qingkong.R;
 import com.iwangcn.qingkong.business.Event;
-import com.iwangcn.qingkong.business.MineEvent;
+import com.iwangcn.qingkong.jpush.NotifyEvent;
 import com.iwangcn.qingkong.providers.Global;
 import com.iwangcn.qingkong.providers.UserManager;
 import com.iwangcn.qingkong.ui.activity.LoginActivity;
@@ -19,7 +19,6 @@ import com.iwangcn.qingkong.ui.activity.UpdateActivity;
 import com.iwangcn.qingkong.ui.base.BaseFragment;
 import com.iwangcn.qingkong.ui.model.UserInfo;
 import com.iwangcn.qingkong.ui.view.MyCommonDialog;
-import com.iwangcn.qingkong.utils.ToastUtil;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -102,12 +101,15 @@ public class MineFragment extends BaseFragment {
 
     @OnClick(R.id.mine_rel_information)//APP信息
     public void appInformation() {
-        if (Global.isNewVersion) {
-            ToastUtil.showToast(getActivity(), "当前已经是最新版本");
-        } else {
-            Intent intent = new Intent(getActivity(), UpdateActivity.class);
-            startActivity(intent);
-        }
+//        if (Global.isNewVersion) {
+//            ToastUtil.showToast(getActivity(), "当前已经是最新版本");
+//        } else {
+//
+//        }
+        Intent intent = new Intent(getActivity(), UpdateActivity.class);
+        startActivity(intent);
+        mImgCircle.setVisibility(View.INVISIBLE);
+        mImgNext.setVisibility(View.VISIBLE);
     }
 
     @OnClick(R.id.mine_rel_loginOut)//退出登录
@@ -134,11 +136,16 @@ public class MineFragment extends BaseFragment {
 
     @Subscribe
     public void onEventMainThread(Event event) {//升级完成之后还要回来
-        if (event instanceof MineEvent) {
-            if (event.getId() == ((MineEvent) event).checkVersion) {
-                mImgCircle.setVisibility(View.VISIBLE);
-                mImgNext.setVisibility(View.VISIBLE);
+        if (event instanceof NotifyEvent) {
+            Intent intent = (Intent) event.getObject();
+            if (intent != null) {
+                int type = intent.getIntExtra("type", 0);
+                if (type == 3) {
+                    mImgCircle.setVisibility(View.VISIBLE);
+                    mImgNext.setVisibility(View.VISIBLE);
+                }
             }
         }
     }
+
 }

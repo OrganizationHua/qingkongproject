@@ -10,8 +10,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import butterknife.BindView;
-import butterknife.ButterKnife;
+
 import com.iwangcn.qingkong.R;
 import com.iwangcn.qingkong.ui.model.EventData;
 import com.iwangcn.qingkong.ui.model.EventDataVo;
@@ -23,6 +22,9 @@ import com.zhy.view.flowlayout.TagFlowLayout;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 /**
  * 新闻事件Adapter
@@ -106,11 +108,11 @@ public class NewsListAdapter extends BaseAdapter {
             viewHolder.newsFrom.setText(model.getAuthor());
         }
         if (!TextUtils.isEmpty(model.getContent())) {
-            viewHolder.newsBrief.setText(model.getContent());
+            viewHolder.newsBrief.setText(model.getContent().trim());
         }
-        viewHolder.newsTime.setText(AbDateUtil.getStringByFormat(model.getPubtime(), "yyyy-MM-dd"));
-        viewHolder.newsYear.setText(AbDateUtil.getStringByFormat(model.getPubtime(), "yyyy"));
-        viewHolder.newsDay.setText(AbDateUtil.getStringByFormat(model.getPubtime(), "MM-dd"));
+        viewHolder.newsTime.setText(AbDateUtil.getStringByFormat(model.getUpdateTime(), "yyyy-MM-dd"));
+        viewHolder.newsYear.setText(AbDateUtil.getStringByFormat(model.getUpdateTime(), "yyyy"));
+        viewHolder.newsDay.setText(AbDateUtil.getStringByFormat(model.getUpdateTime(), "MM-dd"));
         if (position != 0) {//判断是否显示年份
             if (AbDateUtil.getYear(model.getPubtime()) != AbDateUtil.getYear(mList.get(position - 1).getEventData().getUpdateTime())) {
                 viewHolder.newsYear.setVisibility(View.VISIBLE);

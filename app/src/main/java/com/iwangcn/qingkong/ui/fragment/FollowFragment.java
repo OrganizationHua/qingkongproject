@@ -64,4 +64,18 @@ public class FollowFragment extends BaseFragment {
 
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        intentToFragment();
+    }
+    private void intentToFragment() {
+        Intent intent = getActivity().getIntent();
+        if (intent != null) {
+            int type = intent.getIntExtra("type", 0);
+            if(type==2){
+                viewPager.setCurrentItem(1);
+            }
+        }
+    }
 }

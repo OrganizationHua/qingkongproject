@@ -20,7 +20,6 @@ import com.iwangcn.qingkong.sp.SpUtils;
 import com.iwangcn.qingkong.ui.base.BaseActivity;
 import com.iwangcn.qingkong.ui.model.ClientUserInfoVo;
 import com.iwangcn.qingkong.utils.ToastUtil;
-import com.orhanobut.logger.Logger;
 
 import java.util.HashMap;
 
@@ -48,9 +47,6 @@ public class LoginActivity extends BaseActivity implements NetConst {
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
         initData();
-        //获取极光推送的RegistrationID，发送请求保存或者更新后台
-        String registrationID = getRegistrationID(mContext);
-        Logger.e("registrationID", registrationID);
     }
 
     private void initData() {
@@ -79,6 +75,9 @@ public class LoginActivity extends BaseActivity implements NetConst {
         HashMap paratems = new HashMap();
         paratems.put("username", userName);
         paratems.put("pwd", strPw);
+        //获取极光推送的RegistrationID，发送请求保存或者更新后台
+        String registrationID = getRegistrationID(mContext);
+        paratems.put("registrationID", registrationID);
         RetrofitInstance.getInstance().post(URL_LOGIN, paratems, ClientUserInfoVo.class, new BaseSubscriber<NetResponse<ClientUserInfoVo>>(true) {
             @Override
             public void onError(ExceptionHandle.ResponeThrowable e) {

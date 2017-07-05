@@ -58,6 +58,8 @@ public class SettingsActivity extends QkBaseActivity implements View.OnFocusChan
     }
 
     private void setSwitch() {
+        //JPushInterface.stopPush(getApplicationContext());
+        //JPushInterface.resumePush(getApplicationContext());
         boolean isNotify = (boolean) SpUtils.get(this, SpConstant.IS_NOTIFY, false);
         boolean isSound = (boolean) SpUtils.get(this, SpConstant.IS_SOUND, false);
         boolean isVibrate = (boolean) SpUtils.get(this, SpConstant.IS_VIBRATE, false);
