@@ -171,7 +171,7 @@ public class MessageListActivity extends QkBaseActivity {
             mNewsFrom.setText(helperInfo.getHelperInfo().getSource());
             mNewsTime.setText(AbDateUtil.formatDateStrGetDay(helperInfo.getHelperInfo().getUpdateTime()));
             List<QkTagModel> list = new ArrayList<>();
-//            list.add(new QkTagModel(0, (String) SpUtils.get(this, helperInfo.getHelperInfo().getDataType() + "", "1")));
+            list.add(new QkTagModel(0, (String) SpUtils.get(this, helperInfo.getHelperInfo().getDataType() + "", "1")));
 
             if (helperInfo.getHelperProcess().getBusinessLabels() != null && helperInfo.getHelperProcess().getBusinessLabels().size() != 0) {
                 for (int i = 0; i < helperInfo.getHelperProcess().getBusinessLabels().size(); i++) {
@@ -187,8 +187,10 @@ public class MessageListActivity extends QkBaseActivity {
                     }
                 }
             }
+            list.add(new QkTagModel(4, "图片", 2, helperInfo.getHelperProcess().getAutoId()));
 
             tagFlowLayout.setAdapter(new QKTagAdapter(this, list));
+
 
         }
     }

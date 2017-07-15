@@ -5,7 +5,9 @@
     android:id="@+id/activity_news_detail"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -175,5 +177,5 @@
                 android:textSize="16sp" />
         </LinearLayout>
     </LinearLayout>
-
+    </ScrollView>
 </RelativeLayout>
