@@ -67,7 +67,30 @@
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16sp"
             zhy:max_select="-1" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="left"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16sp"
+            android:orientation="vertical">
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv_grid"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                />
 
+            <TextView
+                android:id="@+id/tv_scan"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/originalText"
+                android:textColor="@color/colorPrimary"
+                android:textSize="12sp"
+                android:layout_marginTop="13dp"
+                android:layout_marginBottom="13dp"
+                />
+        </LinearLayout>
         <View
             android:layout_width="match_parent"
             android:layout_height="1px"

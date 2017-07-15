@@ -1,10 +1,12 @@
 package com.iwangcn.qingkong.ui.activity;
 
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -15,6 +17,7 @@ import com.iwangcn.qingkong.business.LoadFailEvent;
 import com.iwangcn.qingkong.business.MessageListEvent;
 import com.iwangcn.qingkong.net.NetConst;
 import com.iwangcn.qingkong.sp.SpUtils;
+import com.iwangcn.qingkong.ui.adapter.ImageAdapter;
 import com.iwangcn.qingkong.ui.adapter.MessageListAdapter;
 import com.iwangcn.qingkong.ui.adapter.QKTagAdapter;
 import com.iwangcn.qingkong.ui.base.QkBaseActivity;
@@ -23,6 +26,7 @@ import com.iwangcn.qingkong.ui.model.HelperListModel;
 import com.iwangcn.qingkong.ui.model.QkTagModel;
 import com.iwangcn.qingkong.ui.view.freshwidget.RefreshListenerAdapter;
 import com.iwangcn.qingkong.ui.view.freshwidget.ReloadRefreshLayout;
+import com.iwangcn.qingkong.utils.AbAppUtil;
 import com.iwangcn.qingkong.utils.AbDateUtil;
 import com.iwangcn.qingkong.utils.ToastUtil;
 import com.zhy.view.flowlayout.TagFlowLayout;
@@ -58,6 +62,10 @@ public class MessageListActivity extends QkBaseActivity {
     @BindView(R.id.tv_content)
     EditText tv_content;
 
+    @BindView(R.id.rv_grid)
+    public RecyclerView rv_grid;//内容
+    @BindView(R.id.tv_scan)
+    public TextView tvScan;//查看新闻
     @BindView(R.id.mReloadRefreshView)
     ReloadRefreshLayout mReloadRefreshView;
     private MessageListAdapter mNewsAdapter;
@@ -164,7 +172,7 @@ public class MessageListActivity extends QkBaseActivity {
         tv_content.setText("");
     }
 
-    public void initTag(HelperListModel helperInfo) {
+    public void initTag(final HelperListModel helperInfo) {
         if (helperInfo != null) {
 
             mNewsTitle.setText(helperInfo.getHelperInfo().getTitle());
@@ -191,7 +199,21 @@ public class MessageListActivity extends QkBaseActivity {
 
             tagFlowLayout.setAdapter(new QKTagAdapter(this, list));
 
+            if (helperInfo.getHelperInfo().getPicList() != null || helperInfo.getHelperInfo().getPicList().isEmpty()) {
+                ImageAdapter imageAdapter = new ImageAdapter(this, helperInfo.getHelperInfo().getPicList());
+                rv_grid.setLayoutManager(new GridLayoutManager(this, 3));
+                rv_grid.setAdapter(imageAdapter);
+                rv_grid.setVisibility(View.VISIBLE);
+            } else {
+                rv_grid.setVisibility(View.GONE);
+            }
+            tvScan.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    AbAppUtil.openBrowser(MessageListActivity.this, helperInfo.getHelperInfo().getUrl() != null ? helperInfo.getHelperInfo().getUrl() : "");
 
+                }
+            });
         }
     }
 
