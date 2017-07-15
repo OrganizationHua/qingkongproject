@@ -174,7 +174,7 @@
         <LinearLayout
             android:id="@+id/ll_cancle_follow"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             android:clickable="true"
             android:gravity="center"
@@ -206,7 +206,7 @@
         <LinearLayout
             android:id="@+id/ll_set_top"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             android:clickable="true"
             android:gravity="center"
@@ -239,7 +239,7 @@
         <LinearLayout
             android:id="@+id/ll_processed_finished"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             android:clickable="true"
             android:gravity="center"
@@ -264,7 +264,7 @@
     <LinearLayout
         android:id="@+id/ll_reprocess"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:clickable="true"
         android:gravity="center_vertical"
         android:orientation="horizontal"
