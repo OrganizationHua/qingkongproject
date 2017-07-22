@@ -25,7 +25,7 @@ import com.iwangcn.qingkong.net.NetConst;
 import com.iwangcn.qingkong.ui.adapter.SearchHistoryAdapter;
 import com.iwangcn.qingkong.ui.adapter.SearchResultAdapter;
 import com.iwangcn.qingkong.ui.base.BaseActivity;
-import com.iwangcn.qingkong.ui.model.NewsInfo;
+import com.iwangcn.qingkong.ui.model.EventDataVo;
 import com.iwangcn.qingkong.ui.model.SearchResultVo;
 import com.iwangcn.qingkong.ui.view.ClearEditText;
 import com.iwangcn.qingkong.ui.view.freshwidget.RefreshListenerAdapter;
@@ -192,10 +192,10 @@ public class NewsSearchActivity extends BaseActivity {
                             .putExtra("type", 1);
                     startActivity(intent);
                 } else {//未跟进
-                    ArrayList<NewsInfo> list = new ArrayList<NewsInfo>();
+                    ArrayList<EventDataVo> list = new ArrayList<EventDataVo>();
                     list.add(mSearchEvent.searchResultVoToNewsInfo(mListResult.get(i)));
                     Intent intent = new Intent(mContext, NewsDetailActivity.class);
-                    intent.putExtra("NewsInfoList", (Serializable) list);
+                    intent.putExtra("eventDataVoList", (Serializable) list);
                     intent.putExtra("autoId", mListResult.get(i).getEventId());//事件ID
                     startActivity(intent);
                 }

@@ -272,7 +272,7 @@ public class UpdateAppUtils {
                         showToast("已是最新版本");
                     }
                 } else {
-                    showToast("检查更新失败，请稍后再试");
+                    showToast("已是最新版本");
                 }
             } catch (Exception e) {
                 showToast("检查更新失败，请稍后再试");

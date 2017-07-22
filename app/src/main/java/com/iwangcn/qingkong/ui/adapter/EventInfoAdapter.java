@@ -17,6 +17,7 @@ import com.iwangcn.qingkong.net.ExceptionHandle;
 import com.iwangcn.qingkong.ui.model.EventInfo;
 import com.iwangcn.qingkong.ui.model.EventInfoVo;
 import com.iwangcn.qingkong.ui.view.BessleAnimation.BesselAnimation;
+import com.iwangcn.qingkong.ui.view.MyCommonDialog;
 import com.iwangcn.qingkong.utils.AbDateUtil;
 import com.iwangcn.qingkong.utils.GlideUtils;
 import com.iwangcn.qingkong.utils.ToastUtil;
@@ -94,44 +95,100 @@ public class EventInfoAdapter extends BaseRecyclerViewAdapter<EventInfoVo> {
             viewHolder.linCollect.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(final View view) {
-                    if (infoVo != null) {
-                        new FavoriteEvent(mContext).addFavoritet(String.valueOf(model.getAutoId()), new BaseSubscriber(true) {
-                            @Override
-                            public void onError(ExceptionHandle.ResponeThrowable e) {
-                                ToastUtil.showToast(mContext, e.codeMessage);
-                            }
+                    final MyCommonDialog dialog = new MyCommonDialog(mContext);
+                    dialog.setContent("确认收藏？");
+                    dialog.setOnDialogClick(new MyCommonDialog.DialogInterface() {
+                        @Override
+                        public void onCancle() {
 
-                            @Override
-                            public void onNext(Object baseBean) {
-                                ToastUtil.showToast(mContext, "收藏成功");
-                                BesselAnimation besselAnimation = new BesselAnimation(mContext, containerView, view, collectView);
-                                besselAnimation.startAnimation(new Animator.AnimatorListener() {
+                        }
+
+                        @Override
+                        public void onConfirm() {
+                            dialog.dismiss();
+                            if (infoVo != null) {
+                                new FavoriteEvent(mContext).addFavoritet(String.valueOf(model.getAutoId()), new BaseSubscriber(true) {
                                     @Override
-                                    public void onAnimationStart(Animator animator) {
-
+                                    public void onError(ExceptionHandle.ResponeThrowable e) {
+                                        ToastUtil.showToast(mContext, e.codeMessage);
                                     }
 
                                     @Override
-                                    public void onAnimationEnd(Animator animator) {
-                                        remove(position);
-                                    }
+                                    public void onNext(Object baseBean) {
+                                        //ToastUtil.showToast(mContext, "收藏成功");
+                                        BesselAnimation besselAnimation = new BesselAnimation(mContext, containerView, view, collectView);
+                                        besselAnimation.startAnimation(new Animator.AnimatorListener() {
+                                            @Override
+                                            public void onAnimationStart(Animator animator) {
 
-                                    @Override
-                                    public void onAnimationCancel(Animator animator) {
+                                            }
 
-                                    }
+                                            @Override
+                                            public void onAnimationEnd(Animator animator) {
+                                                remove(position);
+                                            }
 
-                                    @Override
-                                    public void onAnimationRepeat(Animator animator) {
+                                            @Override
+                                            public void onAnimationCancel(Animator animator) {
 
+                                            }
+
+                                            @Override
+                                            public void onAnimationRepeat(Animator animator) {
+
+                                            }
+                                        });
                                     }
                                 });
                             }
-                        });
-                    }
-
+                        }
+                    });
+                    dialog.show();
                 }
             });
+
+
+//            viewHolder.linCollect.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(final View view) {
+//                    if (infoVo != null) {
+//                        new FavoriteEvent(mContext).addFavoritet(String.valueOf(model.getAutoId()), new BaseSubscriber(true) {
+//                            @Override
+//                            public void onError(ExceptionHandle.ResponeThrowable e) {
+//                                ToastUtil.showToast(mContext, e.codeMessage);
+//                            }
+//
+//                            @Override
+//                            public void onNext(Object baseBean) {
+//                                ToastUtil.showToast(mContext, "收藏成功");
+//                                BesselAnimation besselAnimation = new BesselAnimation(mContext, containerView, view, collectView);
+//                                besselAnimation.startAnimation(new Animator.AnimatorListener() {
+//                                    @Override
+//                                    public void onAnimationStart(Animator animator) {
+//
+//                                    }
+//
+//                                    @Override
+//                                    public void onAnimationEnd(Animator animator) {
+//                                        remove(position);
+//                                    }
+//
+//                                    @Override
+//                                    public void onAnimationCancel(Animator animator) {
+//
+//                                    }
+//
+//                                    @Override
+//                                    public void onAnimationRepeat(Animator animator) {
+//
+//                                    }
+//                                });
+//                            }
+//                        });
+//                    }
+//
+//                }
+//            });
         }
     }
 

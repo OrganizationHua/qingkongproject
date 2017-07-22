@@ -32,7 +32,7 @@
     <string name="mine_information">基本信息</string>
     <string name="mine_app">应用相关</string>
     <string name="mine_name">姓名</string>
-    <string name="mine_division">科室</string>
+    <string name="mine_division">岗位</string>
     <string name="mine_team">所在组</string>
     <string name="mine_tel">电话</string>
     <string name="mine_email">邮箱</string>
@@ -56,7 +56,7 @@
     <string name="set_pw_new">请输入新密码</string>
     <string name="set_pw_new_again">请确认新密码</string>
     <!-- sysytem -->
-    <string name="net_fail">网络加载失败，点击此处重新刷新</string>
+    <string name="net_fail">网络加载失败,点击此处重新刷新</string>
     <string name="no_network">网络连接失败,请检查网络设置</string>
     <string name="updata_tips">当前连接网络为移动网络，是否继续继续本次升级</string>
     <string name="exit">确定要退出?</string>
