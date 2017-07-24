@@ -19,7 +19,6 @@ import com.iwangcn.qingkong.utils.AbDateUtil;
 import com.zhy.view.flowlayout.TagFlowLayout;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import butterknife.BindView;
@@ -57,7 +56,7 @@ public class HelperRecyclerAdapter extends BaseRecyclerViewAdapter<HelperInfo> {
         if (!TextUtils.isEmpty(helperInfo.getContent())) {
             holder.tvContent.setText(helperInfo.getContent());
         }
-        if (helperInfo.getPicList()!=null) {
+        if (helperInfo.getPicList()!=null||helperInfo.getPicList().isEmpty()) {
             ImageAdapter imageAdapter = new ImageAdapter(mContext, helperInfo.getPicList());
             holder.rv_grid.setLayoutManager(new GridLayoutManager(mContext, 3));
             holder.rv_grid.setAdapter(imageAdapter);

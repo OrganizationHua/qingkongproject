@@ -59,18 +59,18 @@ public class HeadLineFollowRecyclerAdapter extends BaseRecyclerViewAdapter<HeadL
             }
 
             if (!TextUtils.isEmpty(helperModel.getEventData().getData().getUpdateTime() + "")) {
-                holder.tvTime.setText(AbDateUtil.formatDateStrGetDay(helperModel.getEventData().getData().getUpdateTime()));
+                holder.tvTime.setText(AbDateUtil.formatDateStrGetDay(helperModel.getEventData().getData().getPubtime()));
             }
             if (!TextUtils.isEmpty(helperModel.getEventData().getData().getSource())) {
                 holder.tvFrom.setText(helperModel.getEventData().getData().getSource());
             }
             if (!TextUtils.isEmpty(helperModel.getEventData().getData().getContent())) {
-                if (type == 0) {
-                    holder.tvContent.setVisibility(View.VISIBLE);
+//                if (type == 0) {
+//                    holder.tvContent.setVisibility(View.VISIBLE);
                     holder.tvContent.setText(helperModel.getEventData().getData().getContent());
-                } else {
-                    holder.tvContent.setVisibility(View.GONE);
-                }
+//                } else {
+//                    holder.tvContent.setVisibility(View.GONE);
+//                }
             }
             //是否置顶
             if (TextUtils.equals(helperModel.getTop() + "", "0")) {

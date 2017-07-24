@@ -166,7 +166,7 @@ public class NewsDetailActivity extends QkBaseActivity {
         PopupWindowUtil.showPopupErrorWindow(this, parent, mRelMak, listData, new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mTagEvent.reportLabels(String.valueOf(mList.get(mViewPage.getCurrentItem()).getAutoId()), listData);
+                mTagEvent.reportLabels(String.valueOf(mList.get(mViewPage.getCurrentItem()).getEventData().getAutoId()), listData);
             }
         });
     }

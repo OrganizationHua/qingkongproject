@@ -11,6 +11,8 @@ import com.iwangcn.qingkong.net.NetConst;
 import com.iwangcn.qingkong.net.NetResponse;
 import com.iwangcn.qingkong.net.RetrofitInstance;
 import com.iwangcn.qingkong.providers.UserManager;
+import com.iwangcn.qingkong.ui.model.EventData;
+import com.iwangcn.qingkong.ui.model.EventDataVo;
 import com.iwangcn.qingkong.ui.model.HeadLineModel;
 import com.iwangcn.qingkong.ui.model.NewsInfo;
 import com.iwangcn.qingkong.ui.model.SearchResultVo;
@@ -146,14 +148,20 @@ public class NewsSearchEvent extends Event implements NetConst {
     }
 
     //searchResult转NewsInfo
-    public NewsInfo searchResultVoToNewsInfo(SearchResultVo searchResultVo) {
+    public EventDataVo searchResultVoToNewsInfo(SearchResultVo searchResultVo) {
+        EventDataVo eventDataVo=new EventDataVo();
+        eventDataVo.setAutoId(searchResultVo.getEventId());
+        EventData eventData=new EventData();
         NewsInfo newsInfo = new NewsInfo();
         newsInfo.setTitle(searchResultVo.getTitle());
         newsInfo.setSource(searchResultVo.getWebSite());
         newsInfo.setUrl(searchResultVo.getUrl());
         newsInfo.setKeywords(searchResultVo.getKeywords());
         newsInfo.setPubtime(searchResultVo.getPubtime());
-        return newsInfo;
+        eventData.setData(newsInfo);
+        eventData.setEventId(searchResultVo.getEventId());
+        eventDataVo.setEventData(eventData);
+        return eventDataVo;
     }
 
     //searchResult转HeadLineModel

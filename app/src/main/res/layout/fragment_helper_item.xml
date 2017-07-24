@@ -82,7 +82,7 @@
                 android:id="@+id/rv_grid"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="6dp"
               />
             <!--<ImageView-->
                 <!--android:id="@+id/img_pic"-->
@@ -122,7 +122,7 @@
         <LinearLayout
             android:id="@+id/ll_follow"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             android:clickable="true"
             android:gravity="center"
@@ -153,7 +153,7 @@
         <LinearLayout
             android:id="@+id/ll_no_relate"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             android:clickable="true"
             android:gravity="center"

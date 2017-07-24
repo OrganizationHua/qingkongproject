@@ -17,12 +17,11 @@ import com.iwangcn.qingkong.sp.SpUtils;
 import com.iwangcn.qingkong.ui.activity.MessageListActivity;
 import com.iwangcn.qingkong.ui.model.HelperListModel;
 import com.iwangcn.qingkong.ui.model.QkTagModel;
+import com.iwangcn.qingkong.utils.AbAppUtil;
 import com.iwangcn.qingkong.utils.AbDateUtil;
-import com.iwangcn.qingkong.utils.ToastUtil;
 import com.zhy.view.flowlayout.TagFlowLayout;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import butterknife.BindView;
@@ -85,7 +84,7 @@ public class HelperFollowRecyclerAdapter extends BaseRecyclerViewAdapter<HelperL
             holder.btn_leave_message.setText("留言");
             holder.tv_message_notify.setVisibility(View.GONE);
         }
-        if (helperModel.getHelperInfo().getPicList()!=null) {
+        if (helperModel.getHelperInfo().getPicList()!=null||helperModel.getHelperInfo().getPicList().isEmpty()) {
             ImageAdapter imageAdapter = new ImageAdapter(mContext, helperModel.getHelperInfo().getPicList());
             holder.rv_grid.setLayoutManager(new GridLayoutManager(mContext, 3));
             holder.rv_grid.setAdapter(imageAdapter);
@@ -165,7 +164,7 @@ public class HelperFollowRecyclerAdapter extends BaseRecyclerViewAdapter<HelperL
         holder.tvScan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ToastUtil.showToast(mContext, "已查看");
+                AbAppUtil.openBrowser(mContext, helperModel.getHelperInfo().getUrl() != null ? helperModel.getHelperInfo().getUrl() : "");
             }
         });
         //留言

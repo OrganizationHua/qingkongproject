@@ -85,14 +85,8 @@
                 android:id="@+id/rv_grid"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="6dp" />
-            <!--<ImageView-->
-                <!--android:id="@+id/img_pic"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_marginTop="18dp"-->
-                <!--android:layout_marginBottom="6dp"/>-->
+                android:layout_marginTop="8dp"
+               />
 
             <TextView
                 android:id="@+id/tv_content"
@@ -105,11 +99,12 @@
             <TextView
                 android:id="@+id/tv_scan"
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
+                android:layout_height="wrap_content"
                 android:text="@string/originalText"
                 android:textColor="@color/colorPrimary"
                 android:textSize="12sp"
-                android:visibility="gone" />
+                android:layout_marginTop="13dp"
+                />
         </LinearLayout>
     </LinearLayout>
 
@@ -179,7 +174,7 @@
         <LinearLayout
             android:id="@+id/ll_cancle_follow"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             android:clickable="true"
             android:gravity="center"
@@ -211,7 +206,7 @@
         <LinearLayout
             android:id="@+id/ll_set_top"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             android:clickable="true"
             android:gravity="center"
@@ -244,7 +239,7 @@
         <LinearLayout
             android:id="@+id/ll_processed_finished"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             android:clickable="true"
             android:gravity="center"
@@ -269,7 +264,7 @@
     <LinearLayout
         android:id="@+id/ll_reprocess"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:clickable="true"
         android:gravity="center_vertical"
         android:orientation="horizontal"

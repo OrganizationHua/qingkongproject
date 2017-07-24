@@ -110,9 +110,9 @@ public class NewsListAdapter extends BaseAdapter {
         if (!TextUtils.isEmpty(model.getContent())) {
             viewHolder.newsBrief.setText(model.getContent().trim());
         }
-        viewHolder.newsTime.setText(AbDateUtil.getStringByFormat(model.getUpdateTime(), "yyyy-MM-dd"));
-        viewHolder.newsYear.setText(AbDateUtil.getStringByFormat(model.getUpdateTime(), "yyyy"));
-        viewHolder.newsDay.setText(AbDateUtil.getStringByFormat(model.getUpdateTime(), "MM-dd"));
+        viewHolder.newsTime.setText(AbDateUtil.getStringByFormat(model.getPubtime(), "yyyy-MM-dd"));
+        viewHolder.newsYear.setText(AbDateUtil.getStringByFormat(model.getPubtime(), "yyyy"));
+        viewHolder.newsDay.setText(AbDateUtil.getStringByFormat(model.getPubtime(), "MM-dd"));
         if (position != 0) {//判断是否显示年份
             if (AbDateUtil.getYear(model.getPubtime()) != AbDateUtil.getYear(mList.get(position - 1).getEventData().getUpdateTime())) {
                 viewHolder.newsYear.setVisibility(View.VISIBLE);
@@ -127,7 +127,7 @@ public class NewsListAdapter extends BaseAdapter {
                     return;
                 } else {
                     //把之前选中的取消
-                    for (int i = 0; i < mList.size() - 1; i++) {
+                    for (int i = 0; i < mList.size(); i++) {
                         if (mList.get(i).isSelect()) {
                             mList.get(i).setSelect(false);
                             break;
