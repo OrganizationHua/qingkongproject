@@ -101,7 +101,6 @@ public class FollowDetailActivity extends QkBaseActivity {
         if (data.getEventData().getDataType() == 1 || data.getEventData().getDataType() == 5) {
             if (!TextUtils.isEmpty(data.getEventData().getData().getKeywords())) {
                 list.add(new QkTagModel(1, data.getEventData().getData().getKeywords()));
-
             }
         }
         if (data.getBusinessLabels() != null && data.getBusinessLabels().size() != 0) {
