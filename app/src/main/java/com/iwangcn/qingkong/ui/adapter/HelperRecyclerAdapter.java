@@ -81,7 +81,7 @@ public class HelperRecyclerAdapter extends BaseRecyclerViewAdapter<HelperInfo> {
         if (listTag != null && listTag.size() != 0) {
             for (int j = 0; j < listTag.size(); j++) {
                 if (!TextUtils.isEmpty(listTag.get(j))) {
-                    list.add(new QkTagModel(3, listTag.get(j), 2, helperInfo.getAutoId()));
+                    list.add(new QkTagModel(2, listTag.get(j), 2, helperInfo.getAutoId()));
                 }
             }
 //            list.add(new QkTagModel(4, "图片", 2, helperInfo.getAutoId()));
