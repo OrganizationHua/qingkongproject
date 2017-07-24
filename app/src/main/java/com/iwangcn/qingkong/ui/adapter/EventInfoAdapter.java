@@ -79,8 +79,9 @@ public class EventInfoAdapter extends BaseRecyclerViewAdapter<EventInfoVo> {
                 if (!TextUtils.isEmpty(model.getName())) {
                     viewHolder.title.setText(model.getName());
                 }
-                viewHolder.tvTime.setText(AbDateUtil.formatDateStrGetDay(model.getUpdateTime()));
+
             }
+            viewHolder.tvTime.setText(AbDateUtil.formatDateStrGetDay(infoVo.getLastestInfoTime()));
             //这个功能暂时不做
 //            if (model.getStatus() == 1) {
 //                viewHolder.imgNote.setVisibility(View.VISIBLE);

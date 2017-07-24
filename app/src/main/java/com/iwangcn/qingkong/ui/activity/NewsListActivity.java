@@ -121,8 +121,8 @@ public class NewsListActivity extends BaseActivity {
                 tvTitle.setText(eventInfo.getName());
             }
             tvNumb.setText(mIntentEventInfo.getInfoCount() + "条数据");
-            tvTime.setText(AbDateUtil.getStringByFormat(eventInfo.getUpdateTime(), "yyyy-MM-dd"));
         }
+        tvTime.setText(AbDateUtil.getStringByFormat(mIntentEventInfo.getLastestInfoTime(), "yyyy-MM-dd"));
         return headView;
     }
 
