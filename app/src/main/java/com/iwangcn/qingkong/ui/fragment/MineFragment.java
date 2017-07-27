@@ -77,9 +77,9 @@ public class MineFragment extends BaseFragment {
             if (!TextUtils.isEmpty(userInfo.getUserGroup())) {
                 mTvTeam.setText(userInfo.getUserGroup());
             }
-//            if (!TextUtils.isEmpty(userInfo.getGroupNum())) {
-//                mTvDivision.setText(userInfo.getGroupNum());
-//            }
+            if (!TextUtils.isEmpty(userInfo.getPost())) {
+                mTvDivision.setText(userInfo.getPost());
+            }
         }
         mTvDivision.setText(UserManager.getClientUserInfo().getClientUser().getPost());
         if (!Global.isNewVersion) {//当前是否是最新版
