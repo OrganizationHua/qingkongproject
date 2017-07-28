@@ -224,7 +224,7 @@ public class NewsDetailActivity extends QkBaseActivity {
                     public void onClick(View view) {
                         EventDataVo eventDataVo = mList.get(mViewPage.getCurrentItem());
                         final FollowDetailEvent followDetailEvent = new FollowDetailEvent(mContext);
-                        followDetailEvent.doFollowEvent(String.valueOf(eventDataVo.getEventData().getEventId()), String.valueOf(eventDataVo.getEventData().getData().getAutoId()), finalRecommendList, finalmyListList, new BaseSubscriber<NetResponse>(true) {
+                        followDetailEvent.doFollowEvent(String.valueOf(eventDataVo.getEventData().getEventId()), String.valueOf(eventDataVo.getEventData().getData().getAutoId()), finalRecommendList, finalmyListList, eventDataVo.getEventData().getDataType(), new BaseSubscriber<NetResponse>(true) {
                             @Override
                             public void onError(ExceptionHandle.ResponeThrowable e) {
                                 ToastUtil.showToast(mContext, e.codeMessage);
@@ -254,7 +254,7 @@ public class NewsDetailActivity extends QkBaseActivity {
                         Intent intent = new Intent(mContext, MoreTagEditActivity.class);
                         intent.putExtra("eventId", eventDataVo.getEventData().getEventId());
                         intent.putExtra("newsInfoAutoId", newsInfo.getAutoId());
-                        intent.putExtra("type", 0);
+                        intent.putExtra("type", eventDataVo.getEventData().getDataType());
                         startActivityForResult(intent, REQUEST_CODE);
 
                     }

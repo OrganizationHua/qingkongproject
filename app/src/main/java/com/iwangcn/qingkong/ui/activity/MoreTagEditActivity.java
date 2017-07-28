@@ -110,10 +110,15 @@ public class MoreTagEditActivity extends QkBaseActivity implements RecycleViewIt
         }
         Intent intent = getIntent();
         int type = intent.getIntExtra("type", 0);//0是跟进，1是头条跟进 2是助手跟进
-        if (type == 0) {
-            doFollowEvent(intent, finalRecommendList, finalmyListList);
-        } else if (type == 2) {
+//        if (type == 0) {
+//            doFollowEvent(intent, finalRecommendList, finalmyListList);
+//        } else if (type == 2) {
+//
+//        }
+        if(type == 2){
             updateTags(intent, finalRecommendList, finalmyListList);
+        }else{
+            doFollowEvent(intent, finalRecommendList, finalmyListList,type);
         }
     }
 
@@ -139,11 +144,11 @@ public class MoreTagEditActivity extends QkBaseActivity implements RecycleViewIt
      *
      * @param intent
      */
-    private void doFollowEvent(Intent intent, final List<ClientLabel> finalRecommendList, final List<ClientLabel> finalmyListList) {
+    private void doFollowEvent(Intent intent, final List<ClientLabel> finalRecommendList, final List<ClientLabel> finalmyListList,int type) {
         long eventId = intent.getLongExtra("eventId", 0);
         long newsId = intent.getLongExtra("newsInfoAutoId", 0);
         final FollowDetailEvent followDetailEvent = new FollowDetailEvent(mContext);
-        followDetailEvent.doFollowEvent(String.valueOf(eventId), String.valueOf(newsId), finalRecommendList, finalmyListList, new BaseSubscriber<NetResponse>(true) {
+        followDetailEvent.doFollowEvent(String.valueOf(eventId), String.valueOf(newsId), finalRecommendList, finalmyListList, type,new BaseSubscriber<NetResponse>(true) {
             @Override
             public void onError(ExceptionHandle.ResponeThrowable e) {
                 ToastUtil.showToast(mContext, e.codeMessage);

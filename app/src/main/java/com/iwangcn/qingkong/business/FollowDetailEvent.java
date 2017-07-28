@@ -157,7 +157,7 @@ public class FollowDetailEvent extends Event implements NetConst {
         RetrofitInstance.getInstance().post(URL_EVENT_FOLLOWUP_DONE, paratems, String.class, baseSubscriber);
     }
 
-    public void doFollowEvent(String eventId, String infoId, List<ClientLabel> recommendList, List<ClientLabel> myList, BaseSubscriber baseSubscriber) {//头条跟进
+    public void doFollowEvent(String eventId, String infoId, List<ClientLabel> recommendList, List<ClientLabel> myList,int sourceType, BaseSubscriber baseSubscriber) {//头条跟进
         StringBuilder builder = new StringBuilder();
         ArrayList<ClientLabel> recommendSelect = new ArrayList<>();
         for (ClientLabel clientLabel : recommendList
@@ -192,7 +192,7 @@ public class FollowDetailEvent extends Event implements NetConst {
         paratems.put(USER_ID, UserManager.getUserInfo().getAutoId());
         paratems.put("eventId", eventId);
         paratems.put("infoId", infoId);
-        paratems.put("sourceType", "1");
+        paratems.put("sourceType", sourceType);
         paratems.put("tags", builder.toString());
         RetrofitInstance.getInstance().post(URL_EVENT_DOFOLLOW, paratems, String.class, baseSubscriber);
     }
