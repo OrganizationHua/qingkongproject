@@ -56,7 +56,7 @@ public class HelperRecyclerAdapter extends BaseRecyclerViewAdapter<HelperInfo> {
         if (!TextUtils.isEmpty(helperInfo.getContent())) {
             holder.tvContent.setText(helperInfo.getContent());
         }
-        if (helperInfo.getPicList()!=null||helperInfo.getPicList().isEmpty()) {
+        if (helperInfo.getPicList()!=null) {
             ImageAdapter imageAdapter = new ImageAdapter(mContext, helperInfo.getPicList());
             holder.rv_grid.setLayoutManager(new GridLayoutManager(mContext, 3));
             holder.rv_grid.setAdapter(imageAdapter);
