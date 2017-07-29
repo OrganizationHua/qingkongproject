@@ -100,7 +100,7 @@ public class FollowDetailActivity extends QkBaseActivity {
         list.add(new QkTagModel(0, (String) SpUtils.get(this, data.getEventData().getDataType() + "", "1")));
         if (data.getEventData().getDataType() == 1 || data.getEventData().getDataType() == 5) {
             if (!TextUtils.isEmpty(data.getEventData().getData().getKeywords())) {
-                list.add(new QkTagModel(1, data.getEventData().getData().getKeywords()));
+                list.add(new QkTagModel(1, data.getEventData().getData().getKeywords(),1,data.getAutoId()));
             }
         }
         if (data.getBusinessLabels() != null && data.getBusinessLabels().size() != 0) {
@@ -118,7 +118,7 @@ public class FollowDetailActivity extends QkBaseActivity {
             }
         }
         if (data.getBusinessLabels() != null && data.getBusinessLabels().size() != 0) {
-            list.add(new QkTagModel(4, "图片", 2, data.getAutoId()));
+            list.add(new QkTagModel(4, "图片", 1, data.getAutoId()));
         }
         tagFlowLayout.setAdapter(new QKTagAdapter(this, list));
     }

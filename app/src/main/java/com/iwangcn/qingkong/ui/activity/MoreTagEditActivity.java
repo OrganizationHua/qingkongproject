@@ -115,7 +115,7 @@ public class MoreTagEditActivity extends QkBaseActivity implements RecycleViewIt
 //        } else if (type == 2) {
 //
 //        }
-        if(type == 2){
+        if(type == 2||type==1){
             updateTags(intent, finalRecommendList, finalmyListList);
         }else{
             doFollowEvent(intent, finalRecommendList, finalmyListList,type);
